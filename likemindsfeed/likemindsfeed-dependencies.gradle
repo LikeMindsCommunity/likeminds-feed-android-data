@@ -1,0 +1,10 @@
+dependencies {
+    //android core
+    implementation deps.android_core.core
+    implementation deps.android_core.appcompat
+
+    //testing
+    testImplementation deps.testing.junit
+    androidTestImplementation deps.testing.android_junit
+    androidTestImplementation deps.testing.espresso
+}
