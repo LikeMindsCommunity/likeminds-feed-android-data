@@ -1,12 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
 }
 
 android {
-    namespace 'com.likeminds.likemindsfeed'
+    namespace 'com.likeminds.internalsdk'
     compileSdk versions.compile_sdk
 
     defaultConfig {
@@ -32,4 +30,4 @@ android {
     }
 }
 
-apply from: "likemindsfeed-dependencies.gradle"
+apply from:"internalsdk-dependencies.gradle"

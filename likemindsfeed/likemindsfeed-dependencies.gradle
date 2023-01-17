@@ -3,6 +3,10 @@ dependencies {
     implementation deps.android_core.core
     implementation deps.android_core.appcompat
 
+    //room
+    implementation deps.room.main
+    kapt deps.room.compiler
+
     //testing
     testImplementation deps.testing.junit
     androidTestImplementation deps.testing.android_junit
