@@ -1,4 +1,4 @@
-package com.likeminds.likemindsfeed
+package com.likeminds.likemindsfeed.sdk.model
 
 import android.app.Application
 import androidx.annotation.Keep

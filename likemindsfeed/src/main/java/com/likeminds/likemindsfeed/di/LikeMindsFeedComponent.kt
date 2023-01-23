@@ -1,7 +1,7 @@
 package com.likeminds.likemindsfeed.di
 
 import android.app.Application
-import com.likeminds.likemindsfeed.SDKApplication
+import com.likeminds.likemindsfeed.sdk.SDKApplication
 import com.likeminds.likemindsfeed.di.internalsdk.SDKModule
 import com.likeminds.likemindsfeed.di.internalsdk.SharedModule
 import dagger.BindsInstance

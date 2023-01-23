@@ -1,4 +1,4 @@
-package com.likeminds.likemindsfeed
+package com.likeminds.likemindsfeed.sdk.utils
 
 import android.app.Application
 import com.likeminds.internalsdk.di.SDKSharedResources
