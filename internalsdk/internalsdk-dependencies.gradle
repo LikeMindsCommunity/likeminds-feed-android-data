@@ -1,9 +1,40 @@
 dependencies {
+    //android core
+    implementation deps.android_core.core
+    implementation deps.android_core.appcompat
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    //room
+    implementation deps.room.main
+    kapt deps.room.compiler
+
+    //dagger
+    implementation deps.dagger.main
+    kapt deps.dagger.compiler
+
+    //network
+    implementation deps.retrofit.main
+    implementation deps.retrofit.gson
+    implementation deps.okhttp.main
+    implementation deps.okhttp.http_interceptor
+    debugImplementation deps.chucker.main
+    releaseImplementation deps.chucker.no_op
+
+    //work manager
+    implementation deps.work_manager.main
+
+    //coroutines
+    implementation deps.kotlin.coroutines_core
+
+    //sentry
+    implementation deps.sentry.main
+    implementation deps.sentry.okhttp
+
+    //aws
+    implementation deps.aws.s3
+    implementation(deps.aws.mobile_client) { transitive = true }
+
+    //testing
+    testImplementation deps.testing.junit
+    androidTestImplementation deps.testing.android_junit
+    androidTestImplementation deps.testing.espresso
 }
