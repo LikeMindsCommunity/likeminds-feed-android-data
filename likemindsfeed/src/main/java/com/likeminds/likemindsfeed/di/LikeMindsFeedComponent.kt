@@ -1,7 +1,7 @@
 package com.likeminds.likemindsfeed.di
 
 import android.app.Application
-import com.likeminds.likemindsfeed.sdk.SDKApplication
+import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.di.internalsdk.SDKModule
 import com.likeminds.likemindsfeed.di.internalsdk.SharedModule
 import dagger.BindsInstance
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Component(modules = [SharedModule::class, SDKModule::class])
 internal interface LikeMindsFeedComponent {
 
-    fun inject(sdkApplication: SDKApplication)
+    fun inject(likeMindsFeedApplication: LikeMindsFeedApplication)
 
     @Component.Builder
     interface Builder {

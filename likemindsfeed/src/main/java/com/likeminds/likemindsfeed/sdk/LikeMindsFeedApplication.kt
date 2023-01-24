@@ -9,7 +9,7 @@ import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
 import javax.inject.Inject
 
-internal class SDKApplication private constructor() {
+internal class LikeMindsFeedApplication private constructor() {
 
     @Inject
     lateinit var collabmatesSDK: CollabmatesSDK
@@ -23,19 +23,19 @@ internal class SDKApplication private constructor() {
     private var likeMindsFeedComponent: LikeMindsFeedComponent? = null
 
     companion object {
-        private var sdkApplicationInstance: SDKApplication? = null
+        private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
 
         @JvmStatic
-        fun getInstance(): SDKApplication {
-            if (sdkApplicationInstance == null) {
-                sdkApplicationInstance = SDKApplication()
+        fun getInstance(): LikeMindsFeedApplication {
+            if (likeMindsFeedApplicationInstance == null) {
+                likeMindsFeedApplicationInstance = LikeMindsFeedApplication()
             }
-            return sdkApplicationInstance!!
+            return likeMindsFeedApplicationInstance!!
         }
     }
 
     fun initSDKApplication(extra: InitiateLikeMindsExtra) {
-        sdkApplicationInstance = this
+        likeMindsFeedApplicationInstance = this
 
         //init dagger
         initLikeMindsFeedComponent(extra.application)
