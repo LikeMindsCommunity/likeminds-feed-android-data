@@ -1,4 +1,4 @@
-package com.likeminds.internalsdk.utils.retrofit
+package com.likeminds.internalsdk.utils.retrofit.model
 
 sealed class NetworkResponse<out T : Any> {
     /**

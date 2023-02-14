@@ -1,10 +1,11 @@
 package com.likeminds.internalsdk.utils.retrofit
 
 import com.google.gson.Gson
+import com.likeminds.internalsdk.utils.retrofit.model.ErrorResponse
+import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Converter

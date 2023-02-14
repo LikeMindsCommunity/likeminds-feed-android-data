@@ -8,11 +8,13 @@ import com.google.gson.Gson
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.sdk.SDKApi
+import com.likeminds.internalsdk.sdk.SDKApiImpl
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CollabmatesSDK private constructor() {
+class CollabmatesSDK {
     private var sdkComponent: SDKComponent? = null
 
     @Inject
@@ -20,6 +22,9 @@ class CollabmatesSDK private constructor() {
 
     @Inject
     lateinit var gson: Gson
+
+    @Inject
+    lateinit var sdkApiImpl: SDKApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -55,5 +60,9 @@ class CollabmatesSDK private constructor() {
             override fun onError(e: java.lang.Exception?) {
             }
         })
+    }
+
+    fun getSDKApi(): SDKApi {
+        return sdkApiImpl
     }
 }
