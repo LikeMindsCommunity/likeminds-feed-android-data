@@ -1,14 +1,17 @@
 package com.likeminds.likemindsfeed
 
-import android.util.Log
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class LMFeedClient {
+
+    @Inject
+    lateinit var initiateUserClient: InitiateUserClient
 
     companion object {
         @JvmStatic
@@ -20,7 +23,6 @@ class LMFeedClient {
         fun build(extra: InitiateLikeMindsExtra): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
             extras = extra
-            Log.d("PUI","client instance 2: $lmFeedClientInstance")
             val sdkApplication = LikeMindsFeedApplication.getInstance()
             sdkApplication.initSDKApplication(extra)
             sdkApplication.likeMindsFeedComponent?.inject(lmFeedClientInstance!!)
@@ -29,17 +31,14 @@ class LMFeedClient {
 
         @JvmStatic
         fun getInstance(): LMFeedClient {
-            Log.d("PUI","client instance: $lmFeedClientInstance")
             if (lmFeedClientInstance == null) {
-                lmFeedClientInstance = build(extras)
+                throw IllegalAccessException("LMFeedClient not created, please call LMFeedClient.build()")
             }
-            Log.d("PUI","client instance: $lmFeedClientInstance")
             return lmFeedClientInstance!!
         }
     }
 
     suspend fun initiateUser(): Boolean {
-        val initiateUserClient = InitiateUserClient.getInstance()
         val request =
             _InitiateUserRequest_.Builder().userId("10003").userName("Ishaan").isGuest(false)
                 .build()

@@ -1,7 +1,6 @@
 package com.likeminds.internalsdk
 
 import android.app.Application
-import android.util.Log
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserStateDetails
@@ -41,7 +40,7 @@ class CollabmatesSDK {
 
     fun initialize(sdkSharedResources: SDKSharedResources) {
         initSDKComponent(sdkSharedResources)
-        initAWSMobileClient()
+//        initAWSMobileClient()
     }
 
     private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {
