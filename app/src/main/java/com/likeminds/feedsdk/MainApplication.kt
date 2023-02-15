@@ -18,6 +18,5 @@ class MainApplication : Application() {
             .application(this).build()
 
         val client = LMFeedClient.build(extra)
-        Log.d("PUI","client instance 1: $client")
     }
 }
