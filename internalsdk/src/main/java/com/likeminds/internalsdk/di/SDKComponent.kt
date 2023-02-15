@@ -1,16 +1,21 @@
 package com.likeminds.internalsdk.di
 
 import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.di.modules.GsonModule
-import com.likeminds.internalsdk.di.modules.NetworkModule
-import com.likeminds.internalsdk.di.modules.SDKModule
-import com.likeminds.internalsdk.di.modules.SDKSharedResourcesModule
+import com.likeminds.internalsdk.di.modules.*
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [SDKSharedResourcesModule::class, GsonModule::class, NetworkModule::class, SDKModule::class])
+@Component(
+    modules = [
+        SDKSharedResourcesModule::class,
+        GsonModule::class,
+        NetworkModule::class,
+        SDKModule::class,
+        AWSModule::class
+    ]
+)
 interface SDKComponent {
     fun inject(collabmatesSDK: CollabmatesSDK)
 

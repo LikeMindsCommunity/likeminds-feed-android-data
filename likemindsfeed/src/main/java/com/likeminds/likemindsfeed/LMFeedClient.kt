@@ -17,7 +17,7 @@ class LMFeedClient {
         @JvmStatic
         private var lmFeedClientInstance: LMFeedClient? = null
 
-        private lateinit var extras:InitiateLikeMindsExtra
+        private lateinit var extras: InitiateLikeMindsExtra
 
         @JvmStatic
         fun build(extra: InitiateLikeMindsExtra): LMFeedClient {
