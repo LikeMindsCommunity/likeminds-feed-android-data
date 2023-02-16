@@ -1,11 +1,13 @@
 package com.likeminds.likemindsfeed.initiateUser
 
+import android.graphics.ColorSpace.Model
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
+import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -46,39 +48,10 @@ class InitiateUserClient @Inject constructor() {
             is NetworkResponse.Error -> {
                 null
             }
+            //TODO: Confirm about the network and client models
             is NetworkResponse.Success -> {
                 val body = response.body
-                val user = body.data?.user!!
-                val community = body.data?.community!!
-                val sdkClientInfo = user.sdkClientInfo?.let {
-                    SDKClientInfo(
-                        it.community,
-                        it.user,
-                        it.userUniqueId
-                    )
-                }
-                val initiateUser = InitiateUser(
-                    User(
-                        user.id,
-                        user.imageUrl,
-                        user.isGuest,
-                        user.name,
-                        user.organisationName,
-                        sdkClientInfo,
-                        user.updatedAt,
-                        user.userUniqueId
-                    ),
-                    Community(
-                        community.id,
-                        community.name
-                    )
-                )
-                return InitiateUserResponse(
-                    body.success,
-                    body.errorMessage,
-                    body.data?.appAccess,
-                    initiateUser,
-                )
+                return ModelConverter.convertInitiateUserResponse(body)
             }
         }
     }

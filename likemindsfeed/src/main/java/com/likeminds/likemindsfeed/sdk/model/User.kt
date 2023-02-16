@@ -15,10 +15,7 @@ data class User (
 )
 
 data class SDKClientInfo(
-    @SerializedName("community")
     var community: Int,
-    @SerializedName("user")
     var user: Int,
-    @SerializedName("user_unique_id")
     var userUniqueId: String
 )
