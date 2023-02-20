@@ -18,11 +18,11 @@ class MainActivity : AppCompatActivity() {
         val client = LMFeedClient.getInstance()
         CoroutineScope(Dispatchers.IO).launch {
             val result = client.initiateUser(
-                InitiateUserRequest(
-                    "10003",
-                    "Ishaan",
-                    false
-                )
+                InitiateUserRequest.Builder()
+                    .userId("10003")
+                    .userName("Ishaan")
+                    .isGuest(false)
+                    .build()
             )
             withContext(Dispatchers.Main) {
                 Toast.makeText(
