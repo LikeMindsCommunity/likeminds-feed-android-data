@@ -42,9 +42,9 @@ class InitiateUserClient @Inject constructor() {
         }
     }
 
-    suspend fun initiateUser(request_: _InitiateUserRequest_): InitiateUserResponse? {
+    suspend fun initiateUser(request: _InitiateUserRequest_): InitiateUserResponse? {
         val api = collabmatesSDK.getSDKApi()
-        return when (val response = api.initiate(sdkPreferences.getAPIKey(), request_)) {
+        return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {
                 null
             }

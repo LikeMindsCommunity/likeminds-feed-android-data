@@ -2,6 +2,8 @@ package com.likeminds.likemindsfeed.di
 
 import android.app.Application
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.di.branding.BrandingModule
+import com.likeminds.likemindsfeed.di.branding.BrandingSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserModule
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.internalsdk.SDKModule
@@ -12,13 +14,21 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [SharedModule::class, SDKModule::class, InitiateUserModule::class])
+@Component(
+    modules = [
+        SharedModule::class,
+        SDKModule::class,
+        InitiateUserModule::class,
+        BrandingModule::class
+    ]
+)
 internal interface LikeMindsFeedComponent {
 
     fun inject(likeMindsFeedApplication: LikeMindsFeedApplication)
     fun inject(lmFeedClient: LMFeedClient)
 
     fun initiateUserComponent(): InitiateUserSubComponent.Factory
+    fun brandingComponent(): BrandingSubComponent.Factory
 
     @Component.Builder
     interface Builder {

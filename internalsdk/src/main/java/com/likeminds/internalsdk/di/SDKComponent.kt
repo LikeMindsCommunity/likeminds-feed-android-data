@@ -13,7 +13,8 @@ import javax.inject.Singleton
         GsonModule::class,
         NetworkModule::class,
         SDKModule::class,
-        AWSModule::class
+        AWSModule::class,
+        BrandingModule::class
     ]
 )
 interface SDKComponent {
