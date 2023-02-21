@@ -47,9 +47,6 @@ object ModelConverter {
                 _community_.imageUrl,
                 _community_.membersCount,
                 _community_.updatedAt,
-                _community_.createdBy,
-                _community_.managedBy,
-                _community_.menu
             )
         )
     }

@@ -5,8 +5,5 @@ data class Community(
     var name: String,
     var imageUrl: String?,
     var membersCount: Int?,
-    var updatedAt: String?,
-    var createdBy: String?,
-    var managedBy: String?,
-    var menu: List<String>?
+    var updatedAt: String?
 )

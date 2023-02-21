@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
 import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.SDKApiImpl
 import javax.inject.Inject
@@ -26,6 +27,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var sdkApiImpl: SDKApiImpl
+
+    @Inject
+    lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -65,5 +69,9 @@ class CollabmatesSDK {
 
     fun getSDKApi(): SDKApi {
         return sdkApiImpl
+    }
+
+    fun getRefreshTokenApi(): RefreshTokenApiImpl {
+        return refreshTokenApiImpl
     }
 }
