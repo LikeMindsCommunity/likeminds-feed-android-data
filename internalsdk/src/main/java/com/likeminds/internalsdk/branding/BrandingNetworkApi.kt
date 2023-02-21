@@ -8,7 +8,7 @@ import retrofit2.http.Path
 interface BrandingNetworkApi {
 
     @GET("api/community/{communityId}/branding")
-    suspend fun branding(
+    suspend fun getBranding(
         @Path("communityId") communityId: String
     ): NetworkResponse<_BrandingResponse_>
 }

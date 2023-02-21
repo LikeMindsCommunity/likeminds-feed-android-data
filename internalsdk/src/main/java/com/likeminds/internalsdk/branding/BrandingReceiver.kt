@@ -9,7 +9,7 @@ class BrandingReceiver @Inject constructor(
     private val brandingNetworkApi: BrandingNetworkApi
 ) {
     suspend fun getBranding(request: _BrandingRequest_): NetworkResponse<_BrandingResponse_> {
-        return brandingNetworkApi.branding(
+        return brandingNetworkApi.getBranding(
             request.communityId
         )
     }

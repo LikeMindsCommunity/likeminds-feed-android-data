@@ -8,7 +8,7 @@ import javax.inject.Inject
 class BrandingApiImpl @Inject constructor(
     private val brandingReceiver: BrandingReceiver
 ) : BrandingApi {
-    override suspend fun branding(
+    override suspend fun getBranding(
         request: _BrandingRequest_
     ): NetworkResponse<_BrandingResponse_> {
         return brandingReceiver.getBranding(request)

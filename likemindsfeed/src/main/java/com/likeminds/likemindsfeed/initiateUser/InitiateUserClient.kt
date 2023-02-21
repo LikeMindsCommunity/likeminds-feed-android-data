@@ -10,7 +10,6 @@ import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
 import javax.inject.Inject
-import kotlin.math.log
 
 class InitiateUserClient @Inject constructor() {
 

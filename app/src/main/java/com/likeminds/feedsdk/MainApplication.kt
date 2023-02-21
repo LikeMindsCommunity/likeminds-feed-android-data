@@ -1,14 +1,8 @@
 package com.likeminds.feedsdk
 
 import android.app.Application
-import android.util.Log
-import android.widget.Toast
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainApplication : Application() {
 
