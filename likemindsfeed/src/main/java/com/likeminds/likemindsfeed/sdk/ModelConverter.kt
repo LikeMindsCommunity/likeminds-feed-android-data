@@ -1,9 +1,11 @@
 package com.likeminds.likemindsfeed.sdk
 
+import android.util.Log
 import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
+import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
@@ -26,12 +28,16 @@ object ModelConverter {
             _initiateUserResponse_.success,
             _initiateUserResponse_.errorMessage,
             _initiateUserResponse_.data?.appAccess,
-            convertInitiateUser(_initiateUserResponse_.data?.user!!)
+            convertInitiateUser(
+                _initiateUserResponse_.data?.user!!,
+                _initiateUserResponse_.data?.community!!
+            )
         )
     }
 
     fun convertInitiateUser(
-        _user_: _User_
+        _user_: _User_,
+        _community_: _Community_
     ): InitiateUser {
         return InitiateUser(
             User(
@@ -45,8 +51,11 @@ object ModelConverter {
                 _user_.userUniqueId
             ),
             Community(
-                _user_.id,
-                _user_.name
+                _community_.id,
+                _community_.name,
+                _community_.imageUrl,
+                _community_.membersCount,
+                _community_.updatedAt,
             )
         )
     }

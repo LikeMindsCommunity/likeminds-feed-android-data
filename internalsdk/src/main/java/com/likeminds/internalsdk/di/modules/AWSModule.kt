@@ -17,7 +17,7 @@ class AWSModule {
 
     @Provides
     @Singleton
-    fun provideFinalTransferUtility(context: Context?, s3Client: AmazonS3Client?): TransferUtility {
+    fun provideFinalTransferUtility(context: Context, s3Client: AmazonS3Client): TransferUtility {
         val bucketName: String = BuildConfig.URLS_MAP[BuildConfig.BUCKET_NAME].toString()
         return TransferUtility.builder()
             .context(context)
@@ -39,7 +39,7 @@ class AWSModule {
 
     @Provides
     @Singleton
-    fun provideS3Client(credProvider: CognitoCachingCredentialsProvider?): AmazonS3Client {
+    fun provideS3Client(credProvider: CognitoCachingCredentialsProvider): AmazonS3Client {
         val sS3Client = AmazonS3Client(credProvider, Region.getRegion(Regions.AP_SOUTH_1))
         sS3Client.setRegion(Region.getRegion(Regions.AP_SOUTH_1))
         return sS3Client

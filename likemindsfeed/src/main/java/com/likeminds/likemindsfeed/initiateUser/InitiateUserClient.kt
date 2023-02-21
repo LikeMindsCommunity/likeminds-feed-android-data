@@ -1,16 +1,11 @@
 package com.likeminds.likemindsfeed.initiateUser
 
-import android.graphics.ColorSpace.Model
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.sdk.model.Community
-import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
-import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
 import javax.inject.Inject
 

@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
-                    "result: basic : ${result?.branding?.basic}, advanced : ${result?.branding?.advanced}",
+                    "result: ${result?.branding?.basic?.primaryColor}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -10,6 +10,7 @@ import com.likeminds.internalsdk.branding.BrandingApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
 import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.SDKApiImpl
 import javax.inject.Inject
@@ -30,6 +31,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var brandingApiImpl: BrandingApiImpl
+
+    @Inject
+    lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -73,5 +77,9 @@ class CollabmatesSDK {
 
     fun getBrandingApi(): BrandingApi {
         return brandingApiImpl
+    }
+
+    fun getRefreshTokenApi(): RefreshTokenApiImpl {
+        return refreshTokenApiImpl
     }
 }
