@@ -8,7 +8,9 @@ import javax.inject.Inject
 class BrandingReceiver @Inject constructor(
     private val brandingNetworkApi: BrandingNetworkApi
 ) {
-    suspend fun getBranding(request: _BrandingRequest_): NetworkResponse<_BrandingResponse_> {
+    suspend fun getBranding(
+        request: _BrandingRequest_
+    ): NetworkResponse<_BrandingResponse_> {
         return brandingNetworkApi.getBranding(
             request.communityId
         )
