@@ -1,16 +1,14 @@
-package com.collabmates.sdk
+package com.likeminds.internalsdk.sdk
 
 import android.util.Log
-import com.likeminds.internalsdk.sdk.SDKPreferences
+import com.likeminds.internalsdk.TokenManager
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
 
-class RefreshTokenAuthenticator @Inject constructor(
-    private val sdkPreferences: SDKPreferences
-) : Authenticator {
+class RefreshTokenAuthenticator @Inject constructor() : Authenticator {
     companion object {
         const val INVALID_RTM = "Invalid RTM!"
     }
@@ -23,7 +21,8 @@ class RefreshTokenAuthenticator @Inject constructor(
         )
         return if (body?.contains(INVALID_RTM, true) == true) {
             Log.d("LikeMinds", "refresh token is expired, clearing db and prefs")
-            sdkPreferences.clear()
+            val tokenManager = TokenManager.getInstance()
+            tokenManager.updateTokens(null, null, null)
             null
         } else {
             Log.d("LikeMinds", "refresh token failed, return null")

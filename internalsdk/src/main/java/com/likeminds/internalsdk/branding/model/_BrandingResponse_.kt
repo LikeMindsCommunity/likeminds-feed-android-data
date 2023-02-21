@@ -7,7 +7,7 @@ data class _BrandingResponse_(
     var success: Boolean,
     @SerializedName("error_message")
     var errorMessage: String?,
-    @SerializedName("data")
+    @SerializedName("branding")
     var branding: _Branding_?,
 )
 

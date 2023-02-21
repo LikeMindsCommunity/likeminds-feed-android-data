@@ -78,8 +78,4 @@ class CollabmatesSDK {
     fun getBrandingApi(): BrandingApi {
         return brandingApiImpl
     }
-
-    fun getRefreshTokenApi(): RefreshTokenApiImpl {
-        return refreshTokenApiImpl
-    }
 }

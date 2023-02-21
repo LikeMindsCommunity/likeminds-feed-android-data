@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
+import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,31 +17,27 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val client = LMFeedClient.getInstance()
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val result = client.initiateUser(
-//                InitiateUserRequest(
-//                    "10003",
-//                    "Ishaan",
-//                    false
-//                )
-//            )
-//            withContext(Dispatchers.Main) {
-//                Toast.makeText(
-//                    this@MainActivity,
-//                    "result: ${result?.initiateUser?.user?.name}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
-
         CoroutineScope(Dispatchers.IO).launch {
-            val result = client.getBranding(
+            val clientResult = client.initiateUser(
+                InitiateUserRequest.Builder().userId("10003")
+                    .userName("Ishaan")
+                    .isGuest(false)
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${clientResult?.initiateUser?.user?.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            val brandingResult = client.getBranding(
                 BrandingRequest.Builder().communityId("50418").build()
             )
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
-                    "result: ${result?.branding?.basic?.primaryColor}",
+                    "result: ${brandingResult?.branding?.basic?.primaryColor}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

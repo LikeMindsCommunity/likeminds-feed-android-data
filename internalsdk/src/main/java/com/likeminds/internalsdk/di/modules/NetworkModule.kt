@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.di.modules
 
 import android.content.Context
+import android.util.Log
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
@@ -36,6 +37,7 @@ class NetworkModule {
             .connectTimeout(30L, TimeUnit.SECONDS)
             .writeTimeout(30L, TimeUnit.SECONDS)
 
+        Log.d("TAG", "provideOkHttpClient: $tokenAuthenticator")
         clientBuilder.authenticator(tokenAuthenticator)
         clientBuilder.addInterceptor(chuckerInterceptor)
         clientBuilder.addInterceptor(commonHeaderInterceptor)

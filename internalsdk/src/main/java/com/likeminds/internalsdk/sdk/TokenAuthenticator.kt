@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.sdk
 
 import android.util.Log
+import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -10,7 +11,6 @@ import okhttp3.Route
 import javax.inject.Inject
 
 class TokenAuthenticator @Inject constructor(
-    private val sdkPreferences: SDKPreferences,
     private val refreshTokenNetworkApi: RefreshTokenNetworkApi
 ) : Authenticator {
     companion object {
@@ -24,15 +24,16 @@ class TokenAuthenticator @Inject constructor(
 
     private fun getUpdatedRequest(response: Response): Request? {
         val body = response.body?.string()
+        val tokenManager = TokenManager.getInstance()
         return when {
-            sdkPreferences.getRefreshToken().isEmpty() -> {
+            tokenManager.refreshToken.isNullOrEmpty() -> {
                 Log.e("LikeMinds", "refresh token is empty")
                 null
             }
             (body?.contains(INVALID_LTM, true) == true) -> {
                 Log.d("LikeMinds", "refreshing access token")
                 runBlocking {
-                    val refreshToken = sdkPreferences.getRefreshToken()
+                    val refreshToken = tokenManager.refreshToken
                     when (val refreshResponse =
                         refreshTokenNetworkApi.refreshAccessToken("Bearer $refreshToken")) {
                         is NetworkResponse.Error -> {
@@ -48,9 +49,7 @@ class TokenAuthenticator @Inject constructor(
                             val newRefreshToken = refreshResponse.body.data.refreshToken
                             val updatedToken = "Bearer $newAccessToken"
 
-                            sdkPreferences.setAccessToken(newAccessToken)
-                            sdkPreferences.setAccessTokenTimeStamp(System.currentTimeMillis())
-                            sdkPreferences.setRefreshToken(newRefreshToken)
+                            tokenManager.updateTokens(updatedToken, newRefreshToken, null)
                             response.request.newBuilder()
                                 .header(AUTH, updatedToken)
                                 .build()

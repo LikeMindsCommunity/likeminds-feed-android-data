@@ -10,12 +10,12 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class CommonHeaderInterceptor @Inject constructor(
-    private val application: Application,
-    private val tokenManager: TokenManager
+    private val application: Application
 ) : Interceptor {
     @SuppressLint("HardwareIds")
     override fun intercept(chain: Interceptor.Chain): Response {
         val requestBuilder = chain.request().newBuilder()
+        val tokenManager = TokenManager.getInstance()
         if (!tokenManager.accessToken.isNullOrEmpty()) {
             requestBuilder.addHeader(AUTH, "Bearer ${tokenManager.accessToken}")
         }

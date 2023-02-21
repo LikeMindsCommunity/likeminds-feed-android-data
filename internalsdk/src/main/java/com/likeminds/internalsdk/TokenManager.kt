@@ -3,7 +3,7 @@ package com.likeminds.internalsdk
 import javax.inject.Singleton
 
 @Singleton
-class TokenManager private constructor() {
+class TokenManager {
     var accessToken: String? = null
     var refreshToken: String? = null
     var memberId: String? = null
@@ -30,5 +30,4 @@ class TokenManager private constructor() {
         this.refreshToken = refreshToken
         this.memberId = memberId
     }
-
 }
