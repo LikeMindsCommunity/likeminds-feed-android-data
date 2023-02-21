@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @Module
 class BrandingModule {
 
+    //TODO: TO be shifted to Kettle
     @Provides
     @Singleton
     fun provideBrandingModule(
@@ -23,7 +24,7 @@ class BrandingModule {
         baseUrl: BaseUrl
     ): BrandingNetworkApi {
         return Retrofit.Builder()
-            .baseUrl(baseUrl.getKettleBase())
+            .baseUrl(baseUrl.getCaravanBase())
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(NetworkResponseAdapterFactory(gson))
