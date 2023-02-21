@@ -3,13 +3,13 @@ package com.likeminds.internalsdk.post.model
 import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.sdk.model._User_
 
-data class _Post_(
+data class Post(
     @SerializedName("_id")
     var id: String,
     @SerializedName("text")
     var text: String,
     @SerializedName("attachments")
-    var attachments: List<_Attachment_>,
+    var attachments: List<Attachment>?,
     @SerializedName("community_id")
     var communityId: Int,
     @SerializedName("is_liked")
@@ -25,7 +25,7 @@ data class _Post_(
     @SerializedName("is_saved")
     var isSaved: Boolean,
     @SerializedName("menu_items")
-    var menuItems: List<_MenuItem_>,
+    var menuItems: List<MenuItem>,
     @SerializedName("created_at")
     var createdAt: Long,
     @SerializedName("updated_at")

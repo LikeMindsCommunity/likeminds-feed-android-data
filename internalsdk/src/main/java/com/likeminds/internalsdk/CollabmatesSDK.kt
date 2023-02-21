@@ -13,6 +13,8 @@ import com.likeminds.internalsdk.di.SDKSharedResources
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
 import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.SDKApiImpl
+import com.likeminds.internalsdk.universalfeed.UniversalFeedApi
+import com.likeminds.internalsdk.universalfeed.UniversalFeedApiImpl
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,6 +33,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var brandingApiImpl: BrandingApiImpl
+
+    @Inject
+    lateinit var universalFeedApiImpl: UniversalFeedApiImpl
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
@@ -77,5 +82,9 @@ class CollabmatesSDK {
 
     fun getBrandingApi(): BrandingApi {
         return brandingApiImpl
+    }
+
+    fun getUniversalFeedApi(): UniversalFeedApi {
+        return universalFeedApiImpl
     }
 }

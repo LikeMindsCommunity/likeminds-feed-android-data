@@ -7,6 +7,7 @@ import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.branding.BrandingSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
+import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
 import javax.inject.Inject
@@ -26,6 +27,7 @@ internal class LikeMindsFeedApplication private constructor() {
 
     private var initiateUserSubComponent: InitiateUserSubComponent? = null
     private var brandingComponent: BrandingSubComponent? = null
+    private var universalFeedSubComponent: UniversalFeedSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -79,5 +81,13 @@ internal class LikeMindsFeedApplication private constructor() {
         }
 
         return brandingComponent
+    }
+
+    fun universalFeedComponent(): UniversalFeedSubComponent? {
+        if (universalFeedSubComponent == null) {
+            universalFeedSubComponent = likeMindsFeedComponent?.universalFeedComponent()?.create()
+        }
+
+        return universalFeedSubComponent
     }
 }

@@ -1,11 +1,13 @@
 package com.likeminds.feedsdk
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         val client = LMFeedClient.getInstance()
         CoroutineScope(Dispatchers.IO).launch {
             val clientResult = client.initiateUser(
-                InitiateUserRequest.Builder().userId("10003")
-                    .userName("Ishaan")
+                InitiateUserRequest.Builder().userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
+                    .userName("Mahir Gupta")
                     .isGuest(false)
                     .build()
             )
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
             val brandingResult = client.getBranding(
                 BrandingRequest.Builder().communityId("50418").build()
             )
@@ -38,6 +41,17 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result: ${brandingResult?.branding?.basic?.primaryColor}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val universalFeedResult = client.getFeed(
+                GetFeedRequest.Builder().page(1).build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: total posts = ${universalFeedResult?.data?.posts?.size}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

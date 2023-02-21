@@ -1,15 +1,15 @@
-package com.likeminds.likemindsfeed.branding
+package com.likeminds.likemindsfeed.universalfeed
 
 import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.branding.model._BrandingRequest_
+import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
-import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
+import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import javax.inject.Inject
 
-class BrandingClient @Inject constructor() {
+class UniversalFeedClient @Inject constructor() {
 
     init {
         attachDagger()
@@ -22,33 +22,33 @@ class BrandingClient @Inject constructor() {
     lateinit var collabmatesSDK: CollabmatesSDK
 
     private fun attachDagger() {
-        LikeMindsFeedApplication.getInstance().brandingComponent()?.inject(this)
+        LikeMindsFeedApplication.getInstance().universalFeedComponent()?.inject(this)
     }
 
     companion object {
         @JvmStatic
-        private var brandingClient: BrandingClient? = null
+        private var universalFeedClient: UniversalFeedClient? = null
 
-        fun getInstance(): BrandingClient {
-            if (brandingClient == null) {
-                brandingClient = BrandingClient()
+        fun getInstance(): UniversalFeedClient {
+            if (universalFeedClient == null) {
+                universalFeedClient = UniversalFeedClient()
             }
-            return brandingClient!!
+            return universalFeedClient!!
         }
     }
 
-    suspend fun getBranding(request: _BrandingRequest_): BrandingResponse {
-        val api = collabmatesSDK.getBrandingApi()
-        return when (val response = api.getBranding(request)) {
+    suspend fun getFeed(request: _GetFeedRequest_): GetFeedResponse {
+        val api = collabmatesSDK.getUniversalFeedApi()
+        return when (val response = api.getFeed(request)) {
             is NetworkResponse.Error -> {
-                BrandingResponse(
+                GetFeedResponse(
                     success = false,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
                 val body = response.body
-                return ModelConverter.convertBrandingResponse(body)
+                return ModelConverter.convertGetFeedResponse(body)
             }
         }
     }

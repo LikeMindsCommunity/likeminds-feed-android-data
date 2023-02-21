@@ -9,6 +9,8 @@ import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
+import com.likeminds.internalsdk.universalfeed.model._Posts_
 import com.likeminds.likemindsfeed.branding.model.Branding
 import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
 import com.likeminds.likemindsfeed.branding.model.BrandingBasic
@@ -18,6 +20,8 @@ import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
+import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.universalfeed.model.Posts
 
 object ModelConverter {
 
@@ -104,6 +108,24 @@ object ModelConverter {
             _brandingAdvanced_?.headerColor,
             _brandingAdvanced_?.buttonsIconsColor,
             _brandingAdvanced_?.textLinksColor,
+        )
+    }
+
+    fun convertGetFeedResponse(
+        _getFeedResponse_: _GetFeedResponse_
+    ): GetFeedResponse {
+        return GetFeedResponse(
+            _getFeedResponse_.success,
+            _getFeedResponse_.errorMessage,
+            convertPosts(_getFeedResponse_.data)
+        )
+    }
+
+    fun convertPosts(
+        _posts_: _Posts_?
+    ): Posts {
+        return Posts(
+            _posts_?.posts
         )
     }
 }

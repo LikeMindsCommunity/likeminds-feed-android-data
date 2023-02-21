@@ -1,9 +1,8 @@
 package com.likeminds.internalsdk.post.model
 
-import android.net.Uri
 import com.google.gson.annotations.SerializedName
 
-data class _AttachmentMeta_(
+data class AttachmentMeta(
     @SerializedName("name")
     val name: String?,
     @SerializedName("url")
@@ -17,10 +16,10 @@ data class _AttachmentMeta_(
     @SerializedName("page_count")
     val pageCount: Int?,
     @SerializedName("og_tags")
-    val ogTags: _LinkOGTags_,
+    val ogTags: LinkOGTags,
 )
 
-data class _LinkOGTags_(
+data class LinkOGTags(
     @SerializedName("title")
     val title: String?,
     @SerializedName("image")

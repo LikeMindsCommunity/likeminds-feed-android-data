@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.initiateUser
 
-import android.util.Log
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
@@ -43,8 +42,12 @@ class InitiateUserClient @Inject constructor() {
         val api = collabmatesSDK.getSDKApi()
         return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {
-                Log.d("TAG", "initiateUser: failed")
-                null
+                InitiateUserResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage,
+                    appAccess = false,
+                    initiateUser = null
+                )
             }
             //TODO: Confirm about the network and client models
             is NetworkResponse.Success -> {
@@ -56,10 +59,6 @@ class InitiateUserClient @Inject constructor() {
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
-                Log.d(
-                    "TAG",
-                    "initiateUser: " + tokenManager + " " + tokenManager.accessToken + tokenManager.memberId
-                )
                 return ModelConverter.convertInitiateUserResponse(body)
             }
         }
