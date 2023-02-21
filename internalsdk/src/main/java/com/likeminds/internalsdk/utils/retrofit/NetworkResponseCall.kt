@@ -26,7 +26,6 @@ internal class NetworkResponseCall<S : Any>(
 
                 if (response.isSuccessful) {
                     if (body != null) {
-                        //todo add error check
                         callback.onResponse(
                             this@NetworkResponseCall,
                             Response.success(NetworkResponse.Success(body))
@@ -39,7 +38,8 @@ internal class NetworkResponseCall<S : Any>(
                                 NetworkResponse.Error(
                                     ErrorResponse(
                                         "Unknown error occurred",
-                                        null
+                                        null,
+                                        success = false
                                     )
                                 )
                             )
@@ -69,7 +69,8 @@ internal class NetworkResponseCall<S : Any>(
                                 NetworkResponse.Error(
                                     ErrorResponse(
                                         "Unknown error occurred",
-                                        null
+                                        null,
+                                        success = false
                                     )
                                 )
                             )
@@ -84,12 +85,14 @@ internal class NetworkResponseCall<S : Any>(
                         ErrorResponse(
                             throwable.message,
                             null,
+                            success = false
                         )
                     )
                     else -> NetworkResponse.Error(
                         ErrorResponse(
                             throwable.message,
-                            null
+                            null,
+                            success = false
                         )
                     )
                 }

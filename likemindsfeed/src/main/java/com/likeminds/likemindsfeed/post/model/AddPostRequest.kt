@@ -1,11 +1,9 @@
-package com.likeminds.internalsdk.post.model
+package com.likeminds.likemindsfeed.post.model
 
-import com.google.gson.annotations.SerializedName
+import com.likeminds.internalsdk.post.model.Attachment
 
-class _AddPostRequest_ private constructor(
-    @SerializedName("text")
+class AddPostRequest private constructor(
     var text: String?,
-    @SerializedName("attachments")
     var attachments: List<Attachment>?
 ) {
 
@@ -16,7 +14,7 @@ class _AddPostRequest_ private constructor(
         fun text(text: String?) = apply { this.text = text }
         fun attachments(attachments: List<Attachment>?) = apply { this.attachments = attachments }
 
-        fun build() = _AddPostRequest_(text, attachments)
+        fun build() = AddPostRequest(text, attachments)
     }
 
     fun toBuilder(): Builder {

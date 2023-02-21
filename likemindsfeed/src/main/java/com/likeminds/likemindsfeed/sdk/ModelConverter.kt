@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.sdk
 
-import android.util.Log
 import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
@@ -10,7 +9,6 @@ import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
-import com.likeminds.internalsdk.universalfeed.model._Posts_
 import com.likeminds.likemindsfeed.branding.model.Branding
 import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
 import com.likeminds.likemindsfeed.branding.model.BrandingBasic
@@ -117,15 +115,7 @@ object ModelConverter {
         return GetFeedResponse(
             _getFeedResponse_.success,
             _getFeedResponse_.errorMessage,
-            convertPosts(_getFeedResponse_.data)
-        )
-    }
-
-    fun convertPosts(
-        _posts_: _Posts_?
-    ): Posts {
-        return Posts(
-            _posts_?.posts
+            Posts(_getFeedResponse_.data?.posts)
         )
     }
 }

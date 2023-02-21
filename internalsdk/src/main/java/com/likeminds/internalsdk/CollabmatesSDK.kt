@@ -10,6 +10,8 @@ import com.likeminds.internalsdk.branding.BrandingApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.post.PostApi
+import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
 import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.SDKApiImpl
@@ -36,6 +38,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var universalFeedApiImpl: UniversalFeedApiImpl
+
+    @Inject
+    lateinit var postApiImpl: PostApiImpl
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
@@ -86,5 +91,9 @@ class CollabmatesSDK {
 
     fun getUniversalFeedApi(): UniversalFeedApi {
         return universalFeedApiImpl
+    }
+
+    fun postApi(): PostApi {
+        return postApiImpl
     }
 }

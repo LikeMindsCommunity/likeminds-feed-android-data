@@ -8,6 +8,8 @@ import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserModule
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.internalsdk.SDKModule
 import com.likeminds.likemindsfeed.di.internalsdk.SharedModule
+import com.likeminds.likemindsfeed.di.post.PostModule
+import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedModule
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -22,7 +24,8 @@ import javax.inject.Singleton
         SDKModule::class,
         InitiateUserModule::class,
         BrandingModule::class,
-        UniversalFeedModule::class
+        UniversalFeedModule::class,
+        PostModule::class
     ]
 )
 internal interface LikeMindsFeedComponent {
@@ -33,6 +36,7 @@ internal interface LikeMindsFeedComponent {
     fun initiateUserComponent(): InitiateUserSubComponent.Factory
     fun brandingComponent(): BrandingSubComponent.Factory
     fun universalFeedComponent(): UniversalFeedSubComponent.Factory
+    fun postComponent(): PostSubComponent.Factory
 
     @Component.Builder
     interface Builder {

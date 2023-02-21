@@ -4,6 +4,7 @@ import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
@@ -26,19 +27,12 @@ class InitiateUserClient @Inject constructor() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
     }
 
-    companion object {
-        @JvmStatic
-        private var initiateUserClient: InitiateUserClient? = null
-
-        fun getInstance(): InitiateUserClient {
-            if (initiateUserClient == null) {
-                initiateUserClient = InitiateUserClient()
-            }
-            return initiateUserClient!!
-        }
-    }
-
-    suspend fun initiateUser(request: _InitiateUserRequest_): InitiateUserResponse? {
+    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse {
+        val request =
+            _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
+                .userName(initiateUserRequest.userName)
+                .isGuest(initiateUserRequest.isGuest)
+                .build()
         val api = collabmatesSDK.getSDKApi()
         return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {

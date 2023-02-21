@@ -7,6 +7,7 @@ import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.branding.BrandingSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
+import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
@@ -27,7 +28,8 @@ internal class LikeMindsFeedApplication private constructor() {
 
     private var initiateUserSubComponent: InitiateUserSubComponent? = null
     private var brandingComponent: BrandingSubComponent? = null
-    private var universalFeedSubComponent: UniversalFeedSubComponent? = null
+    private var universalFeedComponent: UniversalFeedSubComponent? = null
+    private var postComponent: PostSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -84,10 +86,18 @@ internal class LikeMindsFeedApplication private constructor() {
     }
 
     fun universalFeedComponent(): UniversalFeedSubComponent? {
-        if (universalFeedSubComponent == null) {
-            universalFeedSubComponent = likeMindsFeedComponent?.universalFeedComponent()?.create()
+        if (universalFeedComponent == null) {
+            universalFeedComponent = likeMindsFeedComponent?.universalFeedComponent()?.create()
         }
 
-        return universalFeedSubComponent
+        return universalFeedComponent
+    }
+
+    fun postComponent(): PostSubComponent? {
+        if (postComponent == null) {
+            postComponent = likeMindsFeedComponent?.postComponent()?.create()
+        }
+
+        return postComponent
     }
 }
