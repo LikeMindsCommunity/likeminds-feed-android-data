@@ -20,4 +20,8 @@ interface PostApi {
     suspend fun deletePost(
         request: _DeletePostRequest_
     ): NetworkResponse<_DeletePostResponse_>
+
+    suspend fun likePost(
+        request: _LikePostRequest_
+    ): NetworkResponse<_LikePostResponse_>
 }

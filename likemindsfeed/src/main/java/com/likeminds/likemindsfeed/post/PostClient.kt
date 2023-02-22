@@ -1,10 +1,7 @@
 package com.likeminds.likemindsfeed.post
 
 import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.post.model._AddPostRequest_
-import com.likeminds.internalsdk.post.model._DeletePostRequest_
-import com.likeminds.internalsdk.post.model._GetPostLikesRequest_
-import com.likeminds.internalsdk.post.model._GetPostRequest_
+import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -98,6 +95,26 @@ class PostClient @Inject constructor() {
             }
             is NetworkResponse.Success -> {
                 return DeletePostResponse(
+                    success = response.body.success,
+                    null
+                )
+            }
+        }
+    }
+
+    suspend fun likePost(likePostRequest: LikePostRequest): LikePostResponse {
+        val request = _LikePostRequest_.Builder().postId(likePostRequest.postId)
+            .build()
+        val api = collabmatesSDK.postApi()
+        return when (val response = api.likePost(request)) {
+            is NetworkResponse.Error -> {
+                LikePostResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                return LikePostResponse(
                     success = response.body.success,
                     null
                 )

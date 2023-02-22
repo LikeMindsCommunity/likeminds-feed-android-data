@@ -80,7 +80,11 @@ class LMFeedClient {
         return postClient.getPostLikes(getPostLikesRequest)
     }
 
-    suspend fun deletePost(deleteRequest: DeletePostRequest): DeletePostResponse {
-        return postClient.deletePost(deleteRequest)
+    suspend fun deletePost(deletePostRequest: DeletePostRequest): DeletePostResponse {
+        return postClient.deletePost(deletePostRequest)
+    }
+
+    suspend fun likePost(likePostRequest: LikePostRequest): LikePostResponse {
+        return postClient.likePost(likePostRequest)
     }
 }

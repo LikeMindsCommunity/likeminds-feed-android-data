@@ -28,4 +28,9 @@ interface PostNetworkApi {
         @Path("post_id") postId: String,
         @Body deleteReason: _DeletePostRequest_
     ): NetworkResponse<_DeletePostResponse_>
+
+    @PUT("feed/post/{post_id}/like")
+    suspend fun likePost(
+        @Path("post_id") postId: String,
+    ): NetworkResponse<_LikePostResponse_>
 }

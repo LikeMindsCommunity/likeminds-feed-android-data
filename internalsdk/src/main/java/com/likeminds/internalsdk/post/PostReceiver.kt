@@ -39,4 +39,12 @@ class PostReceiver @Inject constructor(
             request
         )
     }
+
+    suspend fun likePost(
+        request: _LikePostRequest_
+    ): NetworkResponse<_LikePostResponse_> {
+        return postNetworkApi.likePost(
+            request.postId
+        )
+    }
 }
