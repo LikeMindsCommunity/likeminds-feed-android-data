@@ -10,7 +10,7 @@ data class _GetFeedResponse_(
     @SerializedName("error_message")
     var errorMessage: String?,
     @SerializedName("data")
-    var data: _FeedData_?
+    var data: _FeedData_
 )
 
 data class _FeedData_(

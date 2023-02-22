@@ -2,12 +2,10 @@ package com.likeminds.likemindsfeed.post
 
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.post.model._AddPostRequest_
+import com.likeminds.internalsdk.post.model._GetPostLikesRequest_
 import com.likeminds.internalsdk.post.model._GetPostRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
-import com.likeminds.likemindsfeed.post.model.AddPostRequest
-import com.likeminds.likemindsfeed.post.model.AddPostResponse
-import com.likeminds.likemindsfeed.post.model.GetPostRequest
-import com.likeminds.likemindsfeed.post.model.GetPostResponse
+import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import javax.inject.Inject
@@ -62,6 +60,25 @@ class PostClient @Inject constructor() {
                     success = response.body.success,
                     null
                 )
+            }
+        }
+    }
+
+    suspend fun getPostLikes(getPostLikesRequest: GetPostLikesRequest): GetPostLikesResponse {
+        val request = _GetPostLikesRequest_.Builder().postId(getPostLikesRequest.postId)
+            .build()
+        val api = collabmatesSDK.postApi()
+        return when (val response = api.getPostLikes(request)) {
+            is NetworkResponse.Error -> {
+                GetPostLikesResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage,
+                    null
+                )
+            }
+            is NetworkResponse.Success -> {
+                val body = response.body
+                return ModelConverter.convertGetPostLikesResponse(body)
             }
         }
     }

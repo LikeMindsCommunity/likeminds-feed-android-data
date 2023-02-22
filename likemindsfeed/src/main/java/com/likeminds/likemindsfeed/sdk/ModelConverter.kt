@@ -4,6 +4,7 @@ import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
+import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
 import com.likeminds.internalsdk.post.model._GetPostResponse_
 import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
@@ -16,8 +17,10 @@ import com.likeminds.likemindsfeed.branding.model.BrandingBasic
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
 import com.likeminds.likemindsfeed.post.model.GetPostResponse
 import com.likeminds.likemindsfeed.post.model.PostData
+import com.likeminds.likemindsfeed.post.model.PostLikesData
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -72,9 +75,9 @@ object ModelConverter {
     }
 
     fun convertUsersMap(
-        _usersMap_: Map<String, _User_>?
-    ): Map<String, User>? {
-        val usersMap = _usersMap_?.mapValues {
+        _usersMap_: Map<String, _User_>
+    ): Map<String, User> {
+        val usersMap = _usersMap_.mapValues {
             convertUser(it.value)
         }
         return usersMap
@@ -134,8 +137,8 @@ object ModelConverter {
             _getFeedResponse_.success,
             _getFeedResponse_.errorMessage,
             FeedData(
-                _getFeedResponse_.data?.posts,
-                convertUsersMap(_getFeedResponse_.data?.users)
+                _getFeedResponse_.data.posts,
+                convertUsersMap(_getFeedResponse_.data.users)
             )
         )
     }
@@ -147,8 +150,22 @@ object ModelConverter {
             _getPostResponse_.success,
             _getPostResponse_.errorMessage,
             PostData(
-                _getPostResponse_.data?.post,
-                convertUsersMap(_getPostResponse_.data?.users)
+                _getPostResponse_.data.post,
+                convertUsersMap(_getPostResponse_.data.users)
+            )
+        )
+    }
+
+    fun convertGetPostLikesResponse(
+        _getPostLikesResponse_: _GetPostLikesResponse_
+    ): GetPostLikesResponse {
+        return GetPostLikesResponse(
+            _getPostLikesResponse_.success,
+            _getPostLikesResponse_.errorMessage,
+            PostLikesData(
+                _getPostLikesResponse_.data.likes,
+                _getPostLikesResponse_.data.totalCount,
+                convertUsersMap(_getPostLikesResponse_.data.users)
             )
         )
     }

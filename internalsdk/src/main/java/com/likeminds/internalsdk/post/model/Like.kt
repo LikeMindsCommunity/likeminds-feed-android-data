@@ -10,5 +10,5 @@ data class Like(
     @SerializedName("updated_at")
     var updatedAt: Long,
     @SerializedName("user_id")
-    var userId: Long
+    var userId: String
 )

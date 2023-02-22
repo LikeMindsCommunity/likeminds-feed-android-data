@@ -1,6 +1,6 @@
-package com.likeminds.internalsdk.post.model
+package com.likeminds.likemindsfeed.post.model
 
-class _GetPostLikesRequest_ private constructor(
+class GetPostLikesRequest private constructor(
     var postId: String,
 ) {
 
@@ -9,7 +9,7 @@ class _GetPostLikesRequest_ private constructor(
 
         fun postId(postId: String) = apply { this.postId = postId }
 
-        fun build() = _GetPostLikesRequest_(postId)
+        fun build() = GetPostLikesRequest(postId)
     }
 
     fun toBuilder(): Builder {
