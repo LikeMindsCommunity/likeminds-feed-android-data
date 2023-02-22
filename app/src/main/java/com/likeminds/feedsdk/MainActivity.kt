@@ -3,13 +3,10 @@ package com.likeminds.feedsdk
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.likeminds.internalsdk.post.model.Attachment
-import com.likeminds.internalsdk.post.model.AttachmentMeta
-import com.likeminds.internalsdk.post.model.LinkOGTags
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.post.model.AddPostRequest
+import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +52,20 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result: total posts = ${universalFeedResult.data?.posts?.size}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val getPostResult = client.getPost(
+                GetPostRequest.Builder().postId("63f5da50c52f148210f74970")
+                    .page(1)
+                    .pageSize(10)
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${getPostResult.data?.post?.text}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

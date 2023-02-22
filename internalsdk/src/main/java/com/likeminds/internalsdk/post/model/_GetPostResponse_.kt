@@ -14,7 +14,7 @@ data class _GetPostResponse_(
 
 data class _PostData_(
     @SerializedName("post")
-    var posts: List<Post>,
+    var post: Post,
     @SerializedName("users")
     var users: Map<String, _User_>
 )

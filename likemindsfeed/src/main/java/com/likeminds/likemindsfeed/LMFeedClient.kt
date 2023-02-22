@@ -9,6 +9,8 @@ import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.AddPostRequest
 import com.likeminds.likemindsfeed.post.model.AddPostResponse
+import com.likeminds.likemindsfeed.post.model.GetPostRequest
+import com.likeminds.likemindsfeed.post.model.GetPostResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
@@ -71,5 +73,9 @@ class LMFeedClient {
 
     suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
         return postClient.addPost(addPostRequest)
+    }
+
+    suspend fun getPost(getPostRequest: GetPostRequest): GetPostResponse {
+        return postClient.getPost(getPostRequest)
     }
 }

@@ -15,7 +15,7 @@ data class _GetFeedResponse_(
 
 data class _FeedData_(
     @SerializedName("posts")
-    var posts: List<Post>?,
+    var posts: List<Post>,
     @SerializedName("users")
-    var users: Map<String, _User_>?
+    var users: Map<String, _User_>
 )
