@@ -30,4 +30,12 @@ class PostReceiver @Inject constructor(
             request.postId
         )
     }
+
+    suspend fun deletePost(
+        request: _DeletePostRequest_
+    ): NetworkResponse<_DeletePostResponse_> {
+        return postNetworkApi.deletePost(
+            request.postId
+        )
+    }
 }

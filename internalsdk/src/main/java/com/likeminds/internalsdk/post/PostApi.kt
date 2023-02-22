@@ -16,4 +16,8 @@ interface PostApi {
     suspend fun getPostLikes(
         request: _GetPostLikesRequest_
     ): NetworkResponse<_GetPostLikesResponse_>
+
+    suspend fun deletePost(
+        request: _DeletePostRequest_
+    ): NetworkResponse<_DeletePostResponse_>
 }

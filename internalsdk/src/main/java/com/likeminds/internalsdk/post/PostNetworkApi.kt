@@ -1,9 +1,6 @@
 package com.likeminds.internalsdk.post
 
-import com.likeminds.internalsdk.post.model._AddPostRequest_
-import com.likeminds.internalsdk.post.model._AddPostResponse_
-import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
-import com.likeminds.internalsdk.post.model._GetPostResponse_
+import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.*
 
@@ -25,4 +22,10 @@ interface PostNetworkApi {
     suspend fun getPostLikes(
         @Path("post_id") postId: String,
     ): NetworkResponse<_GetPostLikesResponse_>
+
+    @DELETE("feed/post/{post_id}")
+    suspend fun deletePost(
+        @Path("post_id") postId: String,
+        @Body deleteReason: _DeletePostRequest_
+    ): NetworkResponse<_DeletePostResponse_>
 }
