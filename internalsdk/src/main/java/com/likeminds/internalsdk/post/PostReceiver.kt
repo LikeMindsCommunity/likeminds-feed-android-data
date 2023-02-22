@@ -47,4 +47,12 @@ class PostReceiver @Inject constructor(
             request.postId
         )
     }
+
+    suspend fun savePost(
+        request: _SavePostRequest_
+    ): NetworkResponse<_SavePostResponse_> {
+        return postNetworkApi.savePost(
+            request.postId
+        )
+    }
 }

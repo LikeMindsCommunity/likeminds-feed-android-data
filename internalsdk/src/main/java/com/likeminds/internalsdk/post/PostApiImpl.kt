@@ -37,4 +37,10 @@ class PostApiImpl @Inject constructor(
     ): NetworkResponse<_LikePostResponse_> {
         return postReceiver.likePost(request)
     }
+
+    override suspend fun savePost(
+        request: _SavePostRequest_
+    ): NetworkResponse<_SavePostResponse_> {
+        return postReceiver.savePost(request)
+    }
 }

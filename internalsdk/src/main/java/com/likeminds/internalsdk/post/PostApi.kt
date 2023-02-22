@@ -24,4 +24,8 @@ interface PostApi {
     suspend fun likePost(
         request: _LikePostRequest_
     ): NetworkResponse<_LikePostResponse_>
+
+    suspend fun savePost(
+        request: _SavePostRequest_
+    ): NetworkResponse<_SavePostResponse_>
 }

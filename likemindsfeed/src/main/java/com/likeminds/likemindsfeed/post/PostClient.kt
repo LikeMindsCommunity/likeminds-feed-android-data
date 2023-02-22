@@ -121,4 +121,24 @@ class PostClient @Inject constructor() {
             }
         }
     }
+
+    suspend fun savePost(savePostRequest: SavePostRequest): SavePostResponse {
+        val request = _SavePostRequest_.Builder().postId(savePostRequest.postId)
+            .build()
+        val api = collabmatesSDK.postApi()
+        return when (val response = api.savePost(request)) {
+            is NetworkResponse.Error -> {
+                SavePostResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                return SavePostResponse(
+                    success = response.body.success,
+                    null
+                )
+            }
+        }
+    }
 }

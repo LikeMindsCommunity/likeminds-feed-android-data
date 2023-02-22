@@ -87,4 +87,8 @@ class LMFeedClient {
     suspend fun likePost(likePostRequest: LikePostRequest): LikePostResponse {
         return postClient.likePost(likePostRequest)
     }
+
+    suspend fun savePost(savePostRequest: SavePostRequest): SavePostResponse {
+        return postClient.savePost(savePostRequest)
+    }
 }

@@ -33,4 +33,9 @@ interface PostNetworkApi {
     suspend fun likePost(
         @Path("post_id") postId: String,
     ): NetworkResponse<_LikePostResponse_>
+
+    @PUT("feed/post/{post_id}/save")
+    suspend fun savePost(
+        @Path("post_id") postId: String,
+    ): NetworkResponse<_SavePostResponse_>
 }

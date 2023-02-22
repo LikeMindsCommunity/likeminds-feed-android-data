@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.post.model.DeletePostRequest
-import com.likeminds.likemindsfeed.post.model.GetPostLikesRequest
-import com.likeminds.likemindsfeed.post.model.GetPostRequest
-import com.likeminds.likemindsfeed.post.model.LikePostRequest
+import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val client = LMFeedClient.getInstance()
         CoroutineScope(Dispatchers.IO).launch {
             val clientResult = client.initiateUser(
-                InitiateUserRequest.Builder().userId("88a914cc-e2d4-49b8-9e26-212f95ebb7f8")
+                InitiateUserRequest.Builder().userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
                     .userName("Mahir Gupta")
                     .isGuest(false)
                     .build()
@@ -106,6 +103,18 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result ${likePostResponse.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val savePostResponse = client.savePost(
+                SavePostRequest.Builder().postId("63f5da50c52f148210f74970")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result ${savePostResponse.success}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
