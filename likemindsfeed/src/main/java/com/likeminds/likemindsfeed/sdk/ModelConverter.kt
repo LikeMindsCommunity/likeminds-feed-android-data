@@ -18,8 +18,8 @@ import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
+import com.likeminds.likemindsfeed.universalfeed.model.FeedData
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
-import com.likeminds.likemindsfeed.universalfeed.model.Posts
 
 object ModelConverter {
 
@@ -42,16 +42,7 @@ object ModelConverter {
         _community_: _Community_
     ): InitiateUser {
         return InitiateUser(
-            User(
-                _user_.id,
-                _user_.imageUrl,
-                _user_.isGuest,
-                _user_.name,
-                _user_.organisationName,
-                convertSDKClientInfo(_user_.sdkClientInfo),
-                _user_.updatedAt,
-                _user_.userUniqueId
-            ),
+            convertUser(_user_),
             Community(
                 _community_.id,
                 _community_.name,
@@ -60,6 +51,30 @@ object ModelConverter {
                 _community_.updatedAt,
             )
         )
+    }
+
+    fun convertUser(
+        _user_: _User_
+    ): User {
+        return User(
+            _user_.id,
+            _user_.imageUrl,
+            _user_.isGuest,
+            _user_.name,
+            _user_.organisationName,
+            convertSDKClientInfo(_user_.sdkClientInfo),
+            _user_.updatedAt,
+            _user_.userUniqueId
+        )
+    }
+
+    fun convertUsersMap(
+        _usersMap_: Map<String, _User_>?
+    ): Map<String, User>? {
+        val usersMap = _usersMap_?.mapValues {
+            convertUser(it.value)
+        }
+        return usersMap
     }
 
     fun convertSDKClientInfo(
@@ -115,7 +130,10 @@ object ModelConverter {
         return GetFeedResponse(
             _getFeedResponse_.success,
             _getFeedResponse_.errorMessage,
-            Posts(_getFeedResponse_.data?.posts)
+            FeedData(
+                _getFeedResponse_.data?.posts,
+                convertUsersMap(_getFeedResponse_.data?.users)
+            )
         )
     }
 }

@@ -59,32 +59,32 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
-            val postResult = client.addPost(
-                AddPostRequest.Builder().text("Posting from Android SDK another one")
-                    .attachments(
-                        listOf(
-                            Attachment(
-                                4,
-                                AttachmentMeta(
-                                    ogTags = LinkOGTags(
-                                        "Youtube video",
-                                        "https://i.ytimg.com/vi/EbyAoYaUcVo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDiI5bXtT71sC4IAnHiDAh52LxbFA",
-                                        "This is a youtube video",
-                                        "https://www.youtube.com/watch?v=sAuQjwEl-Bo"
-                                    )
-                                )
-                            )
-                        )
-                    )
-                    .build()
-            )
-            withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "result: ${postResult.success}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+//            val postResult = client.addPost(
+//                AddPostRequest.Builder().text("Posting from Android SDK another one")
+//                    .attachments(
+//                        listOf(
+//                            Attachment(
+//                                4,
+//                                AttachmentMeta(
+//                                    ogTags = LinkOGTags(
+//                                        "Youtube video",
+//                                        "https://i.ytimg.com/vi/EbyAoYaUcVo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDiI5bXtT71sC4IAnHiDAh52LxbFA",
+//                                        "This is a youtube video",
+//                                        "https://www.youtube.com/watch?v=sAuQjwEl-Bo"
+//                                    )
+//                                )
+//                            )
+//                        )
+//                    )
+//                    .build()
+//            )
+//            withContext(Dispatchers.Main) {
+//                Toast.makeText(
+//                    this@MainActivity,
+//                    "result: ${postResult.success}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
         }
     }
 }

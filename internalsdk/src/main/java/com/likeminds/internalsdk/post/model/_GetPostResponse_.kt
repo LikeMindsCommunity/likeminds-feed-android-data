@@ -1,21 +1,20 @@
-package com.likeminds.internalsdk.universalfeed.model
+package com.likeminds.internalsdk.post.model
 
 import com.google.gson.annotations.SerializedName
-import com.likeminds.internalsdk.post.model.Post
 import com.likeminds.internalsdk.sdk.model._User_
 
-data class _GetFeedResponse_(
+data class _GetPostResponse_(
     @SerializedName("success")
     var success: Boolean,
     @SerializedName("error_message")
     var errorMessage: String?,
     @SerializedName("data")
-    var data: _FeedData_?
+    var data: _PostData_?
 )
 
-data class _FeedData_(
-    @SerializedName("posts")
-    var posts: List<Post>?,
+data class _PostData_(
+    @SerializedName("post")
+    var posts: List<Post>,
     @SerializedName("users")
-    var users: Map<String, _User_>?
+    var users: Map<String, _User_>
 )
