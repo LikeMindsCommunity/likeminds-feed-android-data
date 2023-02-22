@@ -6,5 +6,5 @@ data class _AddPostResponse_(
     @SerializedName("success")
     var success: Boolean,
     @SerializedName("error_message")
-    var errorMessage: String?,
+    var errorMessage: String?
 )

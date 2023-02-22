@@ -1,9 +1,6 @@
 package com.likeminds.internalsdk.post
 
-import com.likeminds.internalsdk.post.model._AddPostRequest_
-import com.likeminds.internalsdk.post.model._AddPostResponse_
-import com.likeminds.internalsdk.post.model._GetPostRequest_
-import com.likeminds.internalsdk.post.model._GetPostResponse_
+import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
 
@@ -23,6 +20,14 @@ class PostReceiver @Inject constructor(
             request.postId,
             request.page,
             request.pageSize
+        )
+    }
+
+    suspend fun getPostLikes(
+        request: _GetPostLikesRequest_
+    ): NetworkResponse<_GetPostLikesResponse_> {
+        return postNetworkApi.getPostLikes(
+            request.postId
         )
     }
 }
