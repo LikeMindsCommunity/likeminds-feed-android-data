@@ -119,6 +119,18 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
+            val pinPostResponse = client.pinPost(
+                PinPostRequest.Builder().postId("63f5da50c52f148210f74970")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result ${pinPostResponse.errorMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
 //            val postResult = client.addPost(
 //                AddPostRequest.Builder().text("Posting from Android SDK another one")
 //                    .attachments(

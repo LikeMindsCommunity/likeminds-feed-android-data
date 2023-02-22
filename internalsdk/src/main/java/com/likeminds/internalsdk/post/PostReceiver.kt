@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.post
 
 import com.likeminds.internalsdk.post.model.*
+import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
 
@@ -9,7 +10,7 @@ class PostReceiver @Inject constructor(
 ) {
     suspend fun addPost(
         request: _AddPostRequest_
-    ): NetworkResponse<_AddPostResponse_> {
+    ): NetworkResponse<BaseResponse> {
         return postNetworkApi.addPost(request)
     }
 
@@ -33,7 +34,7 @@ class PostReceiver @Inject constructor(
 
     suspend fun deletePost(
         request: _DeletePostRequest_
-    ): NetworkResponse<_DeletePostResponse_> {
+    ): NetworkResponse<BaseResponse> {
         return postNetworkApi.deletePost(
             request.postId,
             request
@@ -42,7 +43,7 @@ class PostReceiver @Inject constructor(
 
     suspend fun likePost(
         request: _LikePostRequest_
-    ): NetworkResponse<_LikePostResponse_> {
+    ): NetworkResponse<BaseResponse> {
         return postNetworkApi.likePost(
             request.postId
         )
@@ -50,8 +51,16 @@ class PostReceiver @Inject constructor(
 
     suspend fun savePost(
         request: _SavePostRequest_
-    ): NetworkResponse<_SavePostResponse_> {
+    ): NetworkResponse<BaseResponse> {
         return postNetworkApi.savePost(
+            request.postId
+        )
+    }
+
+    suspend fun pinPost(
+        request: _PinPostRequest_
+    ): NetworkResponse<BaseResponse> {
+        return postNetworkApi.pinPost(
             request.postId
         )
     }

@@ -1,13 +1,14 @@
 package com.likeminds.internalsdk.post
 
 import com.likeminds.internalsdk.post.model.*
+import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
 interface PostApi {
 
     suspend fun addPost(
         request: _AddPostRequest_
-    ): NetworkResponse<_AddPostResponse_>
+    ): NetworkResponse<BaseResponse>
 
     suspend fun getPost(
         request: _GetPostRequest_
@@ -19,13 +20,17 @@ interface PostApi {
 
     suspend fun deletePost(
         request: _DeletePostRequest_
-    ): NetworkResponse<_DeletePostResponse_>
+    ): NetworkResponse<BaseResponse>
 
     suspend fun likePost(
         request: _LikePostRequest_
-    ): NetworkResponse<_LikePostResponse_>
+    ): NetworkResponse<BaseResponse>
 
     suspend fun savePost(
         request: _SavePostRequest_
-    ): NetworkResponse<_SavePostResponse_>
+    ): NetworkResponse<BaseResponse>
+
+    suspend fun pinPost(
+        request: _PinPostRequest_
+    ): NetworkResponse<BaseResponse>
 }

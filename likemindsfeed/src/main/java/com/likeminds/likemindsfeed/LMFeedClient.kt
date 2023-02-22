@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed
 
+import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.likemindsfeed.branding.BrandingClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
@@ -68,7 +69,7 @@ class LMFeedClient {
         return universalFeedClient.getFeed(getFeedRequest)
     }
 
-    suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
+    suspend fun addPost(addPostRequest: AddPostRequest): BaseResponse {
         return postClient.addPost(addPostRequest)
     }
 
@@ -80,15 +81,19 @@ class LMFeedClient {
         return postClient.getPostLikes(getPostLikesRequest)
     }
 
-    suspend fun deletePost(deletePostRequest: DeletePostRequest): DeletePostResponse {
+    suspend fun deletePost(deletePostRequest: DeletePostRequest): BaseResponse {
         return postClient.deletePost(deletePostRequest)
     }
 
-    suspend fun likePost(likePostRequest: LikePostRequest): LikePostResponse {
+    suspend fun likePost(likePostRequest: LikePostRequest): BaseResponse {
         return postClient.likePost(likePostRequest)
     }
 
-    suspend fun savePost(savePostRequest: SavePostRequest): SavePostResponse {
+    suspend fun savePost(savePostRequest: SavePostRequest): BaseResponse {
         return postClient.savePost(savePostRequest)
+    }
+
+    suspend fun pinPost(pinPostRequest: PinPostRequest): BaseResponse {
+        return postClient.pinPost(pinPostRequest)
     }
 }

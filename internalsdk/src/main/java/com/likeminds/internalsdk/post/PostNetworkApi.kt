@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.post
 
 import com.likeminds.internalsdk.post.model.*
+import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.*
 
@@ -9,7 +10,7 @@ interface PostNetworkApi {
     @POST("feed/post")
     suspend fun addPost(
         @Body addPostRequest: _AddPostRequest_
-    ): NetworkResponse<_AddPostResponse_>
+    ): NetworkResponse<BaseResponse>
 
     @GET("feed/post/{post_id}")
     suspend fun getPost(
@@ -27,15 +28,20 @@ interface PostNetworkApi {
     suspend fun deletePost(
         @Path("post_id") postId: String,
         @Body deleteReason: _DeletePostRequest_
-    ): NetworkResponse<_DeletePostResponse_>
+    ): NetworkResponse<BaseResponse>
 
     @PUT("feed/post/{post_id}/like")
     suspend fun likePost(
         @Path("post_id") postId: String,
-    ): NetworkResponse<_LikePostResponse_>
+    ): NetworkResponse<BaseResponse>
 
     @PUT("feed/post/{post_id}/save")
     suspend fun savePost(
         @Path("post_id") postId: String,
-    ): NetworkResponse<_SavePostResponse_>
+    ): NetworkResponse<BaseResponse>
+
+    @PUT("feed/post/{post_id}/pin")
+    suspend fun pinPost(
+        @Path("post_id") postId: String,
+    ): NetworkResponse<BaseResponse>
 }
