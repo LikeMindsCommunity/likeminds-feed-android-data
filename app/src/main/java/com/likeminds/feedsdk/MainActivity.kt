@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.post.model.DeletePostRequest
 import com.likeminds.likemindsfeed.post.model.GetPostLikesRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
@@ -79,6 +80,19 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result - likes: ${getPostLikesResult.data?.totalCount}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val deletePostResponse = client.deletePost(
+                DeletePostRequest.Builder().postId("63f5da50c52f148210f74970")
+                    .deleteReason("Reason is this")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result ${deletePostResponse.errorMessage}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

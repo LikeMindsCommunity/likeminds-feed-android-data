@@ -79,4 +79,8 @@ class LMFeedClient {
     suspend fun getPostLikes(getPostLikesRequest: GetPostLikesRequest): GetPostLikesResponse {
         return postClient.getPostLikes(getPostLikesRequest)
     }
+
+    suspend fun deletePost(deleteRequest: DeletePostRequest): DeletePostResponse {
+        return postClient.deletePost(deleteRequest)
+    }
 }

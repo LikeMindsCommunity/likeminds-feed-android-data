@@ -23,7 +23,7 @@ interface PostNetworkApi {
         @Path("post_id") postId: String,
     ): NetworkResponse<_GetPostLikesResponse_>
 
-    @DELETE("feed/post/{post_id}")
+    @HTTP(method = "DELETE", path = "feed/post/{post_id}", hasBody = true)
     suspend fun deletePost(
         @Path("post_id") postId: String,
         @Body deleteReason: _DeletePostRequest_

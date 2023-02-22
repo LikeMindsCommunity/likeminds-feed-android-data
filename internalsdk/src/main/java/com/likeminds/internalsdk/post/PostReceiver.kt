@@ -35,7 +35,8 @@ class PostReceiver @Inject constructor(
         request: _DeletePostRequest_
     ): NetworkResponse<_DeletePostResponse_> {
         return postNetworkApi.deletePost(
-            request.postId
+            request.postId,
+            request
         )
     }
 }
