@@ -19,6 +19,7 @@ interface PostApi {
     ): NetworkResponse<_GetPostLikesResponse_>
 
     suspend fun deletePost(
+        postId: String,
         request: _DeletePostRequest_
     ): NetworkResponse<BaseResponse>
 

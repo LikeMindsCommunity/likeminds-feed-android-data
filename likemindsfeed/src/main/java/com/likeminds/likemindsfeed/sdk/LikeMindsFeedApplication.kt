@@ -7,6 +7,7 @@ import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.branding.BrandingSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
+import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
@@ -30,6 +31,7 @@ internal class LikeMindsFeedApplication private constructor() {
     private var brandingComponent: BrandingSubComponent? = null
     private var universalFeedComponent: UniversalFeedSubComponent? = null
     private var postComponent: PostSubComponent? = null
+    private var moderationComponent: ModerationSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -73,7 +75,6 @@ internal class LikeMindsFeedApplication private constructor() {
         if (initiateUserSubComponent == null) {
             initiateUserSubComponent = likeMindsFeedComponent?.initiateUserComponent()?.create()
         }
-
         return initiateUserSubComponent
     }
 
@@ -81,7 +82,6 @@ internal class LikeMindsFeedApplication private constructor() {
         if (brandingComponent == null) {
             brandingComponent = likeMindsFeedComponent?.brandingComponent()?.create()
         }
-
         return brandingComponent
     }
 
@@ -89,7 +89,6 @@ internal class LikeMindsFeedApplication private constructor() {
         if (universalFeedComponent == null) {
             universalFeedComponent = likeMindsFeedComponent?.universalFeedComponent()?.create()
         }
-
         return universalFeedComponent
     }
 
@@ -97,7 +96,13 @@ internal class LikeMindsFeedApplication private constructor() {
         if (postComponent == null) {
             postComponent = likeMindsFeedComponent?.postComponent()?.create()
         }
-
         return postComponent
+    }
+
+    fun moderationComponent(): ModerationSubComponent? {
+        if (moderationComponent == null) {
+            moderationComponent = likeMindsFeedComponent?.moderationComponent()?.create()
+        }
+        return moderationComponent
     }
 }

@@ -2,7 +2,6 @@ package com.likeminds.likemindsfeed.post
 
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.post.model.*
-import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -42,20 +41,20 @@ class PostClient @Inject constructor() {
         }
     }
 
-    suspend fun addPost(addPostRequest: AddPostRequest): BaseResponse {
+    suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
             .attachments(addPostRequest.attachments)
             .build()
         val api = collabmatesSDK.postApi()
         return when (val response = api.addPost(request)) {
             is NetworkResponse.Error -> {
-                BaseResponse(
+                AddPostResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
-                return BaseResponse(
+                return AddPostResponse(
                     success = response.body.success,
                     null
                 )
@@ -82,20 +81,20 @@ class PostClient @Inject constructor() {
         }
     }
 
-    suspend fun deletePost(deletePostRequest: DeletePostRequest): BaseResponse {
-        val request = _DeletePostRequest_.Builder().postId(deletePostRequest.postId)
+    suspend fun deletePost(deletePostRequest: DeletePostRequest): DeletePostResponse {
+        val request = _DeletePostRequest_.Builder()
             .deleteReason(deletePostRequest.deleteReason)
             .build()
         val api = collabmatesSDK.postApi()
-        return when (val response = api.deletePost(request)) {
+        return when (val response = api.deletePost(deletePostRequest.postId, request)) {
             is NetworkResponse.Error -> {
-                BaseResponse(
+                DeletePostResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
-                return BaseResponse(
+                return DeletePostResponse(
                     success = response.body.success,
                     null
                 )
@@ -103,19 +102,19 @@ class PostClient @Inject constructor() {
         }
     }
 
-    suspend fun likePost(likePostRequest: LikePostRequest): BaseResponse {
+    suspend fun likePost(likePostRequest: LikePostRequest): LikePostResponse {
         val request = _LikePostRequest_.Builder().postId(likePostRequest.postId)
             .build()
         val api = collabmatesSDK.postApi()
         return when (val response = api.likePost(request)) {
             is NetworkResponse.Error -> {
-                BaseResponse(
+                LikePostResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
-                return BaseResponse(
+                return LikePostResponse(
                     success = response.body.success,
                     null
                 )
@@ -123,19 +122,19 @@ class PostClient @Inject constructor() {
         }
     }
 
-    suspend fun savePost(savePostRequest: SavePostRequest): BaseResponse {
+    suspend fun savePost(savePostRequest: SavePostRequest): SavePostResponse {
         val request = _SavePostRequest_.Builder().postId(savePostRequest.postId)
             .build()
         val api = collabmatesSDK.postApi()
         return when (val response = api.savePost(request)) {
             is NetworkResponse.Error -> {
-                BaseResponse(
+                SavePostResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
-                return BaseResponse(
+                return SavePostResponse(
                     success = response.body.success,
                     null
                 )
@@ -143,19 +142,19 @@ class PostClient @Inject constructor() {
         }
     }
 
-    suspend fun pinPost(pinPostRequest: PinPostRequest): BaseResponse {
+    suspend fun pinPost(pinPostRequest: PinPostRequest): PinPostResponse {
         val request = _PinPostRequest_.Builder().postId(pinPostRequest.postId)
             .build()
         val api = collabmatesSDK.postApi()
         return when (val response = api.pinPost(request)) {
             is NetworkResponse.Error -> {
-                BaseResponse(
+                PinPostResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
-                return BaseResponse(
+                return PinPostResponse(
                     success = response.body.success,
                     null
                 )

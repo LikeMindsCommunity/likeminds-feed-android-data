@@ -10,6 +10,8 @@ import com.likeminds.internalsdk.branding.BrandingApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.moderation.ModerationApi
+import com.likeminds.internalsdk.moderation.ModerationApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
@@ -44,6 +46,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
+
+    @Inject
+    lateinit var moderationApiImpl: ModerationApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -95,5 +100,9 @@ class CollabmatesSDK {
 
     fun postApi(): PostApi {
         return postApiImpl
+    }
+
+    fun moderationApi(): ModerationApi {
+        return moderationApiImpl
     }
 }

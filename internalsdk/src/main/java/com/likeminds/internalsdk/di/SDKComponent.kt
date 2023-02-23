@@ -16,7 +16,8 @@ import javax.inject.Singleton
         AWSModule::class,
         BrandingModule::class,
         UniversalFeedModule::class,
-        PostModule::class
+        PostModule::class,
+        ModerationModule::class
     ]
 )
 interface SDKComponent {
