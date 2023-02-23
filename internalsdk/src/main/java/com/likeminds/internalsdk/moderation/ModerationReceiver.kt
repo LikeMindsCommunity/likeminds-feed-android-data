@@ -2,6 +2,8 @@ package com.likeminds.internalsdk.moderation
 
 import com.likeminds.internalsdk.moderation.model._GetReportTagsRequest_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
+import com.likeminds.internalsdk.moderation.model._PostReportRequest_
+import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
 
@@ -13,5 +15,11 @@ class ModerationReceiver @Inject constructor(
         request: _GetReportTagsRequest_
     ): NetworkResponse<_GetReportTagsResponse_> {
         return moderationNetworkApi.getReportTags(request.type)
+    }
+
+    suspend fun postReport(
+        request: _PostReportRequest_
+    ): NetworkResponse<BaseResponse> {
+        return moderationNetworkApi.postReport(request)
     }
 }

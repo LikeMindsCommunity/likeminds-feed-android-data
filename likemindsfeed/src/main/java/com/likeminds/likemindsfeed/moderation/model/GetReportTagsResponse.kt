@@ -1,9 +1,9 @@
 package com.likeminds.likemindsfeed.moderation.model
 
-import com.likeminds.internalsdk.moderation.model._ReportTagsData_
+import com.likeminds.internalsdk.moderation.model.ReportTagsData
 
 data class GetReportTagsResponse constructor(
     var success: Boolean,
     var errorMessage: String?,
-    var data: _ReportTagsData_? = null
+    var data: ReportTagsData? = null
 )

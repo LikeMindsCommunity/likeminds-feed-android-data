@@ -9,6 +9,8 @@ import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
+import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
+import com.likeminds.likemindsfeed.moderation.model.PostReportResponse
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -104,5 +106,9 @@ class LMFeedClient {
 
     suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): GetReportTagsResponse {
         return moderationClient.getReportTags(getReportTagsRequest)
+    }
+
+    suspend fun postReport(postReportRequest: PostReportRequest): PostReportResponse {
+        return moderationClient.postReport(postReportRequest)
     }
 }

@@ -8,15 +8,15 @@ data class _GetReportTagsResponse_ constructor(
     @SerializedName("error_message")
     var errorMessage: String?,
     @SerializedName("data")
-    var data: _ReportTagsData_?
+    var data: ReportTagsData?
 )
 
-data class _ReportTagsData_(
+data class ReportTagsData(
     @SerializedName("report_tags")
-    var tags: List<_ReportTag_>
+    var tags: List<ReportTag>
 )
 
-data class _ReportTag_(
+data class ReportTag(
     @SerializedName("id")
     var id: Int,
     @SerializedName("name")

@@ -11,6 +11,7 @@ import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
+import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
@@ -144,6 +145,21 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result - tags size -> ${getReportTagsResponse.data?.tags?.size}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val postReportResponse = client.postReport(
+                PostReportRequest.Builder().entityType(5)
+                    .entityCreatorId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
+                    .entityId("63d0ebd885f97dea25f6cca7")
+                    .tagId(6)
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result ${postReportResponse.success}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
