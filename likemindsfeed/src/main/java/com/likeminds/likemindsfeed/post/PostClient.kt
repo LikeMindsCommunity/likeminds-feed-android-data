@@ -1,6 +1,8 @@
 package com.likeminds.likemindsfeed.post
 
+import com.google.gson.Gson
 import com.likeminds.internalsdk.CollabmatesSDK
+import com.likeminds.internalsdk.post.model.Attachment
 import com.likeminds.internalsdk.post.model._AddPostRequest_
 import com.likeminds.internalsdk.post.model._GetPostRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -46,6 +48,9 @@ class PostClient @Inject constructor() {
     }
 
     suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
+        if (hasUploadAbleAttachments(addPostRequest.attachments)) {
+            startMediaUploadWorker(addPostRequest.attachments!!)
+        }
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
             .attachments(addPostRequest.attachments)
             .build()
@@ -64,5 +69,17 @@ class PostClient @Inject constructor() {
                 )
             }
         }
+    }
+
+    // checks if there are any attachments to upload or not
+    private fun hasUploadAbleAttachments(attachments: List<Attachment>?): Boolean {
+        // no upload-able attachments if the attachment is of type link.
+        if (attachments.isNullOrEmpty() || (attachments.size == 1 && attachments.first().attachmentType == 4)) return false
+        return true
+    }
+
+    private fun startMediaUploadWorker(attachments: List<Attachment>) {
+        val jsonAttachment = Gson().toJson(attachments)
+
     }
 }

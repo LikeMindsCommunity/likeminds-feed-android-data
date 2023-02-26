@@ -2,6 +2,7 @@ package com.likeminds.internalsdk.post.model
 
 import com.google.gson.annotations.SerializedName
 
+//TODO: check for width and height
 data class AttachmentMeta(
     @SerializedName("name")
     val name: String? = null,
@@ -10,13 +11,18 @@ data class AttachmentMeta(
     @SerializedName("format")
     val format: String? = null,
     @SerializedName("size")
-    val size: String? = null,
+    val size: Long? = null,
     @SerializedName("duration")
-    val duration: String? = null,
+    val duration: Int? = null,
     @SerializedName("page_count")
     val pageCount: Int? = null,
     @SerializedName("og_tags")
     val ogTags: LinkOGTags,
+    val awsFolderPath: String? = null,
+    val localFilePath: String? = null,
+    val index: Int? = null,
+    val width: Int? = null,
+    val height: Int? = null
 )
 
 data class LinkOGTags(

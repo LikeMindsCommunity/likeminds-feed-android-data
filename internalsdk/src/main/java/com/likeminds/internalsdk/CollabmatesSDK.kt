@@ -4,6 +4,7 @@ import android.app.Application
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserStateDetails
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.google.gson.Gson
 import com.likeminds.internalsdk.branding.BrandingApi
 import com.likeminds.internalsdk.branding.BrandingApiImpl
@@ -44,6 +45,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
+
+    @Inject
+    lateinit var transferUtility: TransferUtility
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
