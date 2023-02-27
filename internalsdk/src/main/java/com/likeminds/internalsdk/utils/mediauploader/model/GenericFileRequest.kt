@@ -8,7 +8,7 @@ class GenericFileRequest private constructor(
     var fileType: Int,
     var awsFolderPath: String,
     var localFilePath: String?,
-    var index: Int?,
+    var index: Int,
     var width: Int?,
     var height: Int?,
     var pageCount: Int?,
@@ -23,7 +23,7 @@ class GenericFileRequest private constructor(
         private var fileType: Int = 1
         private var awsFolderPath: String = ""
         private var localFilePath: String? = null
-        private var index: Int? = null
+        private var index: Int = 0
         private var width: Int? = null
         private var height: Int? = null
         private var pageCount: Int? = null
@@ -35,7 +35,7 @@ class GenericFileRequest private constructor(
         fun fileType(fileType: Int) = apply { this.fileType = fileType }
         fun awsFolderPath(awsFolderPath: String) = apply { this.awsFolderPath = awsFolderPath }
         fun localFilePath(localFilePath: String?) = apply { this.localFilePath = localFilePath }
-        fun index(index: Int?) = apply { this.index = index }
+        fun index(index: Int) = apply { this.index = index }
         fun width(width: Int?) = apply { this.width = width }
         fun height(height: Int?) = apply { this.height = height }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }

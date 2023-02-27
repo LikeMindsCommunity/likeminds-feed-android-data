@@ -13,6 +13,7 @@ import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
+import com.likeminds.internalsdk.post.utils.PostPreferences
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
 import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.SDKApiImpl
@@ -48,6 +49,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var transferUtility: TransferUtility
+
+    @Inject
+    lateinit var postPreferences: PostPreferences
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -99,5 +103,9 @@ class CollabmatesSDK {
 
     fun postApi(): PostApi {
         return postApiImpl
+    }
+
+    fun getPostPreference(): PostPreferences {
+        return postPreferences
     }
 }

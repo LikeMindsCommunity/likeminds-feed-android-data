@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.utils.mediauploader
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkInfo
@@ -23,7 +24,6 @@ abstract class MediaUploadWorker(
 ) : CoroutineWorker(appContext, params) {
 
     protected val transferUtility by lazy { CollabmatesSDK.getInstance().transferUtility }
-    protected val fileReceiver by lazy { CollabmatesSDK.getInstance().getFileReceiverInstance() }
 
     private val progressMap by lazy { HashMap<Int, Pair<Long, Long>>() }
     private var uploadedCount = 0
@@ -117,14 +117,14 @@ abstract class MediaUploadWorker(
         attachmentsToUpload: List<Attachment>
     ): ArrayList<GenericFileRequest> {
         val awsFileRequestList = ArrayList<GenericFileRequest>()
-        attachmentsToUpload.forEach { attachment ->
+        attachmentsToUpload.mapIndexed { index, attachment ->
             val attachmentMeta = attachment.attachmentMeta!!
             val request = GenericFileRequest.Builder()
                 .name(attachmentMeta.name)
                 .fileType(attachment.attachmentType)
                 .awsFolderPath(attachmentMeta.awsFolderPath!!)
                 .localFilePath(attachmentMeta.localFilePath)
-                .index(attachmentMeta.index)
+                .index(index)
                 .width(attachmentMeta.width)
                 .height(attachmentMeta.height)
                 .pageCount(attachmentMeta.pageCount)
@@ -142,8 +142,10 @@ abstract class MediaUploadWorker(
     ) {
         if (totalFilesToUpload == uploadedCount + failedIndex.size) {
             if (totalFilesToUpload == uploadedCount) {
+                Log.d("TAG", "checkWorkerComplete: ")
                 continuation.resume(WORKER_SUCCESS)
             } else {
+                Log.d("TAG", "checkWorkerComplete: failed")
                 continuation.resume(WORKER_FAILURE)
             }
         }

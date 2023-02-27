@@ -4,6 +4,7 @@ import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
+import com.likeminds.internalsdk.post.model.Attachment
 import com.likeminds.internalsdk.post.model._GetPostResponse_
 import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
@@ -21,6 +22,9 @@ import com.likeminds.likemindsfeed.post.model.PostData
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
+import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateAWSFolderPathFromFilePath
+import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateUrlFromAWSFolderPath
+import com.likeminds.likemindsfeed.sdk.utils.FileUtils.getFileNameFromPath
 import com.likeminds.likemindsfeed.universalfeed.model.FeedData
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 
@@ -151,5 +155,23 @@ object ModelConverter {
                 convertUsersMap(_getPostResponse_.data?.users)
             )
         )
+    }
+
+    fun convertAttachments(
+        attachments: MutableList<Attachment>?
+    ): List<Attachment>? {
+        if (attachments == null) return null
+        attachments.forEachIndexed { index, attachment ->
+            var attachmentMeta = attachment.attachmentMeta!!
+            val awsFolderPath = generateAWSFolderPathFromFilePath(attachmentMeta.localFilePath)
+            attachmentMeta = attachmentMeta.toBuilder()
+                .name(getFileNameFromPath(attachmentMeta.localFilePath))
+                .awsFolderPath(awsFolderPath)
+                .url(generateUrlFromAWSFolderPath(awsFolderPath))
+                .localFilePath(null)
+                .build()
+            attachments[index] = attachment.toBuilder().attachmentMeta(attachmentMeta).build()
+        }
+        return attachments
     }
 }

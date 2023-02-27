@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.internalsdk.post.model.Attachment
 import com.likeminds.internalsdk.post.model.AttachmentMeta
-import com.likeminds.internalsdk.post.model.LinkOGTags
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
@@ -77,20 +76,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             val postResult = client.addPost(
-                AddPostRequest.Builder().text("Posting from Android SDK another one")
+                AddPostRequest.Builder().text("Post with image")
                     .attachments(
-                        listOf(
-                            Attachment(
-                                4,
-                                AttachmentMeta(
-                                    ogTags = LinkOGTags(
-                                        "Youtube video",
-                                        "https://i.ytimg.com/vi/EbyAoYaUcVo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDiI5bXtT71sC4IAnHiDAh52LxbFA",
-                                        "This is a youtube video",
-                                        "https://www.youtube.com/watch?v=sAuQjwEl-Bo"
-                                    )
+                        mutableListOf(
+                            Attachment.Builder()
+                                .attachmentType(1)
+                                .attachmentMeta(
+                                    AttachmentMeta.Builder()
+                                        .name("images.jpeg")
+                                        .localFilePath("/storage/emulated/0/Android/data/com.likeminds.sampleapp.debug/files/Temp/images.jpeg")
+                                        .build()
                                 )
-                            )
+                                .build()
                         )
                     )
                     .build()

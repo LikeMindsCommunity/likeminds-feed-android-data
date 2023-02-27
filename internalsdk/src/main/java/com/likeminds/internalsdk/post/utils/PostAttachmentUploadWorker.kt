@@ -5,22 +5,27 @@ import android.util.Log
 import androidx.work.*
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
+import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.post.model.Attachment
+import com.likeminds.internalsdk.utils.mediauploader.FileHelper
 import com.likeminds.internalsdk.utils.mediauploader.MediaUploadWorker
 import com.likeminds.internalsdk.utils.mediauploader.UploadHelper
 import com.likeminds.internalsdk.utils.mediauploader.model.AWSFileResponse
 import com.likeminds.internalsdk.utils.mediauploader.model.GenericFileRequest
+import com.likeminds.internalsdk.utils.mediauploader.model.IMAGE
+import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.Continuation
-import kotlin.math.log
 
 class PostAttachmentUploadWorker(
     context: Context,
     workerParams: WorkerParameters
 ) : MediaUploadWorker(context, workerParams) {
 
+    private val collabmatesSDK = CollabmatesSDK.getInstance()
     private val attachments by lazy { getStringParam(ARG_ATTACHMENTS) }
     private lateinit var attachmentsToUpload: List<Attachment>
 
@@ -93,11 +98,45 @@ class PostAttachmentUploadWorker(
         totalFilesToUpload: Int,
         continuation: Continuation<Int>
     ) {
-//        val awsFileResponse = fileReceiver.uploadFile(request, getPreference)
-//        if (awsFileResponse != null) {
-//            UploadHelper.getInstance().addAWSFileResponse(awsFileResponse)
-//            uploadAWSFile(awsFileResponse, totalFilesToUpload, continuation)
-//        }
+        val awsFileResponse =
+            uploadFile(request, collabmatesSDK.getPostPreference().getAttachmentUploadWorkerUUID())
+        if (awsFileResponse != null) {
+            UploadHelper.getInstance().addAWSFileResponse(awsFileResponse)
+            uploadAWSFile(awsFileResponse, totalFilesToUpload, continuation)
+        }
+    }
+
+    /**
+     * Starts Uploading file on AWS.
+     * @param request A [GenericFileRequest] object
+     * @return [AWSFileResponse] containing aws transfer utility objects and keys
+     */
+    private fun uploadFile(request: GenericFileRequest, uuid: String? = null): AWSFileResponse? {
+        val filePath = request.localFilePath ?: return null
+        val file = if (request.fileType == IMAGE) {
+            FileHelper.compressFile(applicationContext, filePath)
+        } else {
+            File(filePath)
+        }
+        Log.d("TAG", "uploadFile: " + file?.absolutePath)
+        val observer = transferUtility.upload(
+            request.awsFolderPath,
+            file,
+            CannedAccessControlList.PublicRead
+        )
+        return AWSFileResponse.Builder()
+            .transferObserver(observer)
+            .name(request.name ?: "")
+            .awsFolderPath(request.awsFolderPath)
+            .index(request.index)
+            .fileType(request.fileType)
+            .width(request.width)
+            .height(request.height)
+            .pageCount(request.pageCount)
+            .size(request.size)
+            .duration(request.duration)
+            .uuid(uuid)
+            .build()
     }
 
     private fun uploadAWSFile(
@@ -113,6 +152,7 @@ class PostAttachmentUploadWorker(
             }
 
             override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
+                Log.d("TAG-123", "onStateChanged: bytes $bytesCurrent")
                 setProgress(id, bytesCurrent, bytesTotal)
             }
 
@@ -138,7 +178,7 @@ class PostAttachmentUploadWorker(
                 UploadHelper.getInstance().removeAWSFileResponse(response)
                 val downloadUri = response.downloadUrl
                 //TODO : Uploading completed.
-                Log.d("TAG", "onStateChanged: uploaded $response")
+                Log.d("TAG-123", "onStateChanged: uploaded $response")
             }
             TransferState.FAILED -> {
                 failedIndex.add(response.index)
