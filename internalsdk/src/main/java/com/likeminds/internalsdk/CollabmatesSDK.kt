@@ -7,6 +7,8 @@ import com.amazonaws.mobile.client.UserStateDetails
 import com.google.gson.Gson
 import com.likeminds.internalsdk.branding.BrandingApi
 import com.likeminds.internalsdk.branding.BrandingApiImpl
+import com.likeminds.internalsdk.comment.CommentApi
+import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
@@ -39,6 +41,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
+
+    @Inject
+    lateinit var commentApiImpl: CommentApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -86,5 +91,9 @@ class CollabmatesSDK {
 
     fun getUniversalFeedApi(): UniversalFeedApi {
         return universalFeedApiImpl
+    }
+
+    fun getCommentApi(): CommentApi {
+        return commentApiImpl
     }
 }

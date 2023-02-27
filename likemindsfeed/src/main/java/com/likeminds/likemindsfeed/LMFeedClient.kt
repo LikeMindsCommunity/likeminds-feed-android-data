@@ -6,6 +6,9 @@ import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
 import com.likeminds.likemindsfeed.branding.BrandingClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
+import com.likeminds.likemindsfeed.comment.CommentClient
+import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
+import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -28,6 +31,9 @@ class LMFeedClient {
 
     @Inject
     lateinit var universalFeedClient: UniversalFeedClient
+
+    @Inject
+    lateinit var commentClient: CommentClient
 
     companion object {
         @JvmStatic
@@ -75,5 +81,9 @@ class LMFeedClient {
             .pageSize(getFeedRequest.pageSize)
             .build()
         return universalFeedClient.getFeed(request)
+    }
+
+    suspend fun addComment(addCommentRequest: AddCommentRequest): AddCommentResponse {
+        return commentClient.addComment(addCommentRequest)
     }
 }

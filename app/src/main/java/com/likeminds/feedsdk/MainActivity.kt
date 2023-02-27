@@ -1,11 +1,11 @@
 package com.likeminds.feedsdk
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
+import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
@@ -52,6 +52,20 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result: total posts = ${universalFeedResult?.data?.posts?.size}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val addCommentResult = client.addComment(
+                AddCommentRequest.Builder()
+                    .postId("63f4caadc52f148210f7496a")
+                    .text("Text from Android SDK")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${addCommentResult.success}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
