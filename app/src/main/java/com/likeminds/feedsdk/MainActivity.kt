@@ -6,10 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
-import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
-import com.likeminds.likemindsfeed.comment.model.GetCommentLikesRequest
-import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
-import com.likeminds.likemindsfeed.comment.model.LikeCommentRequest
+import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
@@ -139,6 +136,20 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "get comment: ${getCommentLikesResult.data?.totalCount}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val getDeleteCommentResult = client.deleteComment(
+                DeleteCommentRequest.Builder()
+                    .postId("63f4caadc52f148210f7496a")
+                    .commentId("63fd9172d487fc4450aba56e")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "delete comment: ${getDeleteCommentResult.success}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

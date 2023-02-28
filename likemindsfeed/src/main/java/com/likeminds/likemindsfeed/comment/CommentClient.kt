@@ -1,10 +1,7 @@
 package com.likeminds.likemindsfeed.comment
 
 import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.comment.model._AddCommentRequest_
-import com.likeminds.internalsdk.comment.model._GetCommentLikesRequest_
-import com.likeminds.internalsdk.comment.model._GetCommentRequest_
-import com.likeminds.internalsdk.comment.model._LikeCommentRequest_
+import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -117,6 +114,29 @@ class CommentClient @Inject constructor() {
             }
             is NetworkResponse.Success -> {
                 LikeCommentResponse(
+                    success = response.body.success,
+                    errorMessage = null
+                )
+            }
+        }
+    }
+
+    suspend fun deleteComment(deleteCommentRequest: DeleteCommentRequest): DeleteCommentResponse {
+        val request = _DeleteCommentRequest_.Builder()
+            .postId(deleteCommentRequest.postId)
+            .commentId(deleteCommentRequest.commentId)
+            .reason(deleteCommentRequest.reason)
+            .build()
+        val api = collabmatesSDK.getCommentApi()
+        return when (val response = api.deleteComment(request)) {
+            is NetworkResponse.Error -> {
+                DeleteCommentResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                DeleteCommentResponse(
                     success = response.body.success,
                     errorMessage = null
                 )

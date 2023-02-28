@@ -47,4 +47,17 @@ class CommentReceiver @Inject constructor(
             request.commentId
         )
     }
+
+    suspend fun deleteComment(
+        request: _DeleteCommentRequest_
+    ): NetworkResponse<BaseResponse> {
+        val postId = request.postId!!
+        val commentId = request.commentId!!
+        val newRequest = request.toBuilder().postId(null).commentId(null).build()
+        return commentNetworkApi.deleteComment(
+            postId,
+            commentId,
+            newRequest
+        )
+    }
 }

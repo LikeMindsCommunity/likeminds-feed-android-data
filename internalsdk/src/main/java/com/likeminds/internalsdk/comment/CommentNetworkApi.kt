@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.comment
 
 import com.likeminds.internalsdk.comment.model._AddCommentRequest_
+import com.likeminds.internalsdk.comment.model._DeleteCommentRequest_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
@@ -35,5 +36,12 @@ interface CommentNetworkApi {
     suspend fun likeComment(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String
+    ): NetworkResponse<BaseResponse>
+
+    @HTTP(method = "DELETE", path = "feed/post/{post_id}/comment/{comment_id}", hasBody = true)
+    suspend fun deleteComment(
+        @Path("post_id") postId: String,
+        @Path("comment_id") commentId: String,
+        @Body deleteCommentRequest: _DeleteCommentRequest_
     ): NetworkResponse<BaseResponse>
 }

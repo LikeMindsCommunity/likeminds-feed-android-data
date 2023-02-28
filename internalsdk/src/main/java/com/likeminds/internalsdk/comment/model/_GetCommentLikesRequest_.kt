@@ -1,9 +1,15 @@
 package com.likeminds.internalsdk.comment.model
 
+import com.google.gson.annotations.SerializedName
+
 class _GetCommentLikesRequest_ private constructor(
+    @SerializedName("post_id")
     var postId: String,
+    @SerializedName("comment_id")
     var commentId: String,
+    @SerializedName("page")
     var page: Int?,
+    @SerializedName("page_size")
     var pageSize: Int?
 ) {
 

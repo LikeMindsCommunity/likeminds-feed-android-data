@@ -132,4 +132,8 @@ class LMFeedClient {
     suspend fun likeComment(likeCommentRequest: LikeCommentRequest): LikeCommentResponse {
         return commentClient.likeComment(likeCommentRequest)
     }
+
+    suspend fun deleteComment(deleteCommentRequest: DeleteCommentRequest): DeleteCommentResponse {
+        return commentClient.deleteComment(deleteCommentRequest)
+    }
 }

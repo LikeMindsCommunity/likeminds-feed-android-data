@@ -1,7 +1,11 @@
 package com.likeminds.internalsdk.comment.model
 
+import com.google.gson.annotations.SerializedName
+
 class _LikeCommentRequest_ private constructor(
+    @SerializedName("post_id")
     var postId: String,
+    @SerializedName("comment_id")
     var commentId: String
 ) {
 

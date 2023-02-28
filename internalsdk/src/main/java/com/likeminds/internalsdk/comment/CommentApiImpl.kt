@@ -32,4 +32,10 @@ class CommentApiImpl @Inject constructor(
     ): NetworkResponse<BaseResponse> {
         return commentReceiver.likeComment(request)
     }
+
+    override suspend fun deleteComment(
+        request: _DeleteCommentRequest_
+    ): NetworkResponse<BaseResponse> {
+        return commentReceiver.deleteComment(request)
+    }
 }

@@ -21,4 +21,8 @@ interface CommentApi {
     suspend fun likeComment(
         request: _LikeCommentRequest_
     ): NetworkResponse<BaseResponse>
+
+    suspend fun deleteComment(
+        request_: _DeleteCommentRequest_
+    ): NetworkResponse<BaseResponse>
 }
