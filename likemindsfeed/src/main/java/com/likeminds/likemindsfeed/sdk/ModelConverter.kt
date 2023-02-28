@@ -5,6 +5,8 @@ import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
 import com.likeminds.internalsdk.comment.model._CommentData_
+import com.likeminds.internalsdk.comment.model._CommentLikesData_
+import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
 import com.likeminds.internalsdk.post.model._GetPostResponse_
@@ -18,6 +20,8 @@ import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
 import com.likeminds.likemindsfeed.branding.model.BrandingBasic
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.comment.model.CommentData
+import com.likeminds.likemindsfeed.comment.model.CommentLikesData
+import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -191,6 +195,27 @@ object ModelConverter {
         return CommentData(
             _commentData_.comment,
             convertUsersMap(_commentData_.users)
+        )
+    }
+
+    fun convertGetCommentLikesResponse(
+        _getCommentLikesResponse_: _GetCommentLikesResponse_
+    ): GetCommentLikesResponse {
+        return GetCommentLikesResponse(
+            _getCommentLikesResponse_.success,
+            _getCommentLikesResponse_.errorMessage,
+            convertCommentLikesData(_getCommentLikesResponse_.data)
+        )
+    }
+
+    fun convertCommentLikesData(
+        _commentLikesData_: _CommentLikesData_?
+    ): CommentLikesData? {
+        if (_commentLikesData_ == null) return null
+        return CommentLikesData(
+            _commentLikesData_.likes,
+            _commentLikesData_.totalCount,
+            convertUsersMap(_commentLikesData_.users)
         )
     }
 }

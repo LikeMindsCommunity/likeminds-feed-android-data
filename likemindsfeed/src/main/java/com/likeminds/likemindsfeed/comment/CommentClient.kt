@@ -2,12 +2,11 @@ package com.likeminds.likemindsfeed.comment
 
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.comment.model._AddCommentRequest_
+import com.likeminds.internalsdk.comment.model._GetCommentLikesRequest_
 import com.likeminds.internalsdk.comment.model._GetCommentRequest_
+import com.likeminds.internalsdk.comment.model._LikeCommentRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
-import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
-import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
-import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
-import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
+import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import javax.inject.Inject
@@ -77,6 +76,50 @@ class CommentClient @Inject constructor() {
             }
             is NetworkResponse.Success -> {
                 ModelConverter.convertGetCommentResponse(response.body)
+            }
+        }
+    }
+
+    suspend fun getCommentLikes(getCommentLikesRequest: GetCommentLikesRequest): GetCommentLikesResponse {
+        val request = _GetCommentLikesRequest_.Builder()
+            .postId(getCommentLikesRequest.postId)
+            .commentId(getCommentLikesRequest.commentId)
+            .page(getCommentLikesRequest.page)
+            .pageSize(getCommentLikesRequest.pageSize)
+            .build()
+        val api = collabmatesSDK.getCommentApi()
+        return when (val response = api.getCommentLikes(request)) {
+            is NetworkResponse.Error -> {
+                GetCommentLikesResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage,
+                    null
+                )
+            }
+            is NetworkResponse.Success -> {
+                ModelConverter.convertGetCommentLikesResponse(response.body)
+            }
+        }
+    }
+
+    suspend fun likeComment(likeCommentRequest: LikeCommentRequest): LikeCommentResponse {
+        val request = _LikeCommentRequest_.Builder()
+            .postId(likeCommentRequest.postId)
+            .commentId(likeCommentRequest.commentId)
+            .build()
+        val api = collabmatesSDK.getCommentApi()
+        return when (val response = api.likeComment(request)) {
+            is NetworkResponse.Error -> {
+                LikeCommentResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                LikeCommentResponse(
+                    success = response.body.success,
+                    errorMessage = null
+                )
             }
         }
     }

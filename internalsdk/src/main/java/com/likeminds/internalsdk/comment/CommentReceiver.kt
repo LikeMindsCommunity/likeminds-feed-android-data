@@ -1,8 +1,6 @@
 package com.likeminds.internalsdk.comment
 
-import com.likeminds.internalsdk.comment.model._AddCommentRequest_
-import com.likeminds.internalsdk.comment.model._GetCommentRequest_
-import com.likeminds.internalsdk.comment.model._GetCommentResponse_
+import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
@@ -27,6 +25,26 @@ class CommentReceiver @Inject constructor(
             request.commentId,
             request.page,
             request.pageSize
+        )
+    }
+
+    suspend fun getCommentLikes(
+        request: _GetCommentLikesRequest_
+    ): NetworkResponse<_GetCommentLikesResponse_> {
+        return commentNetworkApi.getCommentLikes(
+            request.postId,
+            request.commentId,
+            request.page,
+            request.pageSize
+        )
+    }
+
+    suspend fun likeComment(
+        request: _LikeCommentRequest_
+    ): NetworkResponse<BaseResponse> {
+        return commentNetworkApi.likeComment(
+            request.postId,
+            request.commentId
         )
     }
 }

@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
+import com.likeminds.likemindsfeed.comment.model.GetCommentLikesRequest
 import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
+import com.likeminds.likemindsfeed.comment.model.LikeCommentRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
@@ -24,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         val client = LMFeedClient.getInstance()
         CoroutineScope(Dispatchers.IO).launch {
             val clientResult = client.initiateUser(
-                InitiateUserRequest.Builder().userId("433dc57b-12af-4b0d-a4b4-8e3e24b2c8de")
-                    .userName("Ankit SDK")
+                InitiateUserRequest.Builder().userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
+                    .userName("Mahir Gupta")
                     .isGuest(false)
                     .build()
             )
@@ -106,6 +108,37 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "comment: ${getCommentResult.data?.comment?.text}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val likeCommentResult = client.likeComment(
+                LikeCommentRequest.Builder()
+                    .postId("63f4caadc52f148210f7496a")
+                    .commentId("63fd9172d487fc4450aba56e")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "like comment: ${likeCommentResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val getCommentLikesResult = client.getCommentLikes(
+                GetCommentLikesRequest.Builder()
+                    .postId("63f4caadc52f148210f7496a")
+                    .commentId("63fd9172d487fc4450aba56e")
+                    .page(1)
+                    .pageSize(5)
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Log.d("TAG", getCommentLikesResult.data.toString())
+                Toast.makeText(
+                    this@MainActivity,
+                    "get comment: ${getCommentLikesResult.data?.totalCount}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

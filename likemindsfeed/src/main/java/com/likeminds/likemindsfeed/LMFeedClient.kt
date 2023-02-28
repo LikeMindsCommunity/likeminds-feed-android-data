@@ -4,10 +4,7 @@ import com.likeminds.likemindsfeed.branding.BrandingClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.comment.CommentClient
-import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
-import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
-import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
-import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
+import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -126,5 +123,13 @@ class LMFeedClient {
 
     suspend fun getComment(getCommentRequest: GetCommentRequest): GetCommentResponse {
         return commentClient.getComment(getCommentRequest)
+    }
+
+    suspend fun getCommentLikes(getCommentLikesRequest: GetCommentLikesRequest): GetCommentLikesResponse {
+        return commentClient.getCommentLikes(getCommentLikesRequest)
+    }
+
+    suspend fun likeComment(likeCommentRequest: LikeCommentRequest): LikeCommentResponse {
+        return commentClient.likeComment(likeCommentRequest)
     }
 }

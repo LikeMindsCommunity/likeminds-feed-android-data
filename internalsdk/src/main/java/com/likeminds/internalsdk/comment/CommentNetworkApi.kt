@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.comment
 
 import com.likeminds.internalsdk.comment.model._AddCommentRequest_
+import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -21,4 +22,18 @@ interface CommentNetworkApi {
         @Query("page") page: Int?,
         @Query("page_size") pageSize: Int?,
     ): NetworkResponse<_GetCommentResponse_>
+
+    @GET("feed/post/{post_id}/comment/{comment_id}/like")
+    suspend fun getCommentLikes(
+        @Path("post_id") postId: String,
+        @Path("comment_id") commentId: String,
+        @Query("page") page: Int?,
+        @Query("page_size") pageSize: Int?,
+    ): NetworkResponse<_GetCommentLikesResponse_>
+
+    @PUT("feed/post/{post_id}/comment/{comment_id}/like")
+    suspend fun likeComment(
+        @Path("post_id") postId: String,
+        @Path("comment_id") commentId: String
+    ): NetworkResponse<BaseResponse>
 }
