@@ -1,27 +1,31 @@
 package com.likeminds.likemindsfeed.sdk
 
-import android.util.Log
 import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
+import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
+import com.likeminds.internalsdk.post.model._GetPostResponse_
 import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
-import com.likeminds.internalsdk.universalfeed.model._Posts_
 import com.likeminds.likemindsfeed.branding.model.Branding
 import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
 import com.likeminds.likemindsfeed.branding.model.BrandingBasic
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
+import com.likeminds.likemindsfeed.post.model.GetPostResponse
+import com.likeminds.likemindsfeed.post.model.PostData
+import com.likeminds.likemindsfeed.post.model.PostLikesData
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
+import com.likeminds.likemindsfeed.universalfeed.model.FeedData
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
-import com.likeminds.likemindsfeed.universalfeed.model.Posts
 
 object ModelConverter {
 
@@ -44,16 +48,7 @@ object ModelConverter {
         _community_: _Community_
     ): InitiateUser {
         return InitiateUser(
-            User(
-                _user_.id,
-                _user_.imageUrl,
-                _user_.isGuest,
-                _user_.name,
-                _user_.organisationName,
-                convertSDKClientInfo(_user_.sdkClientInfo),
-                _user_.updatedAt,
-                _user_.userUniqueId
-            ),
+            convertUser(_user_),
             Community(
                 _community_.id,
                 _community_.name,
@@ -62,6 +57,30 @@ object ModelConverter {
                 _community_.updatedAt,
             )
         )
+    }
+
+    fun convertUser(
+        _user_: _User_
+    ): User {
+        return User(
+            _user_.id,
+            _user_.imageUrl,
+            _user_.isGuest,
+            _user_.name,
+            _user_.organisationName,
+            convertSDKClientInfo(_user_.sdkClientInfo),
+            _user_.updatedAt,
+            _user_.userUniqueId
+        )
+    }
+
+    fun convertUsersMap(
+        _usersMap_: Map<String, _User_>
+    ): Map<String, User> {
+        val usersMap = _usersMap_.mapValues {
+            convertUser(it.value)
+        }
+        return usersMap
     }
 
     fun convertSDKClientInfo(
@@ -117,15 +136,37 @@ object ModelConverter {
         return GetFeedResponse(
             _getFeedResponse_.success,
             _getFeedResponse_.errorMessage,
-            convertPosts(_getFeedResponse_.data)
+            FeedData(
+                _getFeedResponse_.data.posts,
+                convertUsersMap(_getFeedResponse_.data.users)
+            )
         )
     }
 
-    fun convertPosts(
-        _posts_: _Posts_?
-    ): Posts {
-        return Posts(
-            _posts_?.posts
+    fun convertGetPostResponse(
+        _getPostResponse_: _GetPostResponse_
+    ): GetPostResponse {
+        return GetPostResponse(
+            _getPostResponse_.success,
+            _getPostResponse_.errorMessage,
+            PostData(
+                _getPostResponse_.data.post,
+                convertUsersMap(_getPostResponse_.data.users)
+            )
+        )
+    }
+
+    fun convertGetPostLikesResponse(
+        _getPostLikesResponse_: _GetPostLikesResponse_
+    ): GetPostLikesResponse {
+        return GetPostLikesResponse(
+            _getPostLikesResponse_.success,
+            _getPostLikesResponse_.errorMessage,
+            PostLikesData(
+                _getPostLikesResponse_.data.likes,
+                _getPostLikesResponse_.data.totalCount,
+                convertUsersMap(_getPostLikesResponse_.data.users)
+            )
         )
     }
 }

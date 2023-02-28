@@ -4,28 +4,28 @@ import com.google.gson.annotations.SerializedName
 
 data class AttachmentMeta(
     @SerializedName("name")
-    val name: String?,
+    val name: String? = null,
     @SerializedName("url")
-    val url: String?,
+    val url: String? = null,
     @SerializedName("format")
-    val format: String?,
+    val format: String? = null,
     @SerializedName("size")
-    val size: String?,
+    val size: String? = null,
     @SerializedName("duration")
-    val duration: String?,
+    val duration: String? = null,
     @SerializedName("page_count")
-    val pageCount: Int?,
+    val pageCount: Int? = null,
     @SerializedName("og_tags")
     val ogTags: LinkOGTags,
 )
 
 data class LinkOGTags(
     @SerializedName("title")
-    val title: String?,
+    val title: String? = null,
     @SerializedName("image")
-    val image: String?,
+    val image: String? = null,
     @SerializedName("description")
-    val description: String?,
+    val description: String? = null,
     @SerializedName("url")
-    val url: String?,
+    val url: String? = null,
 )

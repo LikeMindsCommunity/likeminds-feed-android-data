@@ -1,7 +1,9 @@
 package com.likeminds.likemindsfeed.di
 
 import android.app.Application
+
 import com.likeminds.internalsdk.di.modules.CommentModule
+import com.likeminds.internalsdk.di.modules.ModerationModule
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.di.branding.BrandingModule
 import com.likeminds.likemindsfeed.di.branding.BrandingSubComponent
@@ -10,6 +12,9 @@ import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserModule
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.internalsdk.SDKModule
 import com.likeminds.likemindsfeed.di.internalsdk.SharedModule
+import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
+import com.likeminds.likemindsfeed.di.post.PostModule
+import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedModule
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -25,7 +30,9 @@ import javax.inject.Singleton
         InitiateUserModule::class,
         BrandingModule::class,
         UniversalFeedModule::class,
-        CommentModule::class
+        CommentModule::class,
+        PostModule::class,
+        ModerationModule::class
     ]
 )
 internal interface LikeMindsFeedComponent {
@@ -37,6 +44,8 @@ internal interface LikeMindsFeedComponent {
     fun brandingComponent(): BrandingSubComponent.Factory
     fun universalFeedComponent(): UniversalFeedSubComponent.Factory
     fun commentComponent(): CommentSubComponent.Factory
+    fun postComponent(): PostSubComponent.Factory
+    fun moderationComponent(): ModerationSubComponent.Factory
 
     @Component.Builder
     interface Builder {

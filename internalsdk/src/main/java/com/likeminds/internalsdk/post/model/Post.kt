@@ -1,7 +1,6 @@
 package com.likeminds.internalsdk.post.model
 
 import com.google.gson.annotations.SerializedName
-import com.likeminds.internalsdk.sdk.model._User_
 
 data class Post(
     @SerializedName("_id")
@@ -26,10 +25,10 @@ data class Post(
     var isSaved: Boolean,
     @SerializedName("menu_items")
     var menuItems: List<MenuItem>,
+    @SerializedName("replies")
+    var replies: List<Comment>,
     @SerializedName("created_at")
     var createdAt: Long,
     @SerializedName("updated_at")
-    var updatedAt: Long,
-    @SerializedName("users")
-    var user: Map<String, _User_>
+    var updatedAt: Long
 )

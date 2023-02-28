@@ -1,8 +1,5 @@
 package com.likeminds.likemindsfeed
 
-import com.likeminds.internalsdk.branding.model._BrandingRequest_
-import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
-import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
 import com.likeminds.likemindsfeed.branding.BrandingClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
@@ -14,6 +11,13 @@ import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.moderation.ModerationClient
+import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
+import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
+import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
+import com.likeminds.likemindsfeed.moderation.model.PostReportResponse
+import com.likeminds.likemindsfeed.post.PostClient
+import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
@@ -36,6 +40,12 @@ class LMFeedClient {
 
     @Inject
     lateinit var commentClient: CommentClient
+
+    @Inject
+    lateinit var postClient: PostClient
+
+    @Inject
+    lateinit var moderationClient: ModerationClient
 
     companion object {
         @JvmStatic
@@ -62,27 +72,52 @@ class LMFeedClient {
         }
     }
 
-    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
-        val request =
-            _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
-                .userName(initiateUserRequest.userName)
-                .isGuest(initiateUserRequest.isGuest)
-                .build()
-        return initiateUserClient.initiateUser(request)
+    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse {
+        return initiateUserClient.initiateUser(initiateUserRequest)
     }
 
-    suspend fun getBranding(brandingRequest: BrandingRequest): BrandingResponse? {
-        val request =
-            _BrandingRequest_.Builder().communityId(brandingRequest.communityId)
-                .build()
-        return brandingClient.getBranding(request)
+    suspend fun getBranding(brandingRequest: BrandingRequest): BrandingResponse {
+        return brandingClient.getBranding(brandingRequest)
     }
 
-    suspend fun getFeed(getFeedRequest: GetFeedRequest): GetFeedResponse? {
-        val request = _GetFeedRequest_.Builder().page(getFeedRequest.page)
-            .pageSize(getFeedRequest.pageSize)
-            .build()
-        return universalFeedClient.getFeed(request)
+    suspend fun getFeed(getFeedRequest: GetFeedRequest): GetFeedResponse {
+        return universalFeedClient.getFeed(getFeedRequest)
+    }
+
+    suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
+        return postClient.addPost(addPostRequest)
+    }
+
+    suspend fun getPost(getPostRequest: GetPostRequest): GetPostResponse {
+        return postClient.getPost(getPostRequest)
+    }
+
+    suspend fun getPostLikes(getPostLikesRequest: GetPostLikesRequest): GetPostLikesResponse {
+        return postClient.getPostLikes(getPostLikesRequest)
+    }
+
+    suspend fun deletePost(deletePostRequest: DeletePostRequest): DeletePostResponse {
+        return postClient.deletePost(deletePostRequest)
+    }
+
+    suspend fun likePost(likePostRequest: LikePostRequest): LikePostResponse {
+        return postClient.likePost(likePostRequest)
+    }
+
+    suspend fun savePost(savePostRequest: SavePostRequest): SavePostResponse {
+        return postClient.savePost(savePostRequest)
+    }
+
+    suspend fun pinPost(pinPostRequest: PinPostRequest): PinPostResponse {
+        return postClient.pinPost(pinPostRequest)
+    }
+
+    suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): GetReportTagsResponse {
+        return moderationClient.getReportTags(getReportTagsRequest)
+    }
+
+    suspend fun postReport(postReportRequest: PostReportRequest): PostReportResponse {
+        return moderationClient.postReport(postReportRequest)
     }
 
     suspend fun addComment(addCommentRequest: AddCommentRequest): AddCommentResponse {
