@@ -14,6 +14,8 @@ import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
 import com.likeminds.internalsdk.moderation.ModerationApi
 import com.likeminds.internalsdk.moderation.ModerationApiImpl
+import com.likeminds.internalsdk.notificationfeed.NotificationFeedApi
+import com.likeminds.internalsdk.notificationfeed.NotificationFeedApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
@@ -54,6 +56,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var moderationApiImpl: ModerationApiImpl
+
+    @Inject
+    lateinit var notificationFeedApiImpl: NotificationFeedApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -113,5 +118,9 @@ class CollabmatesSDK {
 
     fun moderationApi(): ModerationApi {
         return moderationApiImpl
+    }
+
+    fun getNotificationFeedApi(): NotificationFeedApi {
+        return notificationFeedApiImpl
     }
 }

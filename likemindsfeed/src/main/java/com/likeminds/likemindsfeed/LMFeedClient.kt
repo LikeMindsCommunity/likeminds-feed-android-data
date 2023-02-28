@@ -13,6 +13,9 @@ import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
 import com.likeminds.likemindsfeed.moderation.model.PostReportResponse
+import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
+import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedRequest
+import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedResponse
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -43,6 +46,9 @@ class LMFeedClient {
 
     @Inject
     lateinit var moderationClient: ModerationClient
+
+    @Inject
+    lateinit var notificationFeedClient: NotificationFeedClient
 
     companion object {
         @JvmStatic
@@ -131,5 +137,9 @@ class LMFeedClient {
 
     suspend fun likeComment(likeCommentRequest: LikeCommentRequest): LikeCommentResponse {
         return commentClient.likeComment(likeCommentRequest)
+    }
+
+    suspend fun getNotificationFeed(getNotificationFeedRequest: GetNotificationFeedRequest): GetNotificationFeedResponse {
+        return notificationFeedClient.getNotificationFeed(getNotificationFeedRequest)
     }
 }

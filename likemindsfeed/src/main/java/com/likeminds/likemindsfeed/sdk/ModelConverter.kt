@@ -10,10 +10,12 @@ import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
 import com.likeminds.internalsdk.post.model._GetPostResponse_
+import com.likeminds.internalsdk.post.model._PostData_
 import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.internalsdk.universalfeed.model._FeedData_
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.likemindsfeed.branding.model.Branding
 import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
@@ -144,10 +146,17 @@ object ModelConverter {
         return GetFeedResponse(
             _getFeedResponse_.success,
             _getFeedResponse_.errorMessage,
-            FeedData(
-                _getFeedResponse_.data.posts,
-                convertUsersMap(_getFeedResponse_.data.users)
-            )
+            convertFeedData(_getFeedResponse_.data)
+        )
+    }
+
+    fun convertFeedData(
+        _feedData_: _FeedData_?
+    ): FeedData? {
+        if (_feedData_ == null) return null
+        return FeedData(
+            _feedData_.posts,
+            convertUsersMap(_feedData_.users)
         )
     }
 
@@ -157,10 +166,17 @@ object ModelConverter {
         return GetPostResponse(
             _getPostResponse_.success,
             _getPostResponse_.errorMessage,
-            PostData(
-                _getPostResponse_.data.post,
-                convertUsersMap(_getPostResponse_.data.users)
-            )
+            convertPostData(_getPostResponse_.data)
+        )
+    }
+
+    fun convertPostData(
+        _postData_: _PostData_?
+    ): PostData? {
+        if (_postData_ == null) return null
+        return PostData(
+            _postData_.post,
+            convertUsersMap(_postData_.users)
         )
     }
 

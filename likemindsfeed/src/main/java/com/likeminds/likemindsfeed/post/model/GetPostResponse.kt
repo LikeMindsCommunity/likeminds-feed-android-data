@@ -10,6 +10,6 @@ data class GetPostResponse(
 )
 
 data class PostData(
-    var post: Post?,
-    var users: Map<String, User>?
+    var post: Post,
+    var users: Map<String, User>
 )

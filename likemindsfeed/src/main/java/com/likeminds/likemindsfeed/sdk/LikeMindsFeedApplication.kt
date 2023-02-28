@@ -9,6 +9,7 @@ import com.likeminds.likemindsfeed.di.branding.BrandingSubComponent
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
+import com.likeminds.likemindsfeed.di.notificationfeed.NotificationFeedSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
@@ -34,6 +35,7 @@ internal class LikeMindsFeedApplication private constructor() {
     private var universalFeedComponent: UniversalFeedSubComponent? = null
     private var postComponent: PostSubComponent? = null
     private var moderationComponent: ModerationSubComponent? = null
+    private var notificationFeedComponent: NotificationFeedSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -113,5 +115,13 @@ internal class LikeMindsFeedApplication private constructor() {
             commentSubComponent = likeMindsFeedComponent?.commentComponent()?.create()
         }
         return commentSubComponent
+    }
+
+    fun notificationFeedComponent(): NotificationFeedSubComponent? {
+        if (notificationFeedComponent == null) {
+            notificationFeedComponent =
+                likeMindsFeedComponent?.notificationFeedComponent()?.create()
+        }
+        return notificationFeedComponent
     }
 }

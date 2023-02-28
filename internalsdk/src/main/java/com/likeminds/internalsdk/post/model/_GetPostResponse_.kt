@@ -9,7 +9,7 @@ data class _GetPostResponse_(
     @SerializedName("error_message")
     var errorMessage: String?,
     @SerializedName("data")
-    var data: _PostData_
+    var data: _PostData_?
 )
 
 data class _PostData_(

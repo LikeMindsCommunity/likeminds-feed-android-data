@@ -23,7 +23,8 @@ class UniversalFeedClient @Inject constructor() {
     }
 
     suspend fun getFeed(getFeedRequest: GetFeedRequest): GetFeedResponse {
-        val request = _GetFeedRequest_.Builder().page(getFeedRequest.page)
+        val request = _GetFeedRequest_.Builder()
+            .page(getFeedRequest.page)
             .pageSize(getFeedRequest.pageSize)
             .build()
         val api = collabmatesSDK.getUniversalFeedApi()
