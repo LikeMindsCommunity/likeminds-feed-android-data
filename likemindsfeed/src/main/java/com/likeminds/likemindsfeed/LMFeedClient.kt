@@ -9,6 +9,8 @@ import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
 import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
+import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
+import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -85,5 +87,9 @@ class LMFeedClient {
 
     suspend fun addComment(addCommentRequest: AddCommentRequest): AddCommentResponse {
         return commentClient.addComment(addCommentRequest)
+    }
+
+    suspend fun getComment(getCommentRequest: GetCommentRequest): GetCommentResponse {
+        return commentClient.getComment(getCommentRequest)
     }
 }

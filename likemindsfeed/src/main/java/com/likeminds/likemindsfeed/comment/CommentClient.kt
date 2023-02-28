@@ -2,9 +2,12 @@ package com.likeminds.likemindsfeed.comment
 
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.comment.model._AddCommentRequest_
+import com.likeminds.internalsdk.comment.model._GetCommentRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
 import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
+import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
+import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import javax.inject.Inject
 
@@ -35,10 +38,11 @@ class CommentClient @Inject constructor() {
 
     suspend fun addComment(addCommentRequest: AddCommentRequest): AddCommentResponse {
         val request = _AddCommentRequest_.Builder()
+            .postId(addCommentRequest.postId)
             .text(addCommentRequest.text)
             .build()
         val api = collabmatesSDK.getCommentApi()
-        return when (val response = api.addComment(addCommentRequest.postId, request)) {
+        return when (val response = api.addComment(request)) {
             is NetworkResponse.Error -> {
                 AddCommentResponse(
                     success = false,
@@ -50,6 +54,24 @@ class CommentClient @Inject constructor() {
                     success = true,
                     errorMessage = null
                 )
+            }
+        }
+    }
+
+    suspend fun getComment(getCommentRequest: GetCommentRequest): GetCommentResponse {
+        val request = _GetCommentRequest_.Builder()
+            .postId(getCommentRequest.postId)
+            .commentId(getCommentRequest.commentId)
+            .page(getCommentRequest.page)
+            .pageSize(getCommentRequest.pageSize)
+            .build()
+        val api = collabmatesSDK.getCommentApi()
+        return when (val response = api.getComment(request)) {
+            is NetworkResponse.Error -> {
+
+            }
+            is NetworkResponse.Success -> {
+
             }
         }
     }

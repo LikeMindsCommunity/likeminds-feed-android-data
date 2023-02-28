@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             val addCommentResult = client.addComment(
                 AddCommentRequest.Builder()
                     .postId("63f4caadc52f148210f7496a")
-                    .text("Text from Android SDK")
+                    .text("Adding another comment from Android SDK")
                     .build()
             )
             withContext(Dispatchers.Main) {
