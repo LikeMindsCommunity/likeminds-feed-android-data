@@ -4,6 +4,8 @@ import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
+import com.likeminds.internalsdk.comment.model._CommentData_
+import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
 import com.likeminds.internalsdk.post.model._GetPostResponse_
 import com.likeminds.internalsdk.sdk.model._Community_
@@ -15,6 +17,8 @@ import com.likeminds.likemindsfeed.branding.model.Branding
 import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
 import com.likeminds.likemindsfeed.branding.model.BrandingBasic
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
+import com.likeminds.likemindsfeed.comment.model.CommentData
+import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
@@ -167,6 +171,26 @@ object ModelConverter {
                 _getPostLikesResponse_.data.totalCount,
                 convertUsersMap(_getPostLikesResponse_.data.users)
             )
+        )
+    }
+
+    fun convertGetCommentResponse(
+        _getCommentResponse_: _GetCommentResponse_
+    ): GetCommentResponse {
+        return GetCommentResponse(
+            _getCommentResponse_.success,
+            _getCommentResponse_.errorMessage,
+            convertCommentData(_getCommentResponse_.data)
+        )
+    }
+
+    fun convertCommentData(
+        _commentData_: _CommentData_?
+    ): CommentData? {
+        if (_commentData_ == null) return null
+        return CommentData(
+            _commentData_.comment,
+            convertUsersMap(_commentData_.users)
         )
     }
 }

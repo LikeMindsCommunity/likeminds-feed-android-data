@@ -9,6 +9,7 @@ import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
+import com.likeminds.likemindsfeed.sdk.ModelConverter
 import javax.inject.Inject
 
 class CommentClient @Inject constructor() {
@@ -45,13 +46,13 @@ class CommentClient @Inject constructor() {
         return when (val response = api.addComment(request)) {
             is NetworkResponse.Error -> {
                 AddCommentResponse(
-                    success = false,
+                    success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
                 AddCommentResponse(
-                    success = true,
+                    success = response.body.success,
                     errorMessage = null
                 )
             }
@@ -68,10 +69,14 @@ class CommentClient @Inject constructor() {
         val api = collabmatesSDK.getCommentApi()
         return when (val response = api.getComment(request)) {
             is NetworkResponse.Error -> {
-
+                GetCommentResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage,
+                    null
+                )
             }
             is NetworkResponse.Success -> {
-
+                ModelConverter.convertGetCommentResponse(response.body)
             }
         }
     }

@@ -21,6 +21,8 @@ class Comment private constructor(
     var createdAt: Long,
     @SerializedName("updated_at")
     var updatedAt: Long,
+    @SerializedName("replies")
+    var replies: List<Comment>,
     @SerializedName("menu_items")
     var menuItems: List<MenuItem>,
     @SerializedName("parent_id")

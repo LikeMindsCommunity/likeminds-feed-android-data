@@ -1,11 +1,13 @@
 package com.likeminds.feedsdk
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
+import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
@@ -81,6 +83,29 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result: ${getPostResult.data?.post?.text}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val getCommentResult = client.getComment(
+                GetCommentRequest.Builder()
+                    .postId("63f4caadc52f148210f7496a")
+                    .commentId("63fd9172d487fc4450aba56e")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Log.d(
+                    "TAG", "onCreate: " +
+                            "count:" + getCommentResult.data?.comment?.commentsCount +
+                            "\nmenu:" + getCommentResult.data?.comment?.menuItems?.get(0)?.title +
+                            "\nreply:" + getCommentResult.data?.comment?.replies?.size + getCommentResult.data?.comment?.replies?.get(
+                        0
+                    )?.text +
+                            "\nuser:" + getCommentResult.data?.users?.get(getCommentResult.data?.comment?.userId)?.name
+                )
+                Toast.makeText(
+                    this@MainActivity,
+                    "comment: ${getCommentResult.data?.comment?.text}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

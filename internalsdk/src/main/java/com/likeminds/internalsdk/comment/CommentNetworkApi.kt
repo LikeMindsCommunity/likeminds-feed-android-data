@@ -4,10 +4,7 @@ import com.likeminds.internalsdk.comment.model._AddCommentRequest_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface CommentNetworkApi {
 
@@ -21,7 +18,7 @@ interface CommentNetworkApi {
     suspend fun getComment(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String,
-        @Path("page") page: Int?,
-        @Path("page_size") pageSize: Int?,
+        @Query("page") page: Int?,
+        @Query("page_size") pageSize: Int?,
     ): NetworkResponse<_GetCommentResponse_>
 }
