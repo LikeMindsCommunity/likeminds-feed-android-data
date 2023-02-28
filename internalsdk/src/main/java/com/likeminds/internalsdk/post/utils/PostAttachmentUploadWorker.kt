@@ -98,6 +98,7 @@ class PostAttachmentUploadWorker(
         totalFilesToUpload: Int,
         continuation: Continuation<Int>
     ) {
+        Log.d("TAG-123", "createAWSUpload: called")
         val awsFileResponse =
             uploadFile(request, collabmatesSDK.getPostPreference().getAttachmentUploadWorkerUUID())
         if (awsFileResponse != null) {
@@ -113,12 +114,15 @@ class PostAttachmentUploadWorker(
      */
     private fun uploadFile(request: GenericFileRequest, uuid: String? = null): AWSFileResponse? {
         val filePath = request.localFilePath ?: return null
-        val file = if (request.fileType == IMAGE) {
-            FileHelper.compressFile(applicationContext, filePath)
-        } else {
-            File(filePath)
-        }
-        Log.d("TAG", "uploadFile: " + file?.absolutePath)
+//        val file = if (request.fileType == IMAGE) {
+//            Log.d("FileHelper", "uploadFile: 1" + request.fileType)
+//            FileHelper.compressFile(applicationContext, filePath)
+//        } else {
+//            File(filePath)
+//        }
+        Log.d("TAG", "uploadFile: creating")
+        val file = File(filePath)
+        Log.d("TAG", "uploadFile: created")
         val observer = transferUtility.upload(
             request.awsFolderPath,
             file,

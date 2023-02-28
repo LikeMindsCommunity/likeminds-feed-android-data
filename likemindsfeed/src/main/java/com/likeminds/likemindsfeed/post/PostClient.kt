@@ -2,7 +2,6 @@ package com.likeminds.likemindsfeed.post
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import androidx.work.WorkContinuation
 import androidx.work.WorkManager
 import com.google.gson.Gson
@@ -59,7 +58,6 @@ class PostClient @Inject constructor(
     suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
         val attachments = convertAttachments(addPostRequest.attachments)
         if (hasUploadAbleAttachments(attachments)) {
-            Log.d("TAG-123", "addPost: starting upload")
             val uploadData = startMediaUploadWorker(attachments!!)
             uploadData.first.enqueue()
         }

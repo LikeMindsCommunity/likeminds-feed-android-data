@@ -168,7 +168,6 @@ object ModelConverter {
                 .name(getFileNameFromPath(attachmentMeta.localFilePath))
                 .awsFolderPath(awsFolderPath)
                 .url(generateUrlFromAWSFolderPath(awsFolderPath))
-                .localFilePath(null)
                 .build()
             attachments[index] = attachment.toBuilder().attachmentMeta(attachmentMeta).build()
         }

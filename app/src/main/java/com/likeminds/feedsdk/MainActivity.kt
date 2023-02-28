@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                                 .attachmentMeta(
                                     AttachmentMeta.Builder()
                                         .name("images.jpeg")
-                                        .localFilePath("/storage/emulated/0/Android/data/com.likeminds.sampleapp.debug/files/Temp/images.jpeg")
+                                        .localFilePath("/storage/emulated/0/Pictures/07c47495-0.png")
                                         .build()
                                 )
                                 .build()
