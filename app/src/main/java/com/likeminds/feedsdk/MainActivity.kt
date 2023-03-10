@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                                 .attachmentMeta(
                                     AttachmentMeta.Builder()
                                         .name("images.jpeg")
-                                        .localFilePath("/storage/emulated/0/Pictures/07c47495-0.png")
+                                        .localFilePath("content://media/external/images/media/1000017745")
                                         .build()
                                 )
                                 .build()

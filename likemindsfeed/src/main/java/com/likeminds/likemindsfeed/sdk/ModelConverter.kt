@@ -1,5 +1,8 @@
 package com.likeminds.likemindsfeed.sdk
 
+import android.content.Context
+import android.util.Log
+import androidx.core.net.toUri
 import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
@@ -25,6 +28,7 @@ import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateAWSFolderPathFromFilePath
 import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateUrlFromAWSFolderPath
 import com.likeminds.likemindsfeed.sdk.utils.FileUtils.getFileNameFromPath
+import com.likeminds.likemindsfeed.sdk.utils.FileUtils.getRealPath
 import com.likeminds.likemindsfeed.universalfeed.model.FeedData
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 
@@ -158,18 +162,25 @@ object ModelConverter {
     }
 
     fun convertAttachments(
+        context: Context,
         attachments: MutableList<Attachment>?
     ): List<Attachment>? {
         if (attachments == null) return null
         attachments.forEachIndexed { index, attachment ->
             var attachmentMeta = attachment.attachmentMeta!!
-            val awsFolderPath = generateAWSFolderPathFromFilePath(attachmentMeta.localFilePath)
+            val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
+            val awsFolderPath = generateAWSFolderPathFromFilePath(localFilePath)
             attachmentMeta = attachmentMeta.toBuilder()
-                .name(getFileNameFromPath(attachmentMeta.localFilePath))
+                .name(getFileNameFromPath(localFilePath))
                 .awsFolderPath(awsFolderPath)
                 .url(generateUrlFromAWSFolderPath(awsFolderPath))
+                .localFilePath(localFilePath)
                 .build()
             attachments[index] = attachment.toBuilder().attachmentMeta(attachmentMeta).build()
+            Log.d(
+                "TAG",
+                "localFilePath: ${attachment.attachmentMeta!!.localFilePath} awsFolderPath: ${attachment.attachmentMeta!!.awsFolderPath} name: ${attachment.attachmentMeta!!.name} url: ${attachment.attachmentMeta!!.url}"
+            )
         }
         return attachments
     }

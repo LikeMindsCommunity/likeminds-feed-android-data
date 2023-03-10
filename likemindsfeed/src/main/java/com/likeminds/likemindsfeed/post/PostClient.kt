@@ -56,14 +56,26 @@ class PostClient @Inject constructor(
     }
 
     suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
-        val attachments = convertAttachments(addPostRequest.attachments)
-        if (hasUploadAbleAttachments(attachments)) {
-            val uploadData = startMediaUploadWorker(attachments!!)
-            uploadData.first.enqueue()
-        }
+        val attachments = convertAttachments(applicationContext, addPostRequest.attachments)
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
             .attachments(attachments)
             .build()
+        var uploadData: Pair<WorkContinuation, String>? = null
+        if (hasUploadAbleAttachments(attachments)) {
+            uploadData = startMediaUploadWorker(attachments!!)
+            uploadData.first.enqueue()
+            // TODO: call add post api once worker succeeded
+            // TODO: Observe the worker and return response according
+            return AddPostResponse(
+                success = false,
+                null
+            )
+        } else {
+            return callAddPostApi(request)
+        }
+    }
+
+    private suspend fun callAddPostApi(request: _AddPostRequest_): AddPostResponse {
         val api = collabmatesSDK.postApi()
         return when (val response = api.addPost(request)) {
             is NetworkResponse.Error -> {
