@@ -61,17 +61,17 @@ class PostClient @Inject constructor(
             .attachments(attachments)
             .build()
         var uploadData: Pair<WorkContinuation, String>? = null
-        if (hasUploadAbleAttachments(attachments)) {
+        return if (hasUploadAbleAttachments(attachments)) {
             uploadData = startMediaUploadWorker(attachments!!)
             uploadData.first.enqueue()
             // TODO: call add post api once worker succeeded
             // TODO: Observe the worker and return response according
-            return AddPostResponse(
+            AddPostResponse(
                 success = false,
                 null
             )
         } else {
-            return callAddPostApi(request)
+            callAddPostApi(request)
         }
     }
 

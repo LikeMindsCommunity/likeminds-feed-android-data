@@ -35,13 +35,11 @@ object FileUtils {
     }
 
     fun generateAWSFolderPathFromFilePath(
-        filePath: String?
+        name: String?
     ): String {
         val tokenManager = TokenManager.getInstance()
         val userId = tokenManager.memberId
-        return "post/$userId/" + getFileNameFromPath(
-            filePath
-        ) + "-" + System.currentTimeMillis()
+        return "post/$userId/" + name + "-" + System.currentTimeMillis()
     }
 
     /**
@@ -124,7 +122,6 @@ object FileUtils {
             val cut = fileName?.lastIndexOf('/') ?: -1
             if (cut != -1) fileName = fileName?.substring(cut.plus(1))
         }
-        Log.d("PUI", "getFileName: ${fileName}")
         return fileName
     }
 
@@ -297,14 +294,5 @@ object FileUtils {
             selection,
             selectionArgs
         )
-    }
-
-    /**
-     * Method for googlePhotos
-     *
-     */
-    private fun googlePhotosUri(uri: Uri): String? {
-        // Return the remote address
-        return uri.lastPathSegment
     }
 }

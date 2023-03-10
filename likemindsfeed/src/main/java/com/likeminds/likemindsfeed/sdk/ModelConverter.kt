@@ -1,7 +1,6 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.content.Context
-import android.util.Log
 import androidx.core.net.toUri
 import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
@@ -169,18 +168,15 @@ object ModelConverter {
         attachments.forEachIndexed { index, attachment ->
             var attachmentMeta = attachment.attachmentMeta!!
             val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
-            val awsFolderPath = generateAWSFolderPathFromFilePath(localFilePath)
+            val name = getFileNameFromPath(localFilePath)
+            val awsFolderPath = generateAWSFolderPathFromFilePath(name)
             attachmentMeta = attachmentMeta.toBuilder()
-                .name(getFileNameFromPath(localFilePath))
+                .name(name)
                 .awsFolderPath(awsFolderPath)
                 .url(generateUrlFromAWSFolderPath(awsFolderPath))
                 .localFilePath(localFilePath)
                 .build()
             attachments[index] = attachment.toBuilder().attachmentMeta(attachmentMeta).build()
-            Log.d(
-                "TAG",
-                "localFilePath: ${attachment.attachmentMeta!!.localFilePath} awsFolderPath: ${attachment.attachmentMeta!!.awsFolderPath} name: ${attachment.attachmentMeta!!.name} url: ${attachment.attachmentMeta!!.url}"
-            )
         }
         return attachments
     }
