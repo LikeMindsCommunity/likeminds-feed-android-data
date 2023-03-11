@@ -3,12 +3,12 @@ package com.likeminds.feedsdk
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.likeminds.internalsdk.post.model.Attachment
-import com.likeminds.internalsdk.post.model.AttachmentMeta
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.post.model.AddPostRequest
+import com.likeminds.likemindsfeed.post.model.Attachment
+import com.likeminds.likemindsfeed.post.model.AttachmentMeta
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope

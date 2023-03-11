@@ -14,7 +14,7 @@ data class _GetPostLikesResponse_(
 
 data class _PostLikesData_(
     @SerializedName("likes")
-    var likes: List<Like>,
+    var likes: List<_Like_>,
     @SerializedName("total_count")
     var totalCount: Int,
     @SerializedName("users")

@@ -6,8 +6,8 @@ import androidx.work.WorkContinuation
 import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.post.model.Attachment
 import com.likeminds.internalsdk.post.model._AddPostRequest_
+import com.likeminds.internalsdk.post.model._Attachment_
 import com.likeminds.internalsdk.post.model._GetPostRequest_
 import com.likeminds.internalsdk.post.utils.PostAttachmentUploadWorker
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -17,7 +17,7 @@ import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.post.model.GetPostResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.sdk.ModelConverter.convertAttachments
+import com.likeminds.likemindsfeed.sdk.ModelConverter.createAttachmentsRequest
 import javax.inject.Inject
 
 class PostClient @Inject constructor(
@@ -56,7 +56,7 @@ class PostClient @Inject constructor(
     }
 
     suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
-        val attachments = convertAttachments(applicationContext, addPostRequest.attachments)
+        val attachments = createAttachmentsRequest(applicationContext, addPostRequest.attachments)
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
             .attachments(attachments)
             .build()
@@ -94,14 +94,14 @@ class PostClient @Inject constructor(
     }
 
     // checks if there are any attachments to upload or not
-    private fun hasUploadAbleAttachments(attachments: List<Attachment>?): Boolean {
+    private fun hasUploadAbleAttachments(attachments: List<_Attachment_>?): Boolean {
         // no upload-able attachments if the attachment is of type link.
         if (attachments.isNullOrEmpty() || (attachments.size == 1 && attachments.first().attachmentType == 4)) return false
         return true
     }
 
     @SuppressLint("EnqueueWork")
-    private fun startMediaUploadWorker(attachments: List<Attachment>): Pair<WorkContinuation, String> {
+    private fun startMediaUploadWorker(attachments: List<_Attachment_>): Pair<WorkContinuation, String> {
         val jsonAttachment = Gson().toJson(attachments)
         val oneTimeWorkRequest =
             PostAttachmentUploadWorker.getInstance(jsonAttachment)

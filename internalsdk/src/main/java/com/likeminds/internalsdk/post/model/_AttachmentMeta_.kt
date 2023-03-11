@@ -3,7 +3,7 @@ package com.likeminds.internalsdk.post.model
 import com.google.gson.annotations.SerializedName
 
 //TODO: check for width and height
-class AttachmentMeta private constructor(
+class _AttachmentMeta_ private constructor(
     @SerializedName("name")
     var name: String?,
     @SerializedName("url")
@@ -17,7 +17,7 @@ class AttachmentMeta private constructor(
     @SerializedName("page_count")
     var pageCount: Int?,
     @SerializedName("og_tags")
-    var ogTags: LinkOGTags,
+    var ogTags: _LinkOGTags_,
     var awsFolderPath: String?,
     var localFilePath: String?,
     var width: Int?,
@@ -32,7 +32,7 @@ class AttachmentMeta private constructor(
         private var size: Long? = null
         private var duration: Int? = null
         private var pageCount: Int? = null
-        private var ogTags: LinkOGTags = LinkOGTags()
+        private var ogTags: _LinkOGTags_ = _LinkOGTags_.Builder().build()
         private var awsFolderPath: String? = null
         private var localFilePath: String? = null
         private var width: Int? = null
@@ -44,13 +44,13 @@ class AttachmentMeta private constructor(
         fun size(size: Long?) = apply { this.size = size }
         fun duration(duration: Int?) = apply { this.duration = duration }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
-        fun ogTags(ogTags: LinkOGTags) = apply { this.ogTags = ogTags }
+        fun ogTags(ogTags: _LinkOGTags_) = apply { this.ogTags = ogTags }
         fun awsFolderPath(awsFolderPath: String?) = apply { this.awsFolderPath = awsFolderPath }
         fun localFilePath(localFilePath: String?) = apply { this.localFilePath = localFilePath }
         fun width(width: Int?) = apply { this.width = width }
         fun height(height: Int?) = apply { this.height = height }
 
-        fun build() = AttachmentMeta(
+        fun build() = _AttachmentMeta_(
             name,
             url,
             format,
@@ -79,14 +79,3 @@ class AttachmentMeta private constructor(
             .height(height)
     }
 }
-
-data class LinkOGTags(
-    @SerializedName("title")
-    val title: String? = null,
-    @SerializedName("image")
-    val image: String? = null,
-    @SerializedName("description")
-    val description: String? = null,
-    @SerializedName("url")
-    val url: String? = null,
-)

@@ -9,7 +9,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.post.model.Attachment
+import com.likeminds.internalsdk.post.model._Attachment_
 import com.likeminds.internalsdk.utils.mediauploader.FileHelper
 import com.likeminds.internalsdk.utils.mediauploader.MediaUploadWorker
 import com.likeminds.internalsdk.utils.mediauploader.UploadHelper
@@ -27,7 +27,7 @@ class PostAttachmentUploadWorker(
 
     private val collabmatesSDK = CollabmatesSDK.getInstance()
     private val attachments by lazy { getStringParam(ARG_ATTACHMENTS) }
-    private lateinit var attachmentsToUpload: List<Attachment>
+    private lateinit var attachmentsToUpload: List<_Attachment_>
 
     companion object {
         const val ARG_ATTACHMENTS = "ARG_ATTACHMENTS"
@@ -60,7 +60,7 @@ class PostAttachmentUploadWorker(
     }
 
     private fun convertJsonStringToAttachments(attachments: String) {
-        val sType = object : TypeToken<List<Attachment>>() {}.type
+        val sType = object : TypeToken<List<_Attachment_>>() {}.type
         attachmentsToUpload = Gson().fromJson(attachments, sType)
     }
 

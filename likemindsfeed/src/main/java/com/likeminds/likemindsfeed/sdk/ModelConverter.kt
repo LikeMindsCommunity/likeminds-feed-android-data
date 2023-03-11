@@ -6,8 +6,7 @@ import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
-import com.likeminds.internalsdk.post.model.Attachment
-import com.likeminds.internalsdk.post.model._GetPostResponse_
+import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
@@ -19,8 +18,7 @@ import com.likeminds.likemindsfeed.branding.model.BrandingBasic
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
-import com.likeminds.likemindsfeed.post.model.GetPostResponse
-import com.likeminds.likemindsfeed.post.model.PostData
+import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -141,7 +139,7 @@ object ModelConverter {
             _getFeedResponse_.success,
             _getFeedResponse_.errorMessage,
             FeedData(
-                _getFeedResponse_.data?.posts,
+                convertPostsList(_getFeedResponse_.data?.posts!!),
                 convertUsersMap(_getFeedResponse_.data?.users)
             )
         )
@@ -154,30 +152,182 @@ object ModelConverter {
             _getPostResponse_.success,
             _getPostResponse_.errorMessage,
             PostData(
-                _getPostResponse_.data?.post,
+                convertPost(_getPostResponse_.data?.post!!),
                 convertUsersMap(_getPostResponse_.data?.users)
             )
         )
     }
 
-    fun convertAttachments(
-        context: Context,
-        attachments: MutableList<Attachment>?
+    fun convertPostsList(
+        _posts_: List<_Post_>
+    ): List<Post> {
+        val posts = mutableListOf<Post>()
+        _posts_.forEach {
+            posts.add(convertPost(it))
+        }
+        return posts
+    }
+
+    fun convertPost(
+        _post_: _Post_
+    ): Post {
+        return Post.Builder().id(_post_.id)
+            .text(_post_.text)
+            .attachments(convertAttachmentsList(_post_.attachments))
+            .communityId(_post_.communityId)
+            .isLiked(_post_.isLiked)
+            .isPinned(_post_.isPinned)
+            .userId(_post_.userId)
+            .likesCount(_post_.likesCount)
+            .commentsCount(_post_.commentsCount)
+            .isSaved(_post_.isSaved)
+            .menuItems(convertMenuItemsList(_post_.menuItems))
+            .replies(convertCommentsList(_post_.replies))
+            .createdAt(_post_.createdAt)
+            .updatedAt(_post_.updatedAt)
+            .build()
+    }
+
+    fun convertAttachmentsList(
+        _attachments_: List<_Attachment_>?
     ): List<Attachment>? {
-        if (attachments == null) return null
-        attachments.forEachIndexed { index, attachment ->
-            var attachmentMeta = attachment.attachmentMeta!!
-            val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
-            val name = getFileNameFromPath(localFilePath)
-            val awsFolderPath = generateAWSFolderPathFromFilePath(name)
-            attachmentMeta = attachmentMeta.toBuilder()
-                .name(name)
-                .awsFolderPath(awsFolderPath)
-                .url(generateUrlFromAWSFolderPath(awsFolderPath))
-                .localFilePath(localFilePath)
-                .build()
-            attachments[index] = attachment.toBuilder().attachmentMeta(attachmentMeta).build()
+        if (_attachments_ == null) return null
+        val attachments = mutableListOf<Attachment>()
+        _attachments_.forEach {
+            attachments.add(convertAttachment(it))
         }
         return attachments
+    }
+
+    fun convertAttachment(
+        _attachment_: _Attachment_
+    ): Attachment {
+        return Attachment.Builder()
+            .attachmentType(_attachment_.attachmentType)
+            .attachmentMeta(convertAttachmentMeta(_attachment_.attachmentMeta))
+            .build()
+    }
+
+    fun convertAttachmentMeta(
+        _attachmentMeta_: _AttachmentMeta_?
+    ): AttachmentMeta? {
+        if (_attachmentMeta_ == null) return null
+        return AttachmentMeta.Builder()
+            .name(_attachmentMeta_.name)
+            .url(_attachmentMeta_.url)
+            .format(_attachmentMeta_.format)
+            .size(_attachmentMeta_.size)
+            .duration(_attachmentMeta_.duration)
+            .pageCount(_attachmentMeta_.pageCount)
+            .ogTags(convertOGTags(_attachmentMeta_.ogTags))
+            .width(_attachmentMeta_.width)
+            .height(_attachmentMeta_.height)
+            .build()
+    }
+
+    fun convertOGTags(
+        _ogTags_: _LinkOGTags_
+    ): LinkOGTags {
+        return LinkOGTags.Builder().url(_ogTags_.url)
+            .title(_ogTags_.title)
+            .image(_ogTags_.image)
+            .description(_ogTags_.description)
+            .build()
+    }
+
+    fun convertCommentsList(
+        _comments_: List<_Comment_>?
+    ): List<Comment>? {
+        if (_comments_ == null) return null
+        val comments = mutableListOf<Comment>()
+        _comments_.forEach {
+            comments.add(convertComment(it))
+        }
+        return comments
+    }
+
+    fun convertComment(
+        _comment_: _Comment_
+    ): Comment {
+        return Comment.Builder()
+            .id(_comment_.id)
+            .isLiked(_comment_.isLiked)
+            .userId(_comment_.userId)
+            .text(_comment_.text)
+            .level(_comment_.level)
+            .likesCount(_comment_.likesCount)
+            .commentsCount(_comment_.commentsCount)
+            .createdAt(_comment_.createdAt)
+            .updatedAt(_comment_.updatedAt)
+            .menuItems(convertMenuItemsList(_comment_.menuItems))
+            .parentId(_comment_.parentId)
+            .build()
+    }
+
+    fun convertMenuItemsList(
+        _menuItems_: List<_MenuItem_>
+    ): List<MenuItem> {
+        val menuItems = mutableListOf<MenuItem>()
+        _menuItems_.forEach {
+            menuItems.add(convertMenuItem(it))
+        }
+        return menuItems
+    }
+
+    fun convertMenuItem(
+        _menuItem_: _MenuItem_
+    ): MenuItem {
+        return MenuItem.Builder()
+            .title(_menuItem_.title)
+            .build()
+    }
+
+    fun createAttachmentsRequest(
+        context: Context,
+        attachments: MutableList<Attachment>?
+    ): List<_Attachment_>? {
+        if (attachments == null) return null
+        val _attachments_ = mutableListOf<_Attachment_>()
+        attachments.forEach { attachment ->
+            val _attachment_ = _Attachment_.Builder()
+                .attachmentType(attachment.attachmentType)
+                .attachmentMeta(createAttachmentMetaRequest(context, attachment.attachmentMeta!!))
+                .build()
+            _attachments_.add(_attachment_)
+        }
+        return _attachments_
+    }
+
+    fun createAttachmentMetaRequest(
+        context: Context,
+        attachmentMeta: AttachmentMeta?
+    ): _AttachmentMeta_? {
+        if (attachmentMeta == null) return null
+        val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
+        val name = getFileNameFromPath(localFilePath)
+        val awsFolderPath = generateAWSFolderPathFromFilePath(name)
+        return _AttachmentMeta_.Builder().name(name)
+            .awsFolderPath(awsFolderPath)
+            .url(generateUrlFromAWSFolderPath(awsFolderPath))
+            .format(attachmentMeta.format)
+            .size(attachmentMeta.size)
+            .duration(attachmentMeta.duration)
+            .pageCount(attachmentMeta.pageCount)
+            .ogTags(createOGTags(attachmentMeta.ogTags))
+            .awsFolderPath(awsFolderPath)
+            .localFilePath(localFilePath)
+            .width(attachmentMeta.width)
+            .height(attachmentMeta.height)
+            .build()
+    }
+
+    fun createOGTags(
+        ogTags: LinkOGTags
+    ): _LinkOGTags_ {
+        return _LinkOGTags_.Builder().url(ogTags.url)
+            .title(ogTags.title)
+            .image(ogTags.image)
+            .description(ogTags.description)
+            .build()
     }
 }

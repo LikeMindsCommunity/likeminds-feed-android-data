@@ -7,7 +7,7 @@ import androidx.work.Data
 import androidx.work.WorkInfo
 import androidx.work.WorkerParameters
 import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.post.model.Attachment
+import com.likeminds.internalsdk.post.model._Attachment_
 import com.likeminds.internalsdk.utils.mediauploader.model.GenericFileRequest
 import com.likeminds.internalsdk.utils.mediauploader.model.WORKER_FAILURE
 import com.likeminds.internalsdk.utils.mediauploader.model.WORKER_RETRY
@@ -114,7 +114,7 @@ abstract class MediaUploadWorker(
     }
 
     protected fun createAWSRequestList(
-        attachmentsToUpload: List<Attachment>
+        attachmentsToUpload: List<_Attachment_>
     ): ArrayList<GenericFileRequest> {
         val awsFileRequestList = ArrayList<GenericFileRequest>()
         attachmentsToUpload.mapIndexed { index, attachment ->
