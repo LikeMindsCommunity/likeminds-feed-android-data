@@ -1,9 +1,6 @@
 package com.likeminds.likemindsfeed.sdk.model
 
-import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
-
-data class User (
+data class User(
     var id: String,
     var imageUrl: String,
     var isGuest: Boolean,

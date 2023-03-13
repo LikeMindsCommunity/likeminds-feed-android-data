@@ -3,12 +3,12 @@ package com.likeminds.likemindsfeed.sdk
 import android.app.Application
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.sdk.SDKPreferences
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.branding.BrandingSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
-import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
 import javax.inject.Inject
 
 internal class LikeMindsFeedApplication private constructor() {
@@ -62,7 +62,6 @@ internal class LikeMindsFeedApplication private constructor() {
     private fun saveExtrasInPreferences(extra: InitiateLikeMindsExtra) {
         sdkPreferences.setAPIKey(extra.apiKey)
         sdkPreferences.setNotificationIcon(extra.notificationIcon ?: 0)
-        sdkPreferences.setDomain(extra.domain)
     }
 
     fun initiateUserComponent(): InitiateUserSubComponent? {

@@ -21,6 +21,7 @@ class TokenManager {
         }
     }
 
+    // updates tokens and memberId in TokenManager
     fun updateTokens(
         accessToken: String? = null,
         refreshToken: String? = null,
@@ -29,5 +30,12 @@ class TokenManager {
         this.accessToken = accessToken
         this.refreshToken = refreshToken
         this.memberId = memberId
+    }
+
+    // clears existing tokens inside TokenManager
+    fun clear() {
+        accessToken = null
+        refreshToken = null
+        memberId = null
     }
 }

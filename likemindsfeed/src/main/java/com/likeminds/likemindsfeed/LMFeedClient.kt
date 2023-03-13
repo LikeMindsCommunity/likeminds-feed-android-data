@@ -1,7 +1,5 @@
 package com.likeminds.likemindsfeed
 
-import com.likeminds.internalsdk.branding.model._BrandingRequest_
-import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.likemindsfeed.branding.BrandingClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
@@ -48,18 +46,10 @@ class LMFeedClient {
     }
 
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
-        val request =
-            _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
-                .userName(initiateUserRequest.userName)
-                .isGuest(initiateUserRequest.isGuest)
-                .build()
-        return initiateUserClient.initiateUser(request)
+        return initiateUserClient.initiateUser(initiateUserRequest)
     }
 
     suspend fun getBranding(brandingRequest: BrandingRequest): BrandingResponse? {
-        val request =
-            _BrandingRequest_.Builder().communityId(brandingRequest.communityId)
-                .build()
-        return brandingClient.getBranding(request)
+        return brandingClient.getBranding(brandingRequest)
     }
 }

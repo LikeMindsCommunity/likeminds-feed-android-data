@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.sdk
 
 import android.util.Log
+import com.likeminds.internalsdk.CollabmatesSDK.Companion.LOG_TAG
 import com.likeminds.internalsdk.TokenManager
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -16,16 +17,16 @@ class RefreshTokenAuthenticator @Inject constructor() : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         val body = response.body?.string()
         Log.d(
-            "LikeMinds",
+            LOG_TAG,
             "refreshing refresh token"
         )
         return if (body?.contains(INVALID_RTM, true) == true) {
-            Log.d("LikeMinds", "refresh token is expired, clearing db and prefs")
+            Log.d(LOG_TAG, "refresh token is expired, clearing tokens")
             val tokenManager = TokenManager.getInstance()
-            tokenManager.updateTokens(null, null, null)
+            tokenManager.clear()
             null
         } else {
-            Log.d("LikeMinds", "refresh token failed, return null")
+            Log.d(LOG_TAG, "refresh token failed, return null")
             null
         }
     }

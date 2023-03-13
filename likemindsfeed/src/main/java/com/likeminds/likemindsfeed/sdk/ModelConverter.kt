@@ -21,6 +21,11 @@ import com.likeminds.likemindsfeed.sdk.model.User
 
 object ModelConverter {
 
+    /**--------------------------------
+     * Internal Model -> Client Model
+    --------------------------------*/
+
+    // converts internal InitiateUserResponse model to client model
     fun convertInitiateUserResponse(
         _initiateUserResponse_: _InitiateUserResponse_
     ): InitiateUserResponse {
@@ -35,31 +40,47 @@ object ModelConverter {
         )
     }
 
+    // converts internal InitiateUser model to client model
     fun convertInitiateUser(
         _user_: _User_,
         _community_: _Community_
     ): InitiateUser {
         return InitiateUser(
-            User(
-                _user_.id,
-                _user_.imageUrl,
-                _user_.isGuest,
-                _user_.name,
-                _user_.organisationName,
-                convertSDKClientInfo(_user_.sdkClientInfo),
-                _user_.updatedAt,
-                _user_.userUniqueId
-            ),
-            Community(
-                _community_.id,
-                _community_.name,
-                _community_.imageUrl,
-                _community_.membersCount,
-                _community_.updatedAt,
-            )
+            convertUser(_user_),
+            convertCommunity(_community_)
         )
     }
 
+    // converts internal User model to client model
+    fun convertUser(
+        _user_: _User_
+    ): User {
+        return User(
+            _user_.id,
+            _user_.imageUrl,
+            _user_.isGuest,
+            _user_.name,
+            _user_.organisationName,
+            convertSDKClientInfo(_user_.sdkClientInfo),
+            _user_.updatedAt,
+            _user_.userUniqueId
+        )
+    }
+
+    // converts internal Community model to client model
+    fun convertCommunity(
+        _community_: _Community_
+    ): Community {
+        return Community(
+            _community_.id,
+            _community_.name,
+            _community_.imageUrl,
+            _community_.membersCount,
+            _community_.updatedAt,
+        )
+    }
+
+    // converts internal SDKClientInfo model to client model
     fun convertSDKClientInfo(
         _sdkClientInfo_: _SDKClientInfo_?
     ): SDKClientInfo? {
