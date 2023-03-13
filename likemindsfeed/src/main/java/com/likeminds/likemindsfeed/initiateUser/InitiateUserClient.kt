@@ -1,27 +1,17 @@
 package com.likeminds.likemindsfeed.initiateUser
 
-import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.base.BaseClient
+import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
 import javax.inject.Inject
 
-class InitiateUserClient @Inject constructor() {
+class InitiateUserClient @Inject constructor() : BaseClient() {
 
-    init {
-        attachDagger()
-    }
-
-    @Inject
-    lateinit var sdkPreferences: SDKPreferences
-
-    @Inject
-    lateinit var collabmatesSDK: CollabmatesSDK
-
-    private fun attachDagger() {
+    override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
     }
 
@@ -37,9 +27,14 @@ class InitiateUserClient @Inject constructor() {
         }
     }
 
-    suspend fun initiateUser(request_: _InitiateUserRequest_): InitiateUserResponse? {
+    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
+        val request =
+            _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
+                .userName(initiateUserRequest.userName)
+                .isGuest(initiateUserRequest.isGuest)
+                .build()
         val api = collabmatesSDK.getSDKApi()
-        return when (val response = api.initiate(sdkPreferences.getAPIKey(), request_)) {
+        return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {
                 null
             }

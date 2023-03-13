@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed
 
-import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -41,12 +40,6 @@ class LMFeedClient {
     }
 
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
-        val request =
-            _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
-                .userName(initiateUserRequest.userName)
-                .isGuest(initiateUserRequest.isGuest)
-                .build()
-        return initiateUserClient.initiateUser(request)
+        return initiateUserClient.initiateUser(initiateUserRequest)
     }
-
 }

@@ -11,9 +11,8 @@ class SDKPreferences @Inject constructor(
         const val SDK_PREFS = "sdk_prefs"
 
         private const val API_KEY = "API_KEY"
-        private const val ACCESS_TOKEN = "ACCESS_TOKEN"
-        private const val REFRESH_TOKEN = "REFRESH_TOKEN"
-        private const val ACCESS_TOKEN_TIMESTAMP = "ACCESS_TOKEN_TIMESTAMP"
+        private const val NOTIFICATION_ICON = "NOTIFICATION_ICON"
+        private const val DOMAIN = "DOMAIN"
     }
 
     fun setAPIKey(apiKey: String) {
@@ -24,19 +23,20 @@ class SDKPreferences @Inject constructor(
         return getPreference(API_KEY, "") ?: ""
     }
 
-    fun setAccessToken(accessToken: String) {
-        putPreference(ACCESS_TOKEN, accessToken)
+    fun setNotificationIcon(notificationIcon: Int) {
+        putPreference(NOTIFICATION_ICON, notificationIcon)
     }
 
-    fun setAccessTokenTimeStamp(timestamp: Long) {
-        putPreference(ACCESS_TOKEN_TIMESTAMP, timestamp)
+    fun getNotificationIcon(): Int {
+        return getPreference(NOTIFICATION_ICON, 0)
     }
 
-    fun setRefreshToken(refreshToken: String) {
-        putPreference(REFRESH_TOKEN, refreshToken)
+    fun setDomain(domain: String?) {
+        if (domain == null) return
+        putPreference(DOMAIN, domain)
     }
 
-    fun getRefreshToken(): String {
-        return getPreference(REFRESH_TOKEN, "") ?: ""
+    fun getDomain(): String? {
+        return getPreference(DOMAIN, "")
     }
 }

@@ -1,7 +1,6 @@
 package com.likeminds.internalsdk
 
 import android.app.Application
-import android.util.Log
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserStateDetails
@@ -33,7 +32,7 @@ class CollabmatesSDK {
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
-        const val TAG = "LikeMinds"
+        const val LOG_TAG = "LikeMinds"
 
         @JvmStatic
         fun getInstance(): CollabmatesSDK {

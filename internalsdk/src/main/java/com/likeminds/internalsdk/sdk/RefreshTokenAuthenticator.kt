@@ -19,15 +19,15 @@ class RefreshTokenAuthenticator @Inject constructor(
     override fun authenticate(route: Route?, response: Response): Request? {
         val body = response.body?.string()
         Log.d(
-            CollabmatesSDK.TAG,
+            CollabmatesSDK.LOG_TAG,
             "refreshing refresh token"
         )
         return if (body?.contains(INVALID_RTM, true) == true) {
-            Log.d(CollabmatesSDK.TAG, "refresh token is expired, clearing db and prefs")
+            Log.d(CollabmatesSDK.LOG_TAG, "refresh token is expired, clearing db and prefs")
             sdkPreferences.clear()
             null
         } else {
-            Log.d(CollabmatesSDK.TAG, "refresh token failed, return null")
+            Log.d(CollabmatesSDK.LOG_TAG, "refresh token failed, return null")
             null
         }
     }
