@@ -2,13 +2,13 @@ package com.likeminds.internalsdk.sdk.model
 
 import com.google.gson.annotations.SerializedName
 
-data class RefreshTokenResponse(
+data class _RefreshTokenResponse_(
     var success: Boolean,
     var errorMessage: String?,
-    var data: RefreshTokenData,
+    var data: _RefreshTokenData_,
 )
 
-data class RefreshTokenData(
+data class _RefreshTokenData_(
     @SerializedName("access_token")
     var accessToken: String,
     @SerializedName("refresh_token")

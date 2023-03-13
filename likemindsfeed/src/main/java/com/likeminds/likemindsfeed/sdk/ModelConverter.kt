@@ -37,6 +37,11 @@ import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 
 object ModelConverter {
 
+    /**--------------------------------
+     * Internal Model -> Client Model
+    --------------------------------*/
+
+    // converts internal InitiateUserResponse model to client model
     fun convertInitiateUserResponse(
         _initiateUserResponse_: _InitiateUserResponse_
     ): InitiateUserResponse {
@@ -51,22 +56,18 @@ object ModelConverter {
         )
     }
 
+    // converts internal InitiateUser model to client model
     fun convertInitiateUser(
         _user_: _User_,
         _community_: _Community_
     ): InitiateUser {
         return InitiateUser(
             convertUser(_user_),
-            Community(
-                _community_.id,
-                _community_.name,
-                _community_.imageUrl,
-                _community_.membersCount,
-                _community_.updatedAt,
-            )
+            convertCommunity(_community_)
         )
     }
 
+    // converts internal User model to client model
     fun convertUser(
         _user_: _User_
     ): User {
@@ -82,6 +83,7 @@ object ModelConverter {
         )
     }
 
+    // converts the internal User model hashmap to client model
     fun convertUsersMap(
         _usersMap_: Map<String, _User_>
     ): Map<String, User> {
@@ -91,6 +93,20 @@ object ModelConverter {
         return usersMap
     }
 
+    // converts internal Community model to client model
+    fun convertCommunity(
+        _community_: _Community_
+    ): Community {
+        return Community(
+            _community_.id,
+            _community_.name,
+            _community_.imageUrl,
+            _community_.membersCount,
+            _community_.updatedAt,
+        )
+    }
+
+    // converts internal SDKClientInfo model to client model
     fun convertSDKClientInfo(
         _sdkClientInfo_: _SDKClientInfo_?
     ): SDKClientInfo? {
@@ -103,6 +119,7 @@ object ModelConverter {
         }
     }
 
+    // converts internal BrandingResponse model to client model
     fun convertBrandingResponse(
         _brandingResponse_: _BrandingResponse_
     ): BrandingResponse {
@@ -113,6 +130,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal Branding model to client model
     fun convertBranding(
         _branding_: _Branding_?
     ): Branding {
@@ -122,12 +140,14 @@ object ModelConverter {
         )
     }
 
+    // converts internal BrandingBasic model to client model
     fun convertBrandingBasic(
         _brandingBasic_: _BrandingBasic_?
     ): BrandingBasic {
         return BrandingBasic(_brandingBasic_?.primaryColor)
     }
 
+    // converts internal BrandingAdvanced model to client model
     fun convertBrandingAdvanced(
         _brandingAdvanced_: _BrandingAdvanced_?
     ): BrandingAdvanced {
@@ -138,6 +158,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal GetFeedResponse model to client model
     fun convertGetFeedResponse(
         _getFeedResponse_: _GetFeedResponse_
     ): GetFeedResponse {
@@ -151,6 +172,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal GetPostResponse model to client model
     fun convertGetPostResponse(
         _getPostResponse_: _GetPostResponse_
     ): GetPostResponse {
@@ -164,6 +186,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal GetPostLikesResponse model to client model
     fun convertGetPostLikesResponse(
         _getPostLikesResponse_: _GetPostLikesResponse_
     ): GetPostLikesResponse {
@@ -178,6 +201,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal GetCommentResponse model to client model
     fun convertGetCommentResponse(
         _getCommentResponse_: _GetCommentResponse_
     ): GetCommentResponse {
@@ -188,6 +212,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal CommentData model to client model
     fun convertCommentData(
         _commentData_: _CommentData_?
     ): CommentData? {
@@ -198,6 +223,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal GetCommentLikesResponse model to client model
     fun convertGetCommentLikesResponse(
         _getCommentLikesResponse_: _GetCommentLikesResponse_
     ): GetCommentLikesResponse {
@@ -208,6 +234,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal CommentLikesData model to client model
     fun convertCommentLikesData(
         _commentLikesData_: _CommentLikesData_?
     ): CommentLikesData? {

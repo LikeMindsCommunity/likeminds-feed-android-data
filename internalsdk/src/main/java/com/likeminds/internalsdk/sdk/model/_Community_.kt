@@ -6,9 +6,10 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Keep
 class _Community_ private constructor(
+    @SerializedName("id")
     var id: String,
+    @SerializedName("name")
     var name: String,
     @SerializedName("image_url")
     var imageUrl: String?,
@@ -30,6 +31,7 @@ class _Community_ private constructor(
         fun imageUrl(imageUrl: String?) = apply { this.imageUrl = imageUrl }
         fun membersCount(membersCount: Int?) = apply { this.membersCount = membersCount }
         fun updatedAt(updatedAt: String?) = apply { this.updatedAt = updatedAt }
+
         //
         fun build() = _Community_(
             id,

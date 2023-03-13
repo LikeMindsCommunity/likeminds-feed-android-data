@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.sdk
 
 import android.util.Log
+import com.likeminds.internalsdk.CollabmatesSDK.Companion.LOG_TAG
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import kotlinx.coroutines.runBlocking
@@ -27,24 +28,24 @@ class TokenAuthenticator @Inject constructor(
         val tokenManager = TokenManager.getInstance()
         return when {
             tokenManager.refreshToken.isNullOrEmpty() -> {
-                Log.e("LikeMinds", "refresh token is empty")
+                Log.e(LOG_TAG, "refresh token is empty")
                 null
             }
             (body?.contains(INVALID_LTM, true) == true) -> {
-                Log.d("LikeMinds", "refreshing access token")
+                Log.d(LOG_TAG, "refreshing access token")
                 runBlocking {
                     val refreshToken = tokenManager.refreshToken
                     when (val refreshResponse =
                         refreshTokenNetworkApi.refreshAccessToken("Bearer $refreshToken")) {
                         is NetworkResponse.Error -> {
                             Log.d(
-                                "LikeMinds",
+                                LOG_TAG,
                                 "access token refresh failed: ${refreshResponse.body.errorMessage}"
                             )
                             null
                         }
                         is NetworkResponse.Success -> {
-                            Log.d("LikeMinds", "access token refreshed")
+                            Log.d(LOG_TAG, "access token refreshed")
                             val newAccessToken = refreshResponse.body.data.accessToken
                             val newRefreshToken = refreshResponse.body.data.refreshToken
                             val updatedToken = "Bearer $newAccessToken"

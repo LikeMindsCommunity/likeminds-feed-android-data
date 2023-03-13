@@ -1,25 +1,30 @@
 package com.likeminds.likemindsfeed.branding
 
-import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.branding.model._BrandingRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.branding.model.BrandingRequest
 import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import javax.inject.Inject
 
-class BrandingClient @Inject constructor() {
+class BrandingClient @Inject constructor() : BaseClient() {
 
-    init {
-        attachDagger()
+    override fun attachDagger() {
+        LikeMindsFeedApplication.getInstance().brandingComponent()?.inject(this)
     }
 
-    @Inject
-    lateinit var collabmatesSDK: CollabmatesSDK
+    companion object {
+        @JvmStatic
+        private var brandingClient: BrandingClient? = null
 
-    private fun attachDagger() {
-        LikeMindsFeedApplication.getInstance().brandingComponent()?.inject(this)
+        fun getInstance(): BrandingClient {
+            if (brandingClient == null) {
+                brandingClient = BrandingClient()
+            }
+            return brandingClient!!
+        }
     }
 
     suspend fun getBranding(brandingRequest: BrandingRequest): BrandingResponse {

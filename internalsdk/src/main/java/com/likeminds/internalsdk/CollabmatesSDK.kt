@@ -57,6 +57,7 @@ class CollabmatesSDK {
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
+        const val LOG_TAG = "LikeMinds"
 
         @JvmStatic
         fun getInstance(): CollabmatesSDK {

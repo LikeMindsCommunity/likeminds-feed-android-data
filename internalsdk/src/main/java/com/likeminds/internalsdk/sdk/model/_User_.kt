@@ -3,7 +3,6 @@ package com.likeminds.internalsdk.sdk.model
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-@Keep
 class _User_ private constructor(
     @SerializedName("id")
     var id: String,
