@@ -31,23 +31,35 @@ object ModelConverter {
         _community_: _Community_
     ): InitiateUser {
         return InitiateUser(
-            User(
-                _user_.id,
-                _user_.imageUrl,
-                _user_.isGuest,
-                _user_.name,
-                _user_.organisationName,
-                convertSDKClientInfo(_user_.sdkClientInfo),
-                _user_.updatedAt,
-                _user_.userUniqueId
-            ),
-            Community(
-                _community_.id,
-                _community_.name,
-                _community_.imageUrl,
-                _community_.membersCount,
-                _community_.updatedAt,
-            )
+            convertUser(_user_),
+            convertCommunity(_community_)
+        )
+    }
+
+    fun convertUser(
+        _user_: _User_
+    ): User {
+        return User(
+            _user_.id,
+            _user_.imageUrl,
+            _user_.isGuest,
+            _user_.name,
+            _user_.organisationName,
+            convertSDKClientInfo(_user_.sdkClientInfo),
+            _user_.updatedAt,
+            _user_.userUniqueId
+        )
+    }
+
+    fun convertCommunity(
+        _community_: _Community_
+    ): Community {
+        return Community(
+            _community_.id,
+            _community_.name,
+            _community_.imageUrl,
+            _community_.membersCount,
+            _community_.updatedAt,
         )
     }
 

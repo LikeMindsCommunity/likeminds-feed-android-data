@@ -1,6 +1,7 @@
 package com.collabmates.sdk
 
 import android.util.Log
+import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.sdk.SDKPreferences
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -18,15 +19,15 @@ class RefreshTokenAuthenticator @Inject constructor(
     override fun authenticate(route: Route?, response: Response): Request? {
         val body = response.body?.string()
         Log.d(
-            "LikeMinds",
+            CollabmatesSDK.TAG,
             "refreshing refresh token"
         )
         return if (body?.contains(INVALID_RTM, true) == true) {
-            Log.d("LikeMinds", "refresh token is expired, clearing db and prefs")
+            Log.d(CollabmatesSDK.TAG, "refresh token is expired, clearing db and prefs")
             sdkPreferences.clear()
             null
         } else {
-            Log.d("LikeMinds", "refresh token failed, return null")
+            Log.d(CollabmatesSDK.TAG, "refresh token failed, return null")
             null
         }
     }
