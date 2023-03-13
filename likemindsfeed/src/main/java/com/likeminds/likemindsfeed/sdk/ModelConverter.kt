@@ -93,6 +93,7 @@ object ModelConverter {
         }
     }
 
+    // converts internal BrandingResponse model to client model
     fun convertBrandingResponse(
         _brandingResponse_: _BrandingResponse_
     ): BrandingResponse {
@@ -103,6 +104,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal Branding model to client model
     fun convertBranding(
         _branding_: _Branding_?
     ): Branding {
@@ -112,12 +114,14 @@ object ModelConverter {
         )
     }
 
+    // converts internal BrandingBasic model to client model
     fun convertBrandingBasic(
         _brandingBasic_: _BrandingBasic_?
     ): BrandingBasic {
         return BrandingBasic(_brandingBasic_?.primaryColor)
     }
 
+    // converts internal BrandingAdvanced model to client model
     fun convertBrandingAdvanced(
         _brandingAdvanced_: _BrandingAdvanced_?
     ): BrandingAdvanced {

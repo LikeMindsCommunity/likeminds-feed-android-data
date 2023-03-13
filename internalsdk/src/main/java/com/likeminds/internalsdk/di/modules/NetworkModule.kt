@@ -36,8 +36,6 @@ class NetworkModule {
             .readTimeout(30L, TimeUnit.SECONDS)
             .connectTimeout(30L, TimeUnit.SECONDS)
             .writeTimeout(30L, TimeUnit.SECONDS)
-
-        Log.d("TAG", "provideOkHttpClient: $tokenAuthenticator")
         clientBuilder.authenticator(tokenAuthenticator)
         clientBuilder.addInterceptor(chuckerInterceptor)
         clientBuilder.addInterceptor(commonHeaderInterceptor)

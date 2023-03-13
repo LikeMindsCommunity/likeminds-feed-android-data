@@ -38,7 +38,6 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         val api = collabmatesSDK.getSDKApi()
         return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {
-                Log.d("TAG", "initiateUser: failed")
                 null
             }
             //TODO: Confirm about the network and client models
@@ -51,10 +50,6 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
-                Log.d(
-                    "TAG",
-                    "initiateUser: " + tokenManager + " " + tokenManager.accessToken + tokenManager.memberId
-                )
                 return ModelConverter.convertInitiateUserResponse(body)
             }
         }
