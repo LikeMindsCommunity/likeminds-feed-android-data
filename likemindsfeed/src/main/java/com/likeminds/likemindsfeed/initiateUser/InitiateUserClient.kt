@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.initiateUser
 
-import android.util.Log
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse

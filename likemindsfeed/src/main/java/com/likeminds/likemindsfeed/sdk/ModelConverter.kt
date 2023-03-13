@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.sdk
 
-import android.util.Log
 import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
 import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
