@@ -12,6 +12,11 @@ import com.likeminds.likemindsfeed.sdk.model.User
 
 object ModelConverter {
 
+    /**--------------------------------
+     * Internal Model -> Client Model
+    --------------------------------*/
+
+    // converts internal InitiateUserResponse model to client model
     fun convertInitiateUserResponse(
         _initiateUserResponse_: _InitiateUserResponse_
     ): InitiateUserResponse {
@@ -26,6 +31,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal InitiateUser model to client model
     fun convertInitiateUser(
         _user_: _User_,
         _community_: _Community_
@@ -36,6 +42,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal User model to client model
     fun convertUser(
         _user_: _User_
     ): User {
@@ -51,6 +58,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal Community model to client model
     fun convertCommunity(
         _community_: _Community_
     ): Community {
@@ -63,6 +71,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal SDKClientInfo model to client model
     fun convertSDKClientInfo(
         _sdkClientInfo_: _SDKClientInfo_?
     ): SDKClientInfo? {

@@ -60,7 +60,6 @@ internal class LikeMindsFeedApplication private constructor() {
     private fun saveExtrasInPreferences(extra: InitiateLikeMindsExtra) {
         sdkPreferences.setAPIKey(extra.apiKey)
         sdkPreferences.setNotificationIcon(extra.notificationIcon ?: 0)
-        sdkPreferences.setDomain(extra.domain)
     }
 
     fun initiateUserComponent(): InitiateUserSubComponent? {

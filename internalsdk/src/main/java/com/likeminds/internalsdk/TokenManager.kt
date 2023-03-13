@@ -31,4 +31,9 @@ class TokenManager private constructor() {
         this.memberId = memberId
     }
 
+    fun clear() {
+        accessToken = null
+        refreshToken = null
+        memberId = null
+    }
 }

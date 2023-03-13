@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Keep
 class _Community_ private constructor(
     @SerializedName("id")
     var id: String,
