@@ -21,6 +21,7 @@ class TokenManager private constructor() {
         }
     }
 
+    // updates tokens and memberId in TokenManager
     fun updateTokens(
         accessToken: String? = null,
         refreshToken: String? = null,
@@ -31,6 +32,7 @@ class TokenManager private constructor() {
         this.memberId = memberId
     }
 
+    // clears existing tokens inside TokenManager
     fun clear() {
         accessToken = null
         refreshToken = null
