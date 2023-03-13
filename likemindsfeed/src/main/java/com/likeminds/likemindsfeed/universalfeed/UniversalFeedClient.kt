@@ -1,24 +1,17 @@
 package com.likeminds.likemindsfeed.universalfeed
 
-import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import javax.inject.Inject
 
-class UniversalFeedClient @Inject constructor() {
+class UniversalFeedClient @Inject constructor() : BaseClient() {
 
-    init {
-        attachDagger()
-    }
-
-    @Inject
-    lateinit var collabmatesSDK: CollabmatesSDK
-
-    private fun attachDagger() {
+    override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().universalFeedComponent()?.inject(this)
     }
 

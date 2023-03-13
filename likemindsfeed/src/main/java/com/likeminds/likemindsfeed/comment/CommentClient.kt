@@ -1,23 +1,16 @@
 package com.likeminds.likemindsfeed.comment
 
-import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import javax.inject.Inject
 
-class CommentClient @Inject constructor() {
+class CommentClient @Inject constructor() : BaseClient() {
 
-    init {
-        attachDagger()
-    }
-
-    @Inject
-    lateinit var collabmatesSDK: CollabmatesSDK
-
-    private fun attachDagger() {
+    override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().commentComponent()?.inject(this)
     }
 
