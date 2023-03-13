@@ -1,5 +1,8 @@
 package com.likeminds.likemindsfeed
 
+import com.likeminds.likemindsfeed.branding.BrandingClient
+import com.likeminds.likemindsfeed.branding.model.BrandingRequest
+import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -13,6 +16,9 @@ class LMFeedClient {
 
     @Inject
     lateinit var initiateUserClient: InitiateUserClient
+
+    @Inject
+    lateinit var brandingClient: BrandingClient
 
     companion object {
         @JvmStatic
@@ -41,5 +47,9 @@ class LMFeedClient {
 
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
         return initiateUserClient.initiateUser(initiateUserRequest)
+    }
+
+    suspend fun getBranding(brandingRequest: BrandingRequest): BrandingResponse? {
+        return brandingClient.getBranding(brandingRequest)
     }
 }

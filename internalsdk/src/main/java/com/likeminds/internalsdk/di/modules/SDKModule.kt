@@ -1,7 +1,7 @@
 package com.likeminds.internalsdk.di.modules
 
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.collabmates.sdk.RefreshTokenAuthenticator
+import com.likeminds.internalsdk.sdk.RefreshTokenAuthenticator
 import com.google.gson.Gson
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.RefreshTokenNetworkApi

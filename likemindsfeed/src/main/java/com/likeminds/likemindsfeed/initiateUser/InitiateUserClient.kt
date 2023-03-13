@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed.initiateUser
 
+import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -41,6 +42,13 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
             //TODO: Confirm about the network and client models
             is NetworkResponse.Success -> {
                 val body = response.body
+
+                val accessToken = response.body.data?.accessToken
+                val refreshToken = response.body.data?.refreshToken
+                val userId = response.body.data?.user?.id
+
+                val tokenManager = TokenManager.getInstance()
+                tokenManager.updateTokens(accessToken, refreshToken, userId)
                 return ModelConverter.convertInitiateUserResponse(body)
             }
         }

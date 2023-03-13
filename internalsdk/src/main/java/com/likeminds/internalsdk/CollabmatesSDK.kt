@@ -5,6 +5,8 @@ import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserStateDetails
 import com.google.gson.Gson
+import com.likeminds.internalsdk.branding.BrandingApi
+import com.likeminds.internalsdk.branding.BrandingApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
@@ -26,6 +28,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var sdkApiImpl: SDKApiImpl
+
+    @Inject
+    lateinit var brandingApiImpl: BrandingApiImpl
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
@@ -71,7 +76,7 @@ class CollabmatesSDK {
         return sdkApiImpl
     }
 
-    fun getRefreshTokenApi(): RefreshTokenApiImpl {
-        return refreshTokenApiImpl
+    fun getBrandingApi(): BrandingApi {
+        return brandingApiImpl
     }
 }

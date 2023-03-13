@@ -1,4 +1,4 @@
-package com.collabmates.sdk
+package com.likeminds.internalsdk.sdk
 
 import android.util.Log
 import com.likeminds.internalsdk.CollabmatesSDK.Companion.LOG_TAG

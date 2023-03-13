@@ -1,9 +1,17 @@
 package com.likeminds.likemindsfeed.sdk
 
+import com.likeminds.internalsdk.branding.model._BrandingAdvanced_
+import com.likeminds.internalsdk.branding.model._BrandingBasic_
+import com.likeminds.internalsdk.branding.model._BrandingResponse_
+import com.likeminds.internalsdk.branding.model._Branding_
 import com.likeminds.internalsdk.sdk.model._Community_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.likemindsfeed.branding.model.Branding
+import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
+import com.likeminds.likemindsfeed.branding.model.BrandingBasic
+import com.likeminds.likemindsfeed.branding.model.BrandingResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.model.Community
@@ -82,5 +90,44 @@ object ModelConverter {
                 it.userUniqueId
             )
         }
+    }
+
+    // converts internal BrandingResponse model to client model
+    fun convertBrandingResponse(
+        _brandingResponse_: _BrandingResponse_
+    ): BrandingResponse {
+        return BrandingResponse(
+            _brandingResponse_.success,
+            _brandingResponse_.errorMessage,
+            convertBranding(_brandingResponse_.branding)
+        )
+    }
+
+    // converts internal Branding model to client model
+    fun convertBranding(
+        _branding_: _Branding_?
+    ): Branding {
+        return Branding(
+            convertBrandingBasic(_branding_?.basic),
+            convertBrandingAdvanced(_branding_?.advanced)
+        )
+    }
+
+    // converts internal BrandingBasic model to client model
+    fun convertBrandingBasic(
+        _brandingBasic_: _BrandingBasic_?
+    ): BrandingBasic {
+        return BrandingBasic(_brandingBasic_?.primaryColor)
+    }
+
+    // converts internal BrandingAdvanced model to client model
+    fun convertBrandingAdvanced(
+        _brandingAdvanced_: _BrandingAdvanced_?
+    ): BrandingAdvanced {
+        return BrandingAdvanced(
+            _brandingAdvanced_?.headerColor,
+            _brandingAdvanced_?.buttonsIconsColor,
+            _brandingAdvanced_?.textLinksColor,
+        )
     }
 }
