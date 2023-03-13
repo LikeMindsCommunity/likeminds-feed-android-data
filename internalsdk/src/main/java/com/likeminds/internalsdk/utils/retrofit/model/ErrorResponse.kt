@@ -1,4 +1,4 @@
-package com.likeminds.internalsdk.utils.retrofit
+package com.likeminds.internalsdk.utils.retrofit.model
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName

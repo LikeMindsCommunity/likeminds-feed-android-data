@@ -1,4 +1,4 @@
-package com.likeminds.likemindsfeed.sdk.utils
+package com.likeminds.internalsdk.sdk
 
 import android.app.Application
 import com.likeminds.internalsdk.utils.sharedpreferences.BasePreferences
@@ -11,7 +11,6 @@ class SDKPreferences @Inject constructor(
         const val SDK_PREFS = "sdk_prefs"
 
         private const val API_KEY = "API_KEY"
-        private const val DOMAIN = "DOMAIN"
         private const val NOTIFICATION_ICON = "NOTIFICATION_ICON"
     }
 
@@ -29,14 +28,5 @@ class SDKPreferences @Inject constructor(
 
     fun getNotificationIcon(): Int {
         return getPreference(NOTIFICATION_ICON, 0)
-    }
-
-    fun setDomain(domain: String?) {
-        if (domain == null) return
-        putPreference(DOMAIN, domain)
-    }
-
-    fun getDomain(): String? {
-        return getPreference(DOMAIN, "")
     }
 }

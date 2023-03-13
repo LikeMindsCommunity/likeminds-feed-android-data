@@ -3,10 +3,11 @@ package com.likeminds.likemindsfeed.sdk
 import android.app.Application
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.sdk.SDKPreferences
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
+import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
-import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
 import javax.inject.Inject
 
 internal class LikeMindsFeedApplication private constructor() {
@@ -20,7 +21,9 @@ internal class LikeMindsFeedApplication private constructor() {
     @Inject
     lateinit var sdkPreferences: SDKPreferences
 
-    private var likeMindsFeedComponent: LikeMindsFeedComponent? = null
+    var likeMindsFeedComponent: LikeMindsFeedComponent? = null
+
+    private var initiateUserSubComponent: InitiateUserSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -57,6 +60,13 @@ internal class LikeMindsFeedApplication private constructor() {
     private fun saveExtrasInPreferences(extra: InitiateLikeMindsExtra) {
         sdkPreferences.setAPIKey(extra.apiKey)
         sdkPreferences.setNotificationIcon(extra.notificationIcon ?: 0)
-        sdkPreferences.setDomain(extra.domain)
+    }
+
+    fun initiateUserComponent(): InitiateUserSubComponent? {
+        if (initiateUserSubComponent == null) {
+            initiateUserSubComponent = likeMindsFeedComponent?.initiateUserComponent()?.create()
+        }
+
+        return initiateUserSubComponent
     }
 }

@@ -1,6 +1,8 @@
 package com.likeminds.internalsdk.utils.retrofit
 
 import com.google.gson.Gson
+import com.likeminds.internalsdk.utils.retrofit.model.ErrorResponse
+import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.CallAdapter
