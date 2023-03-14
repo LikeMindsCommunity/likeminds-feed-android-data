@@ -119,32 +119,32 @@ class LMFeedClient {
     }
 
     // Exposed function to add comment on the post
-    suspend fun addComment(addCommentRequest: AddCommentRequest): AddCommentResponse {
+    suspend fun addComment(addCommentRequest: AddCommentRequest): LMResponse<Nothing> {
         return commentClient.addComment(addCommentRequest)
     }
 
     // Exposed function to add comment on the post
-    suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): AddReplyOnCommentResponse {
+    suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): LMResponse<Nothing> {
         return commentClient.addReplyOnComment(addReplyOnCommentRequest)
     }
 
     // Exposed function to fetch the comment and its paginated replies
-    suspend fun getComment(getCommentRequest: GetCommentRequest): GetCommentResponse {
+    suspend fun getComment(getCommentRequest: GetCommentRequest): LMResponse<GetCommentResponse> {
         return commentClient.getComment(getCommentRequest)
     }
 
     // Exposed function to fetch likes data on the comment
-    suspend fun getCommentLikes(getCommentLikesRequest: GetCommentLikesRequest): GetCommentLikesResponse {
+    suspend fun getCommentLikes(getCommentLikesRequest: GetCommentLikesRequest): LMResponse<GetCommentLikesResponse> {
         return commentClient.getCommentLikes(getCommentLikesRequest)
     }
 
     // Exposed function to like the comment
-    suspend fun likeComment(likeCommentRequest: LikeCommentRequest): LikeCommentResponse {
+    suspend fun likeComment(likeCommentRequest: LikeCommentRequest): LMResponse<Nothing> {
         return commentClient.likeComment(likeCommentRequest)
     }
 
     // Exposed function to delete the comment
-    suspend fun deleteComment(deleteCommentRequest: DeleteCommentRequest): DeleteCommentResponse {
+    suspend fun deleteComment(deleteCommentRequest: DeleteCommentRequest): LMResponse<Nothing> {
         return commentClient.deleteComment(deleteCommentRequest)
     }
 }

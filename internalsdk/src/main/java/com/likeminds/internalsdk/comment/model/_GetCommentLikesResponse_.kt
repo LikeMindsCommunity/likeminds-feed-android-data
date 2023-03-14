@@ -5,15 +5,6 @@ import com.likeminds.internalsdk.post.model.Like
 import com.likeminds.internalsdk.sdk.model._User_
 
 data class _GetCommentLikesResponse_(
-    @SerializedName("success")
-    var success: Boolean,
-    @SerializedName("error_message")
-    var errorMessage: String?,
-    @SerializedName("data")
-    var data: _CommentLikesData_?
-)
-
-data class _CommentLikesData_(
     @SerializedName("likes")
     var likes: List<Like>,
     @SerializedName("total_count")

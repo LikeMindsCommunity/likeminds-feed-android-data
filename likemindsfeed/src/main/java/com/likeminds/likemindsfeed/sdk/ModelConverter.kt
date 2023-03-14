@@ -1,20 +1,16 @@
 package com.likeminds.likemindsfeed.sdk
 
-import com.likeminds.internalsdk.comment.model._CommentData_
-import com.likeminds.internalsdk.comment.model._CommentLikesData_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
 import com.likeminds.internalsdk.post.model._GetPostResponse_
 import com.likeminds.internalsdk.sdk.model._Community_
-import com.likeminds.internalsdk.sdk.model._InitiateUserResponseData_
+import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
-import com.likeminds.likemindsfeed.comment.model.CommentData
-import com.likeminds.likemindsfeed.comment.model.CommentLikesData
 import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
@@ -35,9 +31,9 @@ object ModelConverter {
      * Internal Model -> Client Model
     --------------------------------*/
 
-    // converts internal InitiateUserResponse model to client model
+    // converts api InitiateUserResponse model to LM InitiateUserResponse model
     fun convertInitiateUserResponse(
-        _initiateUserResponse_: APIResponse<_InitiateUserResponseData_>
+        _initiateUserResponse_: APIResponse<_InitiateUserResponse_>
     ): LMResponse<InitiateUserResponse> {
         return LMResponse(
             _initiateUserResponse_.success,
@@ -79,7 +75,7 @@ object ModelConverter {
         )
     }
 
-    // converts the internal User model hashmap to client model
+    // converts the internal User model hashmap to client User Hashmap
     fun convertUsersMap(
         _usersMap_: Map<String, _User_>
     ): Map<String, User> {
@@ -158,48 +154,50 @@ object ModelConverter {
         )
     }
 
-    // converts internal GetCommentResponse model to client model
-    fun convertGetCommentResponse(
-        _getCommentResponse_: _GetCommentResponse_
-    ): GetCommentResponse {
-        return GetCommentResponse(
-            _getCommentResponse_.success,
-            _getCommentResponse_.errorMessage,
-            convertCommentData(_getCommentResponse_.data)
+    // converts api GetCommentResponse model to LM GetCommentResponse model
+    fun convertGetCommentAPIResponse(
+        apiResponse: APIResponse<_GetCommentResponse_>
+    ): LMResponse<GetCommentResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetCommentResponse(apiResponse.data)
         )
     }
 
-    // converts internal CommentData model to client model
-    fun convertCommentData(
-        _commentData_: _CommentData_?
-    ): CommentData? {
-        if (_commentData_ == null) return null
-        return CommentData(
-            _commentData_.comment,
-            convertUsersMap(_commentData_.users)
+    // converts internal GetCommentResponse model to client model
+    fun convertGetCommentResponse(
+        _getCommentResponse_: _GetCommentResponse_?
+    ): GetCommentResponse? {
+        if (_getCommentResponse_ == null) {
+            return null
+        }
+        return GetCommentResponse(
+            _getCommentResponse_.comment,
+            convertUsersMap(_getCommentResponse_.users)
+        )
+    }
+
+    // converts api GetCommentLikesResponse model to LM GetCommentResponse model
+    fun convertGetCommentLikesAPIResponse(
+        apiResponse: APIResponse<_GetCommentLikesResponse_>
+    ): LMResponse<GetCommentLikesResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetCommentLikesResponse(apiResponse.data)
         )
     }
 
     // converts internal GetCommentLikesResponse model to client model
     fun convertGetCommentLikesResponse(
-        _getCommentLikesResponse_: _GetCommentLikesResponse_
-    ): GetCommentLikesResponse {
+        _getCommentLikesResponse_: _GetCommentLikesResponse_?
+    ): GetCommentLikesResponse? {
+        if (_getCommentLikesResponse_ == null) return null
         return GetCommentLikesResponse(
-            _getCommentLikesResponse_.success,
-            _getCommentLikesResponse_.errorMessage,
-            convertCommentLikesData(_getCommentLikesResponse_.data)
-        )
-    }
-
-    // converts internal CommentLikesData model to client model
-    fun convertCommentLikesData(
-        _commentLikesData_: _CommentLikesData_?
-    ): CommentLikesData? {
-        if (_commentLikesData_ == null) return null
-        return CommentLikesData(
-            _commentLikesData_.likes,
-            _commentLikesData_.totalCount,
-            convertUsersMap(_commentLikesData_.users)
+            _getCommentLikesResponse_.likes,
+            _getCommentLikesResponse_.totalCount,
+            convertUsersMap(_getCommentLikesResponse_.users)
         )
     }
 }

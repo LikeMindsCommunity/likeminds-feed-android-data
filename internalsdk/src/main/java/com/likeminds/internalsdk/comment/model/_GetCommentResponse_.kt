@@ -5,15 +5,6 @@ import com.likeminds.internalsdk.post.model.Comment
 import com.likeminds.internalsdk.sdk.model._User_
 
 data class _GetCommentResponse_(
-    @SerializedName("success")
-    var success: Boolean,
-    @SerializedName("error_message")
-    var errorMessage: String?,
-    @SerializedName("data")
-    var data: _CommentData_?
-)
-
-data class _CommentData_(
     @SerializedName("comment")
     var comment: Comment,
     @SerializedName("users")

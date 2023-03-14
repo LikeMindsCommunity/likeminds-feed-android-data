@@ -1,7 +1,7 @@
 package com.likeminds.internalsdk.comment
 
 import com.likeminds.internalsdk.comment.model.*
-import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
+import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class CommentReceiver @Inject constructor(
 
     suspend fun addComment(
         request: _AddCommentRequest_
-    ): NetworkResponse<BaseResponse> {
+    ): NetworkResponse<APIResponse<Nothing>> {
         val postId = request.postId ?: ""
         val newRequest = request.toBuilder().postId(null).build()
         return commentNetworkApi.addComment(postId, newRequest)
@@ -19,7 +19,7 @@ class CommentReceiver @Inject constructor(
 
     suspend fun addReplyOnComment(
         request: _AddReplyOnCommentRequest_
-    ): NetworkResponse<BaseResponse> {
+    ): NetworkResponse<APIResponse<Nothing>> {
         val postId = request.postId ?: ""
         val commentId = request.commentId ?: ""
         val newRequest = request.toBuilder()
@@ -35,7 +35,7 @@ class CommentReceiver @Inject constructor(
 
     suspend fun getComment(
         request: _GetCommentRequest_
-    ): NetworkResponse<_GetCommentResponse_> {
+    ): NetworkResponse<APIResponse<_GetCommentResponse_>> {
         return commentNetworkApi.getComment(
             request.postId,
             request.commentId,
@@ -46,7 +46,7 @@ class CommentReceiver @Inject constructor(
 
     suspend fun getCommentLikes(
         request: _GetCommentLikesRequest_
-    ): NetworkResponse<_GetCommentLikesResponse_> {
+    ): NetworkResponse<APIResponse<_GetCommentLikesResponse_>> {
         return commentNetworkApi.getCommentLikes(
             request.postId,
             request.commentId,
@@ -57,7 +57,7 @@ class CommentReceiver @Inject constructor(
 
     suspend fun likeComment(
         request: _LikeCommentRequest_
-    ): NetworkResponse<BaseResponse> {
+    ): NetworkResponse<APIResponse<Nothing>> {
         return commentNetworkApi.likeComment(
             request.postId,
             request.commentId
@@ -66,7 +66,7 @@ class CommentReceiver @Inject constructor(
 
     suspend fun deleteComment(
         request: _DeleteCommentRequest_
-    ): NetworkResponse<BaseResponse> {
+    ): NetworkResponse<APIResponse<Nothing>> {
         val postId = request.postId ?: ""
         val commentId = request.commentId!!
         val newRequest = request.toBuilder().postId(null).commentId(null).build()
