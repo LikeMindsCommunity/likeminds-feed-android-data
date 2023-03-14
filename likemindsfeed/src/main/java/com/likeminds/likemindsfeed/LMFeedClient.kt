@@ -123,6 +123,11 @@ class LMFeedClient {
         return commentClient.addComment(addCommentRequest)
     }
 
+    // Exposed function to add comment on the post
+    suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): AddReplyOnCommentResponse {
+        return commentClient.addReplyOnComment(addReplyOnCommentRequest)
+    }
+
     // Exposed function to fetch the comment and its paginated replies
     suspend fun getComment(getCommentRequest: GetCommentRequest): GetCommentResponse {
         return commentClient.getComment(getCommentRequest)

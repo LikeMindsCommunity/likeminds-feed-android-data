@@ -11,10 +11,9 @@ interface CommentApi {
         request: _AddCommentRequest_
     ): NetworkResponse<BaseResponse>
 
-    // api to add comment to the post
-    // TODO:
+    // api to add reply on the comment
     suspend fun addReplyOnComment(
-        request: _AddCommentRequest_
+        request: _AddReplyOnCommentRequest_
     ): NetworkResponse<BaseResponse>
 
     // api to fetch the comment and its paginated replies

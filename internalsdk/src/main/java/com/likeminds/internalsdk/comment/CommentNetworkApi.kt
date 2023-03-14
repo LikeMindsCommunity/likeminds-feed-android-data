@@ -1,9 +1,6 @@
 package com.likeminds.internalsdk.comment
 
-import com.likeminds.internalsdk.comment.model._AddCommentRequest_
-import com.likeminds.internalsdk.comment.model._DeleteCommentRequest_
-import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
-import com.likeminds.internalsdk.comment.model._GetCommentResponse_
+import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.*
@@ -20,7 +17,7 @@ interface CommentNetworkApi {
     suspend fun addReplyOnComment(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String,
-        @Body addCommentRequest: _AddCommentRequest_
+        @Body addCommentRequest: _AddReplyOnCommentRequest_
     ): NetworkResponse<BaseResponse>
 
     @GET("feed/post/{post_id}/comment/{comment_id}")

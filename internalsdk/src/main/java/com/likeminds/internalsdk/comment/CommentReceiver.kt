@@ -18,7 +18,7 @@ class CommentReceiver @Inject constructor(
     }
 
     suspend fun addReplyOnComment(
-        request: _AddCommentRequest_
+        request: _AddReplyOnCommentRequest_
     ): NetworkResponse<BaseResponse> {
         val postId = request.postId ?: ""
         val commentId = request.commentId ?: ""

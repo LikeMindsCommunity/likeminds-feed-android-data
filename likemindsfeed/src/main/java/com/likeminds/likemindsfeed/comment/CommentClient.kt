@@ -61,24 +61,24 @@ class CommentClient @Inject constructor() : BaseClient() {
      * @param addCommentRequest - client request model to add comment on the post
      * @return AddCommentResponse - client response model for addCommentRequest
      */
-    suspend fun addReplyOnComment(addCommentRequest: AddCommentRequest): AddCommentResponse {
+    suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): AddReplyOnCommentResponse {
         // builds internal request model
-        val request = _AddCommentRequest_.Builder()
-            .postId(addCommentRequest.postId)
-            .commentId(addCommentRequest.commentId)
-            .text(addCommentRequest.text)
+        val request = _AddReplyOnCommentRequest_.Builder()
+            .postId(addReplyOnCommentRequest.postId)
+            .commentId(addReplyOnCommentRequest.commentId)
+            .text(addReplyOnCommentRequest.text)
             .build()
         val api = collabmatesSDK.getCommentApi()
         // calls api and processes the response accordingly
         return when (val response = api.addReplyOnComment(request)) {
             is NetworkResponse.Error -> {
-                AddCommentResponse(
+                AddReplyOnCommentResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
-                AddCommentResponse(
+                AddReplyOnCommentResponse(
                     success = response.body.success,
                     errorMessage = null
                 )

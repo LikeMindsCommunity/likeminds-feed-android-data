@@ -37,10 +37,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
      */
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
         RequestUtils.validate()
-
-        if (initiateUserRequest.userName.isNullOrEmpty()) {
-            RequestUtils.validateRequest("userName")
-        }
+        validateInitiateUserRequest(initiateUserRequest)
 
         // builds internal request model
         val request =
@@ -73,6 +70,15 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
                 ModelConverter.convertInitiateUserResponse(body)
             }
+        }
+    }
+
+    private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
+        if (initiateUserRequest.userId.isNullOrEmpty()) {
+            RequestUtils.validateRequest("userId")
+        }
+        if (initiateUserRequest.isGuest == null) {
+            RequestUtils.validateRequest("isGuest")
         }
     }
 }
