@@ -10,6 +10,7 @@ import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
+import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
 class ModerationClient @Inject constructor() : BaseClient() {
@@ -21,9 +22,13 @@ class ModerationClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param getReportTagsRequest - client request model to fetch report tags
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
      * @return GetReportTagsResponse - GetReportTagsResponse model for getReportTagsRequest
      */
     suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): LMResponse<GetReportTagsResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
         // builds internal request model
         val request = _GetReportTagsRequest_.Builder()
             .type(getReportTagsRequest.type)
@@ -46,9 +51,14 @@ class ModerationClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param postReportRequest - client request model to post report on the entity
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
      * @return LMResponse<Nothing> - Base LM response
      */
     suspend fun postReport(postReportRequest: PostReportRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validatePostReportRequest(postReportRequest)
+
         // builds internal request model
         val request = _PostReportRequest_.Builder()
             .entityId(postReportRequest.entityId)
@@ -73,6 +83,19 @@ class ModerationClient @Inject constructor() : BaseClient() {
                     null
                 )
             }
+        }
+    }
+
+    /**
+     * validates postReportRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validatePostReportRequest(postReportRequest: PostReportRequest) {
+        if (postReportRequest.entityId.isEmpty()) {
+            RequestUtils.validateRequest("entityId")
+        }
+        if (postReportRequest.entityCreatorId.isEmpty()) {
+            RequestUtils.validateRequest("entityCreatorId")
         }
     }
 }

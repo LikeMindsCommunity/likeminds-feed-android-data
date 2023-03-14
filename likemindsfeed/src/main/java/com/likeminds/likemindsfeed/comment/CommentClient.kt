@@ -7,6 +7,7 @@ import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
+import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
 class CommentClient @Inject constructor() : BaseClient() {
@@ -30,9 +31,14 @@ class CommentClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param addCommentRequest - client request model to add comment on the post
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
     suspend fun addComment(addCommentRequest: AddCommentRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateAddCommentRequest(addCommentRequest)
+
         // builds internal request model
         val request = _AddCommentRequest_.Builder()
             .postId(addCommentRequest.postId)
@@ -56,13 +62,30 @@ class CommentClient @Inject constructor() : BaseClient() {
         }
     }
 
-    // TODO: confirm
+    /**
+     * validates addCommentRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateAddCommentRequest(addCommentRequest: AddCommentRequest) {
+        if (addCommentRequest.postId.isEmpty()) {
+            RequestUtils.validateRequest("postId")
+        }
+        if (addCommentRequest.text.isEmpty()) {
+            RequestUtils.validateRequest("text")
+        }
+    }
+
     /**
      * Converts client request model to internal model and calls the api
-     * @param addCommentRequest - client request model to add comment on the post
+     * @param addReplyOnCommentRequest - client request model to add comment on the post
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
     suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateAddReplyOnCommentRequest(addReplyOnCommentRequest)
+
         // builds internal request model
         val request = _AddReplyOnCommentRequest_.Builder()
             .postId(addReplyOnCommentRequest.postId)
@@ -88,11 +111,32 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
+     * validates addReplyOnCommentRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateAddReplyOnCommentRequest(addReplyOnCommentRequest: AddReplyOnCommentRequest) {
+        if (addReplyOnCommentRequest.postId.isEmpty()) {
+            RequestUtils.validateRequest("postId")
+        }
+        if (addReplyOnCommentRequest.commentId.isEmpty()) {
+            RequestUtils.validateRequest("commentId")
+        }
+        if (addReplyOnCommentRequest.text.isEmpty()) {
+            RequestUtils.validateRequest("text")
+        }
+    }
+
+    /**
      * Converts client request model to internal model and calls the api
      * @param getCommentRequest - client request model to fetch comment and its paginated replies
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return GetCommentResponse - GetCommentResponse model for getCommentRequest
      */
     suspend fun getComment(getCommentRequest: GetCommentRequest): LMResponse<GetCommentResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateGetCommentRequest(getCommentRequest)
+
         // builds internal request model
         val request = _GetCommentRequest_.Builder()
             .postId(getCommentRequest.postId)
@@ -116,11 +160,29 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
+     * validates getCommentRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateGetCommentRequest(getCommentRequest: GetCommentRequest) {
+        if (getCommentRequest.postId.isEmpty()) {
+            RequestUtils.validateRequest("postId")
+        }
+        if (getCommentRequest.commentId.isEmpty()) {
+            RequestUtils.validateRequest("commentId")
+        }
+    }
+
+    /**
      * Converts client request model to internal model and calls the api
      * @param getCommentLikesRequest - client request model to fetch likes data on the comment
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return GetCommentLikesResponse - GetCommentLikesResponse model for getCommentLikesRequest
      */
     suspend fun getCommentLikes(getCommentLikesRequest: GetCommentLikesRequest): LMResponse<GetCommentLikesResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateGetCommentLikesRequest(getCommentLikesRequest)
+
         // builds internal request model
         val request = _GetCommentLikesRequest_.Builder()
             .postId(getCommentLikesRequest.postId)
@@ -144,11 +206,29 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
+     * validates getCommentLikesRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateGetCommentLikesRequest(getCommentLikesRequest: GetCommentLikesRequest) {
+        if (getCommentLikesRequest.postId.isEmpty()) {
+            RequestUtils.validateRequest("postId")
+        }
+        if (getCommentLikesRequest.commentId.isEmpty()) {
+            RequestUtils.validateRequest("commentId")
+        }
+    }
+
+    /**
      * Converts client request model to internal model and calls the api
      * @param likeCommentRequest - client request model to like the comment
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
     suspend fun likeComment(likeCommentRequest: LikeCommentRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateLikeCommentRequest(likeCommentRequest)
+
         // builds internal request model
         val request = _LikeCommentRequest_.Builder()
             .postId(likeCommentRequest.postId)
@@ -173,11 +253,29 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
+     * validates likeCommentRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateLikeCommentRequest(likeCommentRequest: LikeCommentRequest) {
+        if (likeCommentRequest.postId.isEmpty()) {
+            RequestUtils.validateRequest("postId")
+        }
+        if (likeCommentRequest.commentId.isEmpty()) {
+            RequestUtils.validateRequest("commentId")
+        }
+    }
+
+    /**
      * Converts client request model to internal model and calls the api
      * @param deleteCommentRequest - client request model to delete the comment
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
     suspend fun deleteComment(deleteCommentRequest: DeleteCommentRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateDeleteCommentRequest(deleteCommentRequest)
+
         // builds internal request model
         val request = _DeleteCommentRequest_.Builder()
             .postId(deleteCommentRequest.postId)
@@ -199,6 +297,19 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = null
                 )
             }
+        }
+    }
+
+    /**
+     * validates deleteCommentRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateDeleteCommentRequest(deleteCommentRequest: DeleteCommentRequest) {
+        if (deleteCommentRequest.postId.isEmpty()) {
+            RequestUtils.validateRequest("postId")
+        }
+        if (deleteCommentRequest.commentId.isEmpty()) {
+            RequestUtils.validateRequest("commentId")
         }
     }
 }

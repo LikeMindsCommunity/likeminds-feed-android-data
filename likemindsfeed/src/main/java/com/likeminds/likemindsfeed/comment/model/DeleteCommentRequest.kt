@@ -1,18 +1,18 @@
 package com.likeminds.likemindsfeed.comment.model
 
 class DeleteCommentRequest private constructor(
-    var postId: String?,
-    var commentId: String?,
+    var postId: String,
+    var commentId: String,
     var reason: String?
 ) {
 
     class Builder {
-        private var postId: String? = null
-        private var commentId: String? = null
+        private var postId: String = ""
+        private var commentId: String = ""
         private var reason: String? = null
 
-        fun postId(postId: String?) = apply { this.postId = postId }
-        fun commentId(commentId: String?) = apply { this.commentId = commentId }
+        fun postId(postId: String) = apply { this.postId = postId }
+        fun commentId(commentId: String) = apply { this.commentId = commentId }
         fun reason(reason: String?) = apply { this.reason = reason }
 
         fun build() = DeleteCommentRequest(

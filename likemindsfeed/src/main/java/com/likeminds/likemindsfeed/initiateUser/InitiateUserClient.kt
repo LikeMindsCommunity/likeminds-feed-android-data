@@ -33,9 +33,11 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param initiateUserRequest - client request model to initiate user
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return InitiateUserResponse - InitiateUserResponse model for initiateUserRequest
      */
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
+        // validates the client request
         RequestUtils.validate()
         validateInitiateUserRequest(initiateUserRequest)
 
@@ -72,6 +74,10 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * validates initiateUserRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
     private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
         if (initiateUserRequest.userId.isNullOrEmpty()) {
             RequestUtils.validateRequest("userId")
