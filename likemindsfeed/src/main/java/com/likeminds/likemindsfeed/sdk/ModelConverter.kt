@@ -2,6 +2,8 @@ package com.likeminds.likemindsfeed.sdk
 
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
+import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
+import com.likeminds.internalsdk.moderation.model._ReportTag_
 import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
 import com.likeminds.internalsdk.post.model._GetPostResponse_
 import com.likeminds.internalsdk.sdk.model._Community_
@@ -15,6 +17,8 @@ import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
+import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
 import com.likeminds.likemindsfeed.post.model.GetPostResponse
 import com.likeminds.likemindsfeed.post.model.PostData
@@ -198,6 +202,50 @@ object ModelConverter {
             _getCommentLikesResponse_.likes,
             _getCommentLikesResponse_.totalCount,
             convertUsersMap(_getCommentLikesResponse_.users)
+        )
+    }
+
+    // converts api GetReportTagsResponse model to LM GetReportTagsResponse model
+    fun convertGetReportTagsAPIResponse(
+        apiResponse: APIResponse<_GetReportTagsResponse_>
+    ): LMResponse<GetReportTagsResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetReportTagsResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal GetReportTagsResponse model to client model
+    fun convertGetReportTagsResponse(
+        _getReportTagsResponse_: _GetReportTagsResponse_?
+    ): GetReportTagsResponse? {
+        if (_getReportTagsResponse_ == null) {
+            return null
+        }
+        return GetReportTagsResponse(
+            convertReportTagsList(_getReportTagsResponse_.tags)
+        )
+    }
+
+    // converts internal ReportTag model list to client model list
+    fun convertReportTagsList(
+        _tags_: List<_ReportTag_>
+    ): List<ReportTag> {
+        val posts = mutableListOf<ReportTag>()
+        _tags_.forEach {
+            posts.add(convertReportTag(it))
+        }
+        return posts
+    }
+
+    // converts internal ReportTag model to client model
+    fun convertReportTag(
+        _reportTag_: _ReportTag_
+    ): ReportTag {
+        return ReportTag(
+            _reportTag_.id,
+            _reportTag_.name
         )
     }
 }

@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.moderation
 
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._PostReportRequest_
-import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
+import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,10 +14,10 @@ interface ModerationNetworkApi {
     @GET("community/report/tag")
     suspend fun getReportTags(
         @Query("type") type: Int
-    ): NetworkResponse<_GetReportTagsResponse_>
+    ): NetworkResponse<APIResponse<_GetReportTagsResponse_>>
 
     @POST("community/report")
     suspend fun postReport(
         @Body request: _PostReportRequest_
-    ): NetworkResponse<BaseResponse>
+    ): NetworkResponse<APIResponse<Nothing>>
 }

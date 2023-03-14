@@ -3,12 +3,14 @@ package com.likeminds.likemindsfeed.moderation
 import com.likeminds.internalsdk.moderation.model._GetReportTagsRequest_
 import com.likeminds.internalsdk.moderation.model._PostReportRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
 import com.likeminds.likemindsfeed.moderation.model.PostReportResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
+import com.likeminds.likemindsfeed.sdk.ModelConverter
 import javax.inject.Inject
 
 class ModerationClient @Inject constructor() : BaseClient() {
@@ -22,7 +24,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
      * @param getReportTagsRequest - client request model to fetch report tags
      * @return GetReportTagsResponse - client response model for getReportTagsRequest
      */
-    suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): GetReportTagsResponse {
+    suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): LMResponse<GetReportTagsResponse> {
         // builds internal request model
         val request = _GetReportTagsRequest_.Builder()
             .type(getReportTagsRequest.type)
@@ -31,17 +33,13 @@ class ModerationClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = api.getReportTags(request)) {
             is NetworkResponse.Error -> {
-                GetReportTagsResponse(
+                LMResponse(
                     success = response.body.success,
-                    errorMessage = response.body.errorMessage
+                    errorMessage = response.body.errorMessage,
                 )
             }
             is NetworkResponse.Success -> {
-                return GetReportTagsResponse(
-                    response.body.success,
-                    null,
-                    response.body.data,
-                )
+                ModelConverter.convertGetReportTagsAPIResponse(response.body)
             }
         }
     }
