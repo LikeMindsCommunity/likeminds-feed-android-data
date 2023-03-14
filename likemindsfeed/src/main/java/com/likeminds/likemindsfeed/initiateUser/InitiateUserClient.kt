@@ -33,7 +33,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param initiateUserRequest - client request model to initiate user
-     * @return InitiateUserResponse - client response model for initiateUserRequest
+     * @return InitiateUserResponse - InitiateUserResponse model for initiateUserRequest
      */
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
         RequestUtils.validate()
@@ -58,7 +58,6 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                     )
                 )
             }
-            //TODO: Confirm about the network and client models
             is NetworkResponse.Success -> {
                 val body = response.body
 

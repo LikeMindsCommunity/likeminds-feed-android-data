@@ -8,7 +8,6 @@ import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
-import com.likeminds.likemindsfeed.moderation.model.PostReportResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param getReportTagsRequest - client request model to fetch report tags
-     * @return GetReportTagsResponse - client response model for getReportTagsRequest
+     * @return GetReportTagsResponse - GetReportTagsResponse model for getReportTagsRequest
      */
     suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): LMResponse<GetReportTagsResponse> {
         // builds internal request model
@@ -47,9 +46,9 @@ class ModerationClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param postReportRequest - client request model to post report on the entity
-     * @return PostReportResponse - client response model for postReportRequest
+     * @return LMResponse<Nothing> - Base LM response
      */
-    suspend fun postReport(postReportRequest: PostReportRequest): PostReportResponse {
+    suspend fun postReport(postReportRequest: PostReportRequest): LMResponse<Nothing> {
         // builds internal request model
         val request = _PostReportRequest_.Builder()
             .entityId(postReportRequest.entityId)
@@ -63,13 +62,13 @@ class ModerationClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = api.postReport(request)) {
             is NetworkResponse.Error -> {
-                PostReportResponse(
+                LMResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
-                return PostReportResponse(
+                LMResponse(
                     response.body.success,
                     null
                 )

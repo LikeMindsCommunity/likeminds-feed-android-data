@@ -4,15 +4,6 @@ import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.sdk.model._User_
 
 data class _GetPostLikesResponse_(
-    @SerializedName("success")
-    var success: Boolean,
-    @SerializedName("error_message")
-    var errorMessage: String?,
-    @SerializedName("data")
-    var data: _PostLikesData_
-)
-
-data class _PostLikesData_(
     @SerializedName("likes")
     var likes: List<Like>,
     @SerializedName("total_count")

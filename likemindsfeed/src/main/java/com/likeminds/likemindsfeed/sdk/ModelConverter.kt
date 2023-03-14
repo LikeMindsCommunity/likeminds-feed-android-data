@@ -21,8 +21,6 @@ import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
 import com.likeminds.likemindsfeed.post.model.GetPostResponse
-import com.likeminds.likemindsfeed.post.model.PostData
-import com.likeminds.likemindsfeed.post.model.PostLikesData
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -129,32 +127,52 @@ object ModelConverter {
         )
     }
 
+    // converts api GetPostResponse model to LM GetPostResponse model
+    fun convertGetPostAPIResponse(
+        apiResponse: APIResponse<_GetPostResponse_>
+    ): LMResponse<GetPostResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetPostResponse(apiResponse.data)
+        )
+    }
+
     // converts internal GetPostResponse model to client model
     fun convertGetPostResponse(
-        _getPostResponse_: _GetPostResponse_
-    ): GetPostResponse {
+        _getPostResponse_: _GetPostResponse_?
+    ): GetPostResponse? {
+        if (_getPostResponse_ == null) {
+            return null
+        }
         return GetPostResponse(
-            _getPostResponse_.success,
-            _getPostResponse_.errorMessage,
-            PostData(
-                _getPostResponse_.data.post,
-                convertUsersMap(_getPostResponse_.data.users)
-            )
+            _getPostResponse_.post,
+            convertUsersMap(_getPostResponse_.users)
+        )
+    }
+
+    // converts api GetPostResponse model to LM GetPostResponse model
+    fun convertGetPostLikesAPIResponse(
+        apiResponse: APIResponse<_GetPostLikesResponse_>
+    ): LMResponse<GetPostLikesResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetPostLikesResponse(apiResponse.data)
         )
     }
 
     // converts internal GetPostLikesResponse model to client model
     fun convertGetPostLikesResponse(
-        _getPostLikesResponse_: _GetPostLikesResponse_
-    ): GetPostLikesResponse {
+        _getPostLikesResponse_: _GetPostLikesResponse_?
+    ): GetPostLikesResponse? {
+        if (_getPostLikesResponse_ == null) {
+            return null
+        }
         return GetPostLikesResponse(
-            _getPostLikesResponse_.success,
-            _getPostLikesResponse_.errorMessage,
-            PostLikesData(
-                _getPostLikesResponse_.data.likes,
-                _getPostLikesResponse_.data.totalCount,
-                convertUsersMap(_getPostLikesResponse_.data.users)
-            )
+            _getPostLikesResponse_.likes,
+            _getPostLikesResponse_.totalCount,
+            convertUsersMap(_getPostLikesResponse_.users)
         )
     }
 

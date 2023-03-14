@@ -1,5 +1,7 @@
 package com.likeminds.likemindsfeed.post.model
 
+import com.likeminds.internalsdk.post.model.Attachment
+
 class AddPostRequest private constructor(
     var text: String?,
     var attachments: MutableList<Attachment>?

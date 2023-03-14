@@ -90,7 +90,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param getCommentRequest - client request model to fetch comment and its paginated replies
-     * @return GetCommentResponse - GetCommentResponse response model for getCommentRequest
+     * @return GetCommentResponse - GetCommentResponse model for getCommentRequest
      */
     suspend fun getComment(getCommentRequest: GetCommentRequest): LMResponse<GetCommentResponse> {
         // builds internal request model
@@ -118,7 +118,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param getCommentLikesRequest - client request model to fetch likes data on the comment
-     * @return GetCommentLikesResponse - GetCommentLikesResponse response model for getCommentLikesRequest
+     * @return GetCommentLikesResponse - GetCommentLikesResponse model for getCommentLikesRequest
      */
     suspend fun getCommentLikes(getCommentLikesRequest: GetCommentLikesRequest): LMResponse<GetCommentLikesResponse> {
         // builds internal request model

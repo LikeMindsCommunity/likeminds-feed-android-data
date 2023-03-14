@@ -1,7 +1,7 @@
 package com.likeminds.internalsdk.sdk
 
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
-import com.likeminds.internalsdk.sdk.model._InitiateUserResponseData_
+import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.Body
@@ -14,5 +14,5 @@ interface SDKNetworkApi {
     suspend fun initiate(
         @Header("x-api-key") apiKey: String,
         @Body request: _InitiateUserRequest_,
-    ): NetworkResponse<APIResponse<_InitiateUserResponseData_>>
+    ): NetworkResponse<APIResponse<_InitiateUserResponse_>>
 }

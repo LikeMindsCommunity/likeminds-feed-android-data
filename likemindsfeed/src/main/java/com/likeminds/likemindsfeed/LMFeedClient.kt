@@ -9,7 +9,6 @@ import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
-import com.likeminds.likemindsfeed.moderation.model.PostReportResponse
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -74,47 +73,47 @@ class LMFeedClient {
     }
 
     // Exposed function to process add post request
-    suspend fun addPost(addPostRequest: AddPostRequest): AddPostResponse {
+    suspend fun addPost(addPostRequest: AddPostRequest): LMResponse<Nothing> {
         return postClient.addPost(addPostRequest)
     }
 
     // Exposed function to process fetch post request
-    suspend fun getPost(getPostRequest: GetPostRequest): GetPostResponse {
+    suspend fun getPost(getPostRequest: GetPostRequest): LMResponse<GetPostResponse> {
         return postClient.getPost(getPostRequest)
     }
 
     // Exposed function to process request to fetch paginated likes on the post
-    suspend fun getPostLikes(getPostLikesRequest: GetPostLikesRequest): GetPostLikesResponse {
+    suspend fun getPostLikes(getPostLikesRequest: GetPostLikesRequest): LMResponse<GetPostLikesResponse> {
         return postClient.getPostLikes(getPostLikesRequest)
     }
 
     // Exposed function to process request to delete the post
-    suspend fun deletePost(deletePostRequest: DeletePostRequest): DeletePostResponse {
+    suspend fun deletePost(deletePostRequest: DeletePostRequest): LMResponse<Nothing> {
         return postClient.deletePost(deletePostRequest)
     }
 
     // Exposed function to process request to like the post
-    suspend fun likePost(likePostRequest: LikePostRequest): LikePostResponse {
+    suspend fun likePost(likePostRequest: LikePostRequest): LMResponse<Nothing> {
         return postClient.likePost(likePostRequest)
     }
 
     // Exposed function to process request to save the post
-    suspend fun savePost(savePostRequest: SavePostRequest): SavePostResponse {
+    suspend fun savePost(savePostRequest: SavePostRequest): LMResponse<Nothing> {
         return postClient.savePost(savePostRequest)
     }
 
     // Exposed function to process request to pin the post
-    suspend fun pinPost(pinPostRequest: PinPostRequest): PinPostResponse {
+    suspend fun pinPost(pinPostRequest: PinPostRequest): LMResponse<Nothing> {
         return postClient.pinPost(pinPostRequest)
     }
 
     // Exposed function to process request to fetch report tags
-    suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): GetReportTagsResponse {
+    suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): LMResponse<GetReportTagsResponse> {
         return moderationClient.getReportTags(getReportTagsRequest)
     }
 
     // Exposed function to process request to post report on the entity
-    suspend fun postReport(postReportRequest: PostReportRequest): PostReportResponse {
+    suspend fun postReport(postReportRequest: PostReportRequest): LMResponse<Nothing> {
         return moderationClient.postReport(postReportRequest)
     }
 
