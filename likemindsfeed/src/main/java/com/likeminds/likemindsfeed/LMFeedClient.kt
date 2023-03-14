@@ -68,7 +68,7 @@ class LMFeedClient {
     }
 
     // Exposed function to process feed request
-    suspend fun getFeed(getFeedRequest: GetFeedRequest): GetFeedResponse {
+    suspend fun getFeed(getFeedRequest: GetFeedRequest): LMResponse<GetFeedResponse> {
         return universalFeedClient.getFeed(getFeedRequest)
     }
 

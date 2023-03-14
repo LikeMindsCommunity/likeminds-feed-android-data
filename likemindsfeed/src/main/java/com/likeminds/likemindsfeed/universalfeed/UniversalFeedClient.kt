@@ -2,6 +2,7 @@ package com.likeminds.likemindsfeed.universalfeed
 
 import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
@@ -18,9 +19,9 @@ class UniversalFeedClient @Inject constructor() : BaseClient() {
     /**
      * Converts client request model to internal model and calls the api
      * @param getFeedRequest - client request model to fetch feed
-     * @return GetFeedResponse - client response model for getFeedRequest
+     * @return GetFeedResponse - GetFeedResponse model for getFeedRequest
      */
-    suspend fun getFeed(getFeedRequest: GetFeedRequest): GetFeedResponse {
+    suspend fun getFeed(getFeedRequest: GetFeedRequest): LMResponse<GetFeedResponse> {
         // builds internal request model
         val request = _GetFeedRequest_.Builder().page(getFeedRequest.page)
             .pageSize(getFeedRequest.pageSize)
@@ -29,14 +30,14 @@ class UniversalFeedClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = api.getFeed(request)) {
             is NetworkResponse.Error -> {
-                GetFeedResponse(
+                LMResponse(
                     success = false,
                     errorMessage = response.body.errorMessage
                 )
             }
             is NetworkResponse.Success -> {
                 val body = response.body
-                return ModelConverter.convertGetFeedResponse(body)
+                ModelConverter.convertGetFeedAPIResponse(body)
             }
         }
     }

@@ -24,7 +24,6 @@ import com.likeminds.likemindsfeed.post.model.GetPostResponse
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
-import com.likeminds.likemindsfeed.universalfeed.model.FeedData
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 
 object ModelConverter {
@@ -113,17 +112,27 @@ object ModelConverter {
         }
     }
 
+    // converts api GetPostResponse model to LM GetPostResponse model
+    fun convertGetFeedAPIResponse(
+        apiResponse: APIResponse<_GetFeedResponse_>
+    ): LMResponse<GetFeedResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetFeedResponse(apiResponse.data)
+        )
+    }
+
     // converts internal GetFeedResponse model to client model
     fun convertGetFeedResponse(
-        _getFeedResponse_: _GetFeedResponse_
-    ): GetFeedResponse {
+        _getFeedResponse_: _GetFeedResponse_?
+    ): GetFeedResponse? {
+        if (_getFeedResponse_ == null) {
+            return null
+        }
         return GetFeedResponse(
-            _getFeedResponse_.success,
-            _getFeedResponse_.errorMessage,
-            FeedData(
-                _getFeedResponse_.data.posts,
-                convertUsersMap(_getFeedResponse_.data.users)
-            )
+            _getFeedResponse_.posts,
+            convertUsersMap(_getFeedResponse_.users)
         )
     }
 
