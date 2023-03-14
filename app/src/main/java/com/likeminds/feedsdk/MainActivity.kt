@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
-                    "result: ${clientResult?.initiateUser?.user?.name}",
+                    "result: ${clientResult?.data?.initiateUser?.user?.name}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -5,9 +5,11 @@ import com.likeminds.internalsdk.branding.model._BrandingBasic_
 import com.likeminds.internalsdk.branding.model._BrandingResponse_
 import com.likeminds.internalsdk.branding.model._Branding_
 import com.likeminds.internalsdk.sdk.model._Community_
-import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
+import com.likeminds.internalsdk.sdk.model._InitiateUserResponseData_
 import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
 import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
+import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.branding.model.Branding
 import com.likeminds.likemindsfeed.branding.model.BrandingAdvanced
 import com.likeminds.likemindsfeed.branding.model.BrandingBasic
@@ -26,15 +28,17 @@ object ModelConverter {
 
     // converts internal InitiateUserResponse model to client model
     fun convertInitiateUserResponse(
-        _initiateUserResponse_: _InitiateUserResponse_
-    ): InitiateUserResponse {
-        return InitiateUserResponse(
+        _initiateUserResponse_: APIResponse<_InitiateUserResponseData_>
+    ): LMResponse<InitiateUserResponse> {
+        return LMResponse<InitiateUserResponse>(
             _initiateUserResponse_.success,
             _initiateUserResponse_.errorMessage,
-            _initiateUserResponse_.data?.appAccess,
-            convertInitiateUser(
-                _initiateUserResponse_.data?.user!!,
-                _initiateUserResponse_.data?.community!!
+            InitiateUserResponse(
+                _initiateUserResponse_.data?.appAccess,
+                convertInitiateUser(
+                    _initiateUserResponse_.data?.user!!,
+                    _initiateUserResponse_.data?.community!!
+                )
             )
         )
     }

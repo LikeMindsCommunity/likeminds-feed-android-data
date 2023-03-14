@@ -45,7 +45,7 @@ class LMFeedClient {
         }
     }
 
-    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
+    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse>? {
         return initiateUserClient.initiateUser(initiateUserRequest)
     }
 

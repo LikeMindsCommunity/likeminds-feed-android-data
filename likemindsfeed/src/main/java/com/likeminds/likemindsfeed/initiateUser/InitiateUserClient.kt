@@ -3,11 +3,13 @@ package com.likeminds.likemindsfeed.initiateUser
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
+import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
 class InitiateUserClient @Inject constructor() : BaseClient() {
@@ -28,7 +30,13 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         }
     }
 
-    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
+    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse>? {
+        RequestUtils.validate()
+
+        if (initiateUserRequest.userName.isNullOrEmpty()){
+            RequestUtils.validateRequest("userName")
+        }
+
         val request =
             _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
                 .userName(initiateUserRequest.userName)
@@ -49,7 +57,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
-                return ModelConverter.convertInitiateUserResponse(body)
+                ModelConverter.convertInitiateUserResponse(body)
             }
         }
     }
