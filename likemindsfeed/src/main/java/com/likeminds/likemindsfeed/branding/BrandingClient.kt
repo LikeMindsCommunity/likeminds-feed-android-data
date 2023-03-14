@@ -27,11 +27,18 @@ class BrandingClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param brandingRequest - client request model to fetch branding
+     * @return BrandingResponse - client response model for brandingRequest
+     */
     suspend fun getBranding(brandingRequest: BrandingRequest): BrandingResponse {
+        // builds internal request model
         val request =
             _BrandingRequest_.Builder().communityId(brandingRequest.communityId)
                 .build()
         val api = collabmatesSDK.getBrandingApi()
+        // calls api and processes the response accordingly
         return when (val response = api.getBranding(request)) {
             is NetworkResponse.Error -> {
                 BrandingResponse(

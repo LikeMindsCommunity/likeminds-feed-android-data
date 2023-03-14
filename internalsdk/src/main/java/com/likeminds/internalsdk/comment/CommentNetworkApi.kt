@@ -16,6 +16,13 @@ interface CommentNetworkApi {
         @Body addCommentRequest: _AddCommentRequest_
     ): NetworkResponse<BaseResponse>
 
+    @POST("feed/post/{post_id}/comment/{comment_id}/comment")
+    suspend fun addReplyOnComment(
+        @Path("post_id") postId: String,
+        @Path("comment_id") commentId: String,
+        @Body addCommentRequest: _AddCommentRequest_
+    ): NetworkResponse<BaseResponse>
+
     @GET("feed/post/{post_id}/comment/{comment_id}")
     suspend fun getComment(
         @Path("post_id") postId: String,

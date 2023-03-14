@@ -13,7 +13,7 @@ interface ModerationNetworkApi {
 
     @GET("community/report/tag")
     suspend fun getReportTags(
-        @Query("type") type: Int?
+        @Query("type") type: Int
     ): NetworkResponse<_GetReportTagsResponse_>
 
     @POST("community/report")

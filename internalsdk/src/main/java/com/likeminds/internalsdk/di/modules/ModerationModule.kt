@@ -16,7 +16,7 @@ class ModerationModule {
 
     @Provides
     @Singleton
-    fun provideModerationModule(
+    fun provideModerationNetworkApi(
         client: OkHttpClient,
         gson: Gson,
         baseUrl: BaseUrl

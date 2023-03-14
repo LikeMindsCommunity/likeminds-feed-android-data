@@ -28,13 +28,20 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param initiateUserRequest - client request model to initiate user
+     * @return InitiateUserResponse - client response model for initiateUserRequest
+     */
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse {
+        // builds internal request model
         val request =
             _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
                 .userName(initiateUserRequest.userName)
                 .isGuest(initiateUserRequest.isGuest)
                 .build()
         val api = collabmatesSDK.getSDKApi()
+        // calls api and processes the response accordingly
         return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {
                 InitiateUserResponse(
@@ -48,9 +55,9 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
             is NetworkResponse.Success -> {
                 val body = response.body
 
-                val accessToken = response.body.data?.accessToken
-                val refreshToken = response.body.data?.refreshToken
-                val userId = response.body.data?.user?.id
+                val accessToken = body.data?.accessToken
+                val refreshToken = body.data?.refreshToken
+                val userId = body.data?.user?.id
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)

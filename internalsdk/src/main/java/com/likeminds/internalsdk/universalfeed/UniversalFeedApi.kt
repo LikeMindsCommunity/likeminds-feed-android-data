@@ -6,6 +6,7 @@ import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
 interface UniversalFeedApi {
 
+    // api to fetch paginated feed data
     suspend fun getFeed(
         request: _GetFeedRequest_
     ): NetworkResponse<_GetFeedResponse_>

@@ -16,7 +16,7 @@ class CommentModule {
 
     @Provides
     @Singleton
-    fun provideCommentModule(
+    fun provideCommentNetworkApi(
         client: OkHttpClient,
         gson: Gson,
         baseUrl: BaseUrl

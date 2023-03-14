@@ -18,7 +18,7 @@ class BrandingModule {
     //TODO: TO be shifted to Kettle
     @Provides
     @Singleton
-    fun provideBrandingModule(
+    fun provideBrandingNetworkApi(
         client: OkHttpClient,
         gson: Gson,
         baseUrl: BaseUrl

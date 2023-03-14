@@ -15,6 +15,12 @@ class CommentApiImpl @Inject constructor(
         return commentReceiver.addComment(request)
     }
 
+    override suspend fun addReplyOnComment(
+        request: _AddCommentRequest_
+    ): NetworkResponse<BaseResponse> {
+        return commentReceiver.addReplyOnComment(request)
+    }
+
     override suspend fun getComment(
         request: _GetCommentRequest_
     ): NetworkResponse<_GetCommentResponse_> {

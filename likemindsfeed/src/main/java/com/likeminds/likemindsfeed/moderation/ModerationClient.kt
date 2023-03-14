@@ -17,11 +17,18 @@ class ModerationClient @Inject constructor() : BaseClient() {
         LikeMindsFeedApplication.getInstance().moderationComponent()?.inject(this)
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param getReportTagsRequest - client request model to fetch report tags
+     * @return GetReportTagsResponse - client response model for getReportTagsRequest
+     */
     suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): GetReportTagsResponse {
+        // builds internal request model
         val request = _GetReportTagsRequest_.Builder()
             .type(getReportTagsRequest.type)
             .build()
         val api = collabmatesSDK.moderationApi()
+        // calls api and processes the response accordingly
         return when (val response = api.getReportTags(request)) {
             is NetworkResponse.Error -> {
                 GetReportTagsResponse(
@@ -39,7 +46,13 @@ class ModerationClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param postReportRequest - client request model to post report on the entity
+     * @return PostReportResponse - client response model for postReportRequest
+     */
     suspend fun postReport(postReportRequest: PostReportRequest): PostReportResponse {
+        // builds internal request model
         val request = _PostReportRequest_.Builder()
             .entityId(postReportRequest.entityId)
             .entityCreatorId(postReportRequest.entityCreatorId)
@@ -49,6 +62,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
             .reason(postReportRequest.reason)
             .build()
         val api = collabmatesSDK.moderationApi()
+        // calls api and processes the response accordingly
         return when (val response = api.postReport(request)) {
             is NetworkResponse.Error -> {
                 PostReportResponse(
