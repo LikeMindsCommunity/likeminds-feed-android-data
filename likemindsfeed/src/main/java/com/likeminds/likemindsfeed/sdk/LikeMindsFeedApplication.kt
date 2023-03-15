@@ -51,9 +51,6 @@ internal class LikeMindsFeedApplication private constructor() {
         //init dagger
         initLikeMindsFeedComponent(extra.application)
         collabmatesSDK.initialize(sdkSharedResources)
-
-        //save extras
-        saveExtrasInPreferences(extra)
     }
 
     private fun initLikeMindsFeedComponent(application: Application) {
@@ -63,11 +60,6 @@ internal class LikeMindsFeedApplication private constructor() {
                 .build()
         }
         likeMindsFeedComponent?.inject(this)
-    }
-
-    private fun saveExtrasInPreferences(extra: InitiateLikeMindsExtra) {
-        sdkPreferences.setAPIKey(extra.apiKey)
-        sdkPreferences.setNotificationIcon(extra.notificationIcon ?: 0)
     }
 
     fun initiateUserComponent(): InitiateUserSubComponent? {

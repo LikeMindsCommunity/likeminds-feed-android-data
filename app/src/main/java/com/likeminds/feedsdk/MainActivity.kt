@@ -22,7 +22,9 @@ class MainActivity : AppCompatActivity() {
         val client = LMFeedClient.getInstance()
         CoroutineScope(Dispatchers.IO).launch {
             val clientResult = client.initiateUser(
-                InitiateUserRequest.Builder().userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
+                InitiateUserRequest.Builder()
+                    .apiKey("6a4cc38e-02c7-4dfa-96b7-68a3078ad922")
+                    .userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
                     .userName("Mahir Gupta")
                     .isGuest(false)
                     .build()
