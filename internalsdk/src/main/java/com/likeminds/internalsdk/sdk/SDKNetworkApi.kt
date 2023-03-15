@@ -11,7 +11,7 @@ import retrofit2.http.POST
 interface SDKNetworkApi {
 
     @POST("sdk/initiate")
-    suspend fun initiate(
+    suspend fun initiateUser(
         @Header("x-api-key") apiKey: String,
         @Body request: _InitiateUserRequest_,
     ): NetworkResponse<APIResponse<_InitiateUserResponse_>>

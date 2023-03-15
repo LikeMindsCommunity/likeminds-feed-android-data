@@ -5,6 +5,7 @@ import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
 interface RefreshTokenApi {
 
+    // api to refresh access token
     suspend fun refreshAccessToken(
         refreshToken: String,
     ): NetworkResponse<_RefreshTokenResponse_>

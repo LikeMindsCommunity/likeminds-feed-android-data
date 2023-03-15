@@ -7,7 +7,7 @@ import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
 
 class SDKApiImpl @Inject constructor(private val sdkReceiver: SDKReceiver) : SDKApi {
-    override suspend fun initiate(
+    override suspend fun initiateUser(
         apiKey: String,
         request: _InitiateUserRequest_
     ): NetworkResponse<APIResponse<_InitiateUserResponse_>> {

@@ -14,18 +14,26 @@ class SDKPreferences @Inject constructor(
         private const val NOTIFICATION_ICON = "NOTIFICATION_ICON"
     }
 
+    // stores api key in SharedPreferences
     fun setAPIKey(apiKey: String) {
         putPreference(API_KEY, apiKey)
     }
 
+    /**
+     * @return api key from SharedPreferences
+     */
     fun getAPIKey(): String {
         return getPreference(API_KEY, "") ?: ""
     }
 
+    // stores notification icon in SharedPreferences
     fun setNotificationIcon(notificationIcon: Int) {
         putPreference(NOTIFICATION_ICON, notificationIcon)
     }
 
+    /**
+     * @return api key from SharedPreferences
+     */
     fun getNotificationIcon(): Int {
         return getPreference(NOTIFICATION_ICON, 0)
     }

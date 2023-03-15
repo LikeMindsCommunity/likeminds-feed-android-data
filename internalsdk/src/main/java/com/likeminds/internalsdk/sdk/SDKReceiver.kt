@@ -12,6 +12,6 @@ class SDKReceiver @Inject constructor(private val sdkNetworkApi: SDKNetworkApi) 
         apiKey: String,
         request: _InitiateUserRequest_
     ): NetworkResponse<APIResponse<_InitiateUserResponse_>> {
-        return sdkNetworkApi.initiate(apiKey, request)
+        return sdkNetworkApi.initiateUser(apiKey, request)
     }
 }

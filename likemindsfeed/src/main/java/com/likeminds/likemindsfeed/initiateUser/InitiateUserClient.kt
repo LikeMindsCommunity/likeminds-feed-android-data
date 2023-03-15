@@ -49,7 +49,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 .build()
         val api = collabmatesSDK.getSDKApi()
         // calls api and processes the response accordingly
-        return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
+        return when (val response = api.initiateUser(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,
