@@ -54,7 +54,7 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validateGetPostRequest(getPostRequest: GetPostRequest) {
         if (getPostRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
     }
 
@@ -97,7 +97,7 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validateAddPostRequest(addPostRequest: AddPostRequest) {
         if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
-            RequestUtils.validateRequest("text")
+            RequestUtils.throwException("text")
         }
     }
 
@@ -137,7 +137,7 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validateGetPostLikesRequest(getPostLikesRequest: GetPostLikesRequest) {
         if (getPostLikesRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
     }
 
@@ -180,7 +180,7 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validateDeletePostRequest(deletePostRequest: DeletePostRequest) {
         if (deletePostRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
     }
 
@@ -222,7 +222,7 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validateLikePostRequest(likePostRequest: LikePostRequest) {
         if (likePostRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
     }
 
@@ -264,7 +264,7 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validateSavePostRequest(savePostRequest: SavePostRequest) {
         if (savePostRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
     }
 
@@ -306,7 +306,7 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validatePinPostRequest(pinPostRequest: PinPostRequest) {
         if (pinPostRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
     }
 }

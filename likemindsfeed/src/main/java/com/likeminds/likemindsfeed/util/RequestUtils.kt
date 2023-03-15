@@ -16,7 +16,7 @@ object RequestUtils {
      * @param property - Name of property which is null or empty
      * @throws IllegalAccessException - as required property is empty/null
      */
-    fun validateRequest(property: String) {
-        throw IllegalAccessException("$property is empty.")
+    fun throwException(property: String) {
+        throw IllegalArgumentException("$property is empty.")
     }
 }
