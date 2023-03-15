@@ -22,35 +22,52 @@ import java.io.FileOutputStream
 
 object FileUtils {
 
+    /**
+     * @param filePath - Path of file in external storage
+     * @return fileName - Name of the file in external storage
+     */
     fun getFileNameFromPath(
         filePath: String?
     ): String? {
         return filePath?.substring(filePath.lastIndexOf("/") + 1)
     }
 
+    /**
+     * @param awsFolderPath - AWS folder path where file will be uploaded
+     * @return url - Complete url to upload file to aws
+     */
     fun generateUrlFromAWSFolderPath(
         awsFolderPath: String?
     ): String {
         return BuildConfig.URLS_MAP[BuildConfig.BUCKET_BASE_URL] + awsFolderPath
     }
 
+    /**
+     * @param fileName - Name of the file to be uploaded
+     * @return awsFolderPath - Generates and returns AWS folder path where file will be uploaded
+     */
     fun generateAWSFolderPathFromFilePath(
-        name: String?
+        fileName: String?
     ): String {
+        //TODO: use user_unique_id
         val tokenManager = TokenManager.getInstance()
         val userId = tokenManager.memberId
-        return "post/$userId/" + name + "-" + System.currentTimeMillis()
+        return "post/$userId/" + fileName + "-" + System.currentTimeMillis()
     }
 
     /**
-     * Returns sd card path for an Uri
-     * @param uri single Uri
+     * @param uri - ContentUri
+     * @return path - full path of the file
      */
     fun getRealPath(context: Context, uri: Uri): String {
         val contentResolver = context.contentResolver
         val pathTempFile = getFullPathTemp(context, uri)
         val file = File(pathTempFile)
         val returnedPath = getPath(context, uri)
+        Log.d("PUI", """"
+        path temp: $pathTempFile  
+          returned: $returnedPath 
+        """.trimIndent())
         return when {
             //Third Party App
             returnedPath.isBlank() -> {

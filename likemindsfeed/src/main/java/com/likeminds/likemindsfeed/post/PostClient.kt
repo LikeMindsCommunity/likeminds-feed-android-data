@@ -1,23 +1,18 @@
 package com.likeminds.likemindsfeed.post
 
 import android.annotation.SuppressLint
-import android.app.Application
 import androidx.work.WorkContinuation
 import androidx.work.WorkManager
 import com.google.gson.Gson
-import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.post.model._AddPostRequest_
-import com.likeminds.internalsdk.post.model._Attachment_
-import com.likeminds.internalsdk.post.model._GetPostRequest_
-import com.likeminds.internalsdk.post.utils.PostAttachmentUploadWorker
 import com.likeminds.internalsdk.post.model.*
+import com.likeminds.internalsdk.post.utils.PostAttachmentUploadWorker
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.sdk.ModelConverter.createAttachmentsRequest
+import com.likeminds.likemindsfeed.sdk.ModelConverter.createAttachments
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
@@ -80,7 +75,8 @@ class PostClient @Inject constructor() : BaseClient() {
         RequestUtils.validate()
         validateAddPostRequest(addPostRequest)
 
-        val attachments = createAttachmentsRequest(applicationContext, addPostRequest.attachments)
+        val attachments =
+            createAttachments(collabmatesSDK.application, addPostRequest.attachments)
 
         // builds internal request model
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
@@ -143,7 +139,7 @@ class PostClient @Inject constructor() : BaseClient() {
         val oneTimeWorkRequest =
             PostAttachmentUploadWorker.getInstance(jsonAttachment)
         val workContinuation =
-            WorkManager.getInstance(applicationContext).beginWith(oneTimeWorkRequest)
+            WorkManager.getInstance(collabmatesSDK.application).beginWith(oneTimeWorkRequest)
         collabmatesSDK.postPreferences.setAttachmentUploadWorkerUUID(oneTimeWorkRequest.id.toString())
         return Pair(workContinuation, oneTimeWorkRequest.id.toString())
     }

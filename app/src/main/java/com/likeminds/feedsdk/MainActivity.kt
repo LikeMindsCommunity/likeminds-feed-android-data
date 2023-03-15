@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.post.model.AddPostRequest
+import com.likeminds.likemindsfeed.post.model.Attachment
+import com.likeminds.likemindsfeed.post.model.AttachmentMeta
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
@@ -143,33 +146,30 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
 
-//            val postResult = client.addPost(
-//                AddPostRequest.Builder().text("testinggg")
-//                    .attachments(
-//                        listOf(
-//                            Attachment(
-//                                4,
-//                                AttachmentMeta(
-//                                    ogTags = LinkOGTags(
-//                                        "Youtube video",
-//                                        "https://i.ytimg.com/vi/EbyAoYaUcVo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDiI5bXtT71sC4IAnHiDAh52LxbFA",
-//                                        "This is a youtube video",
-//                                        "https://www.youtube.com/watch?v=sAuQjwEl-Bo"
-//                                    )
-//                                )
-//                            )
-//                        )
-//                    )
-//                    .build()
-//            )
-//            withContext(Dispatchers.Main) {
-//                Toast.makeText(
-//                    this@MainActivity,
-//                    "result: ${postResult.success}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
+            val postResult = client.addPost(
+                AddPostRequest.Builder().text("testinggg")
+                    .attachments(
+                        listOf(
+                            Attachment.Builder()
+                                .attachmentType(1)
+                                .attachmentMeta(
+                                    AttachmentMeta.Builder()
+                                        .localFilePath("content://media/external/images/media/1000017745")
+                                        .build()
+                                )
+                                .build()
+                        )
+                    )
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${postResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }
