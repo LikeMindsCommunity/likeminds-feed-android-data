@@ -5,14 +5,20 @@ import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserStateDetails
 import com.google.gson.Gson
-import com.likeminds.internalsdk.branding.BrandingApi
-import com.likeminds.internalsdk.branding.BrandingApiImpl
+import com.likeminds.internalsdk.comment.CommentApi
+import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.moderation.ModerationApi
+import com.likeminds.internalsdk.moderation.ModerationApiImpl
+import com.likeminds.internalsdk.post.PostApi
+import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
 import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.SDKApiImpl
+import com.likeminds.internalsdk.universalfeed.UniversalFeedApi
+import com.likeminds.internalsdk.universalfeed.UniversalFeedApiImpl
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,10 +36,19 @@ class CollabmatesSDK {
     lateinit var sdkApiImpl: SDKApiImpl
 
     @Inject
-    lateinit var brandingApiImpl: BrandingApiImpl
+    lateinit var universalFeedApiImpl: UniversalFeedApiImpl
+
+    @Inject
+    lateinit var postApiImpl: PostApiImpl
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
+
+    @Inject
+    lateinit var commentApiImpl: CommentApiImpl
+
+    @Inject
+    lateinit var moderationApiImpl: ModerationApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -76,7 +91,19 @@ class CollabmatesSDK {
         return sdkApiImpl
     }
 
-    fun getBrandingApi(): BrandingApi {
-        return brandingApiImpl
+    fun getUniversalFeedApi(): UniversalFeedApi {
+        return universalFeedApiImpl
+    }
+
+    fun getCommentApi(): CommentApi {
+        return commentApiImpl
+    }
+
+    fun postApi(): PostApi {
+        return postApiImpl
+    }
+
+    fun moderationApi(): ModerationApi {
+        return moderationApiImpl
     }
 }

@@ -3,11 +3,13 @@ package com.likeminds.likemindsfeed.initiateUser
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
+import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
 class InitiateUserClient @Inject constructor() : BaseClient() {
@@ -28,29 +30,64 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         }
     }
 
-    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse? {
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param initiateUserRequest - client request model to initiate user
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return InitiateUserResponse - InitiateUserResponse model for initiateUserRequest
+     */
+    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateInitiateUserRequest(initiateUserRequest)
+
+        // builds internal request model
         val request =
             _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
+                .apiKey(initiateUserRequest.apiKey)
                 .userName(initiateUserRequest.userName)
                 .isGuest(initiateUserRequest.isGuest)
                 .build()
         val api = collabmatesSDK.getSDKApi()
-        return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
+        // calls api and processes the response accordingly
+        return when (val response = api.initiateUser(request.apiKey!!, request)) {
             is NetworkResponse.Error -> {
-                null
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage,
+                    InitiateUserResponse(
+                        appAccess = false,
+                        initiateUser = null
+                    )
+                )
             }
-            //TODO: Confirm about the network and client models
             is NetworkResponse.Success -> {
                 val body = response.body
 
-                val accessToken = response.body.data?.accessToken
-                val refreshToken = response.body.data?.refreshToken
-                val userId = response.body.data?.user?.id
+                val accessToken = body.data?.accessToken
+                val refreshToken = body.data?.refreshToken
+                val userId = body.data?.user?.id
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
-                return ModelConverter.convertInitiateUserResponse(body)
+                ModelConverter.convertInitiateUserResponse(body)
             }
+        }
+    }
+
+    /**
+     * validates initiateUserRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
+        if (initiateUserRequest.userId.isNullOrEmpty()) {
+            RequestUtils.throwException("userId")
+        }
+        if (initiateUserRequest.isGuest == null) {
+            RequestUtils.throwException("isGuest")
+        }
+        if (initiateUserRequest.apiKey.isEmpty()) {
+            RequestUtils.throwException("apiKey")
         }
     }
 }
