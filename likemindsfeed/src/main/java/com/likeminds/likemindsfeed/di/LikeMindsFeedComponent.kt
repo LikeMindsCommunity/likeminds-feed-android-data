@@ -1,14 +1,14 @@
 package com.likeminds.likemindsfeed.di
 
 import android.app.Application
-import com.likeminds.internalsdk.di.modules.CommentModule
-import com.likeminds.internalsdk.di.modules.ModerationModule
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.di.comment.CommentModule
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserModule
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.internalsdk.SDKModule
 import com.likeminds.likemindsfeed.di.internalsdk.SharedModule
+import com.likeminds.likemindsfeed.di.moderation.ModerationModule
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.post.PostModule
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
