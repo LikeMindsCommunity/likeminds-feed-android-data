@@ -44,12 +44,13 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request =
             _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
+                .apiKey(initiateUserRequest.apiKey)
                 .userName(initiateUserRequest.userName)
                 .isGuest(initiateUserRequest.isGuest)
                 .build()
         val api = collabmatesSDK.getSDKApi()
         // calls api and processes the response accordingly
-        return when (val response = api.initiateUser(sdkPreferences.getAPIKey(), request)) {
+        return when (val response = api.initiateUser(request.apiKey!!, request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,
@@ -80,10 +81,13 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
      */
     private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
         if (initiateUserRequest.userId.isNullOrEmpty()) {
-            RequestUtils.validateRequest("userId")
+            RequestUtils.throwException("userId")
         }
         if (initiateUserRequest.isGuest == null) {
-            RequestUtils.validateRequest("isGuest")
+            RequestUtils.throwException("isGuest")
+        }
+        if (initiateUserRequest.apiKey.isEmpty()) {
+            RequestUtils.throwException("apiKey")
         }
     }
 }

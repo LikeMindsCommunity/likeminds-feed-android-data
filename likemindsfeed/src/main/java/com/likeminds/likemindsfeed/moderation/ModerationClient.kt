@@ -92,10 +92,10 @@ class ModerationClient @Inject constructor() : BaseClient() {
      */
     private fun validatePostReportRequest(postReportRequest: PostReportRequest) {
         if (postReportRequest.entityId.isEmpty()) {
-            RequestUtils.validateRequest("entityId")
+            RequestUtils.throwException("entityId")
         }
         if (postReportRequest.entityCreatorId.isEmpty()) {
-            RequestUtils.validateRequest("entityCreatorId")
+            RequestUtils.throwException("entityCreatorId")
         }
     }
 }

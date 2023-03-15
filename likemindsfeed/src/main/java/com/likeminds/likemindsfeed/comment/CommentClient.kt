@@ -68,10 +68,10 @@ class CommentClient @Inject constructor() : BaseClient() {
      */
     private fun validateAddCommentRequest(addCommentRequest: AddCommentRequest) {
         if (addCommentRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
         if (addCommentRequest.text.isEmpty()) {
-            RequestUtils.validateRequest("text")
+            RequestUtils.throwException("text")
         }
     }
 
@@ -116,13 +116,13 @@ class CommentClient @Inject constructor() : BaseClient() {
      */
     private fun validateAddReplyOnCommentRequest(addReplyOnCommentRequest: AddReplyOnCommentRequest) {
         if (addReplyOnCommentRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
         if (addReplyOnCommentRequest.commentId.isEmpty()) {
-            RequestUtils.validateRequest("commentId")
+            RequestUtils.throwException("commentId")
         }
         if (addReplyOnCommentRequest.text.isEmpty()) {
-            RequestUtils.validateRequest("text")
+            RequestUtils.throwException("text")
         }
     }
 
@@ -165,10 +165,10 @@ class CommentClient @Inject constructor() : BaseClient() {
      */
     private fun validateGetCommentRequest(getCommentRequest: GetCommentRequest) {
         if (getCommentRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
         if (getCommentRequest.commentId.isEmpty()) {
-            RequestUtils.validateRequest("commentId")
+            RequestUtils.throwException("commentId")
         }
     }
 
@@ -211,10 +211,10 @@ class CommentClient @Inject constructor() : BaseClient() {
      */
     private fun validateGetCommentLikesRequest(getCommentLikesRequest: GetCommentLikesRequest) {
         if (getCommentLikesRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
         if (getCommentLikesRequest.commentId.isEmpty()) {
-            RequestUtils.validateRequest("commentId")
+            RequestUtils.throwException("commentId")
         }
     }
 
@@ -258,10 +258,10 @@ class CommentClient @Inject constructor() : BaseClient() {
      */
     private fun validateLikeCommentRequest(likeCommentRequest: LikeCommentRequest) {
         if (likeCommentRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
         if (likeCommentRequest.commentId.isEmpty()) {
-            RequestUtils.validateRequest("commentId")
+            RequestUtils.throwException("commentId")
         }
     }
 
@@ -306,10 +306,10 @@ class CommentClient @Inject constructor() : BaseClient() {
      */
     private fun validateDeleteCommentRequest(deleteCommentRequest: DeleteCommentRequest) {
         if (deleteCommentRequest.postId.isEmpty()) {
-            RequestUtils.validateRequest("postId")
+            RequestUtils.throwException("postId")
         }
         if (deleteCommentRequest.commentId.isEmpty()) {
-            RequestUtils.validateRequest("commentId")
+            RequestUtils.throwException("commentId")
         }
     }
 }
