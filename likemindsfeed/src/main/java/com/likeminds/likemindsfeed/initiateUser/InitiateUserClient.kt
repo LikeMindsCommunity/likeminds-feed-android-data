@@ -80,10 +80,10 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
      */
     private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
         if (initiateUserRequest.userId.isNullOrEmpty()) {
-            RequestUtils.validateRequest("userId")
+            RequestUtils.throwException("userId")
         }
         if (initiateUserRequest.isGuest == null) {
-            RequestUtils.validateRequest("isGuest")
+            RequestUtils.throwException("isGuest")
         }
     }
 }
