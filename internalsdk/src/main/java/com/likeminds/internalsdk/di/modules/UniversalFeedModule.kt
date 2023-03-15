@@ -16,7 +16,7 @@ class UniversalFeedModule {
 
     @Provides
     @Singleton
-    fun provideUniversalFeedModule(
+    fun provideUniversalFeedNetworkApi(
         client: OkHttpClient,
         gson: Gson,
         baseUrl: BaseUrl

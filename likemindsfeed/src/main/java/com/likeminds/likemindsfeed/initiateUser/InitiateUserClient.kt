@@ -1,60 +1,89 @@
 package com.likeminds.likemindsfeed.initiateUser
 
-import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.TokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import com.likeminds.likemindsfeed.LMResponse
+import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.sdk.utils.SDKPreferences
+import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
-class InitiateUserClient @Inject constructor() {
+class InitiateUserClient @Inject constructor() : BaseClient() {
 
-    init {
-        attachDagger()
-    }
-
-    @Inject
-    lateinit var sdkPreferences: SDKPreferences
-
-    @Inject
-    lateinit var collabmatesSDK: CollabmatesSDK
-
-    private fun attachDagger() {
+    override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
     }
 
-    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): InitiateUserResponse {
+    companion object {
+        @JvmStatic
+        private var initiateUserClient: InitiateUserClient? = null
+
+        fun getInstance(): InitiateUserClient {
+            if (initiateUserClient == null) {
+                initiateUserClient = InitiateUserClient()
+            }
+            return initiateUserClient!!
+        }
+    }
+
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param initiateUserRequest - client request model to initiate user
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return InitiateUserResponse - InitiateUserResponse model for initiateUserRequest
+     */
+    suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateInitiateUserRequest(initiateUserRequest)
+
+        // builds internal request model
         val request =
             _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
                 .userName(initiateUserRequest.userName)
                 .isGuest(initiateUserRequest.isGuest)
                 .build()
         val api = collabmatesSDK.getSDKApi()
-        return when (val response = api.initiate(sdkPreferences.getAPIKey(), request)) {
+        // calls api and processes the response accordingly
+        return when (val response = api.initiateUser(sdkPreferences.getAPIKey(), request)) {
             is NetworkResponse.Error -> {
-                InitiateUserResponse(
+                LMResponse(
                     success = false,
                     errorMessage = response.body.errorMessage,
-                    appAccess = false,
-                    initiateUser = null
+                    InitiateUserResponse(
+                        appAccess = false,
+                        initiateUser = null
+                    )
                 )
             }
-            //TODO: Confirm about the network and client models
             is NetworkResponse.Success -> {
                 val body = response.body
 
-                val accessToken = response.body.data?.accessToken
-                val refreshToken = response.body.data?.refreshToken
-                val userId = response.body.data?.user?.id
+                val accessToken = body.data?.accessToken
+                val refreshToken = body.data?.refreshToken
+                val userId = body.data?.user?.id
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
-                return ModelConverter.convertInitiateUserResponse(body)
+                ModelConverter.convertInitiateUserResponse(body)
             }
+        }
+    }
+
+    /**
+     * validates initiateUserRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
+        if (initiateUserRequest.userId.isNullOrEmpty()) {
+            RequestUtils.validateRequest("userId")
+        }
+        if (initiateUserRequest.isGuest == null) {
+            RequestUtils.validateRequest("isGuest")
         }
     }
 }

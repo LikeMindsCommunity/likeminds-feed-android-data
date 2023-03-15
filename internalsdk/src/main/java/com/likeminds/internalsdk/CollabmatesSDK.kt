@@ -6,11 +6,13 @@ import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserStateDetails
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.google.gson.Gson
-import com.likeminds.internalsdk.branding.BrandingApi
-import com.likeminds.internalsdk.branding.BrandingApiImpl
+import com.likeminds.internalsdk.comment.CommentApi
+import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.moderation.ModerationApi
+import com.likeminds.internalsdk.moderation.ModerationApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.post.utils.PostPreferences
@@ -36,9 +38,6 @@ class CollabmatesSDK {
     lateinit var sdkApiImpl: SDKApiImpl
 
     @Inject
-    lateinit var brandingApiImpl: BrandingApiImpl
-
-    @Inject
     lateinit var universalFeedApiImpl: UniversalFeedApiImpl
 
     @Inject
@@ -53,8 +52,15 @@ class CollabmatesSDK {
     @Inject
     lateinit var postPreferences: PostPreferences
 
+    @Inject
+    lateinit var commentApiImpl: CommentApiImpl
+
+    @Inject
+    lateinit var moderationApiImpl: ModerationApiImpl
+
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
+        const val LOG_TAG = "LikeMinds"
 
         @JvmStatic
         fun getInstance(): CollabmatesSDK {
@@ -93,12 +99,12 @@ class CollabmatesSDK {
         return sdkApiImpl
     }
 
-    fun getBrandingApi(): BrandingApi {
-        return brandingApiImpl
-    }
-
     fun getUniversalFeedApi(): UniversalFeedApi {
         return universalFeedApiImpl
+    }
+
+    fun getCommentApi(): CommentApi {
+        return commentApiImpl
     }
 
     fun postApi(): PostApi {
@@ -107,5 +113,9 @@ class CollabmatesSDK {
 
     fun getPostPreference(): PostPreferences {
         return postPreferences
+    }
+
+    fun moderationApi(): ModerationApi {
+        return moderationApiImpl
     }
 }

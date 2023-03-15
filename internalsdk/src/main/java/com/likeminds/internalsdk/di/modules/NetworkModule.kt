@@ -1,7 +1,6 @@
 package com.likeminds.internalsdk.di.modules
 
 import android.content.Context
-import android.util.Log
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
@@ -36,7 +35,6 @@ class NetworkModule {
             .readTimeout(30L, TimeUnit.SECONDS)
             .connectTimeout(30L, TimeUnit.SECONDS)
             .writeTimeout(30L, TimeUnit.SECONDS)
-
         clientBuilder.authenticator(tokenAuthenticator)
         clientBuilder.addInterceptor(chuckerInterceptor)
         clientBuilder.addInterceptor(commonHeaderInterceptor)

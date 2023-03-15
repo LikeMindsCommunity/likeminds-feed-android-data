@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.sdk.model
 
-// TODO Confirm about creating duplicates or reusing the same
 data class User(
     var id: String,
     var imageUrl: String,
