@@ -18,7 +18,6 @@ import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
@@ -40,29 +39,26 @@ object ModelConverter {
 
     // converts api InitiateUserResponse model to LM InitiateUserResponse model
     fun convertInitiateUserResponse(
-        _initiateUserResponse_: APIResponse<_InitiateUserResponse_>
+        apiResponse: APIResponse<_InitiateUserResponse_>
     ): LMResponse<InitiateUserResponse> {
         return LMResponse(
-            _initiateUserResponse_.success,
-            _initiateUserResponse_.errorMessage,
-            InitiateUserResponse(
-                _initiateUserResponse_.data?.appAccess,
-                convertInitiateUser(
-                    _initiateUserResponse_.data?.user!!,
-                    _initiateUserResponse_.data?.community!!
-                )
-            )
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertInitiateUserResponse(apiResponse.data)
         )
     }
 
-    // converts internal InitiateUser model to client model
-    fun convertInitiateUser(
-        _user_: _User_,
-        _community_: _Community_
-    ): InitiateUser {
-        return InitiateUser(
-            convertUser(_user_),
-            convertCommunity(_community_)
+    // converts internal InitiateUserResponse model to client model
+    fun convertInitiateUserResponse(
+        _initiateUserResponse_: _InitiateUserResponse_?
+    ): InitiateUserResponse? {
+        if (_initiateUserResponse_ == null) return null
+        return InitiateUserResponse(
+            _initiateUserResponse_.accessToken,
+            _initiateUserResponse_.refreshToken,
+            convertUser(_initiateUserResponse_.user),
+            convertCommunity(_initiateUserResponse_.community),
+            _initiateUserResponse_.appAccess
         )
     }
 
