@@ -75,27 +75,48 @@ class PostClient @Inject constructor() : BaseClient() {
         RequestUtils.validate()
         validateAddPostRequest(addPostRequest)
 
-        // creates attachments with aws url
-        val attachments =
-            createAttachments(collabmatesSDK.application, addPostRequest.attachments)
-
         // builds internal request model
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
-            .attachments(attachments)
+            .attachments(createAttachments(addPostRequest.attachments))
             .build()
-        val uploadData: Pair<WorkContinuation, String>
-        return if (hasUploadAbleAttachments(attachments)) {
-            uploadData = startMediaUploadWorker(attachments!!)
-            uploadData.first.enqueue()
-            // TODO: call add post api once worker succeeded
-            // TODO: Observe the worker and return response according
-            LMResponse(
-                success = false,
-                null
-            )
-        } else {
-            callAddPostApi(request)
+        val api = collabmatesSDK.postApi()
+        // calls api and processes the response accordingly
+        return when (val response = api.addPost(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                LMResponse(
+                    success = response.body.success,
+                    null
+                )
+            }
         }
+
+        // creates attachments with aws url
+//        val attachments =
+//            createAttachments(collabmatesSDK.application, addPostRequest.attachments)
+//
+//        // builds internal request model
+//        val request = _AddPostRequest_.Builder().text(addPostRequest.text)
+//            .attachments(attachments)
+//            .build()
+//        val uploadData: Pair<WorkContinuation, String>
+//        return if (hasUploadAbleAttachments(attachments)) {
+//            uploadData = startMediaUploadWorker(attachments!!)
+//            uploadData.first.enqueue()
+//            // TODO: call add post api once worker succeeded
+//            // TODO: Observe the worker and return response according
+//            LMResponse(
+//                success = false,
+//                null
+//            )
+//        } else {
+//            callAddPostApi(request)
+//        }
     }
 
     /**

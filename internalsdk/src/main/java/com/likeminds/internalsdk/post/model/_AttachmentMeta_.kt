@@ -18,9 +18,9 @@ class _AttachmentMeta_ private constructor(
     var pageCount: Int?,
     @SerializedName("og_tags")
     var ogTags: _LinkOGTags_,
-    var awsFolderPath: String?,
-    var localFilePath: String?,
+    @SerializedName("width")
     var width: Int?,
+    @SerializedName("height")
     var height: Int?
 ) {
 
@@ -33,8 +33,6 @@ class _AttachmentMeta_ private constructor(
         private var duration: Int? = null
         private var pageCount: Int? = null
         private var ogTags: _LinkOGTags_ = _LinkOGTags_.Builder().build()
-        private var awsFolderPath: String? = null
-        private var localFilePath: String? = null
         private var width: Int? = null
         private var height: Int? = null
 
@@ -45,8 +43,6 @@ class _AttachmentMeta_ private constructor(
         fun duration(duration: Int?) = apply { this.duration = duration }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
         fun ogTags(ogTags: _LinkOGTags_) = apply { this.ogTags = ogTags }
-        fun awsFolderPath(awsFolderPath: String?) = apply { this.awsFolderPath = awsFolderPath }
-        fun localFilePath(localFilePath: String?) = apply { this.localFilePath = localFilePath }
         fun width(width: Int?) = apply { this.width = width }
         fun height(height: Int?) = apply { this.height = height }
 
@@ -58,8 +54,6 @@ class _AttachmentMeta_ private constructor(
             duration,
             pageCount,
             ogTags,
-            awsFolderPath,
-            localFilePath,
             width,
             height
         )
@@ -73,8 +67,6 @@ class _AttachmentMeta_ private constructor(
             .duration(duration)
             .pageCount(pageCount)
             .ogTags(ogTags)
-            .awsFolderPath(awsFolderPath)
-            .localFilePath(localFilePath)
             .width(width)
             .height(height)
     }

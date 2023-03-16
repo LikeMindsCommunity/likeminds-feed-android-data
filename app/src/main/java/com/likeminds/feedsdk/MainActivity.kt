@@ -52,31 +52,7 @@ class MainActivity : AppCompatActivity() {
                                 .attachmentType(1)
                                 .attachmentMeta(
                                     AttachmentMeta.Builder()
-                                        .localFilePath("content://media/external/images/media/1000030515")
-                                        .build()
-                                )
-                                .build(),
-                            Attachment.Builder()
-                                .attachmentType(1)
-                                .attachmentMeta(
-                                    AttachmentMeta.Builder()
-                                        .localFilePath("content://media/external/images/media/1000031392")
-                                        .build()
-                                )
-                                .build(),
-                            Attachment.Builder()
-                                .attachmentType(1)
-                                .attachmentMeta(
-                                    AttachmentMeta.Builder()
-                                        .localFilePath("content://media/external/images/media/1000017745")
-                                        .build()
-                                )
-                                .build(),
-                            Attachment.Builder()
-                                .attachmentType(1)
-                                .attachmentMeta(
-                                    AttachmentMeta.Builder()
-                                        .localFilePath("content://media/external/images/media/1000031391")
+                                        .url("https://beta-likeminds-media.s3.amazonaws.com/post/87832/images.jpeg-1678447018540")
                                         .build()
                                 )
                                 .build()

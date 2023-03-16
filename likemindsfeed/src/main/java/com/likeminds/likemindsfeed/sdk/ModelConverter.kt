@@ -1,8 +1,5 @@
 package com.likeminds.likemindsfeed.sdk
 
-import android.content.Context
-import android.util.Log
-import androidx.core.net.toUri
 import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
@@ -26,10 +23,6 @@ import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
-import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateAWSFolderPathFromFileName
-import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateUrlFromAWSFolderPath
-import com.likeminds.likemindsfeed.sdk.utils.FileUtils.getFileNameFromPath
-import com.likeminds.likemindsfeed.sdk.utils.FileUtils.getRealPath
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 
 object ModelConverter {
@@ -370,7 +363,6 @@ object ModelConverter {
             .duration(_attachmentMeta_.duration)
             .pageCount(_attachmentMeta_.pageCount)
             .ogTags(convertOGTags(_attachmentMeta_.ogTags))
-            .localFilePath(_attachmentMeta_.localFilePath)
             .width(_attachmentMeta_.width)
             .height(_attachmentMeta_.height)
             .build()
@@ -444,7 +436,7 @@ object ModelConverter {
 
     // create a list of internal attachments from the client list
     fun createAttachments(
-        context: Context,
+//        context: Context,
         attachments: List<Attachment>?
     ): List<_Attachment_>? {
         if (attachments == null) return null
@@ -452,7 +444,7 @@ object ModelConverter {
         attachments.forEach { attachment ->
             val _attachment_ = _Attachment_.Builder()
                 .attachmentType(attachment.attachmentType)
-                .attachmentMeta(createAttachmentMeta(context, attachment.attachmentMeta!!))
+                .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta!!))
                 .build()
             _attachments_.add(_attachment_)
         }
@@ -461,28 +453,39 @@ object ModelConverter {
 
     // create a internal attachment meta from the meta provided by client
     fun createAttachmentMeta(
-        context: Context,
+//        context: Context,
         attachmentMeta: AttachmentMeta?
     ): _AttachmentMeta_? {
         if (attachmentMeta == null) return null
-        // generates localFilePath from the ContentUri provided by client
-        val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
-        // generates filename from localFilePath
-        val name = getFileNameFromPath(localFilePath)
-        Log.d("PUI", "createAttachmentMeta: $name")
-        // generates awsFolderPath to upload the file
-        val awsFolderPath = generateAWSFolderPathFromFileName(name)
-        Log.d("PUI", "createAttachmentMeta: awsfolder: $awsFolderPath")
+//        // generates localFilePath from the ContentUri provided by client
+//        val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
+//        // generates filename from localFilePath
+//        val name = getFileNameFromPath(localFilePath)
+//        Log.d("PUI", "createAttachmentMeta: $name")
+//        // generates awsFolderPath to upload the file
+//        val awsFolderPath = generateAWSFolderPathFromFileName(name)
+//        Log.d("PUI", "createAttachmentMeta: awsfolder: $awsFolderPath")
+//        return _AttachmentMeta_.Builder()
+//            .name(name)
+//            .url(generateUrlFromAWSFolderPath(awsFolderPath))
+//            .format(attachmentMeta.format)
+//            .size(attachmentMeta.size)
+//            .duration(attachmentMeta.duration)
+//            .pageCount(attachmentMeta.pageCount)
+//            .ogTags(createOGTags(attachmentMeta.ogTags))
+//            .awsFolderPath(awsFolderPath)
+//            .localFilePath(localFilePath)
+//            .width(attachmentMeta.width)
+//            .height(attachmentMeta.height)
+//            .build()
         return _AttachmentMeta_.Builder()
-            .name(name)
-            .url(generateUrlFromAWSFolderPath(awsFolderPath))
+            .name(attachmentMeta.name)
+            .url(attachmentMeta.url)
             .format(attachmentMeta.format)
             .size(attachmentMeta.size)
             .duration(attachmentMeta.duration)
             .pageCount(attachmentMeta.pageCount)
             .ogTags(createOGTags(attachmentMeta.ogTags))
-            .awsFolderPath(awsFolderPath)
-            .localFilePath(localFilePath)
             .width(attachmentMeta.width)
             .height(attachmentMeta.height)
             .build()
