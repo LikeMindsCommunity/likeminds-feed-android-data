@@ -98,7 +98,6 @@ class PostAttachmentUploadWorker(
         totalFilesToUpload: Int,
         continuation: Continuation<Int>
     ) {
-        Log.d("TAG-123", "createAWSUpload: called")
         val awsFileResponse =
             uploadFile(request, collabmatesSDK.getPostPreference().getAttachmentUploadWorkerUUID())
         if (awsFileResponse != null) {
@@ -114,8 +113,8 @@ class PostAttachmentUploadWorker(
      */
     private fun uploadFile(request: GenericFileRequest, uuid: String? = null): AWSFileResponse? {
         val filePath = request.localFilePath ?: return null
+        Log.d("PUI", "uploadFile: 1" + request.localFilePath)
         val file = if (request.fileType == IMAGE) {
-            Log.d("FileHelper", "uploadFile: 1" + request.localFilePath)
             FileHelper.compressFile(applicationContext, filePath)
         } else {
             File(filePath)
@@ -153,7 +152,7 @@ class PostAttachmentUploadWorker(
             }
 
             override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
-                Log.d("TAG-123", "onStateChanged: bytes $bytesCurrent")
+                Log.d("PUI", "onStateChanged: bytes $bytesCurrent")
                 setProgress(id, bytesCurrent, bytesTotal)
             }
 
@@ -179,7 +178,12 @@ class PostAttachmentUploadWorker(
                 UploadHelper.getInstance().removeAWSFileResponse(response)
                 val downloadUri = response.downloadUrl
                 //TODO : Uploading completed.
-                Log.d("TAG-123", "onStateChanged: uploaded $response")
+                Log.d(
+                    "PUI", """
+                    onStateChanged: uploaded $response
+                    url: $downloadUri
+                """.trimIndent()
+                )
             }
             TransferState.FAILED -> {
                 failedIndex.add(response.index)

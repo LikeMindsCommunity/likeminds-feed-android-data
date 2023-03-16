@@ -75,6 +75,7 @@ class PostClient @Inject constructor() : BaseClient() {
         RequestUtils.validate()
         validateAddPostRequest(addPostRequest)
 
+        // creates attachments with aws url
         val attachments =
             createAttachments(collabmatesSDK.application, addPostRequest.attachments)
 
@@ -82,7 +83,7 @@ class PostClient @Inject constructor() : BaseClient() {
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
             .attachments(attachments)
             .build()
-        var uploadData: Pair<WorkContinuation, String>? = null
+        val uploadData: Pair<WorkContinuation, String>
         return if (hasUploadAbleAttachments(attachments)) {
             uploadData = startMediaUploadWorker(attachments!!)
             uploadData.first.enqueue()

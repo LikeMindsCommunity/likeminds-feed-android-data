@@ -142,10 +142,10 @@ abstract class MediaUploadWorker(
     ) {
         if (totalFilesToUpload == uploadedCount + failedIndex.size) {
             if (totalFilesToUpload == uploadedCount) {
-                Log.d("TAG", "checkWorkerComplete: ")
+                Log.d("PUI", "checkWorkerComplete: ")
                 continuation.resume(WORKER_SUCCESS)
             } else {
-                Log.d("TAG", "checkWorkerComplete: failed")
+                Log.d("PUI", "checkWorkerComplete: failed")
                 continuation.resume(WORKER_FAILURE)
             }
         }

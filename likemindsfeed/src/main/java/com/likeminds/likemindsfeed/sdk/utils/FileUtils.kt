@@ -46,13 +46,15 @@ object FileUtils {
      * @param fileName - Name of the file to be uploaded
      * @return awsFolderPath - Generates and returns AWS folder path where file will be uploaded
      */
-    fun generateAWSFolderPathFromFilePath(
+    fun generateAWSFolderPathFromFileName(
         fileName: String?
     ): String {
         //TODO: use user_unique_id
         val tokenManager = TokenManager.getInstance()
         val userId = tokenManager.memberId
-        return "post/$userId/" + fileName + "-" + System.currentTimeMillis()
+        val fileNameWithoutExtension = fileName?.substringBeforeLast(".")
+        val extension = fileName?.substringAfterLast(".", "")
+        return "post/$userId/" + fileNameWithoutExtension + "-" + System.currentTimeMillis() + "." + extension
     }
 
     /**

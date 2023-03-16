@@ -56,8 +56,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                     success = false,
                     errorMessage = response.body.errorMessage,
                     InitiateUserResponse(
-                        appAccess = false,
-                        initiateUser = null
+                        appAccess = false
                     )
                 )
             }

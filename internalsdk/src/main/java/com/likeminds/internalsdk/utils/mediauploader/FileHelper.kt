@@ -18,9 +18,7 @@ object FileHelper {
         try {
             val oldExifOrientation =
                 ExifInterface(filePath).getAttribute(ExifInterface.TAG_ORIENTATION)
-            Log.d(TAG, "compressFile: 1")
             val bitmap = BitmapFactory.decodeFile(filePath) ?: return null
-            Log.d(TAG, "compressFile: 2")
             val imagesFolder = File(applicationContext.cacheDir, "images")
             imagesFolder.mkdirs()
             val file = File(imagesFolder, "${System.currentTimeMillis()}.png")
@@ -34,10 +32,8 @@ object FileHelper {
                 newExif.setAttribute(ExifInterface.TAG_ORIENTATION, oldExifOrientation)
                 newExif.saveAttributes()
             }
-            Log.d(TAG, "compressFile: compressed")
             return file
         } catch (e: IOException) {
-            Log.d(TAG, "compressFile: error")
             Log.e(
                 TAG,
                 "IOException while trying to compress file: " + e.localizedMessage

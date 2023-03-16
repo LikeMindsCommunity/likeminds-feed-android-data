@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.content.Context
+import android.util.Log
 import androidx.core.net.toUri
 import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
@@ -25,7 +26,7 @@ import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
-import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateAWSFolderPathFromFilePath
+import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateAWSFolderPathFromFileName
 import com.likeminds.likemindsfeed.sdk.utils.FileUtils.generateUrlFromAWSFolderPath
 import com.likeminds.likemindsfeed.sdk.utils.FileUtils.getFileNameFromPath
 import com.likeminds.likemindsfeed.sdk.utils.FileUtils.getRealPath
@@ -468,8 +469,10 @@ object ModelConverter {
         val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
         // generates filename from localFilePath
         val name = getFileNameFromPath(localFilePath)
+        Log.d("PUI", "createAttachmentMeta: $name")
         // generates awsFolderPath to upload the file
-        val awsFolderPath = generateAWSFolderPathFromFilePath(name)
+        val awsFolderPath = generateAWSFolderPathFromFileName(name)
+        Log.d("PUI", "createAttachmentMeta: awsfolder: $awsFolderPath")
         return _AttachmentMeta_.Builder()
             .name(name)
             .url(generateUrlFromAWSFolderPath(awsFolderPath))
