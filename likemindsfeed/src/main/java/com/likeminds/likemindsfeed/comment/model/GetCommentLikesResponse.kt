@@ -1,6 +1,6 @@
 package com.likeminds.likemindsfeed.comment.model
 
-import com.likeminds.internalsdk.post.model.Like
+import com.likeminds.likemindsfeed.post.model.Like
 import com.likeminds.likemindsfeed.sdk.model.User
 
 data class GetCommentLikesResponse(

@@ -1,12 +1,18 @@
 package com.likeminds.likemindsfeed.post
 
+import android.annotation.SuppressLint
+import androidx.work.WorkContinuation
+import androidx.work.WorkManager
+import com.google.gson.Gson
 import com.likeminds.internalsdk.post.model.*
+import com.likeminds.internalsdk.post.utils.PostAttachmentUploadWorker
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
+import com.likeminds.likemindsfeed.sdk.ModelConverter.createAttachments
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
@@ -71,8 +77,59 @@ class PostClient @Inject constructor() : BaseClient() {
 
         // builds internal request model
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
-            .attachments(addPostRequest.attachments)
+            .attachments(createAttachments(addPostRequest.attachments))
             .build()
+        val api = collabmatesSDK.postApi()
+        // calls api and processes the response accordingly
+        return when (val response = api.addPost(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                LMResponse(
+                    success = response.body.success,
+                    null
+                )
+            }
+        }
+
+        // creates attachments with aws url
+//        val attachments =
+//            createAttachments(collabmatesSDK.application, addPostRequest.attachments)
+//
+//        // builds internal request model
+//        val request = _AddPostRequest_.Builder().text(addPostRequest.text)
+//            .attachments(attachments)
+//            .build()
+//        val uploadData: Pair<WorkContinuation, String>
+//        return if (hasUploadAbleAttachments(attachments)) {
+//            uploadData = startMediaUploadWorker(attachments!!)
+//            uploadData.first.enqueue()
+//            // TODO: call add post api once worker succeeded
+//            // TODO: Observe the worker and return response according
+//            LMResponse(
+//                success = false,
+//                null
+//            )
+//        } else {
+//            callAddPostApi(request)
+//        }
+    }
+
+    /**
+     * validates addPostRequest
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateAddPostRequest(addPostRequest: AddPostRequest) {
+        if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
+            RequestUtils.throwException("text")
+        }
+    }
+
+    private suspend fun callAddPostApi(request: _AddPostRequest_): LMResponse<Nothing> {
         val api = collabmatesSDK.postApi()
         // calls api and processes the response accordingly
         return when (val response = api.addPost(request)) {
@@ -91,14 +148,22 @@ class PostClient @Inject constructor() : BaseClient() {
         }
     }
 
-    /**
-     * validates addPostRequest
-     * @throws IllegalArgumentException - when required properties not provided
-     */
-    private fun validateAddPostRequest(addPostRequest: AddPostRequest) {
-        if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
-            RequestUtils.throwException("text")
-        }
+    // checks if there are any attachments to upload or not
+    private fun hasUploadAbleAttachments(attachments: List<_Attachment_>?): Boolean {
+        // no upload-able attachments if the attachment is of type link.
+        if (attachments.isNullOrEmpty() || (attachments.size == 1 && attachments.first().attachmentType == 4)) return false
+        return true
+    }
+
+    @SuppressLint("EnqueueWork")
+    private fun startMediaUploadWorker(attachments: List<_Attachment_>): Pair<WorkContinuation, String> {
+        val jsonAttachment = Gson().toJson(attachments)
+        val oneTimeWorkRequest =
+            PostAttachmentUploadWorker.getInstance(jsonAttachment)
+        val workContinuation =
+            WorkManager.getInstance(collabmatesSDK.application).beginWith(oneTimeWorkRequest)
+        collabmatesSDK.postPreferences.setAttachmentUploadWorkerUUID(oneTimeWorkRequest.id.toString())
+        return Pair(workContinuation, oneTimeWorkRequest.id.toString())
     }
 
     /**

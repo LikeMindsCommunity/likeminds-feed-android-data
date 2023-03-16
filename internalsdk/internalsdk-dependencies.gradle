@@ -67,6 +67,8 @@ dependencies {
     implementation deps.aws.s3
     implementation(deps.aws.mobile_client) { transitive = true }
 
+    implementation deps.exifinterface.main
+
     //testing
     testImplementation deps.testing.junit
     androidTestImplementation deps.testing.android_junit

@@ -16,6 +16,9 @@ dependencies {
     //aws
     implementation deps.aws.s3
 
+    //work manager
+    implementation deps.work_manager.main
+
     //testing
     testImplementation deps.testing.junit
     androidTestImplementation deps.testing.android_junit

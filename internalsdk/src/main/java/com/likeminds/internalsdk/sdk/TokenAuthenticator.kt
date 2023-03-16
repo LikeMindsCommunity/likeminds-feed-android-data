@@ -46,8 +46,8 @@ class TokenAuthenticator @Inject constructor(
                         }
                         is NetworkResponse.Success -> {
                             Log.d(LOG_TAG, "access token refreshed")
-                            val newAccessToken = refreshResponse.body.data.accessToken
-                            val newRefreshToken = refreshResponse.body.data.refreshToken
+                            val newAccessToken = refreshResponse.body.data?.accessToken
+                            val newRefreshToken = refreshResponse.body.data?.refreshToken
                             val updatedToken = "Bearer $newAccessToken"
 
                             tokenManager.updateTokens(updatedToken, newRefreshToken, null)

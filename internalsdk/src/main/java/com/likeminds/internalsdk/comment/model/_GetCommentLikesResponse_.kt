@@ -1,12 +1,13 @@
 package com.likeminds.internalsdk.comment.model
 
 import com.google.gson.annotations.SerializedName
-import com.likeminds.internalsdk.post.model.Like
+import com.likeminds.internalsdk.post.model._Like_
+
 import com.likeminds.internalsdk.sdk.model._User_
 
 data class _GetCommentLikesResponse_(
     @SerializedName("likes")
-    var likes: List<Like>,
+    var likes: List<_Like_>,
     @SerializedName("total_count")
     var totalCount: Int,
     @SerializedName("users")
