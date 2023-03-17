@@ -1,11 +1,6 @@
 package com.likeminds.likemindsfeed.post
 
-import android.annotation.SuppressLint
-import androidx.work.WorkContinuation
-import androidx.work.WorkManager
-import com.google.gson.Gson
 import com.likeminds.internalsdk.post.model.*
-import com.likeminds.internalsdk.post.utils.PostAttachmentUploadWorker
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -95,11 +90,6 @@ class PostClient @Inject constructor() : BaseClient() {
                 )
             }
         }
-
-//        val uploadData: Pair<WorkContinuation, String>
-//        return if (hasUploadAbleAttachments(attachments)) {
-//            uploadData = startMediaUploadWorker(attachments!!)
-//            uploadData.first.enqueue()
     }
 
     /**
@@ -136,17 +126,6 @@ class PostClient @Inject constructor() : BaseClient() {
         // no upload-able attachments if the attachment is of type link.
         if (attachments.isNullOrEmpty() || (attachments.size == 1 && attachments.first().attachmentType == 4)) return false
         return true
-    }
-
-    @SuppressLint("EnqueueWork")
-    private fun startMediaUploadWorker(attachments: List<_Attachment_>): Pair<WorkContinuation, String> {
-        val jsonAttachment = Gson().toJson(attachments)
-        val oneTimeWorkRequest =
-            PostAttachmentUploadWorker.getInstance(jsonAttachment)
-        val workContinuation =
-            WorkManager.getInstance(collabmatesSDK.application).beginWith(oneTimeWorkRequest)
-        collabmatesSDK.postPreferences.setAttachmentUploadWorkerUUID(oneTimeWorkRequest.id.toString())
-        return Pair(workContinuation, oneTimeWorkRequest.id.toString())
     }
 
     /**

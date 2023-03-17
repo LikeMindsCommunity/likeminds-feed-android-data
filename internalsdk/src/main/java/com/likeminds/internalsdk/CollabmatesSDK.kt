@@ -14,7 +14,6 @@ import com.likeminds.internalsdk.moderation.ModerationApi
 import com.likeminds.internalsdk.moderation.ModerationApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
-import com.likeminds.internalsdk.post.utils.PostPreferences
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
 import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.SDKApiImpl
@@ -44,9 +43,6 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
-
-    @Inject
-    lateinit var postPreferences: PostPreferences
 
     @Inject
     lateinit var commentApiImpl: CommentApiImpl
@@ -105,10 +101,6 @@ class CollabmatesSDK {
 
     fun getPostApi(): PostApi {
         return postApiImpl
-    }
-
-    fun getPostPreference(): PostPreferences {
-        return postPreferences
     }
 
     fun getModerationApi(): ModerationApi {
