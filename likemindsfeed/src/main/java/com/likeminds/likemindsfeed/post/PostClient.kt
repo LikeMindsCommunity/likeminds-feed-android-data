@@ -38,7 +38,7 @@ class PostClient @Inject constructor() : BaseClient() {
             .page(getPostRequest.page)
             .pageSize(getPostRequest.pageSize)
             .build()
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.getPost(request)) {
             is NetworkResponse.Error -> {
@@ -79,7 +79,7 @@ class PostClient @Inject constructor() : BaseClient() {
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
             .attachments(createAttachments(addPostRequest.attachments))
             .build()
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.addPost(request)) {
             is NetworkResponse.Error -> {
@@ -96,27 +96,10 @@ class PostClient @Inject constructor() : BaseClient() {
             }
         }
 
-        // creates attachments with aws url
-//        val attachments =
-//            createAttachments(collabmatesSDK.application, addPostRequest.attachments)
-//
-//        // builds internal request model
-//        val request = _AddPostRequest_.Builder().text(addPostRequest.text)
-//            .attachments(attachments)
-//            .build()
 //        val uploadData: Pair<WorkContinuation, String>
 //        return if (hasUploadAbleAttachments(attachments)) {
 //            uploadData = startMediaUploadWorker(attachments!!)
 //            uploadData.first.enqueue()
-//            // TODO: call add post api once worker succeeded
-//            // TODO: Observe the worker and return response according
-//            LMResponse(
-//                success = false,
-//                null
-//            )
-//        } else {
-//            callAddPostApi(request)
-//        }
     }
 
     /**
@@ -130,7 +113,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     private suspend fun callAddPostApi(request: _AddPostRequest_): LMResponse<Nothing> {
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.addPost(request)) {
             is NetworkResponse.Error -> {
@@ -179,8 +162,10 @@ class PostClient @Inject constructor() : BaseClient() {
 
         // builds internal request model
         val request = _GetPostLikesRequest_.Builder().postId(getPostLikesRequest.postId)
+            .page(getPostLikesRequest.page)
+            .pageSize(getPostLikesRequest.pageSize)
             .build()
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.getPostLikes(request)) {
             is NetworkResponse.Error -> {
@@ -221,7 +206,7 @@ class PostClient @Inject constructor() : BaseClient() {
         val request = _DeletePostRequest_.Builder()
             .deleteReason(deletePostRequest.deleteReason)
             .build()
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.deletePost(deletePostRequest.postId, request)) {
             is NetworkResponse.Error -> {
@@ -263,7 +248,7 @@ class PostClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _LikePostRequest_.Builder().postId(likePostRequest.postId)
             .build()
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.likePost(request)) {
             is NetworkResponse.Error -> {
@@ -305,7 +290,7 @@ class PostClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _SavePostRequest_.Builder().postId(savePostRequest.postId)
             .build()
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.savePost(request)) {
             is NetworkResponse.Error -> {
@@ -347,7 +332,7 @@ class PostClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _PinPostRequest_.Builder().postId(pinPostRequest.postId)
             .build()
-        val api = collabmatesSDK.postApi()
+        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
         return when (val response = api.pinPost(request)) {
             is NetworkResponse.Error -> {

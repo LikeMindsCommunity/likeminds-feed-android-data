@@ -33,7 +33,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
         val request = _GetReportTagsRequest_.Builder()
             .type(getReportTagsRequest.type)
             .build()
-        val api = collabmatesSDK.moderationApi()
+        val api = collabmatesSDK.getModerationApi()
         // calls api and processes the response accordingly
         return when (val response = api.getReportTags(request)) {
             is NetworkResponse.Error -> {
@@ -68,7 +68,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
             .tagId(postReportRequest.tagId)
             .reason(postReportRequest.reason)
             .build()
-        val api = collabmatesSDK.moderationApi()
+        val api = collabmatesSDK.getModerationApi()
         // calls api and processes the response accordingly
         return when (val response = api.postReport(request)) {
             is NetworkResponse.Error -> {

@@ -28,7 +28,9 @@ class PostReceiver @Inject constructor(
         request: _GetPostLikesRequest_
     ): NetworkResponse<APIResponse<_GetPostLikesResponse_>> {
         return postNetworkApi.getPostLikes(
-            request.postId
+            request.postId,
+            request.page,
+            request.pageSize
         )
     }
 
