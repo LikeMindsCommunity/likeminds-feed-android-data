@@ -4,7 +4,6 @@ import android.app.Application
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserStateDetails
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.google.gson.Gson
 import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
@@ -45,9 +44,6 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var refreshTokenApiImpl: RefreshTokenApiImpl
-
-    @Inject
-    lateinit var transferUtility: TransferUtility
 
     @Inject
     lateinit var postPreferences: PostPreferences
@@ -107,7 +103,7 @@ class CollabmatesSDK {
         return commentApiImpl
     }
 
-    fun postApi(): PostApi {
+    fun getPostApi(): PostApi {
         return postApiImpl
     }
 
@@ -115,7 +111,7 @@ class CollabmatesSDK {
         return postPreferences
     }
 
-    fun moderationApi(): ModerationApi {
+    fun getModerationApi(): ModerationApi {
         return moderationApiImpl
     }
 }
