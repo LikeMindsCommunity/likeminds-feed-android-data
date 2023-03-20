@@ -7,6 +7,8 @@ data class User(
     var name: String,
     var organisationName: String?,
     var sdkClientInfo: SDKClientInfo?,
+    var isDeleted: Boolean,
+    var customTitle: String,
     var updatedAt: Long,
     var userUniqueId: String
 )
