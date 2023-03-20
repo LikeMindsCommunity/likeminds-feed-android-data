@@ -16,9 +16,9 @@ data class _User_(
     @SerializedName("sdk_client_info")
     var sdkClientInfo: _SDKClientInfo_?,
     @SerializedName("is_deleted")
-    var isDeleted: Boolean,
+    var isDeleted: Boolean?,
     @SerializedName("custom_title")
-    var customTitle: String,
+    var customTitle: String?,
     @SerializedName("updated_at")
     var updatedAt: Long,
     @SerializedName("user_unique_id")

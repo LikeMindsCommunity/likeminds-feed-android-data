@@ -67,6 +67,8 @@ object ModelConverter {
             _user_.name,
             _user_.organisationName,
             convertSDKClientInfo(_user_.sdkClientInfo),
+            _user_.isDeleted,
+            _user_.customTitle,
             _user_.updatedAt,
             _user_.userUniqueId
         )
