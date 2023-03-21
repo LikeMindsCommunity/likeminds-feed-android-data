@@ -9,7 +9,6 @@ versions.sdk_version_patch = '0'
 versions.sdk_version_code = 1
 versions.core = "1.9.0"
 versions.appcompat = "1.6.1"
-versions.room = "2.5.0"
 versions.junit = "4.13.2"
 versions.android_junit = "1.1.5"
 versions.espresso_core = "3.5.1"
@@ -47,11 +46,6 @@ def dagger = [:]
 dagger.main = "com.google.dagger:dagger:$versions.dagger"
 dagger.compiler = "com.google.dagger:dagger-compiler:$versions.dagger"
 deps.dagger = dagger
-
-def room = [:]
-room.main = "androidx.room:room-runtime:$versions.room"
-room.compiler = "androidx.room:room-compiler:$versions.room"
-deps.room = room
 
 def retrofit = [:]
 retrofit.main = "com.squareup.retrofit2:retrofit:$versions.retrofit"
