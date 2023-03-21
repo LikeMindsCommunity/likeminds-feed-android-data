@@ -13,7 +13,6 @@ import javax.inject.Singleton
         GsonModule::class,
         NetworkModule::class,
         SDKModule::class,
-        AWSModule::class,
         UniversalFeedModule::class,
         CommentModule::class,
         PostModule::class,

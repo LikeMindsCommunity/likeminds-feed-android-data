@@ -1,9 +1,6 @@
 package com.likeminds.internalsdk
 
 import android.app.Application
-import com.amazonaws.mobile.client.AWSMobileClient
-import com.amazonaws.mobile.client.Callback
-import com.amazonaws.mobile.client.UserStateDetails
 import com.google.gson.Gson
 import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
@@ -65,7 +62,6 @@ class CollabmatesSDK {
 
     fun initialize(sdkSharedResources: SDKSharedResources) {
         initSDKComponent(sdkSharedResources)
-        initAWSMobileClient()
     }
 
     private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {
@@ -75,16 +71,6 @@ class CollabmatesSDK {
                 .build()
             sdkComponent?.inject(this)
         }
-    }
-
-    private fun initAWSMobileClient() {
-        AWSMobileClient.getInstance().initialize(application, object : Callback<UserStateDetails> {
-            override fun onResult(result: UserStateDetails?) {
-            }
-
-            override fun onError(e: java.lang.Exception?) {
-            }
-        })
     }
 
     fun getSDKApi(): SDKApi {
