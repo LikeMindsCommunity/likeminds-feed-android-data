@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed
 
+import android.app.Application
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
@@ -12,7 +13,6 @@ import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
-import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
@@ -20,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LMFeedClient {
+class LMFeedClient private constructor() {
 
     @Inject
     lateinit var initiateUserClient: InitiateUserClient
@@ -37,21 +37,20 @@ class LMFeedClient {
     @Inject
     lateinit var moderationClient: ModerationClient
 
-    companion object {
-        @JvmStatic
-        private var lmFeedClientInstance: LMFeedClient? = null
+    class Builder(val application: Application) {
 
-        private lateinit var extras: InitiateLikeMindsExtra
-
-        @JvmStatic
-        fun build(extra: InitiateLikeMindsExtra): LMFeedClient {
+        fun build(): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
-            extras = extra
             val sdkApplication = LikeMindsFeedApplication.getInstance()
-            sdkApplication.initSDKApplication(extra)
+            sdkApplication.initSDKApplication(application)
             sdkApplication.likeMindsFeedComponent?.inject(lmFeedClientInstance!!)
             return lmFeedClientInstance!!
         }
+    }
+
+    companion object {
+        @JvmStatic
+        private var lmFeedClientInstance: LMFeedClient? = null
 
         @JvmStatic
         fun getInstance(): LMFeedClient {

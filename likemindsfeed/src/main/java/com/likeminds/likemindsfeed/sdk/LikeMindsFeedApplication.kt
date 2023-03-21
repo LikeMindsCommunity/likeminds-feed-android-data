@@ -11,7 +11,6 @@ import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
-import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import javax.inject.Inject
 
 internal class LikeMindsFeedApplication private constructor() {
@@ -45,11 +44,11 @@ internal class LikeMindsFeedApplication private constructor() {
         }
     }
 
-    fun initSDKApplication(extra: InitiateLikeMindsExtra) {
+    fun initSDKApplication(application: Application) {
         likeMindsFeedApplicationInstance = this
 
         //init dagger
-        initLikeMindsFeedComponent(extra.application)
+        initLikeMindsFeedComponent(application)
         collabmatesSDK.initialize(sdkSharedResources)
     }
 
