@@ -19,11 +19,8 @@ versions.gson = '2.8.6'
 versions.chucker = '3.5.2'
 versions.kotlin = '1.7.20'
 versions.coroutines = "1.6.4"
-versions.work_manager = '2.7.1'
-versions.aws_s3 = '2.47.0'
 versions.sentry = '6.12.1'
 versions.dagger = '2.42'
-versions.exifinterface = '1.3.2'
 ext.versions = versions
 
 
@@ -75,23 +72,10 @@ chucker.main = "com.github.chuckerteam.chucker:library:$versions.chucker"
 chucker.no_op = "com.github.chuckerteam.chucker:library-no-op:$versions.chucker"
 deps.chucker = chucker
 
-def work_manager = [:]
-work_manager.main = "androidx.work:work-runtime-ktx:$versions.work_manager"
-deps.work_manager = work_manager
-
-def aws = [:]
-aws.s3 = "com.amazonaws:aws-android-sdk-s3:$versions.aws_s3"
-aws.mobile_client = "com.amazonaws:aws-android-sdk-mobile-client:$versions.aws_s3"
-deps.aws = aws
-
 def sentry = [:]
 sentry.main = "io.sentry:sentry-android:$versions.sentry"
 sentry.okhttp = "io.sentry:sentry-android-okhttp:$versions.sentry"
 deps.sentry = sentry
-
-def exifinterface = [:]
-exifinterface.main = "androidx.exifinterface:exifinterface:$versions.exifinterface"
-deps.exifinterface = exifinterface
 
 def testing = [:]
 testing.junit = "junit:junit:$versions.junit"

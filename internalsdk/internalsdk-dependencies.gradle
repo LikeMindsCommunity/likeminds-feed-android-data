@@ -53,21 +53,12 @@ dependencies {
     debugImplementation deps.chucker.main
     releaseImplementation deps.chucker.no_op
 
-    //work manager
-    implementation deps.work_manager.main
-
     //coroutines
     implementation deps.kotlin.coroutines_core
 
     //sentry
     implementation deps.sentry.main
     implementation deps.sentry.okhttp
-
-    //aws
-    implementation deps.aws.s3
-    implementation(deps.aws.mobile_client) { transitive = true }
-
-    implementation deps.exifinterface.main
 
     //testing
     testImplementation deps.testing.junit

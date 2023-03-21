@@ -20,7 +20,7 @@ class SDKModule {
 
     @Provides
     @Singleton
-    fun provideTokenManager(): FeedTokenManager {
+    fun provideFeedTokenManager(): FeedTokenManager {
         return FeedTokenManager.getInstance()
     }
 

@@ -123,9 +123,19 @@ object ModelConverter {
     fun convertMemberStateResponse(
         _memberStateResponse_: _MemberStateResponse_?
     ): MemberStateResponse? {
-        if (_memberStateResponse_ == null) return null
+        val member = _memberStateResponse_?.member
+        if (_memberStateResponse_ == null || member == null) return null
         return MemberStateResponse(
-            _memberStateResponse_.state
+            member.id,
+            _memberStateResponse_.state,
+            member.userUniqueId,
+            member.customTitle,
+            member.imageUrl,
+            member.isGuest,
+            member.isOwner,
+            member.name,
+            member.organisationName,
+            member.updatedAt
         )
     }
 
@@ -457,7 +467,6 @@ object ModelConverter {
 
     // create a list of internal attachments from the client list
     fun createAttachments(
-//        context: Context,
         attachments: List<Attachment>?
     ): List<_Attachment_>? {
         if (attachments == null) return null
@@ -474,31 +483,9 @@ object ModelConverter {
 
     // create a internal attachment meta from the meta provided by client
     fun createAttachmentMeta(
-//        context: Context,
         attachmentMeta: AttachmentMeta?
     ): _AttachmentMeta_? {
         if (attachmentMeta == null) return null
-//        // generates localFilePath from the ContentUri provided by client
-//        val localFilePath = getRealPath(context, attachmentMeta.localFilePath!!.toUri())
-//        // generates filename from localFilePath
-//        val name = getFileNameFromPath(localFilePath)
-//        Log.d("PUI", "createAttachmentMeta: $name")
-//        // generates awsFolderPath to upload the file
-//        val awsFolderPath = generateAWSFolderPathFromFileName(name)
-//        Log.d("PUI", "createAttachmentMeta: awsfolder: $awsFolderPath")
-//        return _AttachmentMeta_.Builder()
-//            .name(name)
-//            .url(generateUrlFromAWSFolderPath(awsFolderPath))
-//            .format(attachmentMeta.format)
-//            .size(attachmentMeta.size)
-//            .duration(attachmentMeta.duration)
-//            .pageCount(attachmentMeta.pageCount)
-//            .ogTags(createOGTags(attachmentMeta.ogTags))
-//            .awsFolderPath(awsFolderPath)
-//            .localFilePath(localFilePath)
-//            .width(attachmentMeta.width)
-//            .height(attachmentMeta.height)
-//            .build()
         return _AttachmentMeta_.Builder()
             .name(attachmentMeta.name)
             .url(attachmentMeta.url)
