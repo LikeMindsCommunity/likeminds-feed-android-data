@@ -22,5 +22,5 @@ interface SDKApi {
     ): NetworkResponse<APIResponse<Nothing>>
 
     // api to fetch member state
-    suspend fun memberState(): NetworkResponse<APIResponse<_MemberStateResponse_>>
+    suspend fun getMemberState(): NetworkResponse<APIResponse<_MemberStateResponse_>>
 }

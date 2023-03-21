@@ -77,24 +77,24 @@ class CommentClient @Inject constructor() : BaseClient() {
 
     /**
      * Converts client request model to internal model and calls the api
-     * @param addReplyOnCommentRequest - client request model to add comment on the post
+     * @param replyCommentRequest - client request model to add comment on the post
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): LMResponse<Nothing> {
+    suspend fun replyComment(replyCommentRequest: ReplyCommentRequest): LMResponse<Nothing> {
         // validates the client request
         RequestUtils.validate()
-        validateAddReplyOnCommentRequest(addReplyOnCommentRequest)
+        validateReplyCommentRequest(replyCommentRequest)
 
         // builds internal request model
-        val request = _AddReplyOnCommentRequest_.Builder()
-            .postId(addReplyOnCommentRequest.postId)
-            .commentId(addReplyOnCommentRequest.commentId)
-            .text(addReplyOnCommentRequest.text)
+        val request = _ReplyCommentRequest_.Builder()
+            .postId(replyCommentRequest.postId)
+            .commentId(replyCommentRequest.commentId)
+            .text(replyCommentRequest.text)
             .build()
         val api = collabmatesSDK.getCommentApi()
         // calls api and processes the response accordingly
-        return when (val response = api.addReplyOnComment(request)) {
+        return when (val response = api.replyComment(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -111,17 +111,17 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates addReplyOnCommentRequest
+     * validates replyCommentRequest
      * @throws IllegalArgumentException - when required properties not provided
      */
-    private fun validateAddReplyOnCommentRequest(addReplyOnCommentRequest: AddReplyOnCommentRequest) {
-        if (addReplyOnCommentRequest.postId.isEmpty()) {
+    private fun validateReplyCommentRequest(replyCommentRequest: ReplyCommentRequest) {
+        if (replyCommentRequest.postId.isEmpty()) {
             RequestUtils.throwException("postId")
         }
-        if (addReplyOnCommentRequest.commentId.isEmpty()) {
+        if (replyCommentRequest.commentId.isEmpty()) {
             RequestUtils.throwException("commentId")
         }
-        if (addReplyOnCommentRequest.text.isEmpty()) {
+        if (replyCommentRequest.text.isEmpty()) {
             RequestUtils.throwException("text")
         }
     }

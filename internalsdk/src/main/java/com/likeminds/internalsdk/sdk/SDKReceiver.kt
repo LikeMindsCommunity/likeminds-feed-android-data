@@ -24,7 +24,7 @@ class SDKReceiver @Inject constructor(private val sdkNetworkApi: SDKNetworkApi) 
         return sdkNetworkApi.logout(request)
     }
 
-    suspend fun memberState(): NetworkResponse<APIResponse<_MemberStateResponse_>> {
-        return sdkNetworkApi.memberState()
+    suspend fun getMemberState(): NetworkResponse<APIResponse<_MemberStateResponse_>> {
+        return sdkNetworkApi.getMemberState()
     }
 }

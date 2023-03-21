@@ -25,5 +25,5 @@ interface SDKNetworkApi {
     ): NetworkResponse<APIResponse<Nothing>>
 
     @GET("community/member/state")
-    suspend fun memberState(): NetworkResponse<APIResponse<_MemberStateResponse_>>
+    suspend fun getMemberState(): NetworkResponse<APIResponse<_MemberStateResponse_>>
 }

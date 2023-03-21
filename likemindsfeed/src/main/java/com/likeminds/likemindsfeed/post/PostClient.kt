@@ -102,25 +102,6 @@ class PostClient @Inject constructor() : BaseClient() {
         }
     }
 
-    private suspend fun callAddPostApi(request: _AddPostRequest_): LMResponse<Nothing> {
-        val api = collabmatesSDK.getPostApi()
-        // calls api and processes the response accordingly
-        return when (val response = api.addPost(request)) {
-            is NetworkResponse.Error -> {
-                LMResponse(
-                    success = response.body.success,
-                    errorMessage = response.body.errorMessage
-                )
-            }
-            is NetworkResponse.Success -> {
-                LMResponse(
-                    success = response.body.success,
-                    null
-                )
-            }
-        }
-    }
-
     // checks if there are any attachments to upload or not
     private fun hasUploadAbleAttachments(attachments: List<_Attachment_>?): Boolean {
         // no upload-able attachments if the attachment is of type link.

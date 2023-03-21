@@ -12,8 +12,8 @@ interface CommentApi {
     ): NetworkResponse<APIResponse<Nothing>>
 
     // api to add reply on the comment
-    suspend fun addReplyOnComment(
-        request: _AddReplyOnCommentRequest_
+    suspend fun replyComment(
+        request: _ReplyCommentRequest_
     ): NetworkResponse<APIResponse<Nothing>>
 
     // api to fetch the comment and its paginated replies

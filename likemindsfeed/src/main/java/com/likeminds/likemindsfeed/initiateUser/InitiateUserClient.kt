@@ -80,8 +80,8 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
 
                     val logoutResponse = logout(logoutRequest)
                     LMResponse(
-                        logoutResponse.success,
-                        logoutResponse.errorMessage,
+                        success = false,
+                        body.errorMessage,
                         InitiateUserResponse(
                             appAccess = false,
                             logoutResponse = logoutResponse
@@ -132,13 +132,13 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated
      * @return MemberStateResponse - MemberStateResponse model for MemberState api call
      */
-    suspend fun memberState(): LMResponse<MemberStateResponse> {
+    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
         // validates the client request
         RequestUtils.validate()
 
         val api = collabmatesSDK.getSDKApi()
         // calls api and processes the response accordingly
-        return when (val response = api.memberState()) {
+        return when (val response = api.getMemberState()) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,

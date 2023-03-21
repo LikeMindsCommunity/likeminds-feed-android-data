@@ -1,6 +1,6 @@
 package com.likeminds.likemindsfeed.comment.model
 
-class AddReplyOnCommentRequest private constructor(
+class ReplyCommentRequest private constructor(
     var postId: String,
     var commentId: String,
     var text: String
@@ -15,7 +15,7 @@ class AddReplyOnCommentRequest private constructor(
         fun commentId(commentId: String) = apply { this.commentId = commentId }
         fun text(text: String) = apply { this.text = text }
 
-        fun build() = AddReplyOnCommentRequest(
+        fun build() = ReplyCommentRequest(
             postId,
             commentId,
             text

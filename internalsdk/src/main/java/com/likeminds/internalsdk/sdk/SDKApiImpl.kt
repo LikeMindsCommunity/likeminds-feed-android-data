@@ -22,7 +22,7 @@ class SDKApiImpl @Inject constructor(private val sdkReceiver: SDKReceiver) : SDK
         return sdkReceiver.logout(request)
     }
 
-    override suspend fun memberState(): NetworkResponse<APIResponse<_MemberStateResponse_>> {
-        return sdkReceiver.memberState()
+    override suspend fun getMemberState(): NetworkResponse<APIResponse<_MemberStateResponse_>> {
+        return sdkReceiver.getMemberState()
     }
 }

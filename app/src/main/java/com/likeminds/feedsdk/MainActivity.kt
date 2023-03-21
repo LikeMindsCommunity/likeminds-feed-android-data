@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                     .build()
             )
 
-            Log.d("TAG", "onCreate: ${client.memberState()}")
+            Log.d("TAG", "onCreate: ${client.getMemberState()}")
 
             val getPostResult = client.getPost(
                 GetPostRequest.Builder().postId("63f4caadc52f148210f7496a")

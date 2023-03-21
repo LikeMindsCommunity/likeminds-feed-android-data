@@ -74,8 +74,8 @@ class LMFeedClient private constructor() {
     }
 
     // Exposed function to process member state
-    suspend fun memberState(): LMResponse<MemberStateResponse> {
-        return initiateUserClient.memberState()
+    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
+        return initiateUserClient.getMemberState()
     }
 
     // Exposed function to process feed request
@@ -134,8 +134,8 @@ class LMFeedClient private constructor() {
     }
 
     // Exposed function to add comment on the post
-    suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): LMResponse<Nothing> {
-        return commentClient.addReplyOnComment(addReplyOnCommentRequest)
+    suspend fun addReplyOnComment(replyCommentRequest: ReplyCommentRequest): LMResponse<Nothing> {
+        return commentClient.replyComment(replyCommentRequest)
     }
 
     // Exposed function to fetch the comment and its paginated replies
