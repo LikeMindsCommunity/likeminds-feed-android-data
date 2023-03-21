@@ -11,7 +11,7 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
 import com.likeminds.internalsdk.BuildConfig
-import com.likeminds.internalsdk.TokenManager
+import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.likemindsfeed.sdk.utils.Constants.PathUri.COLUMN_DATA
 import com.likeminds.likemindsfeed.sdk.utils.Constants.PathUri.COLUMN_DISPLAY_NAME
 import com.likeminds.likemindsfeed.sdk.utils.Constants.PathUri.FOLDER_DOWNLOAD
@@ -50,8 +50,8 @@ object FileUtils {
         fileName: String?
     ): String {
         //TODO: use user_unique_id
-        val tokenManager = TokenManager.getInstance()
-        val userId = tokenManager.memberId
+        val feedTokenManager = FeedTokenManager.getInstance()
+        val userId = feedTokenManager.memberId
         val fileNameWithoutExtension = fileName?.substringBeforeLast(".")
         val extension = fileName?.substringAfterLast(".", "")
         return "post/$userId/" + fileNameWithoutExtension + "-" + System.currentTimeMillis() + "." + extension

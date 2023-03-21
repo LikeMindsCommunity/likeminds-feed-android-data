@@ -1,6 +1,6 @@
 package com.likeminds.likemindsfeed.initiateUser
 
-import com.likeminds.internalsdk.TokenManager
+import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.sdk.model._LogoutRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -69,8 +69,8 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 val refreshToken = body.data?.refreshToken ?: ""
                 val userId = body.data?.user?.id ?: ""
 
-                val tokenManager = TokenManager.getInstance()
-                tokenManager.updateTokens(accessToken, refreshToken, userId)
+                val feedTokenManager = FeedTokenManager.getInstance()
+                feedTokenManager.updateTokens(accessToken, refreshToken, userId)
 
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false

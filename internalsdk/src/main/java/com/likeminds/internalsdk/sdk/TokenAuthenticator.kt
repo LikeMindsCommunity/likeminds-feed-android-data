@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.sdk
 
 import android.util.Log
 import com.likeminds.internalsdk.CollabmatesSDK.Companion.LOG_TAG
-import com.likeminds.internalsdk.TokenManager
+import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -25,16 +25,16 @@ class TokenAuthenticator @Inject constructor(
 
     private fun getUpdatedRequest(response: Response): Request? {
         val body = response.body?.string()
-        val tokenManager = TokenManager.getInstance()
+        val feedTokenManager = FeedTokenManager.getInstance()
         return when {
-            tokenManager.refreshToken.isNullOrEmpty() -> {
+            feedTokenManager.refreshToken.isNullOrEmpty() -> {
                 Log.e(LOG_TAG, "refresh token is empty")
                 null
             }
             (body?.contains(INVALID_LTM, true) == true) -> {
                 Log.d(LOG_TAG, "refreshing access token")
                 runBlocking {
-                    val refreshToken = tokenManager.refreshToken
+                    val refreshToken = feedTokenManager.refreshToken
                     when (val refreshResponse =
                         refreshTokenNetworkApi.refreshAccessToken("Bearer $refreshToken")) {
                         is NetworkResponse.Error -> {
@@ -50,7 +50,7 @@ class TokenAuthenticator @Inject constructor(
                             val newRefreshToken = refreshResponse.body.data?.refreshToken
                             val updatedToken = "Bearer $newAccessToken"
 
-                            tokenManager.updateTokens(updatedToken, newRefreshToken, null)
+                            feedTokenManager.updateTokens(updatedToken, newRefreshToken, null)
                             response.request.newBuilder()
                                 .header(AUTH, updatedToken)
                                 .build()
