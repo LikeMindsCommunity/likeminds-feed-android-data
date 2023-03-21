@@ -1,7 +1,9 @@
 package com.likeminds.likemindsfeed.initiateUser
 
 import com.likeminds.internalsdk.TokenManager
+import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
+import com.likeminds.internalsdk.sdk.model._MemberStateResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -69,9 +71,23 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
-                ModelConverter.convertInitiateUserResponse(body)
+                val memberState = memberState(api)
+                ModelConverter.convertInitiateUserResponse(body, memberState)
             }
         }
+    }
+
+    private suspend fun memberState(api: SDKApi): _MemberStateResponse_? {
+        return when (val response = api.memberState()) {
+            is NetworkResponse.Error -> {
+                null
+            }
+            is NetworkResponse.Success -> {
+                val body = response.body
+                body.data
+            }
+        }
+
     }
 
     /**

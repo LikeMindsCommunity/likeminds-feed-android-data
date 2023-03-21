@@ -6,10 +6,7 @@ import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
 import com.likeminds.internalsdk.post.model.*
-import com.likeminds.internalsdk.sdk.model._Community_
-import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
-import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
-import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
@@ -33,24 +30,26 @@ object ModelConverter {
 
     // converts api InitiateUserResponse model to LM InitiateUserResponse model
     fun convertInitiateUserResponse(
-        apiResponse: APIResponse<_InitiateUserResponse_>
+        apiResponse: APIResponse<_InitiateUserResponse_>,
+        memberStateResponse: _MemberStateResponse_?
     ): LMResponse<InitiateUserResponse> {
         return LMResponse(
             apiResponse.success,
             apiResponse.errorMessage,
-            convertInitiateUserResponse(apiResponse.data)
+            convertInitiateUserResponse(apiResponse.data, memberStateResponse)
         )
     }
 
     // converts internal InitiateUserResponse model to client model
     fun convertInitiateUserResponse(
-        _initiateUserResponse_: _InitiateUserResponse_?
+        _initiateUserResponse_: _InitiateUserResponse_?,
+        memberStateResponse: _MemberStateResponse_?
     ): InitiateUserResponse? {
         if (_initiateUserResponse_ == null) return null
         return InitiateUserResponse(
             _initiateUserResponse_.accessToken,
             _initiateUserResponse_.refreshToken,
-            convertUser(_initiateUserResponse_.user),
+            convertUser(_initiateUserResponse_.user, memberStateResponse),
             convertCommunity(_initiateUserResponse_.community),
             _initiateUserResponse_.appAccess
         )
@@ -58,7 +57,8 @@ object ModelConverter {
 
     // converts internal User model to client model
     fun convertUser(
-        _user_: _User_
+        _user_: _User_,
+        _memberStateResponse_: _MemberStateResponse_? = null
     ): User {
         return User(
             _user_.id,
@@ -70,7 +70,8 @@ object ModelConverter {
             _user_.isDeleted,
             _user_.customTitle,
             _user_.updatedAt,
-            _user_.userUniqueId
+            _user_.userUniqueId,
+            _memberStateResponse_?.state
         )
     }
 

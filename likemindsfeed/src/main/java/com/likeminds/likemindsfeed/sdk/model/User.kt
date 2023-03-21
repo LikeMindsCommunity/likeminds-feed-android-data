@@ -10,7 +10,8 @@ data class User(
     var isDeleted: Boolean?,
     var customTitle: String?,
     var updatedAt: Long,
-    var userUniqueId: String
+    var userUniqueId: String,
+    var state: Int? = null,
 )
 
 data class SDKClientInfo(
