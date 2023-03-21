@@ -2,6 +2,7 @@ package com.likeminds.internalsdk.sdk
 
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
+import com.likeminds.internalsdk.sdk.model._LogoutRequest_
 import com.likeminds.internalsdk.sdk.model._MemberStateResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -15,6 +16,12 @@ class SDKReceiver @Inject constructor(private val sdkNetworkApi: SDKNetworkApi) 
     ): NetworkResponse<APIResponse<_InitiateUserResponse_>> {
         val newRequest = request.toBuilder().apiKey(null).build()
         return sdkNetworkApi.initiateUser(apiKey, newRequest)
+    }
+
+    suspend fun logout(
+        request: _LogoutRequest_
+    ): NetworkResponse<APIResponse<Nothing>> {
+        return sdkNetworkApi.logout(request)
     }
 
     suspend fun memberState(): NetworkResponse<APIResponse<_MemberStateResponse_>> {
