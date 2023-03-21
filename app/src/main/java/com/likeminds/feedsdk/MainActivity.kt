@@ -1,6 +1,7 @@
 package com.likeminds.feedsdk
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
                     .isGuest(false)
                     .build()
             )
+
+            Log.d("TAG", "onCreate: ${client.memberState()}")
 
             val getPostResult = client.getPost(
                 GetPostRequest.Builder().postId("63f4caadc52f148210f7496a")

@@ -6,6 +6,7 @@ import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -64,6 +65,11 @@ class LMFeedClient private constructor() {
     // Exposed function to process initiate user request
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
         return initiateUserClient.initiateUser(initiateUserRequest)
+    }
+
+    // Exposed function to process member state
+    suspend fun memberState(): LMResponse<MemberStateResponse> {
+        return initiateUserClient.memberState()
     }
 
     // Exposed function to process feed request

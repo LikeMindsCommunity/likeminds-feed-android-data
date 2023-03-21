@@ -14,6 +14,7 @@ import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.post.model.*
@@ -30,26 +31,24 @@ object ModelConverter {
 
     // converts api InitiateUserResponse model to LM InitiateUserResponse model
     fun convertInitiateUserResponse(
-        apiResponse: APIResponse<_InitiateUserResponse_>,
-        memberStateResponse: _MemberStateResponse_?
+        apiResponse: APIResponse<_InitiateUserResponse_>
     ): LMResponse<InitiateUserResponse> {
         return LMResponse(
             apiResponse.success,
             apiResponse.errorMessage,
-            convertInitiateUserResponse(apiResponse.data, memberStateResponse)
+            convertInitiateUserResponse(apiResponse.data)
         )
     }
 
     // converts internal InitiateUserResponse model to client model
     fun convertInitiateUserResponse(
-        _initiateUserResponse_: _InitiateUserResponse_?,
-        memberStateResponse: _MemberStateResponse_?
+        _initiateUserResponse_: _InitiateUserResponse_?
     ): InitiateUserResponse? {
         if (_initiateUserResponse_ == null) return null
         return InitiateUserResponse(
             _initiateUserResponse_.accessToken,
             _initiateUserResponse_.refreshToken,
-            convertUser(_initiateUserResponse_.user, memberStateResponse),
+            convertUser(_initiateUserResponse_.user),
             convertCommunity(_initiateUserResponse_.community),
             _initiateUserResponse_.appAccess
         )
@@ -57,8 +56,7 @@ object ModelConverter {
 
     // converts internal User model to client model
     fun convertUser(
-        _user_: _User_,
-        _memberStateResponse_: _MemberStateResponse_? = null
+        _user_: _User_
     ): User {
         return User(
             _user_.id,
@@ -70,8 +68,7 @@ object ModelConverter {
             _user_.isDeleted,
             _user_.customTitle,
             _user_.updatedAt,
-            _user_.userUniqueId,
-            _memberStateResponse_?.state
+            _user_.userUniqueId
         )
     }
 
@@ -109,6 +106,27 @@ object ModelConverter {
                 it.userUniqueId
             )
         }
+    }
+
+    // converts api MemberStateResponse model to LM MemberStateResponse model
+    fun convertMemberStateResponse(
+        apiResponse: APIResponse<_MemberStateResponse_>
+    ): LMResponse<MemberStateResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertMemberStateResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal MemberStateResponse model to client model
+    fun convertMemberStateResponse(
+        _memberStateResponse_: _MemberStateResponse_?
+    ): MemberStateResponse? {
+        if (_memberStateResponse_ == null) return null
+        return MemberStateResponse(
+            _memberStateResponse_.state
+        )
     }
 
     // converts api GetPostResponse model to LM GetPostResponse model

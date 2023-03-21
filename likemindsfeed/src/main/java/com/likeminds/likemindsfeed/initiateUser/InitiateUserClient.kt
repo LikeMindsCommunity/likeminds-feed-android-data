@@ -1,14 +1,13 @@
 package com.likeminds.likemindsfeed.initiateUser
 
 import com.likeminds.internalsdk.TokenManager
-import com.likeminds.internalsdk.sdk.SDKApi
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
-import com.likeminds.internalsdk.sdk.model._MemberStateResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.util.RequestUtils
@@ -71,23 +70,34 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
 
                 val tokenManager = TokenManager.getInstance()
                 tokenManager.updateTokens(accessToken, refreshToken, userId)
-                val memberState = memberState(api)
-                ModelConverter.convertInitiateUserResponse(body, memberState)
+                ModelConverter.convertInitiateUserResponse(body)
             }
         }
     }
 
-    private suspend fun memberState(api: SDKApi): _MemberStateResponse_? {
+    /**
+     * Calls the MemberState api
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return MemberStateResponse - MemberStateResponse model for MemberState api call
+     */
+    suspend fun memberState(): LMResponse<MemberStateResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
+        val api = collabmatesSDK.getSDKApi()
+        // calls api and processes the response accordingly
         return when (val response = api.memberState()) {
             is NetworkResponse.Error -> {
-                null
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage,
+                    null
+                )
             }
             is NetworkResponse.Success -> {
-                val body = response.body
-                body.data
+                ModelConverter.convertMemberStateResponse(response.body)
             }
         }
-
     }
 
     /**
