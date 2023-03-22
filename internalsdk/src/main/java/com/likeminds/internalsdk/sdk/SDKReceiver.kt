@@ -21,7 +21,9 @@ class SDKReceiver @Inject constructor(private val sdkNetworkApi: SDKNetworkApi) 
     suspend fun logout(
         request: _LogoutRequest_
     ): NetworkResponse<APIResponse<Nothing>> {
-        return sdkNetworkApi.logout(request)
+        val deviceId = request.deviceId ?: ""
+        val newRequest = request.toBuilder().deviceId(null).build()
+        return sdkNetworkApi.logout(deviceId, newRequest)
     }
 
     suspend fun getMemberState(): NetworkResponse<APIResponse<_MemberStateResponse_>> {

@@ -21,6 +21,7 @@ interface SDKNetworkApi {
 
     @POST("user/logout")
     suspend fun logout(
+        @Header("x-device-id") deviceId: String,
         @Body request: _LogoutRequest_
     ): NetworkResponse<APIResponse<Nothing>>
 

@@ -76,6 +76,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                     // logout the user if app access is false
                     val logoutRequest = LogoutRequest.Builder()
                         .refreshToken(refreshToken)
+                        .deviceId(initiateUserRequest.deviceId)
                         .build()
 
                     val logoutResponse = logout(logoutRequest)
@@ -109,6 +110,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         val request =
             _LogoutRequest_.Builder()
                 .refreshToken(logoutRequest.refreshToken)
+                .deviceId(logoutRequest.deviceId)
                 .build()
         val api = collabmatesSDK.getSDKApi()
         return when (val response = api.logout(request)) {
