@@ -3,6 +3,9 @@ package com.likeminds.likemindsfeed
 import android.app.Application
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.helper.HelperClient
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -38,6 +41,9 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var moderationClient: ModerationClient
+
+    @Inject
+    lateinit var helperClient: HelperClient
 
     class Builder(val application: Application) {
 
@@ -156,5 +162,10 @@ class LMFeedClient private constructor() {
     // Exposed function to delete the comment
     suspend fun deleteComment(deleteCommentRequest: DeleteCommentRequest): LMResponse<Nothing> {
         return commentClient.deleteComment(deleteCommentRequest)
+    }
+
+    // Exposed function to decode url and fetch ogTags
+    suspend fun decodeUrl(decodeUrlRequest: DecodeUrlRequest): LMResponse<DecodeUrlResponse> {
+        return helperClient.decodeUrl(decodeUrlRequest)
     }
 }

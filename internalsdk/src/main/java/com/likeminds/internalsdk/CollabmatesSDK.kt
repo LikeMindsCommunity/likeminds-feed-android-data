@@ -7,6 +7,8 @@ import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.helper.HelperApi
+import com.likeminds.internalsdk.helper.HelperApiImpl
 import com.likeminds.internalsdk.moderation.ModerationApi
 import com.likeminds.internalsdk.moderation.ModerationApiImpl
 import com.likeminds.internalsdk.post.PostApi
@@ -46,6 +48,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var moderationApiImpl: ModerationApiImpl
+
+    @Inject
+    lateinit var helperApiImpl: HelperApiImpl
 
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
@@ -91,5 +96,9 @@ class CollabmatesSDK {
 
     fun getModerationApi(): ModerationApi {
         return moderationApiImpl
+    }
+
+    fun getHelperApi(): HelperApi {
+        return helperApiImpl
     }
 }

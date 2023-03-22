@@ -7,6 +7,7 @@ import com.likeminds.internalsdk.sdk.SDKPreferences
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
+import com.likeminds.likemindsfeed.di.helper.HelperSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
@@ -31,6 +32,7 @@ internal class LikeMindsFeedApplication private constructor() {
     private var universalFeedComponent: UniversalFeedSubComponent? = null
     private var postComponent: PostSubComponent? = null
     private var moderationComponent: ModerationSubComponent? = null
+    private var helperComponent: HelperSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -94,5 +96,12 @@ internal class LikeMindsFeedApplication private constructor() {
             commentSubComponent = likeMindsFeedComponent?.commentComponent()?.create()
         }
         return commentSubComponent
+    }
+
+    fun helperComponent(): HelperSubComponent? {
+        if (helperComponent == null) {
+            helperComponent = likeMindsFeedComponent?.helperComponent()?.create()
+        }
+        return helperComponent
     }
 }

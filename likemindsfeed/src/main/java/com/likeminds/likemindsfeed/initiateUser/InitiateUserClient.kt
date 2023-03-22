@@ -67,10 +67,10 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 val body = response.body
                 val accessToken = body.data?.accessToken ?: ""
                 val refreshToken = body.data?.refreshToken ?: ""
-                val userId = body.data?.user?.id ?: ""
+                val userId = body.data?.user?.id ?: -1
 
                 val feedTokenManager = FeedTokenManager.getInstance()
-                feedTokenManager.updateTokens(accessToken, refreshToken, userId)
+                feedTokenManager.updateTokens(accessToken, refreshToken, userId.toString())
 
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false

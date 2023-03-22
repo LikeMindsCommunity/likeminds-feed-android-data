@@ -3,6 +3,7 @@ package com.likeminds.likemindsfeed.sdk
 import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
+import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
 import com.likeminds.internalsdk.post.model.*
@@ -13,6 +14,7 @@ import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -303,6 +305,27 @@ object ModelConverter {
         return GetReportTagsResponse(
             convertReportTagsList(_getReportTagsResponse_.tags)
         )
+    }
+
+    // converts api DecodeUrlResponse model to LM DecodeUrlResponse model
+    fun convertDecodeUrlResponse(
+        apiResponse: APIResponse<_DecodeUrlResponse_>
+    ): LMResponse<DecodeUrlResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertDecodeUrlResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal DecodeUrlResponse model to client model
+    fun convertDecodeUrlResponse(
+        _decodeUrlResponse_: _DecodeUrlResponse_?
+    ): DecodeUrlResponse? {
+        if (_decodeUrlResponse_ == null) {
+            return null
+        }
+        return DecodeUrlResponse(convertOGTags(_decodeUrlResponse_.ogTags))
     }
 
     // converts internal ReportTag model list to client model list

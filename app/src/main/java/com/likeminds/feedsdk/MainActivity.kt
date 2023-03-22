@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.post.model.AddPostRequest
 import com.likeminds.likemindsfeed.post.model.Attachment
@@ -63,6 +64,12 @@ class MainActivity : AppCompatActivity() {
                     )
                     .build()
             )
+            val decodeUrlResult = client.decodeUrl(
+                DecodeUrlRequest.Builder()
+                    .url("https://betadashboard.likeminds.community/community/chatrooms")
+                    .build()
+            )
+            Log.d("TAG", "onCreate: ${decodeUrlResult.data?.ogTags?.title}")
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,

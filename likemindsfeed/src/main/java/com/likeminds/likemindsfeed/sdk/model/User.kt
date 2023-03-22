@@ -1,7 +1,7 @@
 package com.likeminds.likemindsfeed.sdk.model
 
 data class User(
-    var id: String,
+    var id: Int,
     var imageUrl: String,
     var isGuest: Boolean,
     var name: String,
