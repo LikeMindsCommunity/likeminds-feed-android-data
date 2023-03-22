@@ -9,7 +9,6 @@ versions.sdk_version_patch = '0'
 versions.sdk_version_code = 1
 versions.core = "1.9.0"
 versions.appcompat = "1.6.1"
-versions.room = "2.5.0"
 versions.junit = "4.13.2"
 versions.android_junit = "1.1.5"
 versions.espresso_core = "3.5.1"
@@ -19,8 +18,6 @@ versions.gson = '2.8.6'
 versions.chucker = '3.5.2'
 versions.kotlin = '1.7.20'
 versions.coroutines = "1.6.4"
-versions.work_manager = '2.7.1'
-versions.aws_s3 = '2.47.0'
 versions.sentry = '6.12.1'
 versions.dagger = '2.42'
 ext.versions = versions
@@ -50,11 +47,6 @@ dagger.main = "com.google.dagger:dagger:$versions.dagger"
 dagger.compiler = "com.google.dagger:dagger-compiler:$versions.dagger"
 deps.dagger = dagger
 
-def room = [:]
-room.main = "androidx.room:room-runtime:$versions.room"
-room.compiler = "androidx.room:room-compiler:$versions.room"
-deps.room = room
-
 def retrofit = [:]
 retrofit.main = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
@@ -73,15 +65,6 @@ def chucker = [:]
 chucker.main = "com.github.chuckerteam.chucker:library:$versions.chucker"
 chucker.no_op = "com.github.chuckerteam.chucker:library-no-op:$versions.chucker"
 deps.chucker = chucker
-
-def work_manager = [:]
-work_manager.main = "androidx.work:work-runtime-ktx:$versions.work_manager"
-deps.work_manager = work_manager
-
-def aws = [:]
-aws.s3 = "com.amazonaws:aws-android-sdk-s3:$versions.aws_s3"
-aws.mobile_client = "com.amazonaws:aws-android-sdk-mobile-client:$versions.aws_s3"
-deps.aws = aws
 
 def sentry = [:]
 sentry.main = "io.sentry:sentry-android:$versions.sentry"

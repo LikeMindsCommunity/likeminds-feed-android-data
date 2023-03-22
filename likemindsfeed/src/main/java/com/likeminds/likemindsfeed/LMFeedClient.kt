@@ -1,10 +1,16 @@
 package com.likeminds.likemindsfeed
 
+import android.app.Application
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.helper.HelperClient
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
+import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -12,7 +18,6 @@ import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
-import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
@@ -20,7 +25,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LMFeedClient {
+class LMFeedClient private constructor() {
 
     @Inject
     lateinit var initiateUserClient: InitiateUserClient
@@ -37,21 +42,23 @@ class LMFeedClient {
     @Inject
     lateinit var moderationClient: ModerationClient
 
-    companion object {
-        @JvmStatic
-        private var lmFeedClientInstance: LMFeedClient? = null
+    @Inject
+    lateinit var helperClient: HelperClient
 
-        private lateinit var extras: InitiateLikeMindsExtra
+    class Builder(val application: Application) {
 
-        @JvmStatic
-        fun build(extra: InitiateLikeMindsExtra): LMFeedClient {
+        fun build(): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
-            extras = extra
             val sdkApplication = LikeMindsFeedApplication.getInstance()
-            sdkApplication.initSDKApplication(extra)
+            sdkApplication.initSDKApplication(application)
             sdkApplication.likeMindsFeedComponent?.inject(lmFeedClientInstance!!)
             return lmFeedClientInstance!!
         }
+    }
+
+    companion object {
+        @JvmStatic
+        private var lmFeedClientInstance: LMFeedClient? = null
 
         @JvmStatic
         fun getInstance(): LMFeedClient {
@@ -65,6 +72,16 @@ class LMFeedClient {
     // Exposed function to process initiate user request
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
         return initiateUserClient.initiateUser(initiateUserRequest)
+    }
+
+    // Exposed function to process logout request
+    suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
+        return initiateUserClient.logout(logoutRequest)
+    }
+
+    // Exposed function to process member state
+    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
+        return initiateUserClient.getMemberState()
     }
 
     // Exposed function to process feed request
@@ -123,8 +140,8 @@ class LMFeedClient {
     }
 
     // Exposed function to add comment on the post
-    suspend fun addReplyOnComment(addReplyOnCommentRequest: AddReplyOnCommentRequest): LMResponse<Nothing> {
-        return commentClient.addReplyOnComment(addReplyOnCommentRequest)
+    suspend fun addReplyOnComment(replyCommentRequest: ReplyCommentRequest): LMResponse<Nothing> {
+        return commentClient.replyComment(replyCommentRequest)
     }
 
     // Exposed function to fetch the comment and its paginated replies
@@ -145,5 +162,10 @@ class LMFeedClient {
     // Exposed function to delete the comment
     suspend fun deleteComment(deleteCommentRequest: DeleteCommentRequest): LMResponse<Nothing> {
         return commentClient.deleteComment(deleteCommentRequest)
+    }
+
+    // Exposed function to decode url and fetch ogTags
+    suspend fun decodeUrl(decodeUrlRequest: DecodeUrlRequest): LMResponse<DecodeUrlResponse> {
+        return helperClient.decodeUrl(decodeUrlRequest)
     }
 }

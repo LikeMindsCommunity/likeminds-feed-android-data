@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.post.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Like(
+data class _Like_(
     @SerializedName("_id")
     var id: String,
     @SerializedName("created_at")

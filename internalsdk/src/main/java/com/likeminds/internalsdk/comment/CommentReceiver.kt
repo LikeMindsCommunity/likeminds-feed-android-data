@@ -17,8 +17,8 @@ class CommentReceiver @Inject constructor(
         return commentNetworkApi.addComment(postId, newRequest)
     }
 
-    suspend fun addReplyOnComment(
-        request: _AddReplyOnCommentRequest_
+    suspend fun replyComment(
+        request: _ReplyCommentRequest_
     ): NetworkResponse<APIResponse<Nothing>> {
         val postId = request.postId ?: ""
         val commentId = request.commentId ?: ""
@@ -26,7 +26,7 @@ class CommentReceiver @Inject constructor(
             .postId(null)
             .commentId(null)
             .build()
-        return commentNetworkApi.addReplyOnComment(
+        return commentNetworkApi.replyComment(
             postId,
             commentId,
             newRequest
@@ -68,7 +68,7 @@ class CommentReceiver @Inject constructor(
         request: _DeleteCommentRequest_
     ): NetworkResponse<APIResponse<Nothing>> {
         val postId = request.postId ?: ""
-        val commentId = request.commentId!!
+        val commentId = request.commentId ?: ""
         val newRequest = request.toBuilder().postId(null).commentId(null).build()
         return commentNetworkApi.deleteComment(
             postId,

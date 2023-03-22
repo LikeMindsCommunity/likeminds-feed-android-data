@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.sdk
 
 import android.util.Log
 import com.likeminds.internalsdk.CollabmatesSDK.Companion.LOG_TAG
-import com.likeminds.internalsdk.TokenManager
+import com.likeminds.internalsdk.FeedTokenManager
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -22,8 +22,8 @@ class RefreshTokenAuthenticator @Inject constructor() : Authenticator {
         )
         return if (body?.contains(INVALID_RTM, true) == true) {
             Log.d(LOG_TAG, "refresh token is expired, clearing tokens")
-            val tokenManager = TokenManager.getInstance()
-            tokenManager.clear()
+            val feedTokenManager = FeedTokenManager.getInstance()
+            feedTokenManager.clear()
             null
         } else {
             Log.d(LOG_TAG, "refresh token failed, return null")

@@ -7,7 +7,7 @@ class DeletePostRequest private constructor(
 
     class Builder {
         private var postId: String = ""
-        private var deleteReason: String? = ""
+        private var deleteReason: String? = null
 
         fun postId(postId: String) = apply { this.postId = postId }
         fun deleteReason(deleteReason: String?) = apply { this.deleteReason = deleteReason }

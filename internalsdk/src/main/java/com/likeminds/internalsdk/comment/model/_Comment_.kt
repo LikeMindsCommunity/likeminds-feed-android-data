@@ -1,8 +1,9 @@
-package com.likeminds.internalsdk.post.model
+package com.likeminds.internalsdk.comment.model
 
 import com.google.gson.annotations.SerializedName
+import com.likeminds.internalsdk.post.model._MenuItem_
 
-class Comment private constructor(
+data class _Comment_(
     @SerializedName("_id")
     var id: String,
     @SerializedName("is_liked")
@@ -22,9 +23,9 @@ class Comment private constructor(
     @SerializedName("updated_at")
     var updatedAt: Long,
     @SerializedName("replies")
-    var replies: List<Comment>,
+    var replies: List<_Comment_>?,
     @SerializedName("menu_items")
-    var menuItems: List<MenuItem>,
+    var menuItems: List<_MenuItem_>,
     @SerializedName("parent_id")
     var parentId: String?
 )

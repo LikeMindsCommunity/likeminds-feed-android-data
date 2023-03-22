@@ -1,26 +1,25 @@
 package com.likeminds.likemindsfeed.sdk
 
+import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
+import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
-import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
-import com.likeminds.internalsdk.post.model._GetPostResponse_
-import com.likeminds.internalsdk.sdk.model._Community_
-import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
-import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
-import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.internalsdk.post.model.*
+import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
+import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUser
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
-import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
-import com.likeminds.likemindsfeed.post.model.GetPostResponse
+import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -34,29 +33,26 @@ object ModelConverter {
 
     // converts api InitiateUserResponse model to LM InitiateUserResponse model
     fun convertInitiateUserResponse(
-        _initiateUserResponse_: APIResponse<_InitiateUserResponse_>
+        apiResponse: APIResponse<_InitiateUserResponse_>
     ): LMResponse<InitiateUserResponse> {
         return LMResponse(
-            _initiateUserResponse_.success,
-            _initiateUserResponse_.errorMessage,
-            InitiateUserResponse(
-                _initiateUserResponse_.data?.appAccess,
-                convertInitiateUser(
-                    _initiateUserResponse_.data?.user!!,
-                    _initiateUserResponse_.data?.community!!
-                )
-            )
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertInitiateUserResponse(apiResponse.data)
         )
     }
 
-    // converts internal InitiateUser model to client model
-    fun convertInitiateUser(
-        _user_: _User_,
-        _community_: _Community_
-    ): InitiateUser {
-        return InitiateUser(
-            convertUser(_user_),
-            convertCommunity(_community_)
+    // converts internal InitiateUserResponse model to client model
+    fun convertInitiateUserResponse(
+        _initiateUserResponse_: _InitiateUserResponse_?
+    ): InitiateUserResponse? {
+        if (_initiateUserResponse_ == null) return null
+        return InitiateUserResponse(
+            _initiateUserResponse_.accessToken,
+            _initiateUserResponse_.refreshToken,
+            convertUser(_initiateUserResponse_.user),
+            convertCommunity(_initiateUserResponse_.community),
+            _initiateUserResponse_.appAccess
         )
     }
 
@@ -71,6 +67,8 @@ object ModelConverter {
             _user_.name,
             _user_.organisationName,
             convertSDKClientInfo(_user_.sdkClientInfo),
+            _user_.isDeleted,
+            _user_.customTitle,
             _user_.updatedAt,
             _user_.userUniqueId
         )
@@ -112,6 +110,37 @@ object ModelConverter {
         }
     }
 
+    // converts api MemberStateResponse model to LM MemberStateResponse model
+    fun convertMemberStateResponse(
+        apiResponse: APIResponse<_MemberStateResponse_>
+    ): LMResponse<MemberStateResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertMemberStateResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal MemberStateResponse model to client model
+    fun convertMemberStateResponse(
+        _memberStateResponse_: _MemberStateResponse_?
+    ): MemberStateResponse? {
+        val member = _memberStateResponse_?.member
+        if (_memberStateResponse_ == null || member == null) return null
+        return MemberStateResponse(
+            member.id,
+            _memberStateResponse_.state,
+            member.userUniqueId,
+            member.customTitle,
+            member.imageUrl,
+            member.isGuest,
+            member.isOwner,
+            member.name,
+            member.organisationName,
+            member.updatedAt
+        )
+    }
+
     // converts api GetPostResponse model to LM GetPostResponse model
     fun convertGetFeedAPIResponse(
         apiResponse: APIResponse<_GetFeedResponse_>
@@ -131,7 +160,7 @@ object ModelConverter {
             return null
         }
         return GetFeedResponse(
-            _getFeedResponse_.posts,
+            convertPostsList(_getFeedResponse_.posts),
             convertUsersMap(_getFeedResponse_.users)
         )
     }
@@ -155,7 +184,7 @@ object ModelConverter {
             return null
         }
         return GetPostResponse(
-            _getPostResponse_.post,
+            convertPost(_getPostResponse_.post),
             convertUsersMap(_getPostResponse_.users)
         )
     }
@@ -179,9 +208,32 @@ object ModelConverter {
             return null
         }
         return GetPostLikesResponse(
-            _getPostLikesResponse_.likes,
+            convertLikesList(_getPostLikesResponse_.likes),
             _getPostLikesResponse_.totalCount,
             convertUsersMap(_getPostLikesResponse_.users)
+        )
+    }
+
+    // converts internal Like model list to client model list
+    fun convertLikesList(
+        _likes_: List<_Like_>
+    ): List<Like> {
+        val likes = mutableListOf<Like>()
+        _likes_.forEach {
+            likes.add(convertLike(it))
+        }
+        return likes
+    }
+
+    // converts internal Like model to client model
+    fun convertLike(
+        _like_: _Like_
+    ): Like {
+        return Like(
+            _like_.id,
+            _like_.createdAt,
+            _like_.updatedAt,
+            _like_.userId,
         )
     }
 
@@ -204,7 +256,7 @@ object ModelConverter {
             return null
         }
         return GetCommentResponse(
-            _getCommentResponse_.comment,
+            convertComment(_getCommentResponse_.comment),
             convertUsersMap(_getCommentResponse_.users)
         )
     }
@@ -226,7 +278,7 @@ object ModelConverter {
     ): GetCommentLikesResponse? {
         if (_getCommentLikesResponse_ == null) return null
         return GetCommentLikesResponse(
-            _getCommentLikesResponse_.likes,
+            convertLikesList(_getCommentLikesResponse_.likes),
             _getCommentLikesResponse_.totalCount,
             convertUsersMap(_getCommentLikesResponse_.users)
         )
@@ -255,6 +307,27 @@ object ModelConverter {
         )
     }
 
+    // converts api DecodeUrlResponse model to LM DecodeUrlResponse model
+    fun convertDecodeUrlResponse(
+        apiResponse: APIResponse<_DecodeUrlResponse_>
+    ): LMResponse<DecodeUrlResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertDecodeUrlResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal DecodeUrlResponse model to client model
+    fun convertDecodeUrlResponse(
+        _decodeUrlResponse_: _DecodeUrlResponse_?
+    ): DecodeUrlResponse? {
+        if (_decodeUrlResponse_ == null) {
+            return null
+        }
+        return DecodeUrlResponse(convertOGTags(_decodeUrlResponse_.ogTags))
+    }
+
     // converts internal ReportTag model list to client model list
     fun convertReportTagsList(
         _tags_: List<_ReportTag_>
@@ -274,5 +347,190 @@ object ModelConverter {
             _reportTag_.id,
             _reportTag_.name
         )
+    }
+
+    // converts internal Post model list to client model list
+    fun convertPostsList(
+        _posts_: List<_Post_>
+    ): List<Post> {
+        val posts = mutableListOf<Post>()
+        _posts_.forEach {
+            posts.add(convertPost(it))
+        }
+        return posts
+    }
+
+    // converts internal Post model to client model
+    fun convertPost(
+        _post_: _Post_
+    ): Post {
+        return Post(
+            _post_.id,
+            _post_.text,
+            convertAttachmentsList(_post_.attachments),
+            _post_.communityId,
+            _post_.isLiked,
+            _post_.isPinned,
+            _post_.userId,
+            _post_.likesCount,
+            _post_.commentsCount,
+            _post_.isSaved,
+            convertMenuItemsList(_post_.menuItems),
+            convertCommentsList(_post_.replies),
+            _post_.createdAt,
+            _post_.updatedAt
+        )
+    }
+
+    // converts internal Attachment model list to client model list
+    fun convertAttachmentsList(
+        _attachments_: List<_Attachment_>?
+    ): List<Attachment>? {
+        if (_attachments_ == null) return null
+        val attachments = mutableListOf<Attachment>()
+        _attachments_.forEach {
+            attachments.add(convertAttachment(it))
+        }
+        return attachments
+    }
+
+    // converts internal Attachment model to client model
+    fun convertAttachment(
+        _attachment_: _Attachment_
+    ): Attachment {
+        return Attachment.Builder()
+            .attachmentType(_attachment_.attachmentType)
+            .attachmentMeta(convertAttachmentMeta(_attachment_.attachmentMeta))
+            .build()
+    }
+
+    // converts internal AttachmentMeta model to client model
+    fun convertAttachmentMeta(
+        _attachmentMeta_: _AttachmentMeta_?
+    ): AttachmentMeta? {
+        if (_attachmentMeta_ == null) return null
+        return AttachmentMeta.Builder()
+            .name(_attachmentMeta_.name)
+            .url(_attachmentMeta_.url)
+            .format(_attachmentMeta_.format)
+            .size(_attachmentMeta_.size)
+            .duration(_attachmentMeta_.duration)
+            .pageCount(_attachmentMeta_.pageCount)
+            .ogTags(convertOGTags(_attachmentMeta_.ogTags))
+            .width(_attachmentMeta_.width)
+            .height(_attachmentMeta_.height)
+            .build()
+    }
+
+    // converts internal LinkOGTags model to client model
+    fun convertOGTags(
+        _ogTags_: _LinkOGTags_
+    ): LinkOGTags {
+        return LinkOGTags.Builder()
+            .title(_ogTags_.title)
+            .image(_ogTags_.image)
+            .description(_ogTags_.description)
+            .url(_ogTags_.url)
+            .build()
+    }
+
+    // converts internal Comment model list to client model list
+    fun convertCommentsList(
+        _comments_: List<_Comment_>?
+    ): List<Comment>? {
+        if (_comments_ == null) return null
+        val comments = mutableListOf<Comment>()
+        _comments_.forEach {
+            comments.add(convertComment(it))
+        }
+        return comments
+    }
+
+    // converts internal Comment model to client model
+    fun convertComment(
+        _comment_: _Comment_
+    ): Comment {
+        return Comment(
+            _comment_.id,
+            _comment_.isLiked,
+            _comment_.userId,
+            _comment_.text,
+            _comment_.level,
+            _comment_.likesCount,
+            _comment_.commentsCount,
+            _comment_.createdAt,
+            _comment_.updatedAt,
+            convertCommentsList(_comment_.replies),
+            convertMenuItemsList(_comment_.menuItems),
+            _comment_.parentId,
+        )
+    }
+
+    // converts internal MenuItem model list to client model list
+    fun convertMenuItemsList(
+        _menuItems_: List<_MenuItem_>
+    ): List<MenuItem> {
+        val menuItems = mutableListOf<MenuItem>()
+        _menuItems_.forEach {
+            menuItems.add(convertMenuItem(it))
+        }
+        return menuItems
+    }
+
+    // converts internal MenuItem model to client model
+    fun convertMenuItem(
+        _menuItem_: _MenuItem_
+    ): MenuItem {
+        return MenuItem(_menuItem_.title)
+    }
+
+    /**--------------------------------
+     * Client Model -> Internal Model
+    --------------------------------*/
+
+    // create a list of internal attachments from the client list
+    fun createAttachments(
+        attachments: List<Attachment>?
+    ): List<_Attachment_>? {
+        if (attachments == null) return null
+        val _attachments_ = mutableListOf<_Attachment_>()
+        attachments.forEach { attachment ->
+            val _attachment_ = _Attachment_.Builder()
+                .attachmentType(attachment.attachmentType)
+                .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta!!))
+                .build()
+            _attachments_.add(_attachment_)
+        }
+        return _attachments_
+    }
+
+    // create a internal attachment meta from the meta provided by client
+    fun createAttachmentMeta(
+        attachmentMeta: AttachmentMeta?
+    ): _AttachmentMeta_? {
+        if (attachmentMeta == null) return null
+        return _AttachmentMeta_.Builder()
+            .name(attachmentMeta.name)
+            .url(attachmentMeta.url)
+            .format(attachmentMeta.format)
+            .size(attachmentMeta.size)
+            .duration(attachmentMeta.duration)
+            .pageCount(attachmentMeta.pageCount)
+            .ogTags(createOGTags(attachmentMeta.ogTags))
+            .width(attachmentMeta.width)
+            .height(attachmentMeta.height)
+            .build()
+    }
+
+    // converts client LinkOGTags model to internal model
+    fun createOGTags(
+        ogTags: LinkOGTags
+    ): _LinkOGTags_ {
+        return _LinkOGTags_.Builder()
+            .title(ogTags.title)
+            .image(ogTags.image)
+            .description(ogTags.description)
+            .url(ogTags.url)
+            .build()
     }
 }

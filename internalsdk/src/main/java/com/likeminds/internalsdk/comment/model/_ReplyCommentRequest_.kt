@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.comment.model
 
 import com.google.gson.annotations.SerializedName
 
-class _AddReplyOnCommentRequest_ private constructor(
+class _ReplyCommentRequest_ private constructor(
     @SerializedName("post_id")
     var postId: String?,
     @SerializedName("comment_id")
@@ -20,7 +20,7 @@ class _AddReplyOnCommentRequest_ private constructor(
         fun postId(postId: String?) = apply { this.postId = postId }
         fun commentId(commentId: String?) = apply { this.commentId = commentId }
 
-        fun build() = _AddReplyOnCommentRequest_(
+        fun build() = _ReplyCommentRequest_(
             postId,
             commentId,
             text

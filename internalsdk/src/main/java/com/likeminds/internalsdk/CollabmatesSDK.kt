@@ -1,15 +1,14 @@
 package com.likeminds.internalsdk
 
 import android.app.Application
-import com.amazonaws.mobile.client.AWSMobileClient
-import com.amazonaws.mobile.client.Callback
-import com.amazonaws.mobile.client.UserStateDetails
 import com.google.gson.Gson
 import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.di.DaggerSDKComponent
 import com.likeminds.internalsdk.di.SDKComponent
 import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.helper.HelperApi
+import com.likeminds.internalsdk.helper.HelperApiImpl
 import com.likeminds.internalsdk.moderation.ModerationApi
 import com.likeminds.internalsdk.moderation.ModerationApiImpl
 import com.likeminds.internalsdk.post.PostApi
@@ -50,6 +49,9 @@ class CollabmatesSDK {
     @Inject
     lateinit var moderationApiImpl: ModerationApiImpl
 
+    @Inject
+    lateinit var helperApiImpl: HelperApiImpl
+
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
         const val LOG_TAG = "LikeMinds"
@@ -65,7 +67,6 @@ class CollabmatesSDK {
 
     fun initialize(sdkSharedResources: SDKSharedResources) {
         initSDKComponent(sdkSharedResources)
-        initAWSMobileClient()
     }
 
     private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {
@@ -75,16 +76,6 @@ class CollabmatesSDK {
                 .build()
             sdkComponent?.inject(this)
         }
-    }
-
-    private fun initAWSMobileClient() {
-        AWSMobileClient.getInstance().initialize(application, object : Callback<UserStateDetails> {
-            override fun onResult(result: UserStateDetails?) {
-            }
-
-            override fun onError(e: java.lang.Exception?) {
-            }
-        })
     }
 
     fun getSDKApi(): SDKApi {
@@ -99,11 +90,15 @@ class CollabmatesSDK {
         return commentApiImpl
     }
 
-    fun postApi(): PostApi {
+    fun getPostApi(): PostApi {
         return postApiImpl
     }
 
-    fun moderationApi(): ModerationApi {
+    fun getModerationApi(): ModerationApi {
         return moderationApiImpl
+    }
+
+    fun getHelperApi(): HelperApi {
+        return helperApiImpl
     }
 }

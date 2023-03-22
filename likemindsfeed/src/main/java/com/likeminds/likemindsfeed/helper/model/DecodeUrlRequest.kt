@@ -1,0 +1,18 @@
+package com.likeminds.likemindsfeed.helper.model
+
+class DecodeUrlRequest private constructor(
+    var url: String
+) {
+
+    class Builder {
+        private var url: String = ""
+
+        fun url(url: String) = apply { this.url = url }
+
+        fun build() = DecodeUrlRequest(url)
+    }
+
+    fun toBuilder(): Builder {
+        return Builder().url(url)
+    }
+}

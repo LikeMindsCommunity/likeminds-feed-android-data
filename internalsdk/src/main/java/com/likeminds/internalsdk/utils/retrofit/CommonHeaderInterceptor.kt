@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.provider.Settings
 import com.likeminds.internalsdk.BuildConfig
-import com.likeminds.internalsdk.TokenManager
+import com.likeminds.internalsdk.FeedTokenManager
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -15,12 +15,12 @@ class CommonHeaderInterceptor @Inject constructor(
     @SuppressLint("HardwareIds")
     override fun intercept(chain: Interceptor.Chain): Response {
         val requestBuilder = chain.request().newBuilder()
-        val tokenManager = TokenManager.getInstance()
-        if (!tokenManager.accessToken.isNullOrEmpty()) {
-            requestBuilder.addHeader(AUTH, "Bearer ${tokenManager.accessToken}")
+        val feedTokenManager = FeedTokenManager.getInstance()
+        if (!feedTokenManager.accessToken.isNullOrEmpty()) {
+            requestBuilder.addHeader(AUTH, "Bearer ${feedTokenManager.accessToken}")
         }
         //todo remove
-        requestBuilder.addHeader(X_MEMBER_ID, tokenManager.memberId.toString())
+        requestBuilder.addHeader(X_MEMBER_ID, feedTokenManager.memberId.toString())
         requestBuilder.addHeader(X_PLATFORM_CODE, "an")
         requestBuilder.addHeader(X_VERSION_CODE, BuildConfig.APP_VERSION_CODE.toString())
         val deviceId =

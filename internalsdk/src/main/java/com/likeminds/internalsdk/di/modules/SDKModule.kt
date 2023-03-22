@@ -1,9 +1,9 @@
 package com.likeminds.internalsdk.di.modules
 
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.likeminds.internalsdk.sdk.RefreshTokenAuthenticator
 import com.google.gson.Gson
-import com.likeminds.internalsdk.TokenManager
+import com.likeminds.internalsdk.FeedTokenManager
+import com.likeminds.internalsdk.sdk.RefreshTokenAuthenticator
 import com.likeminds.internalsdk.sdk.RefreshTokenNetworkApi
 import com.likeminds.internalsdk.sdk.SDKNetworkApi
 import com.likeminds.internalsdk.utils.retrofit.NetworkResponseAdapterFactory
@@ -20,8 +20,8 @@ class SDKModule {
 
     @Provides
     @Singleton
-    fun provideTokenManager(): TokenManager {
-        return TokenManager.getInstance()
+    fun provideFeedTokenManager(): FeedTokenManager {
+        return FeedTokenManager.getInstance()
     }
 
     @Provides

@@ -4,7 +4,7 @@ dependencies {
     implementation deps.android_core.appcompat
 
     //internal sdk
-    api deps.internal.sdk
+    implementation deps.internal.sdk
 
     //dagger
     implementation deps.dagger.main
@@ -12,9 +12,6 @@ dependencies {
 
     //retrofit gson
     implementation deps.retrofit.gson
-
-    //aws
-    implementation deps.aws.s3
 
     //testing
     testImplementation deps.testing.junit

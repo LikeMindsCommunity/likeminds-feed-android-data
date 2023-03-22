@@ -1,12 +1,14 @@
 package com.likeminds.likemindsfeed.sdk.model
 
 data class User(
-    var id: String,
+    var id: Int,
     var imageUrl: String,
     var isGuest: Boolean,
     var name: String,
     var organisationName: String?,
     var sdkClientInfo: SDKClientInfo?,
+    var isDeleted: Boolean?,
+    var customTitle: String?,
     var updatedAt: Long,
     var userUniqueId: String
 )

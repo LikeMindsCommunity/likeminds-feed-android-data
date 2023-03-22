@@ -7,11 +7,11 @@ import com.likeminds.internalsdk.sdk.SDKPreferences
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
+import com.likeminds.likemindsfeed.di.helper.HelperSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
-import com.likeminds.likemindsfeed.sdk.model.InitiateLikeMindsExtra
 import javax.inject.Inject
 
 internal class LikeMindsFeedApplication private constructor() {
@@ -32,6 +32,7 @@ internal class LikeMindsFeedApplication private constructor() {
     private var universalFeedComponent: UniversalFeedSubComponent? = null
     private var postComponent: PostSubComponent? = null
     private var moderationComponent: ModerationSubComponent? = null
+    private var helperComponent: HelperSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -45,11 +46,11 @@ internal class LikeMindsFeedApplication private constructor() {
         }
     }
 
-    fun initSDKApplication(extra: InitiateLikeMindsExtra) {
+    fun initSDKApplication(application: Application) {
         likeMindsFeedApplicationInstance = this
 
         //init dagger
-        initLikeMindsFeedComponent(extra.application)
+        initLikeMindsFeedComponent(application)
         collabmatesSDK.initialize(sdkSharedResources)
     }
 
@@ -95,5 +96,12 @@ internal class LikeMindsFeedApplication private constructor() {
             commentSubComponent = likeMindsFeedComponent?.commentComponent()?.create()
         }
         return commentSubComponent
+    }
+
+    fun helperComponent(): HelperSubComponent? {
+        if (helperComponent == null) {
+            helperComponent = likeMindsFeedComponent?.helperComponent()?.create()
+        }
+        return helperComponent
     }
 }
