@@ -12,9 +12,9 @@ class PostReportRequest private constructor(
     class Builder {
         private var entityId: String = ""
         private var entityCreatorId: String = ""
-        private var entityType: Int = 5
+        private var entityType: Int = -1
         private var link: String? = null
-        private var tagId: Int = 0
+        private var tagId: Int = -1
         private var reason: String? = null
 
         fun entityId(entityId: String) = apply { this.entityId = entityId }

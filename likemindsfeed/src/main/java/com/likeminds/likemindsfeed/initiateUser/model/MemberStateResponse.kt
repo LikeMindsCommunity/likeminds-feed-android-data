@@ -6,8 +6,8 @@ data class MemberStateResponse(
     var userUniqueId: String,
     var customTitle: String,
     var imageUrl: String,
-    var isGuest: String,
-    var isOwner: String,
+    var isGuest: Boolean,
+    var isOwner: Boolean,
     var name: String,
     var organisationName: String?,
     var updatedAt: Long

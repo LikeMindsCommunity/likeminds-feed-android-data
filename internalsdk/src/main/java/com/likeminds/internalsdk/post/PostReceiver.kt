@@ -35,12 +35,14 @@ class PostReceiver @Inject constructor(
     }
 
     suspend fun deletePost(
-        postId: String,
         request: _DeletePostRequest_
     ): NetworkResponse<APIResponse<Nothing>> {
+        val postId = request.postId ?: ""
+        val newRequest = request.toBuilder().postId(null).build()
+
         return postNetworkApi.deletePost(
             postId,
-            request
+            newRequest
         )
     }
 

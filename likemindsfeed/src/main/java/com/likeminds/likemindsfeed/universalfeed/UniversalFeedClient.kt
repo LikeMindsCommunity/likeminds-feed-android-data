@@ -17,6 +17,10 @@ class UniversalFeedClient @Inject constructor() : BaseClient() {
         LikeMindsFeedApplication.getInstance().universalFeedComponent()?.inject(this)
     }
 
+    private val universalApi by lazy {
+        collabmatesSDK.getUniversalFeedApi()
+    }
+
     /**
      * Converts client request model to internal model and calls the api
      * @param getFeedRequest - client request model to fetch feed
@@ -31,9 +35,9 @@ class UniversalFeedClient @Inject constructor() : BaseClient() {
         val request = _GetFeedRequest_.Builder().page(getFeedRequest.page)
             .pageSize(getFeedRequest.pageSize)
             .build()
-        val api = collabmatesSDK.getUniversalFeedApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.getFeed(request)) {
+        return when (val response = universalApi.getFeed(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,

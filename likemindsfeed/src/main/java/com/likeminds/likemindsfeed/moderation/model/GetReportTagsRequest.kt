@@ -5,7 +5,7 @@ class GetReportTagsRequest private constructor(
 ) {
 
     class Builder {
-        private var type: Int = 0
+        private var type: Int = -1
 
         fun type(type: Int) = apply { this.type = type }
 

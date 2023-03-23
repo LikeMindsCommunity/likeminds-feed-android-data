@@ -23,7 +23,6 @@ interface PostApi {
 
     // api to delete the post
     suspend fun deletePost(
-        postId: String,
         request: _DeletePostRequest_
     ): NetworkResponse<APIResponse<Nothing>>
 
