@@ -477,20 +477,20 @@ object ModelConverter {
     --------------------------------*/
 
     // create a list of internal attachments from the client list
-    fun convertAttachments(
+    fun createAttachments(
         attachments: List<Attachment>?
     ): List<_Attachment_>? {
         if (attachments == null) return null
         return attachments.map { attachment ->
             _Attachment_.Builder()
                 .attachmentType(attachment.attachmentType)
-                .attachmentMeta(convertAttachmentMeta(attachment.attachmentMeta))
+                .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta))
                 .build()
         }
     }
 
     // create a internal attachment meta from the meta provided by client
-    private fun convertAttachmentMeta(
+    private fun createAttachmentMeta(
         attachmentMeta: AttachmentMeta?
     ): _AttachmentMeta_? {
         if (attachmentMeta == null) return null

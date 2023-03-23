@@ -7,7 +7,6 @@ import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.sdk.ModelConverter.convertAttachments
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
@@ -76,7 +75,7 @@ class PostClient @Inject constructor() : BaseClient() {
 
         // builds internal request model
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
-            .attachments(convertAttachments(addPostRequest.attachments))
+            .attachments(ModelConverter.createAttachments(addPostRequest.attachments))
             .build()
         // calls api and processes the response accordingly
         return when (val response = postApi.addPost(request)) {
@@ -102,13 +101,6 @@ class PostClient @Inject constructor() : BaseClient() {
         if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
             RequestUtils.throwException("text")
         }
-    }
-
-    // checks if there are any attachments to upload or not
-    private fun hasUploadAbleAttachments(attachments: List<_Attachment_>?): Boolean {
-        // no upload-able attachments if the attachment is of type link.
-        if (attachments.isNullOrEmpty() || (attachments.size == 1 && attachments.first().attachmentType == 4)) return false
-        return true
     }
 
     /**
