@@ -67,10 +67,9 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 val body = response.body
                 val accessToken = body.data?.accessToken ?: ""
                 val refreshToken = body.data?.refreshToken ?: ""
-                val userId = body.data?.user?.id ?: -1
 
                 val feedTokenManager = FeedTokenManager.getInstance()
-                feedTokenManager.updateTokens(accessToken, refreshToken, userId.toString())
+                feedTokenManager.updateTokens(accessToken, refreshToken)
 
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false
@@ -122,8 +121,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }

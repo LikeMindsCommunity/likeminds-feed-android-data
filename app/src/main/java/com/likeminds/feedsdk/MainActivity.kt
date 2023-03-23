@@ -1,12 +1,16 @@
 package com.likeminds.feedsdk
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
+import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
 import com.likeminds.likemindsfeed.post.model.AddPostRequest
 import com.likeminds.likemindsfeed.post.model.Attachment
 import com.likeminds.likemindsfeed.post.model.AttachmentMeta
@@ -17,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("HardwareIds")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +36,8 @@ class MainActivity : AppCompatActivity() {
                     .isGuest(false)
                     .build()
             )
+
+            val refreshToken = clientResult.data?.refreshToken
 
             Log.d("TAG", "onCreate: ${client.getMemberState()}")
 
@@ -74,6 +81,35 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result: ${postResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val deviceId =
+                Settings.Secure.getString(application.contentResolver, Settings.Secure.ANDROID_ID)
+
+            val registerDeviceResult = client.registerDevice(
+                RegisterDeviceRequest.Builder().deviceId(deviceId).token("yuyu").build()
+            )
+            Log.d("TAG", "register device: ${registerDeviceResult.success}")
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${registerDeviceResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            val logoutResult = client.logout(
+                LogoutRequest.Builder()
+                    .refreshToken(refreshToken ?: "")
+                    .deviceId(deviceId)
+                    .build()
+            )
+            Log.d("TAG", "logout: ${logoutResult.success}")
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${logoutResult.success}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

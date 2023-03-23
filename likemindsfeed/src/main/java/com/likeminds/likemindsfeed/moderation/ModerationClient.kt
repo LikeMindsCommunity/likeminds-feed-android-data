@@ -79,8 +79,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    response.body.success,
-                    null
+                    response.body.success
                 )
             }
         }

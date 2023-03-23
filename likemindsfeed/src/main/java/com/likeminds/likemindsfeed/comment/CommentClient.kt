@@ -55,8 +55,7 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }
@@ -103,8 +102,7 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }
@@ -245,8 +243,7 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }
@@ -293,8 +290,7 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }

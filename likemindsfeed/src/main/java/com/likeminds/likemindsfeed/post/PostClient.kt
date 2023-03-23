@@ -85,8 +85,7 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
@@ -177,8 +176,7 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
@@ -219,8 +217,7 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
@@ -261,8 +258,7 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
@@ -303,8 +299,7 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
