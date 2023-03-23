@@ -37,9 +37,9 @@ class HelperClient @Inject constructor() : BaseClient() {
 
     /**
      * Converts client request model to internal model and calls the api
-     * @param decodeUrlRequest - client request model to decode a url og tags
+     * @param decodeUrlRequest - client request model to decode a url and get og tags
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
-     * @return LMResponse<DecodeUrlResponse> - Base LM response
+     * @return LMResponse<DecodeUrlResponse> - DecodeUrlResponse for [decodeUrlRequest]
      */
     suspend fun decodeUrl(decodeUrlRequest: DecodeUrlRequest): LMResponse<DecodeUrlResponse> {
         // validates the client request
@@ -76,7 +76,7 @@ class HelperClient @Inject constructor() : BaseClient() {
 
     /**
      * Converts client request model to internal model and calls the api
-     * @param registerDeviceRequest - client request model to add comment on the post
+     * @param registerDeviceRequest - client request model to register device and fcm token
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */

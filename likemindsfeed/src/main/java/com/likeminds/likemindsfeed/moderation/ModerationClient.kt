@@ -53,6 +53,10 @@ class ModerationClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * validates [reportTagsRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
     private fun validateReportTagsRequest(reportTagsRequest: GetReportTagsRequest) {
         if (reportTagsRequest.type == -1) {
             RequestUtils.throwException("type")
@@ -97,7 +101,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates postReportRequest
+     * validates [postReportRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validatePostReportRequest(postReportRequest: PostReportRequest) {

@@ -65,7 +65,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates addCommentRequest
+     * validates [addCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateAddCommentRequest(addCommentRequest: AddCommentRequest) {
@@ -112,7 +112,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates replyCommentRequest
+     * validates [replyCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateReplyCommentRequest(replyCommentRequest: ReplyCommentRequest) {
@@ -161,7 +161,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getCommentRequest
+     * validates [getCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetCommentRequest(getCommentRequest: GetCommentRequest) {
@@ -207,7 +207,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getCommentLikesRequest
+     * validates [getCommentLikesRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetCommentLikesRequest(getCommentLikesRequest: GetCommentLikesRequest) {
@@ -253,7 +253,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates likeCommentRequest
+     * validates [likeCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateLikeCommentRequest(likeCommentRequest: LikeCommentRequest) {
@@ -300,7 +300,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates deleteCommentRequest
+     * validates [deleteCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateDeleteCommentRequest(deleteCommentRequest: DeleteCommentRequest) {

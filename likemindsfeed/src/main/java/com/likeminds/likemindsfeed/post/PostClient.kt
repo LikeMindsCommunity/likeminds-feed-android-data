@@ -54,7 +54,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getPostRequest
+     * validates [getPostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetPostRequest(getPostRequest: GetPostRequest) {
@@ -95,7 +95,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates addPostRequest
+     * validates [addPostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateAddPostRequest(addPostRequest: AddPostRequest) {
@@ -143,7 +143,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getPostLikesRequest
+     * validates [getPostLikesRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetPostLikesRequest(getPostLikesRequest: GetPostLikesRequest) {
@@ -185,7 +185,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates deletePostRequest
+     * validates [deletePostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateDeletePostRequest(deletePostRequest: DeletePostRequest) {
@@ -226,7 +226,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates likePostRequest
+     * validates [likePostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateLikePostRequest(likePostRequest: LikePostRequest) {
@@ -267,7 +267,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates savePostRequest
+     * validates [savePostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateSavePostRequest(savePostRequest: SavePostRequest) {
@@ -308,7 +308,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates pinPostRequest
+     * validates [pinPostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validatePinPostRequest(pinPostRequest: PinPostRequest) {

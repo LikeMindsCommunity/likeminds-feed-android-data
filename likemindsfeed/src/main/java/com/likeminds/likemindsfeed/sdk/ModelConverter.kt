@@ -160,7 +160,7 @@ object ModelConverter {
             return null
         }
         return GetFeedResponse(
-            convertPostsList(_getFeedResponse_.posts),
+            convertPosts(_getFeedResponse_.posts),
             convertUsersMap(_getFeedResponse_.users)
         )
     }
@@ -301,7 +301,7 @@ object ModelConverter {
             return null
         }
         return GetReportTagsResponse(
-            convertReportTagsList(_getReportTagsResponse_.tags)
+            convertReportTags(_getReportTagsResponse_.tags)
         )
     }
 
@@ -327,7 +327,7 @@ object ModelConverter {
     }
 
     // converts internal ReportTag model list to client model list
-    private fun convertReportTagsList(
+    private fun convertReportTags(
         _tags_: List<_ReportTag_>
     ): List<ReportTag> {
         return _tags_.map {
@@ -346,7 +346,7 @@ object ModelConverter {
     }
 
     // converts internal Post model list to client model list
-    private fun convertPostsList(
+    private fun convertPosts(
         _posts_: List<_Post_>
     ): List<Post> {
         return _posts_.map {
@@ -361,7 +361,7 @@ object ModelConverter {
         return Post(
             _post_.id,
             _post_.text,
-            convertAttachmentsList(_post_.attachments),
+            convertAttachments(_post_.attachments),
             _post_.communityId,
             _post_.isLiked,
             _post_.isPinned,
@@ -369,15 +369,15 @@ object ModelConverter {
             _post_.likesCount,
             _post_.commentsCount,
             _post_.isSaved,
-            convertMenuItemsList(_post_.menuItems),
-            convertCommentsList(_post_.replies),
+            convertMenuItems(_post_.menuItems),
+            convertComments(_post_.replies),
             _post_.createdAt,
             _post_.updatedAt
         )
     }
 
     // converts internal Attachment model list to client model list
-    private fun convertAttachmentsList(
+    private fun convertAttachments(
         _attachments_: List<_Attachment_>?
     ): List<Attachment>? {
         if (_attachments_ == null) return null
@@ -427,7 +427,7 @@ object ModelConverter {
     }
 
     // converts internal Comment model list to client model list
-    private fun convertCommentsList(
+    private fun convertComments(
         _comments_: List<_Comment_>?
     ): List<Comment>? {
         if (_comments_ == null) return null
@@ -450,14 +450,14 @@ object ModelConverter {
             _comment_.commentsCount,
             _comment_.createdAt,
             _comment_.updatedAt,
-            convertCommentsList(_comment_.replies),
-            convertMenuItemsList(_comment_.menuItems),
+            convertComments(_comment_.replies),
+            convertMenuItems(_comment_.menuItems),
             _comment_.parentId,
         )
     }
 
     // converts internal MenuItem model list to client model list
-    private fun convertMenuItemsList(
+    private fun convertMenuItems(
         _menuItems_: List<_MenuItem_>
     ): List<MenuItem> {
         return _menuItems_.map {

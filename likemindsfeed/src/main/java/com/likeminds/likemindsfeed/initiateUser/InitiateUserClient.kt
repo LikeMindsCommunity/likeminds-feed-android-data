@@ -99,16 +99,22 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates initiateUserRequest
+     * validates [initiateUserRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
-        if (initiateUserRequest.userId.isNullOrEmpty()) {
-            RequestUtils.throwException("userId")
+        if (initiateUserRequest.userName.isNullOrEmpty()) {
+            RequestUtils.throwException("userName")
         }
+
+        if (initiateUserRequest.deviceId.isEmpty()) {
+            RequestUtils.throwException("deviceId")
+        }
+
         if (initiateUserRequest.isGuest == null) {
             RequestUtils.throwException("isGuest")
         }
+
         if (initiateUserRequest.apiKey.isEmpty()) {
             RequestUtils.throwException("apiKey")
         }
@@ -123,7 +129,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
         // validates the client request
         RequestUtils.validate()
-        validateInitiateUserRequest(logoutRequest)
+        validateLogoutResponse(logoutRequest)
 
         // builds internal request model
         val request =
@@ -148,10 +154,10 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates logoutRequest
+     * validates [logoutRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
-    private fun validateInitiateUserRequest(logoutRequest: LogoutRequest) {
+    private fun validateLogoutResponse(logoutRequest: LogoutRequest) {
         if (logoutRequest.refreshToken.isEmpty()) {
             RequestUtils.throwException("refreshToken")
         }
