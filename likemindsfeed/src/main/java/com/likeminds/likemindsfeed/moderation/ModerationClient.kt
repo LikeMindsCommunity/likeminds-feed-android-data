@@ -19,6 +19,10 @@ class ModerationClient @Inject constructor() : BaseClient() {
         LikeMindsFeedApplication.getInstance().moderationComponent()?.inject(this)
     }
 
+    private val moderationApi by lazy {
+        collabmatesSDK.getModerationApi()
+    }
+
     /**
      * Converts client request model to internal model and calls the api
      * @param getReportTagsRequest - client request model to fetch report tags
@@ -28,14 +32,15 @@ class ModerationClient @Inject constructor() : BaseClient() {
     suspend fun getReportTags(getReportTagsRequest: GetReportTagsRequest): LMResponse<GetReportTagsResponse> {
         // validates the client request
         RequestUtils.validate()
+        validateReportTagsRequest(getReportTagsRequest)
 
         // builds internal request model
         val request = _GetReportTagsRequest_.Builder()
             .type(getReportTagsRequest.type)
             .build()
-        val api = collabmatesSDK.getModerationApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.getReportTags(request)) {
+        return when (val response = moderationApi.getReportTags(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -45,6 +50,12 @@ class ModerationClient @Inject constructor() : BaseClient() {
             is NetworkResponse.Success -> {
                 ModelConverter.convertGetReportTagsAPIResponse(response.body)
             }
+        }
+    }
+
+    private fun validateReportTagsRequest(reportTagsRequest: GetReportTagsRequest) {
+        if (reportTagsRequest.type == -1) {
+            RequestUtils.throwException("type")
         }
     }
 
@@ -68,9 +79,9 @@ class ModerationClient @Inject constructor() : BaseClient() {
             .tagId(postReportRequest.tagId)
             .reason(postReportRequest.reason)
             .build()
-        val api = collabmatesSDK.getModerationApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.postReport(request)) {
+        return when (val response = moderationApi.postReport(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -93,8 +104,17 @@ class ModerationClient @Inject constructor() : BaseClient() {
         if (postReportRequest.entityId.isEmpty()) {
             RequestUtils.throwException("entityId")
         }
+
         if (postReportRequest.entityCreatorId.isEmpty()) {
             RequestUtils.throwException("entityCreatorId")
+        }
+
+        if (postReportRequest.entityType == -1) {
+            RequestUtils.throwException("entityType")
+        }
+
+        if (postReportRequest.tagId == -1) {
+            RequestUtils.throwException("tagId")
         }
     }
 }

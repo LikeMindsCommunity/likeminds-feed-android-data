@@ -15,7 +15,7 @@ interface HelperNetworkApi {
 
     @POST("user/device/push")
     suspend fun registerDevice(
-        @Header("x-device_id") deviceId: String,
+        @Header("x-device-id") deviceId: String,
         @Body request: _RegisterDeviceRequest_
     ): NetworkResponse<APIResponse<BaseResponse>>
 }

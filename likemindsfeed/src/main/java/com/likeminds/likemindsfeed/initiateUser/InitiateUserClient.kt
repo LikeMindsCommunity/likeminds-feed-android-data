@@ -21,6 +21,10 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
     }
 
+    private val sdkApi by lazy {
+        collabmatesSDK.getSDKApi()
+    }
+
     companion object {
         @JvmStatic
         private var initiateUserClient: InitiateUserClient? = null
@@ -51,9 +55,9 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 .userName(initiateUserRequest.userName)
                 .isGuest(initiateUserRequest.isGuest)
                 .build()
-        val api = collabmatesSDK.getSDKApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.initiateUser(request.apiKey!!, request)) {
+        return when (val response = sdkApi.initiateUser(request.apiKey!!, request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,
@@ -95,64 +99,6 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * Converts client request model to internal model and calls the api
-     * @param logoutRequest - client request model to logout user
-     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
-     * @return LMResponse<Nothing> - Base LM response
-     */
-    suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
-        // validates the client request
-        RequestUtils.validate()
-        validateInitiateUserRequest(logoutRequest)
-
-        // builds internal request model
-        val request =
-            _LogoutRequest_.Builder()
-                .refreshToken(logoutRequest.refreshToken)
-                .deviceId(logoutRequest.deviceId)
-                .build()
-        val api = collabmatesSDK.getSDKApi()
-        return when (val response = api.logout(request)) {
-            is NetworkResponse.Error -> {
-                LMResponse(
-                    success = response.body.success,
-                    errorMessage = response.body.errorMessage
-                )
-            }
-            is NetworkResponse.Success -> {
-                LMResponse(
-                    success = response.body.success
-                )
-            }
-        }
-    }
-
-    /**
-     * Calls the MemberState api
-     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
-     * @return MemberStateResponse - MemberStateResponse model for MemberState api call
-     */
-    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
-        // validates the client request
-        RequestUtils.validate()
-
-        val api = collabmatesSDK.getSDKApi()
-        // calls api and processes the response accordingly
-        return when (val response = api.getMemberState()) {
-            is NetworkResponse.Error -> {
-                LMResponse(
-                    success = false,
-                    errorMessage = response.body.errorMessage,
-                    null
-                )
-            }
-            is NetworkResponse.Success -> {
-                ModelConverter.convertMemberStateResponse(response.body)
-            }
-        }
-    }
-
-    /**
      * validates initiateUserRequest
      * @throws IllegalArgumentException - when required properties not provided
      */
@@ -169,12 +115,69 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     }
 
     /**
+     * Converts client request model to internal model and calls the api
+     * @param logoutRequest - client request model to logout user
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
+    suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateInitiateUserRequest(logoutRequest)
+
+        // builds internal request model
+        val request =
+            _LogoutRequest_.Builder()
+                .refreshToken(logoutRequest.refreshToken)
+                .deviceId(logoutRequest.deviceId)
+                .build()
+
+        return when (val response = sdkApi.logout(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                LMResponse(
+                    success = response.body.success
+                )
+            }
+        }
+    }
+
+    /**
      * validates logoutRequest
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateInitiateUserRequest(logoutRequest: LogoutRequest) {
         if (logoutRequest.refreshToken.isEmpty()) {
             RequestUtils.throwException("refreshToken")
+        }
+    }
+
+    /**
+     * Calls the MemberState api
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return MemberStateResponse - MemberStateResponse model for MemberState api call
+     */
+    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
+        // calls api and processes the response accordingly
+        return when (val response = sdkApi.getMemberState()) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage,
+                    null
+                )
+            }
+            is NetworkResponse.Success -> {
+                ModelConverter.convertMemberStateResponse(response.body)
+            }
         }
     }
 }
