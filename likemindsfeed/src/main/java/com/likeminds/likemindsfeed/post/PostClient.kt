@@ -7,7 +7,7 @@ import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.sdk.ModelConverter.createAttachments
+import com.likeminds.likemindsfeed.sdk.ModelConverter.convertAttachments
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
@@ -15,6 +15,10 @@ class PostClient @Inject constructor() : BaseClient() {
 
     override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().postComponent()?.inject(this)
+    }
+
+    private val postApi by lazy {
+        collabmatesSDK.getPostApi()
     }
 
     /**
@@ -33,9 +37,9 @@ class PostClient @Inject constructor() : BaseClient() {
             .page(getPostRequest.page)
             .pageSize(getPostRequest.pageSize)
             .build()
-        val api = collabmatesSDK.getPostApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.getPost(request)) {
+        return when (val response = postApi.getPost(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -50,7 +54,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getPostRequest
+     * validates [getPostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetPostRequest(getPostRequest: GetPostRequest) {
@@ -72,11 +76,10 @@ class PostClient @Inject constructor() : BaseClient() {
 
         // builds internal request model
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
-            .attachments(createAttachments(addPostRequest.attachments))
+            .attachments(convertAttachments(addPostRequest.attachments))
             .build()
-        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
-        return when (val response = api.addPost(request)) {
+        return when (val response = postApi.addPost(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -85,15 +88,14 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates addPostRequest
+     * validates [addPostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateAddPostRequest(addPostRequest: AddPostRequest) {
@@ -125,9 +127,8 @@ class PostClient @Inject constructor() : BaseClient() {
             .page(getPostLikesRequest.page)
             .pageSize(getPostLikesRequest.pageSize)
             .build()
-        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
-        return when (val response = api.getPostLikes(request)) {
+        return when (val response = postApi.getPostLikes(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -142,7 +143,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getPostLikesRequest
+     * validates [getPostLikesRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetPostLikesRequest(getPostLikesRequest: GetPostLikesRequest) {
@@ -164,11 +165,11 @@ class PostClient @Inject constructor() : BaseClient() {
 
         // builds internal request model
         val request = _DeletePostRequest_.Builder()
+            .postId(deletePostRequest.postId)
             .deleteReason(deletePostRequest.deleteReason)
             .build()
-        val api = collabmatesSDK.getPostApi()
         // calls api and processes the response accordingly
-        return when (val response = api.deletePost(deletePostRequest.postId, request)) {
+        return when (val response = postApi.deletePost(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -177,15 +178,14 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates deletePostRequest
+     * validates [deletePostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateDeletePostRequest(deletePostRequest: DeletePostRequest) {
@@ -208,9 +208,9 @@ class PostClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _LikePostRequest_.Builder().postId(likePostRequest.postId)
             .build()
-        val api = collabmatesSDK.getPostApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.likePost(request)) {
+        return when (val response = postApi.likePost(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -219,15 +219,14 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates likePostRequest
+     * validates [likePostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateLikePostRequest(likePostRequest: LikePostRequest) {
@@ -250,9 +249,9 @@ class PostClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _SavePostRequest_.Builder().postId(savePostRequest.postId)
             .build()
-        val api = collabmatesSDK.getPostApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.savePost(request)) {
+        return when (val response = postApi.savePost(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -261,15 +260,14 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates savePostRequest
+     * validates [savePostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateSavePostRequest(savePostRequest: SavePostRequest) {
@@ -292,9 +290,9 @@ class PostClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _PinPostRequest_.Builder().postId(pinPostRequest.postId)
             .build()
-        val api = collabmatesSDK.getPostApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.pinPost(request)) {
+        return when (val response = postApi.pinPost(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -303,15 +301,14 @@ class PostClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates pinPostRequest
+     * validates [pinPostRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validatePinPostRequest(pinPostRequest: PinPostRequest) {

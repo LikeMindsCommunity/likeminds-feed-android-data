@@ -16,6 +16,10 @@ class CommentClient @Inject constructor() : BaseClient() {
         LikeMindsFeedApplication.getInstance().commentComponent()?.inject(this)
     }
 
+    private val commentApi by lazy {
+        collabmatesSDK.getCommentApi()
+    }
+
     companion object {
         @JvmStatic
         private var commentClient: CommentClient? = null
@@ -44,9 +48,8 @@ class CommentClient @Inject constructor() : BaseClient() {
             .postId(addCommentRequest.postId)
             .text(addCommentRequest.text)
             .build()
-        val api = collabmatesSDK.getCommentApi()
         // calls api and processes the response accordingly
-        return when (val response = api.addComment(request)) {
+        return when (val response = commentApi.addComment(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -55,15 +58,14 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates addCommentRequest
+     * validates [addCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateAddCommentRequest(addCommentRequest: AddCommentRequest) {
@@ -77,7 +79,7 @@ class CommentClient @Inject constructor() : BaseClient() {
 
     /**
      * Converts client request model to internal model and calls the api
-     * @param replyCommentRequest - client request model to add comment on the post
+     * @param replyCommentRequest - client request model to add reply on the comment
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
@@ -92,9 +94,9 @@ class CommentClient @Inject constructor() : BaseClient() {
             .commentId(replyCommentRequest.commentId)
             .text(replyCommentRequest.text)
             .build()
-        val api = collabmatesSDK.getCommentApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.replyComment(request)) {
+        return when (val response = commentApi.replyComment(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -103,15 +105,14 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates replyCommentRequest
+     * validates [replyCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateReplyCommentRequest(replyCommentRequest: ReplyCommentRequest) {
@@ -144,9 +145,9 @@ class CommentClient @Inject constructor() : BaseClient() {
             .page(getCommentRequest.page)
             .pageSize(getCommentRequest.pageSize)
             .build()
-        val api = collabmatesSDK.getCommentApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.getComment(request)) {
+        return when (val response = commentApi.getComment(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -160,7 +161,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getCommentRequest
+     * validates [getCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetCommentRequest(getCommentRequest: GetCommentRequest) {
@@ -190,9 +191,9 @@ class CommentClient @Inject constructor() : BaseClient() {
             .page(getCommentLikesRequest.page)
             .pageSize(getCommentLikesRequest.pageSize)
             .build()
-        val api = collabmatesSDK.getCommentApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.getCommentLikes(request)) {
+        return when (val response = commentApi.getCommentLikes(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -206,7 +207,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates getCommentLikesRequest
+     * validates [getCommentLikesRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateGetCommentLikesRequest(getCommentLikesRequest: GetCommentLikesRequest) {
@@ -234,9 +235,9 @@ class CommentClient @Inject constructor() : BaseClient() {
             .postId(likeCommentRequest.postId)
             .commentId(likeCommentRequest.commentId)
             .build()
-        val api = collabmatesSDK.getCommentApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.likeComment(request)) {
+        return when (val response = commentApi.likeComment(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -245,15 +246,14 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates likeCommentRequest
+     * validates [likeCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateLikeCommentRequest(likeCommentRequest: LikeCommentRequest) {
@@ -282,9 +282,9 @@ class CommentClient @Inject constructor() : BaseClient() {
             .commentId(deleteCommentRequest.commentId)
             .reason(deleteCommentRequest.reason)
             .build()
-        val api = collabmatesSDK.getCommentApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.deleteComment(request)) {
+        return when (val response = commentApi.deleteComment(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -293,15 +293,14 @@ class CommentClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
         }
     }
 
     /**
-     * validates deleteCommentRequest
+     * validates [deleteCommentRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateDeleteCommentRequest(deleteCommentRequest: DeleteCommentRequest) {
