@@ -10,7 +10,7 @@ interface PostNetworkApi {
     @POST("feed/post")
     suspend fun addPost(
         @Body addPostRequest: _AddPostRequest_
-    ): NetworkResponse<APIResponse<Nothing>>
+    ): NetworkResponse<APIResponse<_AddPostResponse_>>
 
     @GET("feed/post/{post_id}")
     suspend fun getPost(

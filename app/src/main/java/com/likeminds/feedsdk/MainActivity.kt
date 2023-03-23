@@ -1,15 +1,10 @@
 package com.likeminds.feedsdk
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.post.model.AddPostRequest
-import com.likeminds.likemindsfeed.post.model.Attachment
-import com.likeminds.likemindsfeed.post.model.AttachmentMeta
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,8 +27,6 @@ class MainActivity : AppCompatActivity() {
                     .build()
             )
 
-            Log.d("TAG", "onCreate: ${client.getMemberState()}")
-
             val getPostResult = client.getPost(
                 GetPostRequest.Builder().postId("63f4caadc52f148210f7496a")
                     .page(1)
@@ -44,36 +37,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result: ${getPostResult.data?.post?.text}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            val postResult = client.addPost(
-                AddPostRequest.Builder().text("testinggg")
-                    .attachments(
-                        listOf(
-                            Attachment.Builder()
-                                .attachmentType(1)
-                                .attachmentMeta(
-                                    AttachmentMeta.Builder()
-                                        .url("https://beta-likeminds-media.s3.amazonaws.com/post/87832/images.jpeg-1678447018540")
-                                        .build()
-                                )
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            val decodeUrlResult = client.decodeUrl(
-                DecodeUrlRequest.Builder()
-                    .url("https://betadashboard.likeminds.community/community/chatrooms")
-                    .build()
-            )
-            Log.d("TAG", "onCreate: ${decodeUrlResult.data?.ogTags?.title}")
-            withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "result: ${postResult.success}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

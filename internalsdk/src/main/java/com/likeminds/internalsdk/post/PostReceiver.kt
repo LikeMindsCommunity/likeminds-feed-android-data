@@ -10,7 +10,7 @@ class PostReceiver @Inject constructor(
 ) {
     suspend fun addPost(
         request: _AddPostRequest_
-    ): NetworkResponse<APIResponse<Nothing>> {
+    ): NetworkResponse<APIResponse<_AddPostResponse_>> {
         return postNetworkApi.addPost(request)
     }
 

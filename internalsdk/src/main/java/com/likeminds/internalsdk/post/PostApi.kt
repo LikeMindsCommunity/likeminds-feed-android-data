@@ -9,7 +9,7 @@ interface PostApi {
     // api to add the post
     suspend fun addPost(
         request: _AddPostRequest_
-    ): NetworkResponse<APIResponse<Nothing>>
+    ): NetworkResponse<APIResponse<_AddPostResponse_>>
 
     // api to fetch the post
     suspend fun getPost(
