@@ -95,7 +95,7 @@ class LMFeedClient private constructor() {
     }
 
     // Exposed function to process add post request
-    suspend fun addPost(addPostRequest: AddPostRequest): LMResponse<Nothing> {
+    suspend fun addPost(addPostRequest: AddPostRequest): LMResponse<AddPostResponse> {
         return postClient.addPost(addPostRequest)
     }
 

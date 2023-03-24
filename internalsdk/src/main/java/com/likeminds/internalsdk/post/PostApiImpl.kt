@@ -11,7 +11,7 @@ class PostApiImpl @Inject constructor(
 
     override suspend fun addPost(
         request: _AddPostRequest_
-    ): NetworkResponse<APIResponse<Nothing>> {
+    ): NetworkResponse<APIResponse<_AddPostResponse_>> {
         return postReceiver.addPost(request)
     }
 

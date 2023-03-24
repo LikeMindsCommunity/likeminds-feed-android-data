@@ -2,6 +2,10 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast

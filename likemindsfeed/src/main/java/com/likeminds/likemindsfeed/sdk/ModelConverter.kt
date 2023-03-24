@@ -165,6 +165,30 @@ object ModelConverter {
         )
     }
 
+    // converts api AddPostResponse model to LM AddPostResponse model
+    fun convertAddPostAPIResponse(
+        apiResponse: APIResponse<_AddPostResponse_>
+    ): LMResponse<AddPostResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertAddPostResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal AddPostResponse model to client model
+    private fun convertAddPostResponse(
+        _addPostResponse_: _AddPostResponse_?
+    ): AddPostResponse? {
+        if (_addPostResponse_ == null) {
+            return null
+        }
+        return AddPostResponse(
+            convertPost(_addPostResponse_.post),
+            convertUsersMap(_addPostResponse_.users)
+        )
+    }
+
     // converts api GetPostResponse model to LM GetPostResponse model
     fun convertGetPostAPIResponse(
         apiResponse: APIResponse<_GetPostResponse_>
