@@ -66,9 +66,9 @@ class PostClient @Inject constructor() : BaseClient() {
      * Converts client request model to internal model and calls the api
      * @param addPostRequest - client request model to add post
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
-     * @return LMResponse<Nothing> - Base LM response
+     * @return AddPostResponse- AddPostResponse model for addPostRequest
      */
-    suspend fun addPost(addPostRequest: AddPostRequest): LMResponse<Nothing> {
+    suspend fun addPost(addPostRequest: AddPostRequest): LMResponse<AddPostResponse> {
         // validates the client request
         RequestUtils.validate()
         validateAddPostRequest(addPostRequest)
@@ -86,9 +86,8 @@ class PostClient @Inject constructor() : BaseClient() {
                 )
             }
             is NetworkResponse.Success -> {
-                LMResponse(
-                    success = response.body.success
-                )
+                val body = response.body
+                ModelConverter.convertAddPostAPIResponse(body)
             }
         }
     }
@@ -101,13 +100,6 @@ class PostClient @Inject constructor() : BaseClient() {
         if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
             RequestUtils.throwException("text")
         }
-    }
-
-    // checks if there are any attachments to upload or not
-    private fun hasUploadAbleAttachments(attachments: List<_Attachment_>?): Boolean {
-        // no upload-able attachments if the attachment is of type link.
-        if (attachments.isNullOrEmpty() || (attachments.size == 1 && attachments.first().attachmentType == 4)) return false
-        return true
     }
 
     /**
