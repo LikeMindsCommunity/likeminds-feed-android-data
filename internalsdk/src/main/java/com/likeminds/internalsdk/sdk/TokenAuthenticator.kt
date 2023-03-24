@@ -50,7 +50,7 @@ class TokenAuthenticator @Inject constructor(
                             val newRefreshToken = refreshResponse.body.data?.refreshToken
                             val updatedToken = "Bearer $newAccessToken"
 
-                            feedTokenManager.updateTokens(updatedToken, newRefreshToken, null)
+                            feedTokenManager.updateTokens(newAccessToken, newRefreshToken)
                             response.request.newBuilder()
                                 .header(AUTH, updatedToken)
                                 .build()

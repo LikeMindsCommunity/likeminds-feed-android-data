@@ -43,7 +43,7 @@ object ModelConverter {
     }
 
     // converts internal InitiateUserResponse model to client model
-    fun convertInitiateUserResponse(
+    private fun convertInitiateUserResponse(
         _initiateUserResponse_: _InitiateUserResponse_?
     ): InitiateUserResponse? {
         if (_initiateUserResponse_ == null) return null
@@ -57,7 +57,7 @@ object ModelConverter {
     }
 
     // converts internal User model to client model
-    fun convertUser(
+    private fun convertUser(
         _user_: _User_
     ): User {
         return User(
@@ -75,7 +75,7 @@ object ModelConverter {
     }
 
     // converts the internal User model hashmap to client User Hashmap
-    fun convertUsersMap(
+    private fun convertUsersMap(
         _usersMap_: Map<String, _User_>
     ): Map<String, User> {
         val usersMap = _usersMap_.mapValues {
@@ -85,7 +85,7 @@ object ModelConverter {
     }
 
     // converts internal Community model to client model
-    fun convertCommunity(
+    private fun convertCommunity(
         _community_: _Community_
     ): Community {
         return Community(
@@ -98,7 +98,7 @@ object ModelConverter {
     }
 
     // converts internal SDKClientInfo model to client model
-    fun convertSDKClientInfo(
+    private fun convertSDKClientInfo(
         _sdkClientInfo_: _SDKClientInfo_?
     ): SDKClientInfo? {
         return _sdkClientInfo_?.let {
@@ -122,7 +122,7 @@ object ModelConverter {
     }
 
     // converts internal MemberStateResponse model to client model
-    fun convertMemberStateResponse(
+    private fun convertMemberStateResponse(
         _memberStateResponse_: _MemberStateResponse_?
     ): MemberStateResponse? {
         val member = _memberStateResponse_?.member
@@ -153,14 +153,14 @@ object ModelConverter {
     }
 
     // converts internal GetFeedResponse model to client model
-    fun convertGetFeedResponse(
+    private fun convertGetFeedResponse(
         _getFeedResponse_: _GetFeedResponse_?
     ): GetFeedResponse? {
         if (_getFeedResponse_ == null) {
             return null
         }
         return GetFeedResponse(
-            convertPostsList(_getFeedResponse_.posts),
+            convertPosts(_getFeedResponse_.posts),
             convertUsersMap(_getFeedResponse_.users)
         )
     }
@@ -201,7 +201,7 @@ object ModelConverter {
     }
 
     // converts internal GetPostResponse model to client model
-    fun convertGetPostResponse(
+    private fun convertGetPostResponse(
         _getPostResponse_: _GetPostResponse_?
     ): GetPostResponse? {
         if (_getPostResponse_ == null) {
@@ -225,32 +225,30 @@ object ModelConverter {
     }
 
     // converts internal GetPostLikesResponse model to client model
-    fun convertGetPostLikesResponse(
+    private fun convertGetPostLikesResponse(
         _getPostLikesResponse_: _GetPostLikesResponse_?
     ): GetPostLikesResponse? {
         if (_getPostLikesResponse_ == null) {
             return null
         }
         return GetPostLikesResponse(
-            convertLikesList(_getPostLikesResponse_.likes),
+            convertLikes(_getPostLikesResponse_.likes),
             _getPostLikesResponse_.totalCount,
             convertUsersMap(_getPostLikesResponse_.users)
         )
     }
 
     // converts internal Like model list to client model list
-    fun convertLikesList(
+    private fun convertLikes(
         _likes_: List<_Like_>
     ): List<Like> {
-        val likes = mutableListOf<Like>()
-        _likes_.forEach {
-            likes.add(convertLike(it))
+        return _likes_.map {
+            convertLike(it)
         }
-        return likes
     }
 
     // converts internal Like model to client model
-    fun convertLike(
+    private fun convertLike(
         _like_: _Like_
     ): Like {
         return Like(
@@ -273,7 +271,7 @@ object ModelConverter {
     }
 
     // converts internal GetCommentResponse model to client model
-    fun convertGetCommentResponse(
+    private fun convertGetCommentResponse(
         _getCommentResponse_: _GetCommentResponse_?
     ): GetCommentResponse? {
         if (_getCommentResponse_ == null) {
@@ -297,12 +295,12 @@ object ModelConverter {
     }
 
     // converts internal GetCommentLikesResponse model to client model
-    fun convertGetCommentLikesResponse(
+    private fun convertGetCommentLikesResponse(
         _getCommentLikesResponse_: _GetCommentLikesResponse_?
     ): GetCommentLikesResponse? {
         if (_getCommentLikesResponse_ == null) return null
         return GetCommentLikesResponse(
-            convertLikesList(_getCommentLikesResponse_.likes),
+            convertLikes(_getCommentLikesResponse_.likes),
             _getCommentLikesResponse_.totalCount,
             convertUsersMap(_getCommentLikesResponse_.users)
         )
@@ -320,14 +318,14 @@ object ModelConverter {
     }
 
     // converts internal GetReportTagsResponse model to client model
-    fun convertGetReportTagsResponse(
+    private fun convertGetReportTagsResponse(
         _getReportTagsResponse_: _GetReportTagsResponse_?
     ): GetReportTagsResponse? {
         if (_getReportTagsResponse_ == null) {
             return null
         }
         return GetReportTagsResponse(
-            convertReportTagsList(_getReportTagsResponse_.tags)
+            convertReportTags(_getReportTagsResponse_.tags)
         )
     }
 
@@ -343,7 +341,7 @@ object ModelConverter {
     }
 
     // converts internal DecodeUrlResponse model to client model
-    fun convertDecodeUrlResponse(
+    private fun convertDecodeUrlResponse(
         _decodeUrlResponse_: _DecodeUrlResponse_?
     ): DecodeUrlResponse? {
         if (_decodeUrlResponse_ == null) {
@@ -353,18 +351,16 @@ object ModelConverter {
     }
 
     // converts internal ReportTag model list to client model list
-    fun convertReportTagsList(
+    private fun convertReportTags(
         _tags_: List<_ReportTag_>
     ): List<ReportTag> {
-        val posts = mutableListOf<ReportTag>()
-        _tags_.forEach {
-            posts.add(convertReportTag(it))
+        return _tags_.map {
+            convertReportTag(it)
         }
-        return posts
     }
 
     // converts internal ReportTag model to client model
-    fun convertReportTag(
+    private fun convertReportTag(
         _reportTag_: _ReportTag_
     ): ReportTag {
         return ReportTag(
@@ -374,24 +370,22 @@ object ModelConverter {
     }
 
     // converts internal Post model list to client model list
-    fun convertPostsList(
+    private fun convertPosts(
         _posts_: List<_Post_>
     ): List<Post> {
-        val posts = mutableListOf<Post>()
-        _posts_.forEach {
-            posts.add(convertPost(it))
+        return _posts_.map {
+            convertPost(it)
         }
-        return posts
     }
 
     // converts internal Post model to client model
-    fun convertPost(
+    private fun convertPost(
         _post_: _Post_
     ): Post {
         return Post(
             _post_.id,
             _post_.text,
-            convertAttachmentsList(_post_.attachments),
+            convertAttachments(_post_.attachments),
             _post_.communityId,
             _post_.isLiked,
             _post_.isPinned,
@@ -399,27 +393,25 @@ object ModelConverter {
             _post_.likesCount,
             _post_.commentsCount,
             _post_.isSaved,
-            convertMenuItemsList(_post_.menuItems),
-            convertCommentsList(_post_.replies),
+            convertMenuItems(_post_.menuItems),
+            convertComments(_post_.replies),
             _post_.createdAt,
             _post_.updatedAt
         )
     }
 
     // converts internal Attachment model list to client model list
-    fun convertAttachmentsList(
+    private fun convertAttachments(
         _attachments_: List<_Attachment_>?
     ): List<Attachment>? {
         if (_attachments_ == null) return null
-        val attachments = mutableListOf<Attachment>()
-        _attachments_.forEach {
-            attachments.add(convertAttachment(it))
+        return _attachments_.map {
+            convertAttachment(it)
         }
-        return attachments
     }
 
     // converts internal Attachment model to client model
-    fun convertAttachment(
+    private fun convertAttachment(
         _attachment_: _Attachment_
     ): Attachment {
         return Attachment.Builder()
@@ -429,7 +421,7 @@ object ModelConverter {
     }
 
     // converts internal AttachmentMeta model to client model
-    fun convertAttachmentMeta(
+    private fun convertAttachmentMeta(
         _attachmentMeta_: _AttachmentMeta_?
     ): AttachmentMeta? {
         if (_attachmentMeta_ == null) return null
@@ -447,7 +439,7 @@ object ModelConverter {
     }
 
     // converts internal LinkOGTags model to client model
-    fun convertOGTags(
+    private fun convertOGTags(
         _ogTags_: _LinkOGTags_
     ): LinkOGTags {
         return LinkOGTags.Builder()
@@ -459,19 +451,17 @@ object ModelConverter {
     }
 
     // converts internal Comment model list to client model list
-    fun convertCommentsList(
+    private fun convertComments(
         _comments_: List<_Comment_>?
     ): List<Comment>? {
         if (_comments_ == null) return null
-        val comments = mutableListOf<Comment>()
-        _comments_.forEach {
-            comments.add(convertComment(it))
+        return _comments_.map {
+            convertComment(it)
         }
-        return comments
     }
 
     // converts internal Comment model to client model
-    fun convertComment(
+    private fun convertComment(
         _comment_: _Comment_
     ): Comment {
         return Comment(
@@ -484,25 +474,23 @@ object ModelConverter {
             _comment_.commentsCount,
             _comment_.createdAt,
             _comment_.updatedAt,
-            convertCommentsList(_comment_.replies),
-            convertMenuItemsList(_comment_.menuItems),
+            convertComments(_comment_.replies),
+            convertMenuItems(_comment_.menuItems),
             _comment_.parentId,
         )
     }
 
     // converts internal MenuItem model list to client model list
-    fun convertMenuItemsList(
+    private fun convertMenuItems(
         _menuItems_: List<_MenuItem_>
     ): List<MenuItem> {
-        val menuItems = mutableListOf<MenuItem>()
-        _menuItems_.forEach {
-            menuItems.add(convertMenuItem(it))
+        return _menuItems_.map {
+            convertMenuItem(it)
         }
-        return menuItems
     }
 
     // converts internal MenuItem model to client model
-    fun convertMenuItem(
+    private fun convertMenuItem(
         _menuItem_: _MenuItem_
     ): MenuItem {
         return MenuItem(_menuItem_.title)
@@ -517,19 +505,16 @@ object ModelConverter {
         attachments: List<Attachment>?
     ): List<_Attachment_>? {
         if (attachments == null) return null
-        val _attachments_ = mutableListOf<_Attachment_>()
-        attachments.forEach { attachment ->
-            val _attachment_ = _Attachment_.Builder()
+        return attachments.map { attachment ->
+            _Attachment_.Builder()
                 .attachmentType(attachment.attachmentType)
-                .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta!!))
+                .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta))
                 .build()
-            _attachments_.add(_attachment_)
         }
-        return _attachments_
     }
 
     // create a internal attachment meta from the meta provided by client
-    fun createAttachmentMeta(
+    private fun createAttachmentMeta(
         attachmentMeta: AttachmentMeta?
     ): _AttachmentMeta_? {
         if (attachmentMeta == null) return null
@@ -540,14 +525,14 @@ object ModelConverter {
             .size(attachmentMeta.size)
             .duration(attachmentMeta.duration)
             .pageCount(attachmentMeta.pageCount)
-            .ogTags(createOGTags(attachmentMeta.ogTags))
+            .ogTags(convertOGTags(attachmentMeta.ogTags))
             .width(attachmentMeta.width)
             .height(attachmentMeta.height)
             .build()
     }
 
     // converts client LinkOGTags model to internal model
-    fun createOGTags(
+    private fun convertOGTags(
         ogTags: LinkOGTags
     ): _LinkOGTags_ {
         return _LinkOGTags_.Builder()

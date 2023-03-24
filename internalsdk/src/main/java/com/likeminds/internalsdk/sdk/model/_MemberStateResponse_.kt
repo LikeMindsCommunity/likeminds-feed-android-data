@@ -19,9 +19,9 @@ data class _Member_(
     @SerializedName("image_url")
     var imageUrl: String,
     @SerializedName("is_guest")
-    var isGuest: String,
+    var isGuest: Boolean,
     @SerializedName("is_owner")
-    var isOwner: String,
+    var isOwner: Boolean,
     @SerializedName("name")
     var name: String,
     @SerializedName("organisation_name")

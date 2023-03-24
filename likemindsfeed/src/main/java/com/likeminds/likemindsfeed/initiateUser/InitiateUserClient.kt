@@ -21,6 +21,10 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
     }
 
+    private val sdkApi by lazy {
+        collabmatesSDK.getSDKApi()
+    }
+
     companion object {
         @JvmStatic
         private var initiateUserClient: InitiateUserClient? = null
@@ -51,9 +55,9 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 .userName(initiateUserRequest.userName)
                 .isGuest(initiateUserRequest.isGuest)
                 .build()
-        val api = collabmatesSDK.getSDKApi()
+
         // calls api and processes the response accordingly
-        return when (val response = api.initiateUser(request.apiKey!!, request)) {
+        return when (val response = sdkApi.initiateUser(request.apiKey!!, request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,
@@ -67,10 +71,9 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 val body = response.body
                 val accessToken = body.data?.accessToken ?: ""
                 val refreshToken = body.data?.refreshToken ?: ""
-                val userId = body.data?.user?.id ?: -1
 
                 val feedTokenManager = FeedTokenManager.getInstance()
-                feedTokenManager.updateTokens(accessToken, refreshToken, userId.toString())
+                feedTokenManager.updateTokens(accessToken, refreshToken)
 
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false
@@ -96,6 +99,28 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     }
 
     /**
+     * validates [initiateUserRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
+        if (initiateUserRequest.userName.isNullOrEmpty()) {
+            RequestUtils.throwException("userName")
+        }
+
+        if (initiateUserRequest.deviceId.isEmpty()) {
+            RequestUtils.throwException("deviceId")
+        }
+
+        if (initiateUserRequest.isGuest == null) {
+            RequestUtils.throwException("isGuest")
+        }
+
+        if (initiateUserRequest.apiKey.isEmpty()) {
+            RequestUtils.throwException("apiKey")
+        }
+    }
+
+    /**
      * Converts client request model to internal model and calls the api
      * @param logoutRequest - client request model to logout user
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
@@ -104,7 +129,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
         // validates the client request
         RequestUtils.validate()
-        validateInitiateUserRequest(logoutRequest)
+        validateLogoutResponse(logoutRequest)
 
         // builds internal request model
         val request =
@@ -112,8 +137,8 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 .refreshToken(logoutRequest.refreshToken)
                 .deviceId(logoutRequest.deviceId)
                 .build()
-        val api = collabmatesSDK.getSDKApi()
-        return when (val response = api.logout(request)) {
+
+        return when (val response = sdkApi.logout(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
@@ -122,10 +147,19 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
             }
             is NetworkResponse.Success -> {
                 LMResponse(
-                    success = response.body.success,
-                    errorMessage = null
+                    success = response.body.success
                 )
             }
+        }
+    }
+
+    /**
+     * validates [logoutRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateLogoutResponse(logoutRequest: LogoutRequest) {
+        if (logoutRequest.refreshToken.isEmpty()) {
+            RequestUtils.throwException("refreshToken")
         }
     }
 
@@ -138,9 +172,8 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         // validates the client request
         RequestUtils.validate()
 
-        val api = collabmatesSDK.getSDKApi()
         // calls api and processes the response accordingly
-        return when (val response = api.getMemberState()) {
+        return when (val response = sdkApi.getMemberState()) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,
@@ -151,32 +184,6 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
             is NetworkResponse.Success -> {
                 ModelConverter.convertMemberStateResponse(response.body)
             }
-        }
-    }
-
-    /**
-     * validates initiateUserRequest
-     * @throws IllegalArgumentException - when required properties not provided
-     */
-    private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
-        if (initiateUserRequest.userId.isNullOrEmpty()) {
-            RequestUtils.throwException("userId")
-        }
-        if (initiateUserRequest.isGuest == null) {
-            RequestUtils.throwException("isGuest")
-        }
-        if (initiateUserRequest.apiKey.isEmpty()) {
-            RequestUtils.throwException("apiKey")
-        }
-    }
-
-    /**
-     * validates logoutRequest
-     * @throws IllegalArgumentException - when required properties not provided
-     */
-    private fun validateInitiateUserRequest(logoutRequest: LogoutRequest) {
-        if (logoutRequest.refreshToken.isEmpty()) {
-            RequestUtils.throwException("refreshToken")
         }
     }
 }

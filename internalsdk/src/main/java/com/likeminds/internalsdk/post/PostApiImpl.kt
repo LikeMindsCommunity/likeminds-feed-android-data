@@ -28,10 +28,9 @@ class PostApiImpl @Inject constructor(
     }
 
     override suspend fun deletePost(
-        postId: String,
         request: _DeletePostRequest_
     ): NetworkResponse<APIResponse<Nothing>> {
-        return postReceiver.deletePost(postId, request)
+        return postReceiver.deletePost(request)
     }
 
     override suspend fun likePost(

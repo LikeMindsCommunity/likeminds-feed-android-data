@@ -6,6 +6,7 @@ import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
+import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -82,6 +83,10 @@ class LMFeedClient private constructor() {
     // Exposed function to process member state
     suspend fun getMemberState(): LMResponse<MemberStateResponse> {
         return initiateUserClient.getMemberState()
+    }
+
+    suspend fun registerDevice(registerDeviceRequest: RegisterDeviceRequest): LMResponse<Nothing> {
+        return helperClient.registerDevice(registerDeviceRequest)
     }
 
     // Exposed function to process feed request
@@ -168,4 +173,5 @@ class LMFeedClient private constructor() {
     suspend fun decodeUrl(decodeUrlRequest: DecodeUrlRequest): LMResponse<DecodeUrlResponse> {
         return helperClient.decodeUrl(decodeUrlRequest)
     }
+
 }
