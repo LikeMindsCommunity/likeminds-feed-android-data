@@ -4,9 +4,7 @@ import android.app.Application
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.helper.HelperClient
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
-import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
+import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
@@ -174,4 +172,8 @@ class LMFeedClient private constructor() {
         return helperClient.decodeUrl(decodeUrlRequest)
     }
 
+    // Exposed function to fetch tagging list
+    suspend fun getTaggingList(getTaggingListRequest: GetTaggingListRequest): LMResponse<GetTaggingListResponse> {
+        return helperClient.getTaggingList(getTaggingListRequest)
+    }
 }

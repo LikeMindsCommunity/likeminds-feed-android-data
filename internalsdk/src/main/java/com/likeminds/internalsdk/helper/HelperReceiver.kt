@@ -1,8 +1,6 @@
 package com.likeminds.internalsdk.helper
 
-import com.likeminds.internalsdk.helper.model._DecodeUrlRequest_
-import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
-import com.likeminds.internalsdk.helper.model._RegisterDeviceRequest_
+import com.likeminds.internalsdk.helper.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.BaseResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -24,4 +22,13 @@ class HelperReceiver @Inject constructor(
         return helperNetworkApi.registerDevice(deviceId, newRequest)
     }
 
+    suspend fun getTaggingList(
+        request: _GetTaggingListRequest_
+    ): NetworkResponse<APIResponse<_GetTaggingListResponse_>> {
+        return helperNetworkApi.getTaggingList(
+            request.page,
+            request.pageSize,
+            request.searchName,
+        )
+    }
 }
