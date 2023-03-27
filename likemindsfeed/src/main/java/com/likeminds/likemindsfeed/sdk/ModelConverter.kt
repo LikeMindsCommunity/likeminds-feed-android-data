@@ -1,9 +1,12 @@
 package com.likeminds.likemindsfeed.sdk
 
+import android.util.Log
 import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
+import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
+import com.likeminds.internalsdk.helper.model._TagMember_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
 import com.likeminds.internalsdk.post.model.*
@@ -15,6 +18,8 @@ import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
+import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
+import com.likeminds.likemindsfeed.helper.model.TagMember
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -348,6 +353,60 @@ object ModelConverter {
             return null
         }
         return DecodeUrlResponse(convertOGTags(_decodeUrlResponse_.ogTags))
+    }
+
+    // converts api GetTaggingListResponse model to LM GetTaggingListResponse model
+    fun convertGetTaggingListAPIResponse(
+        apiResponse: APIResponse<_GetTaggingListResponse_>
+    ): LMResponse<GetTaggingListResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetTaggingListResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal GetTaggingListResponse model to client model
+    private fun convertGetTaggingListResponse(
+        _getTaggingListResponse_: _GetTaggingListResponse_?
+    ): GetTaggingListResponse? {
+        if (_getTaggingListResponse_ == null) {
+            return null
+        }
+        return GetTaggingListResponse(
+            convertTagMembers(_getTaggingListResponse_.members)
+        )
+    }
+
+    // converts internal TagMember model list to client model list
+    private fun convertTagMembers(
+        _tagMembers_: List<_TagMember_>
+    ): List<TagMember> {
+        return _tagMembers_.map {
+            convertTagMember(it)
+        }
+    }
+
+    // converts internal TagMember model to client model
+    private fun convertTagMember(
+        _tagMember_: _TagMember_
+    ): TagMember {
+        Log.d(
+            "PUI", """
+            ${_tagMember_.id}
+            ${_tagMember_.imageUrl}
+            ${_tagMember_.name}
+            ${_tagMember_.userUniqueId}
+            ${_tagMember_.isGuest}
+        """.trimIndent()
+        )
+        return TagMember(
+            _tagMember_.id,
+            _tagMember_.imageUrl,
+            _tagMember_.isGuest,
+            _tagMember_.name,
+            _tagMember_.userUniqueId,
+        )
     }
 
     // converts internal ReportTag model list to client model list

@@ -1,13 +1,12 @@
 package com.likeminds.likemindsfeed.helper
 
 import com.likeminds.internalsdk.helper.model._DecodeUrlRequest_
+import com.likeminds.internalsdk.helper.model._GetTaggingListRequest_
 import com.likeminds.internalsdk.helper.model._RegisterDeviceRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
-import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
+import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.util.RequestUtils
@@ -116,6 +115,37 @@ class HelperClient @Inject constructor() : BaseClient() {
 
         if (registerDeviceRequest.deviceId.isEmpty()) {
             RequestUtils.throwException("deviceId")
+        }
+    }
+
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param getTaggingListRequest - client request model to fetch tagging list
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return LMResponse<GetTaggingListResponse> - GetTaggingListResponse for [getTaggingListRequest]
+     */
+    suspend fun getTaggingList(getTaggingListRequest: GetTaggingListRequest): LMResponse<GetTaggingListResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
+        //build internal request model
+        val request = _GetTaggingListRequest_.Builder()
+            .page(getTaggingListRequest.page)
+            .pageSize(getTaggingListRequest.pageSize)
+            .searchName(getTaggingListRequest.searchName)
+            .build()
+
+        //call api and process the response accordingly
+        return when (val response = helperApi.getTaggingList(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                ModelConverter.convertGetTaggingListAPIResponse(response.body)
+            }
         }
     }
 }

@@ -8,7 +8,6 @@ class _GetFeedRequest_ private constructor(
     @SerializedName("page_size")
     var pageSize: Int?
 ) {
-
     class Builder {
         private var page: Int? = null
         private var pageSize: Int? = null

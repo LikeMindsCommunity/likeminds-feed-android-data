@@ -2,22 +2,16 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
+import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
 import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
-import com.likeminds.likemindsfeed.post.model.AddPostRequest
-import com.likeminds.likemindsfeed.post.model.Attachment
-import com.likeminds.likemindsfeed.post.model.AttachmentMeta
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                 InitiateUserRequest.Builder()
                     .apiKey("6a4cc38e-02c7-4dfa-96b7-68a3078ad922")
                     .userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
+                    .deviceId("233")
                     .userName("Mahir Gupta")
                     .isGuest(false)
                     .build()
@@ -59,22 +54,22 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
-            val postResult = client.addPost(
-                AddPostRequest.Builder().text("testinggg")
-                    .attachments(
-                        listOf(
-                            Attachment.Builder()
-                                .attachmentType(1)
-                                .attachmentMeta(
-                                    AttachmentMeta.Builder()
-                                        .url("https://beta-likeminds-media.s3.amazonaws.com/post/87832/images.jpeg-1678447018540")
-                                        .build()
-                                )
-                                .build()
-                        )
-                    )
-                    .build()
-            )
+//            val postResult = client.addPost(
+//                AddPostRequest.Builder().text("testinggg")
+//                    .attachments(
+//                        listOf(
+//                            Attachment.Builder()
+//                                .attachmentType(1)
+//                                .attachmentMeta(
+//                                    AttachmentMeta.Builder()
+//                                        .url("https://beta-likeminds-media.s3.amazonaws.com/post/87832/images.jpeg-1678447018540")
+//                                        .build()
+//                                )
+//                                .build()
+//                        )
+//                    )
+//                    .build()
+//            )
             val decodeUrlResult = client.decodeUrl(
                 DecodeUrlRequest.Builder()
                     .url("https://betadashboard.likeminds.community/community/chatrooms")
@@ -84,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
-                    "result: ${postResult.success}",
+                    "result: ${decodeUrlResult.success}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -100,6 +95,21 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this@MainActivity,
                     "result: ${registerDeviceResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            val getTagging = client.getTaggingList(
+                GetTaggingListRequest.Builder()
+                    .page(1)
+                    .pageSize(10)
+                    .searchName("mah")
+                    .build()
+            )
+            Log.d("TAG", "logout: ${getTagging.success}")
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${getTagging.data?.members?.size}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
