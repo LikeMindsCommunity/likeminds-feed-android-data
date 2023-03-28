@@ -24,6 +24,6 @@ interface HelperNetworkApi {
     suspend fun getTaggingList(
         @Query("page") page: Int?,
         @Query("page") pageSize: Int?,
-        @Query("searchName") searchName: String?,
+        @Query("search_name") searchName: String?,
     ): NetworkResponse<APIResponse<_GetTaggingListResponse_>>
 }
