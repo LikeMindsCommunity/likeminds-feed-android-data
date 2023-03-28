@@ -79,7 +79,6 @@ class ModerationClient @Inject constructor() : BaseClient() {
             .entityId(postReportRequest.entityId)
             .entityCreatorId(postReportRequest.entityCreatorId)
             .entityType(postReportRequest.entityType)
-            .link(postReportRequest.link)
             .tagId(postReportRequest.tagId)
             .reason(postReportRequest.reason)
             .build()
