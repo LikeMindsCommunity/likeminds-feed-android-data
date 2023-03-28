@@ -10,8 +10,6 @@ class _PostReportRequest_ private constructor(
     @SerializedName("entity_type")
     @EntityType
     var entityType: Int,
-    @SerializedName("link")
-    var link: String?,
     @SerializedName("tag_id")
     var tagId: Int,
     @SerializedName("reason")
@@ -24,7 +22,6 @@ class _PostReportRequest_ private constructor(
 
         @EntityType
         private var entityType: Int = POST
-        private var link: String? = null
         private var tagId: Int = 0
         private var reason: String? = null
 
@@ -33,7 +30,6 @@ class _PostReportRequest_ private constructor(
             apply { this.entityCreatorId = entityCreatorId }
 
         fun entityType(@EntityType entityType: Int) = apply { this.entityType = entityType }
-        fun link(link: String?) = apply { this.link = link }
         fun tagId(tagId: Int) = apply { this.tagId = tagId }
         fun reason(reason: String?) = apply { this.reason = reason }
 
@@ -41,7 +37,6 @@ class _PostReportRequest_ private constructor(
             entityId,
             entityCreatorId,
             entityType,
-            link,
             tagId,
             reason
         )
@@ -51,7 +46,6 @@ class _PostReportRequest_ private constructor(
         return Builder().entityId(entityId)
             .entityCreatorId(entityCreatorId)
             .entityType(entityType)
-            .link(link)
             .tagId(tagId)
             .reason(reason)
     }

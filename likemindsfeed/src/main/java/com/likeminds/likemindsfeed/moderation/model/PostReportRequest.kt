@@ -4,7 +4,6 @@ class PostReportRequest private constructor(
     var entityId: String,
     var entityCreatorId: String,
     var entityType: Int,
-    var link: String?,
     var tagId: Int,
     var reason: String?
 ) {
@@ -13,7 +12,6 @@ class PostReportRequest private constructor(
         private var entityId: String = ""
         private var entityCreatorId: String = ""
         private var entityType: Int = -1
-        private var link: String? = null
         private var tagId: Int = -1
         private var reason: String? = null
 
@@ -22,7 +20,6 @@ class PostReportRequest private constructor(
             apply { this.entityCreatorId = entityCreatorId }
 
         fun entityType(entityType: Int) = apply { this.entityType = entityType }
-        fun link(link: String?) = apply { this.link = link }
         fun tagId(tagId: Int) = apply { this.tagId = tagId }
         fun reason(reason: String?) = apply { this.reason = reason }
 
@@ -30,7 +27,6 @@ class PostReportRequest private constructor(
             entityId,
             entityCreatorId,
             entityType,
-            link,
             tagId,
             reason
         )
@@ -40,7 +36,6 @@ class PostReportRequest private constructor(
         return Builder().entityId(entityId)
             .entityCreatorId(entityCreatorId)
             .entityType(entityType)
-            .link(link)
             .tagId(tagId)
             .reason(reason)
     }
