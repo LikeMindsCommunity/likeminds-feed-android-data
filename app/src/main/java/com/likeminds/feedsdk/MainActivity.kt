@@ -127,6 +127,15 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            val memberStateResult = client.getMemberState()
+            Log.d("TAG", "memberStateResult: ${memberStateResult.toString()}")
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${logoutResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ interface HelperNetworkApi {
     @GET("community/tag")
     suspend fun getTaggingList(
         @Query("page") page: Int?,
-        @Query("page") pageSize: Int?,
-        @Query("searchName") searchName: String?,
+        @Query("page_size") pageSize: Int?,
+        @Query("search_name") searchName: String?,
     ): NetworkResponse<APIResponse<_GetTaggingListResponse_>>
 }
