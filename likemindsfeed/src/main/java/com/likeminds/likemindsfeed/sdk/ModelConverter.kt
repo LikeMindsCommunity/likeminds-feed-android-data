@@ -481,9 +481,8 @@ object ModelConverter {
 
     // converts internal AttachmentMeta model to client model
     private fun convertAttachmentMeta(
-        _attachmentMeta_: _AttachmentMeta_?
-    ): AttachmentMeta? {
-        if (_attachmentMeta_ == null) return null
+        _attachmentMeta_: _AttachmentMeta_
+    ): AttachmentMeta {
         return AttachmentMeta.Builder()
             .name(_attachmentMeta_.name)
             .url(_attachmentMeta_.url)
@@ -574,9 +573,8 @@ object ModelConverter {
 
     // create a internal attachment meta from the meta provided by client
     private fun createAttachmentMeta(
-        attachmentMeta: AttachmentMeta?
-    ): _AttachmentMeta_? {
-        if (attachmentMeta == null) return null
+        attachmentMeta: AttachmentMeta
+    ): _AttachmentMeta_ {
         return _AttachmentMeta_.Builder()
             .name(attachmentMeta.name)
             .url(attachmentMeta.url)

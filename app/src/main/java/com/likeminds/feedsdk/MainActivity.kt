@@ -113,6 +113,15 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            val memberStateResult = client.getMemberState()
+            Log.d("TAG", "memberStateResult: $memberStateResult")
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${memberStateResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
             val logoutResult = client.logout(
                 LogoutRequest.Builder()
                     .refreshToken(refreshToken ?: "")

@@ -24,16 +24,16 @@ interface CommentNetworkApi {
     suspend fun getComment(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String,
-        @Query("page") page: Int?,
-        @Query("page_size") pageSize: Int?,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int,
     ): NetworkResponse<APIResponse<_GetCommentResponse_>>
 
     @GET("feed/post/{post_id}/comment/{comment_id}/like")
     suspend fun getCommentLikes(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String,
-        @Query("page") page: Int?,
-        @Query("page_size") pageSize: Int?,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int,
     ): NetworkResponse<APIResponse<_GetCommentLikesResponse_>>
 
     @PUT("feed/post/{post_id}/comment/{comment_id}/like")

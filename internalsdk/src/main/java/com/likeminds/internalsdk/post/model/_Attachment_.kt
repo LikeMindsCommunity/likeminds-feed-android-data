@@ -6,15 +6,15 @@ class _Attachment_ private constructor(
     @SerializedName("attachment_type")
     var attachmentType: Int,
     @SerializedName("attachment_meta")
-    var attachmentMeta: _AttachmentMeta_?
+    var attachmentMeta: _AttachmentMeta_
 ) {
     class Builder {
 
         private var attachmentType: Int = 1
-        private var attachmentMeta: _AttachmentMeta_? = null
+        private var attachmentMeta: _AttachmentMeta_ = _AttachmentMeta_.Builder().build()
 
         fun attachmentType(attachmentType: Int) = apply { this.attachmentType = attachmentType }
-        fun attachmentMeta(attachmentMeta: _AttachmentMeta_?) =
+        fun attachmentMeta(attachmentMeta: _AttachmentMeta_) =
             apply { this.attachmentMeta = attachmentMeta }
 
         fun build() = _Attachment_(attachmentType, attachmentMeta)
