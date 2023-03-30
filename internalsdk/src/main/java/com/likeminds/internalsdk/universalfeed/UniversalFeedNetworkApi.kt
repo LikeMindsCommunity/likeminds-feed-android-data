@@ -10,7 +10,7 @@ interface UniversalFeedNetworkApi {
 
     @GET("feed/universal")
     suspend fun getFeed(
-        @Query("page") page: Int?,
-        @Query("page_size") pageSize: Int?
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int
     ): NetworkResponse<APIResponse<_GetFeedResponse_>>
 }
