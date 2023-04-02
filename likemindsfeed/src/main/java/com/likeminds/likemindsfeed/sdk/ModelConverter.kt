@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.util.Log
+import com.likeminds.internalsdk.comment.model._AddCommentResponse_
 import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
@@ -14,6 +15,7 @@ import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
+import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
 import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
 import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
@@ -261,6 +263,30 @@ object ModelConverter {
             _like_.createdAt,
             _like_.updatedAt,
             _like_.userId,
+        )
+    }
+
+    // converts api AddCommentResponse model to LM AddCommentResponse model
+    fun convertAddCommentAPIResponse(
+        apiResponse: APIResponse<_AddCommentResponse_>
+    ): LMResponse<AddCommentResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertAddCommentResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal AddCommentResponse model to client model
+    private fun convertAddCommentResponse(
+        _addCommentResponse_: _AddCommentResponse_?
+    ): AddCommentResponse? {
+        if (_addCommentResponse_ == null) {
+            return null
+        }
+        return AddCommentResponse(
+            convertComment(_addCommentResponse_.comment),
+            convertUsersMap(_addCommentResponse_.users)
         )
     }
 

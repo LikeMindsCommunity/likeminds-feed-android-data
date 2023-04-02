@@ -11,7 +11,7 @@ class CommentApiImpl @Inject constructor(
 
     override suspend fun addComment(
         request: _AddCommentRequest_
-    ): NetworkResponse<APIResponse<Nothing>> {
+    ): NetworkResponse<APIResponse<_AddCommentResponse_>> {
         return commentReceiver.addComment(request)
     }
 
