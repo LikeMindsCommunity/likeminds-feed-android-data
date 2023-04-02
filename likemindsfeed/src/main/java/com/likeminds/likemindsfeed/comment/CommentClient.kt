@@ -79,9 +79,9 @@ class CommentClient @Inject constructor() : BaseClient() {
      * Converts client request model to internal model and calls the api
      * @param replyCommentRequest - client request model to add reply on the comment
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
-     * @return LMResponse<Nothing> - Base LM response
+     * @return ReplyCommentRequest - ReplyCommentRequest model for replyCommentRequest
      */
-    suspend fun replyComment(replyCommentRequest: ReplyCommentRequest): LMResponse<Nothing> {
+    suspend fun replyComment(replyCommentRequest: ReplyCommentRequest): LMResponse<ReplyCommentResponse> {
         // validates the client request
         RequestUtils.validate()
         validateReplyCommentRequest(replyCommentRequest)
@@ -102,9 +102,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                 )
             }
             is NetworkResponse.Success -> {
-                LMResponse(
-                    success = response.body.success
-                )
+                ModelConverter.convertReplyCommentAPIResponse(response.body)
             }
         }
     }

@@ -143,7 +143,7 @@ class LMFeedClient private constructor() {
     }
 
     // Exposed function to add comment on the post
-    suspend fun replyComment(replyCommentRequest: ReplyCommentRequest): LMResponse<Nothing> {
+    suspend fun replyComment(replyCommentRequest: ReplyCommentRequest): LMResponse<ReplyCommentResponse> {
         return commentClient.replyComment(replyCommentRequest)
     }
 
