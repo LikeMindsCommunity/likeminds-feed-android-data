@@ -9,12 +9,12 @@ interface CommentApi {
     // api to add comment to the post
     suspend fun addComment(
         request: _AddCommentRequest_
-    ): NetworkResponse<APIResponse<Nothing>>
+    ): NetworkResponse<APIResponse<_AddCommentResponse_>>
 
     // api to add reply on the comment
     suspend fun replyComment(
         request: _ReplyCommentRequest_
-    ): NetworkResponse<APIResponse<Nothing>>
+    ): NetworkResponse<APIResponse<_ReplyCommentResponse_>>
 
     // api to fetch the comment and its paginated replies
     suspend fun getComment(

@@ -1,9 +1,7 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.util.Log
-import com.likeminds.internalsdk.comment.model._Comment_
-import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
-import com.likeminds.internalsdk.comment.model._GetCommentResponse_
+import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.helper.model._TagMember_
@@ -14,9 +12,7 @@ import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
-import com.likeminds.likemindsfeed.comment.model.Comment
-import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
-import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
+import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.helper.model.TagMember
@@ -261,6 +257,54 @@ object ModelConverter {
             _like_.createdAt,
             _like_.updatedAt,
             _like_.userId,
+        )
+    }
+
+    // converts api AddCommentResponse model to LM AddCommentResponse model
+    fun convertAddCommentAPIResponse(
+        apiResponse: APIResponse<_AddCommentResponse_>
+    ): LMResponse<AddCommentResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertAddCommentResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal AddCommentResponse model to client model
+    private fun convertAddCommentResponse(
+        _addCommentResponse_: _AddCommentResponse_?
+    ): AddCommentResponse? {
+        if (_addCommentResponse_ == null) {
+            return null
+        }
+        return AddCommentResponse(
+            convertComment(_addCommentResponse_.comment),
+            convertUsersMap(_addCommentResponse_.users)
+        )
+    }
+
+    // converts api ReplyCommentResponse model to LM ReplyCommentResponse model
+    fun convertReplyCommentAPIResponse(
+        apiResponse: APIResponse<_ReplyCommentResponse_>
+    ): LMResponse<ReplyCommentResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertReplyCommentResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal ReplyCommentResponse model to client model
+    private fun convertReplyCommentResponse(
+        _addReplyComment_: _ReplyCommentResponse_?
+    ): ReplyCommentResponse? {
+        if (_addReplyComment_ == null) {
+            return null
+        }
+        return ReplyCommentResponse(
+            convertComment(_addReplyComment_.comment),
+            convertUsersMap(_addReplyComment_.users)
         )
     }
 
