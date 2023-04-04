@@ -15,15 +15,15 @@ interface PostNetworkApi {
     @GET("feed/post/{post_id}")
     suspend fun getPost(
         @Path("post_id") postId: String,
-        @Query("page") page: Int?,
-        @Query("page_size") pageSize: Int?
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int
     ): NetworkResponse<APIResponse<_GetPostResponse_>>
 
     @GET("feed/post/{post_id}/like")
     suspend fun getPostLikes(
         @Path("post_id") postId: String,
-        @Query("page") page: Int?,
-        @Query("page_size") pageSize: Int?
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int
     ): NetworkResponse<APIResponse<_GetPostLikesResponse_>>
 
     @HTTP(method = "DELETE", path = "feed/post/{post_id}", hasBody = true)

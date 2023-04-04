@@ -11,29 +11,29 @@ interface CommentNetworkApi {
     suspend fun addComment(
         @Path("post_id") postId: String,
         @Body addCommentRequest: _AddCommentRequest_
-    ): NetworkResponse<APIResponse<Nothing>>
+    ): NetworkResponse<APIResponse<_AddCommentResponse_>>
 
     @POST("feed/post/{post_id}/comment/{comment_id}/comment")
     suspend fun replyComment(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String,
         @Body addCommentRequest: _ReplyCommentRequest_
-    ): NetworkResponse<APIResponse<Nothing>>
+    ): NetworkResponse<APIResponse<_ReplyCommentResponse_>>
 
     @GET("feed/post/{post_id}/comment/{comment_id}")
     suspend fun getComment(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String,
-        @Query("page") page: Int?,
-        @Query("page_size") pageSize: Int?,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int,
     ): NetworkResponse<APIResponse<_GetCommentResponse_>>
 
     @GET("feed/post/{post_id}/comment/{comment_id}/like")
     suspend fun getCommentLikes(
         @Path("post_id") postId: String,
         @Path("comment_id") commentId: String,
-        @Query("page") page: Int?,
-        @Query("page_size") pageSize: Int?,
+        @Query("page") page: Int,
+        @Query("page_size") pageSize: Int,
     ): NetworkResponse<APIResponse<_GetCommentLikesResponse_>>
 
     @PUT("feed/post/{post_id}/comment/{comment_id}/like")
