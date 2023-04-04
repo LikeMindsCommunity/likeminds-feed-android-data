@@ -73,7 +73,6 @@ class CollabmatesSDK {
     ) {
         initSDKComponent(sdkSharedResources)
         this.lmInternalCallback = lmInternalCallback
-        lmInternalCallback?.login()
     }
 
     private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {
