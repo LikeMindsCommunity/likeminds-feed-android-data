@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.sdk
 
-import android.util.Log
 import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
 import com.likeminds.internalsdk.comment.model._GetCommentResponse_
@@ -391,15 +390,6 @@ object ModelConverter {
     private fun convertTagMember(
         _tagMember_: _TagMember_
     ): TagMember {
-        Log.d(
-            "PUI", """
-            ${_tagMember_.id}
-            ${_tagMember_.imageUrl}
-            ${_tagMember_.name}
-            ${_tagMember_.userUniqueId}
-            ${_tagMember_.isGuest}
-        """.trimIndent()
-        )
         return TagMember(
             _tagMember_.id,
             _tagMember_.imageUrl,

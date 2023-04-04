@@ -2,8 +2,10 @@ package com.likeminds.likemindsfeed.sdk
 
 import android.app.Application
 import com.likeminds.internalsdk.CollabmatesSDK
+import com.likeminds.internalsdk.LMInternalCallback
 import com.likeminds.internalsdk.di.SDKSharedResources
 import com.likeminds.internalsdk.sdk.SDKPreferences
+import com.likeminds.likemindsfeed.LMCallback
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
@@ -14,7 +16,7 @@ import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import javax.inject.Inject
 
-internal class LikeMindsFeedApplication private constructor() {
+internal class LikeMindsFeedApplication private constructor() : LMInternalCallback {
 
     @Inject
     lateinit var collabmatesSDK: CollabmatesSDK
@@ -36,6 +38,7 @@ internal class LikeMindsFeedApplication private constructor() {
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
+        private var lmCallback: LMCallback? = null
 
         @JvmStatic
         fun getInstance(): LikeMindsFeedApplication {
@@ -46,12 +49,13 @@ internal class LikeMindsFeedApplication private constructor() {
         }
     }
 
-    fun initSDKApplication(application: Application) {
+    fun initSDKApplication(application: Application, lmCallback: LMCallback?) {
         likeMindsFeedApplicationInstance = this
+        LikeMindsFeedApplication.lmCallback = lmCallback
 
         //init dagger
         initLikeMindsFeedComponent(application)
-        collabmatesSDK.initialize(sdkSharedResources)
+        collabmatesSDK.initialize(sdkSharedResources, this)
     }
 
     private fun initLikeMindsFeedComponent(application: Application) {
@@ -103,5 +107,9 @@ internal class LikeMindsFeedApplication private constructor() {
             helperComponent = likeMindsFeedComponent?.helperComponent()?.create()
         }
         return helperComponent
+    }
+
+    override fun login() {
+        lmCallback?.login()
     }
 }
