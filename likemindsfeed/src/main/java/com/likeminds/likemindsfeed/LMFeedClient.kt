@@ -43,8 +43,6 @@ class LMFeedClient private constructor() {
     @Inject
     lateinit var helperClient: HelperClient
 
-    private var lmCallback: LMCallback? = null
-
     class Builder(val application: Application) {
 
         private var lmCallback: LMCallback? = null
@@ -54,8 +52,7 @@ class LMFeedClient private constructor() {
         fun build(): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
             val sdkApplication = LikeMindsFeedApplication.getInstance()
-            lmFeedClientInstance?.lmCallback = lmCallback
-            sdkApplication.initSDKApplication(application, lmFeedClientInstance?.lmCallback)
+            sdkApplication.initSDKApplication(application, lmCallback)
             sdkApplication.likeMindsFeedComponent?.inject(lmFeedClientInstance!!)
             return lmFeedClientInstance!!
         }
