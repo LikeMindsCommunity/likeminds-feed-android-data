@@ -52,6 +52,8 @@ class CollabmatesSDK {
     @Inject
     lateinit var helperApiImpl: HelperApiImpl
 
+    var lmInternalCallback: LMInternalCallback? = null
+
     companion object {
         private var collabmatesSDKInstance: CollabmatesSDK? = null
         const val LOG_TAG = "LikeMinds"
@@ -65,8 +67,12 @@ class CollabmatesSDK {
         }
     }
 
-    fun initialize(sdkSharedResources: SDKSharedResources) {
+    fun initialize(
+        sdkSharedResources: SDKSharedResources,
+        lmInternalCallback: LMInternalCallback?
+    ) {
         initSDKComponent(sdkSharedResources)
+        this.lmInternalCallback = lmInternalCallback
     }
 
     private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {

@@ -435,15 +435,6 @@ object ModelConverter {
     private fun convertTagMember(
         _tagMember_: _TagMember_
     ): TagMember {
-        Log.d(
-            "PUI", """
-            ${_tagMember_.id}
-            ${_tagMember_.imageUrl}
-            ${_tagMember_.name}
-            ${_tagMember_.userUniqueId}
-            ${_tagMember_.isGuest}
-        """.trimIndent()
-        )
         return TagMember(
             _tagMember_.id,
             _tagMember_.imageUrl,

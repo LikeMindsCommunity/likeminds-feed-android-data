@@ -25,7 +25,6 @@ import javax.inject.Singleton
 
 @Singleton
 class LMFeedClient private constructor() {
-
     @Inject
     lateinit var initiateUserClient: InitiateUserClient
 
@@ -46,10 +45,14 @@ class LMFeedClient private constructor() {
 
     class Builder(val application: Application) {
 
+        private var lmCallback: LMCallback? = null
+
+        fun lmCallback(lmCallback: LMCallback?) = apply { this.lmCallback = lmCallback }
+
         fun build(): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
             val sdkApplication = LikeMindsFeedApplication.getInstance()
-            sdkApplication.initSDKApplication(application)
+            sdkApplication.initSDKApplication(application, lmCallback)
             sdkApplication.likeMindsFeedComponent?.inject(lmFeedClientInstance!!)
             return lmFeedClientInstance!!
         }
