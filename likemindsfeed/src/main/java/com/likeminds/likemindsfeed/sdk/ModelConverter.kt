@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.sdk
 
-import android.util.Log
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
@@ -569,7 +568,7 @@ object ModelConverter {
             _comment_.updatedAt,
             convertComments(_comment_.replies),
             convertMenuItems(_comment_.menuItems),
-            _comment_.parentId,
+            _comment_.parentComment?.let { convertComment(it) },
         )
     }
 

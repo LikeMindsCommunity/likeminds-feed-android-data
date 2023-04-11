@@ -26,6 +26,6 @@ data class _Comment_(
     var replies: List<_Comment_>?,
     @SerializedName("menu_items")
     var menuItems: List<_MenuItem_>,
-    @SerializedName("parent_id")
-    var parentId: String?
+    @SerializedName("parent_comment")
+    var parentComment: _Comment_?
 )
