@@ -14,5 +14,5 @@ data class Comment(
     var updatedAt: Long,
     var replies: List<Comment>?,
     var menuItems: List<MenuItem>,
-    var parentId: String?
+    var parentComment: Comment?
 )
