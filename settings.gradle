@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "LikeMinds-Android-Feed-SDK"
 include ':app'
+include ':likemindsfeed'
+include ':internalsdk'
