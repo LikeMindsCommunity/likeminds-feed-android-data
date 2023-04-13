@@ -11,6 +11,6 @@ data class MemberStateResponse(
     var name: String,
     var organisationName: String?,
     var managerRights: List<ManagementRightPermissionData>?,
-    var memberRights: List<ManagementRightPermissionData>?,
+    var memberRights: List<ManagementRightPermissionData>,
     var updatedAt: Long
 )

@@ -138,17 +138,26 @@ object ModelConverter {
             member.isOwner,
             member.name,
             member.organisationName,
-            convertManagementRightPermissions(_memberStateResponse_.managerRights),
-            convertManagementRightPermissions(_memberStateResponse_.memberRights),
+            convertManagerRights(_memberStateResponse_.managerRights),
+            convertMemberRights(_memberStateResponse_.memberRights),
             member.updatedAt
         )
     }
 
-    // converts internal ManagementRightPermissionData model list to client model list
-    private fun convertManagementRightPermissions(
+    // converts internal ManagementRightPermissionData model list of manager rights to client model list
+    private fun convertManagerRights(
         _rights_: List<_ManagementRightPermissionData_>?
     ): List<ManagementRightPermissionData>? {
         if (_rights_ == null) return null
+        return _rights_.map {
+            convertManagementRightPermission(it)
+        }
+    }
+
+    // converts internal ManagementRightPermissionData model list of member rights client model list
+    private fun convertMemberRights(
+        _rights_: List<_ManagementRightPermissionData_>
+    ): List<ManagementRightPermissionData> {
         return _rights_.map {
             convertManagementRightPermission(it)
         }

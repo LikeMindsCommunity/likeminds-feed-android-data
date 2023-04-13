@@ -10,7 +10,7 @@ data class _MemberStateResponse_(
     @SerializedName("manager_rights")
     var managerRights: List<_ManagementRightPermissionData_>?,
     @SerializedName("member_rights")
-    var memberRights: List<_ManagementRightPermissionData_>?,
+    var memberRights: List<_ManagementRightPermissionData_>,
 )
 
 data class _Member_(
