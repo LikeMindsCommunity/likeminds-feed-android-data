@@ -16,6 +16,7 @@ import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.helper.model.TagMember
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.ManagementRightPermissionData
 import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
@@ -137,7 +138,42 @@ object ModelConverter {
             member.isOwner,
             member.name,
             member.organisationName,
+            convertManagerRights(_memberStateResponse_.managerRights),
+            convertMemberRights(_memberStateResponse_.memberRights),
             member.updatedAt
+        )
+    }
+
+    // converts internal ManagementRightPermissionData model list of manager rights to client model list
+    private fun convertManagerRights(
+        _rights_: List<_ManagementRightPermissionData_>?
+    ): List<ManagementRightPermissionData>? {
+        if (_rights_ == null) return null
+        return _rights_.map {
+            convertManagementRightPermission(it)
+        }
+    }
+
+    // converts internal ManagementRightPermissionData model list of member rights client model list
+    private fun convertMemberRights(
+        _rights_: List<_ManagementRightPermissionData_>
+    ): List<ManagementRightPermissionData> {
+        return _rights_.map {
+            convertManagementRightPermission(it)
+        }
+    }
+
+    // converts internal ManagementRightPermissionData model to client model
+    private fun convertManagementRightPermission(
+        _right_: _ManagementRightPermissionData_
+    ): ManagementRightPermissionData {
+        return ManagementRightPermissionData(
+            _right_.id,
+            _right_.isLocked,
+            _right_.isSelected,
+            _right_.state,
+            _right_.title,
+            _right_.subtitle
         )
     }
 

@@ -28,10 +28,10 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val clientResult = client.initiateUser(
                 InitiateUserRequest.Builder()
-                    .apiKey("6a4cc38e-02c7-4dfa-96b7-68a3078ad922")
-                    .userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
-                    .deviceId("233")
-                    .userName("Mahir Gupta")
+                    .apiKey("69edd43f-4a5e-4077-9c50-2b7aa740acce")
+                    .userId("029f66a8-264b-413f-a9df-3ae2f4166486")
+                    .deviceId("23344")
+                    .userName("Ads")
                     .isGuest(false)
                     .build()
             )
@@ -114,7 +114,11 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             val memberStateResult = client.getMemberState()
-            Log.d("TAG", "memberStateResult: $memberStateResult")
+            Log.d(
+                "TAG", """
+                ${memberStateResult.data}
+            """.trimIndent()
+            )
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
