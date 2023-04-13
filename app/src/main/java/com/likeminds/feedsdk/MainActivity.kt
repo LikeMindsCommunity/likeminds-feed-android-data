@@ -114,7 +114,11 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             val memberStateResult = client.getMemberState()
-            Log.d("TAG", "memberStateResult: $memberStateResult")
+            Log.d(
+                "TAG", """
+                ${memberStateResult.data}
+            """.trimIndent()
+            )
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,

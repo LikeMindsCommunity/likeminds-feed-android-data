@@ -10,5 +10,7 @@ data class MemberStateResponse(
     var isOwner: Boolean,
     var name: String,
     var organisationName: String?,
+    var managerRights: List<ManagementRightPermissionData>?,
+    var memberRights: List<ManagementRightPermissionData>?,
     var updatedAt: Long
 )
