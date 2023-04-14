@@ -621,7 +621,10 @@ object ModelConverter {
     private fun convertMenuItem(
         _menuItem_: _MenuItem_
     ): MenuItem {
-        return MenuItem(_menuItem_.title)
+        return MenuItem(
+            _menuItem_.id,
+            _menuItem_.title
+        )
     }
 
     /**--------------------------------
