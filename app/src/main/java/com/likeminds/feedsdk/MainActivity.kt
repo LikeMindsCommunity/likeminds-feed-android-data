@@ -12,7 +12,7 @@ import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
 import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
-import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
+import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("TAG", "onCreate: ${client.getMemberState()}")
 
-            val getFeedResult = client.universalFeedClient.getFeed(
-                GetFeedRequest.Builder()
+            val getPostResult = client.getPost(
+                GetPostRequest.Builder().postId("63f4caadc52f148210f7496a")
                     .page(1)
                     .pageSize(10)
                     .build()
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
-                    "result-1: ${getFeedResult.data?.posts?.get(0)?.menuItems?.get(0)?.id}",
+                    "result: ${getPostResult.data?.post?.text}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
