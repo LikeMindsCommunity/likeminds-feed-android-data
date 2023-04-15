@@ -19,7 +19,7 @@ data class _Member_(
     @SerializedName("user_unique_id")
     var userUniqueId: String,
     @SerializedName("custom_title")
-    var customTitle: String,
+    var customTitle: String?,
     @SerializedName("image_url")
     var imageUrl: String,
     @SerializedName("is_guest")
