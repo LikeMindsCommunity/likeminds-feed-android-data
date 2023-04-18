@@ -565,6 +565,7 @@ object ModelConverter {
             convertAttachments(_post_.attachments),
             _post_.communityId,
             _post_.isLiked,
+            _post_.isEdited,
             _post_.isPinned,
             _post_.userId,
             _post_.likesCount,
@@ -643,6 +644,7 @@ object ModelConverter {
         return Comment(
             _comment_.id,
             _comment_.isLiked,
+            _comment_.isEdited,
             _comment_.userId,
             _comment_.text,
             _comment_.level,
