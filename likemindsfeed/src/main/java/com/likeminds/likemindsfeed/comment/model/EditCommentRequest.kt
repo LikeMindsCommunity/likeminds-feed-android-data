@@ -5,7 +5,6 @@ class EditCommentRequest private constructor(
     var commentId: String,
     var text: String
 ) {
-
     class Builder {
         private var postId: String = ""
         private var commentId: String = ""

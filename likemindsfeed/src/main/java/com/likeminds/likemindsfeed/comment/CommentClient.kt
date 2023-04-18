@@ -114,7 +114,7 @@ class CommentClient @Inject constructor() : BaseClient() {
         if (editCommentRequest.postId.isEmpty()) {
             RequestUtils.throwException("postId")
         }
-        if (editCommentRequest.postId.isEmpty()) {
+        if (editCommentRequest.commentId.isEmpty()) {
             RequestUtils.throwException("commentId")
         }
         if (editCommentRequest.text.isEmpty()) {

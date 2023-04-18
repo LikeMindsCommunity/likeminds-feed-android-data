@@ -5,7 +5,6 @@ class EditPostRequest private constructor(
     var text: String?,
     var attachments: List<Attachment>?
 ) {
-
     class Builder {
         private var postId: String = ""
         private var text: String? = null

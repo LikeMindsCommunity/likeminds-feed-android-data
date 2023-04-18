@@ -10,7 +10,6 @@ class _EditPostRequest_ private constructor(
     @SerializedName("attachments")
     var attachments: List<_Attachment_>?
 ) {
-
     class Builder {
         private var postId: String? = null
         private var text: String? = null
