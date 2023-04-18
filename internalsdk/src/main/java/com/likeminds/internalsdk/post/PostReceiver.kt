@@ -14,6 +14,18 @@ class PostReceiver @Inject constructor(
         return postNetworkApi.addPost(request)
     }
 
+    suspend fun editPost(
+        request: _EditPostRequest_
+    ): NetworkResponse<APIResponse<_EditPostResponse_>> {
+        val postId = request.postId ?: ""
+        val newRequest = request.toBuilder().postId(null).build()
+
+        return postNetworkApi.editPost(
+            postId,
+            newRequest
+        )
+    }
+
     suspend fun getPost(
         request: _GetPostRequest_
     ): NetworkResponse<APIResponse<_GetPostResponse_>> {

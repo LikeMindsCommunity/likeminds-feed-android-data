@@ -100,6 +100,11 @@ class LMFeedClient private constructor() {
         return postClient.addPost(addPostRequest)
     }
 
+    // Exposed function to process edit post request
+    suspend fun editPost(editPostRequest: EditPostRequest): LMResponse<EditPostResponse> {
+        return postClient.editPost(editPostRequest)
+    }
+
     // Exposed function to process fetch post request
     suspend fun getPost(getPostRequest: GetPostRequest): LMResponse<GetPostResponse> {
         return postClient.getPost(getPostRequest)

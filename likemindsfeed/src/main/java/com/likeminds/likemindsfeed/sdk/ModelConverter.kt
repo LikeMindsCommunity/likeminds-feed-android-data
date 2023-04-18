@@ -225,6 +225,30 @@ object ModelConverter {
         )
     }
 
+    // converts api EditPostResponse model to LM EditPostResponse model
+    fun convertEditPostAPIResponse(
+        apiResponse: APIResponse<_EditPostResponse_>
+    ): LMResponse<EditPostResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertEditPostResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal EditPostResponse model to client model
+    private fun convertEditPostResponse(
+        _editPostResponse_: _EditPostResponse_?
+    ): EditPostResponse? {
+        if (_editPostResponse_ == null) {
+            return null
+        }
+        return EditPostResponse(
+            convertPost(_editPostResponse_.post),
+            convertUsersMap(_editPostResponse_.users)
+        )
+    }
+
     // converts api GetPostResponse model to LM GetPostResponse model
     fun convertGetPostAPIResponse(
         apiResponse: APIResponse<_GetPostResponse_>
