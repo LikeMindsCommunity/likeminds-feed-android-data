@@ -343,6 +343,30 @@ object ModelConverter {
         )
     }
 
+    // converts api EditCommentResponse model to LM EditCommentResponse model
+    fun convertEditCommentAPIResponse(
+        apiResponse: APIResponse<_EditCommentResponse_>
+    ): LMResponse<EditCommentResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertEditCommentResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal EditCommentResponse model to client model
+    private fun convertEditCommentResponse(
+        _editCommentResponse_: _EditCommentResponse_?
+    ): EditCommentResponse? {
+        if (_editCommentResponse_ == null) {
+            return null
+        }
+        return EditCommentResponse(
+            convertComment(_editCommentResponse_.comment),
+            convertUsersMap(_editCommentResponse_.users)
+        )
+    }
+
     // converts api ReplyCommentResponse model to LM ReplyCommentResponse model
     fun convertReplyCommentAPIResponse(
         apiResponse: APIResponse<_ReplyCommentResponse_>

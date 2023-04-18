@@ -77,6 +77,53 @@ class CommentClient @Inject constructor() : BaseClient() {
 
     /**
      * Converts client request model to internal model and calls the api
+     * @param editCommentRequest - client request model to edit comment on the post
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return EditCommentResponse - EditCommentResponse model for editCommentRequest
+     */
+    suspend fun editComment(editCommentRequest: EditCommentRequest): LMResponse<EditCommentResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateEditCommentRequest(editCommentRequest)
+
+        // builds internal request model
+        val request = _EditCommentRequest_.Builder()
+            .postId(editCommentRequest.postId)
+            .commentId(editCommentRequest.commentId)
+            .text(editCommentRequest.text)
+            .build()
+        // calls api and processes the response accordingly
+        return when (val response = commentApi.editComment(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                ModelConverter.convertEditCommentAPIResponse(response.body)
+            }
+        }
+    }
+
+    /**
+     * validates [editCommentRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateEditCommentRequest(editCommentRequest: EditCommentRequest) {
+        if (editCommentRequest.postId.isEmpty()) {
+            RequestUtils.throwException("postId")
+        }
+        if (editCommentRequest.postId.isEmpty()) {
+            RequestUtils.throwException("commentId")
+        }
+        if (editCommentRequest.text.isEmpty()) {
+            RequestUtils.throwException("text")
+        }
+    }
+
+    /**
+     * Converts client request model to internal model and calls the api
      * @param replyCommentRequest - client request model to add reply on the comment
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return ReplyCommentRequest - ReplyCommentRequest model for replyCommentRequest

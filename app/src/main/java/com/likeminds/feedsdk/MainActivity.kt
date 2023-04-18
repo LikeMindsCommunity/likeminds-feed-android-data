@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.comment.model.EditCommentRequest
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
 import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
@@ -61,11 +62,25 @@ class MainActivity : AppCompatActivity() {
                     .build()
             )
             withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "result: $editPostResult",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Log.d(
+                    "PUI", """
+                    $editPostResult
+                """.trimIndent()
+                )
+            }
+
+            val editCommentResult = client.editComment(
+                EditCommentRequest.Builder().postId("643520269c5a7fb3ac013ec0")
+                    .commentId("643d1557a563b0ca5b38928a")
+                    .text("This comment is edited!")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Log.d(
+                    "PUI", """
+                    $editCommentResult
+                """.trimIndent()
+                )
             }
 
 //            val postResult = client.addPost(

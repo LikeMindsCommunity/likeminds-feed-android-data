@@ -150,6 +150,11 @@ class LMFeedClient private constructor() {
         return commentClient.addComment(addCommentRequest)
     }
 
+    // Exposed function to edit comment on the post
+    suspend fun editComment(editCommentRequest: EditCommentRequest): LMResponse<EditCommentResponse> {
+        return commentClient.editComment(editCommentRequest)
+    }
+
     // Exposed function to add comment on the post
     suspend fun replyComment(replyCommentRequest: ReplyCommentRequest): LMResponse<ReplyCommentResponse> {
         return commentClient.replyComment(replyCommentRequest)
