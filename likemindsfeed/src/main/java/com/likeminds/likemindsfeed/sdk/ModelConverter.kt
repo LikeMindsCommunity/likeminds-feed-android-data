@@ -225,6 +225,30 @@ object ModelConverter {
         )
     }
 
+    // converts api EditPostResponse model to LM EditPostResponse model
+    fun convertEditPostAPIResponse(
+        apiResponse: APIResponse<_EditPostResponse_>
+    ): LMResponse<EditPostResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertEditPostResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal EditPostResponse model to client model
+    private fun convertEditPostResponse(
+        _editPostResponse_: _EditPostResponse_?
+    ): EditPostResponse? {
+        if (_editPostResponse_ == null) {
+            return null
+        }
+        return EditPostResponse(
+            convertPost(_editPostResponse_.post),
+            convertUsersMap(_editPostResponse_.users)
+        )
+    }
+
     // converts api GetPostResponse model to LM GetPostResponse model
     fun convertGetPostAPIResponse(
         apiResponse: APIResponse<_GetPostResponse_>
@@ -316,6 +340,30 @@ object ModelConverter {
         return AddCommentResponse(
             convertComment(_addCommentResponse_.comment),
             convertUsersMap(_addCommentResponse_.users)
+        )
+    }
+
+    // converts api EditCommentResponse model to LM EditCommentResponse model
+    fun convertEditCommentAPIResponse(
+        apiResponse: APIResponse<_EditCommentResponse_>
+    ): LMResponse<EditCommentResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertEditCommentResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal EditCommentResponse model to client model
+    private fun convertEditCommentResponse(
+        _editCommentResponse_: _EditCommentResponse_?
+    ): EditCommentResponse? {
+        if (_editCommentResponse_ == null) {
+            return null
+        }
+        return EditCommentResponse(
+            convertComment(_editCommentResponse_.comment),
+            convertUsersMap(_editCommentResponse_.users)
         )
     }
 
@@ -517,6 +565,7 @@ object ModelConverter {
             convertAttachments(_post_.attachments),
             _post_.communityId,
             _post_.isLiked,
+            _post_.isEdited,
             _post_.isPinned,
             _post_.userId,
             _post_.likesCount,
@@ -595,6 +644,7 @@ object ModelConverter {
         return Comment(
             _comment_.id,
             _comment_.isLiked,
+            _comment_.isEdited,
             _comment_.userId,
             _comment_.text,
             _comment_.level,

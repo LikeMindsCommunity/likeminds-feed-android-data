@@ -12,6 +12,12 @@ interface PostNetworkApi {
         @Body addPostRequest: _AddPostRequest_
     ): NetworkResponse<APIResponse<_AddPostResponse_>>
 
+    @PUT("feed/post/{post_id}")
+    suspend fun editPost(
+        @Path("post_id") postId: String,
+        @Body editPostRequest: _EditPostRequest_
+    ): NetworkResponse<APIResponse<_EditPostResponse_>>
+
     @GET("feed/post/{post_id}")
     suspend fun getPost(
         @Path("post_id") postId: String,

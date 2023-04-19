@@ -14,6 +14,8 @@ data class _Post_(
     var communityId: Int,
     @SerializedName("is_liked")
     var isLiked: Boolean,
+    @SerializedName("is_edited")
+    var isEdited: Boolean,
     @SerializedName("is_pinned")
     var isPinned: Boolean,
     @SerializedName("user_id")

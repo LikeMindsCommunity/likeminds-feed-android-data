@@ -100,6 +100,11 @@ class LMFeedClient private constructor() {
         return postClient.addPost(addPostRequest)
     }
 
+    // Exposed function to process edit post request
+    suspend fun editPost(editPostRequest: EditPostRequest): LMResponse<EditPostResponse> {
+        return postClient.editPost(editPostRequest)
+    }
+
     // Exposed function to process fetch post request
     suspend fun getPost(getPostRequest: GetPostRequest): LMResponse<GetPostResponse> {
         return postClient.getPost(getPostRequest)
@@ -143,6 +148,11 @@ class LMFeedClient private constructor() {
     // Exposed function to add comment on the post
     suspend fun addComment(addCommentRequest: AddCommentRequest): LMResponse<AddCommentResponse> {
         return commentClient.addComment(addCommentRequest)
+    }
+
+    // Exposed function to edit comment on the post
+    suspend fun editComment(editCommentRequest: EditCommentRequest): LMResponse<EditCommentResponse> {
+        return commentClient.editComment(editCommentRequest)
     }
 
     // Exposed function to add comment on the post
