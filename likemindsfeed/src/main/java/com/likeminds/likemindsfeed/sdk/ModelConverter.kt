@@ -16,6 +16,7 @@ import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.helper.model.TagMember
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.ManagementRightPermissionData
 import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
@@ -137,7 +138,42 @@ object ModelConverter {
             member.isOwner,
             member.name,
             member.organisationName,
+            convertManagerRights(_memberStateResponse_.managerRights),
+            convertMemberRights(_memberStateResponse_.memberRights),
             member.updatedAt
+        )
+    }
+
+    // converts internal ManagementRightPermissionData model list of manager rights to client model list
+    private fun convertManagerRights(
+        _rights_: List<_ManagementRightPermissionData_>?
+    ): List<ManagementRightPermissionData>? {
+        if (_rights_ == null) return null
+        return _rights_.map {
+            convertManagementRightPermission(it)
+        }
+    }
+
+    // converts internal ManagementRightPermissionData model list of member rights client model list
+    private fun convertMemberRights(
+        _rights_: List<_ManagementRightPermissionData_>
+    ): List<ManagementRightPermissionData> {
+        return _rights_.map {
+            convertManagementRightPermission(it)
+        }
+    }
+
+    // converts internal ManagementRightPermissionData model to client model
+    private fun convertManagementRightPermission(
+        _right_: _ManagementRightPermissionData_
+    ): ManagementRightPermissionData {
+        return ManagementRightPermissionData(
+            _right_.id,
+            _right_.isLocked,
+            _right_.isSelected,
+            _right_.state,
+            _right_.title,
+            _right_.subtitle
         )
     }
 
@@ -186,6 +222,30 @@ object ModelConverter {
         return AddPostResponse(
             convertPost(_addPostResponse_.post),
             convertUsersMap(_addPostResponse_.users)
+        )
+    }
+
+    // converts api EditPostResponse model to LM EditPostResponse model
+    fun convertEditPostAPIResponse(
+        apiResponse: APIResponse<_EditPostResponse_>
+    ): LMResponse<EditPostResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertEditPostResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal EditPostResponse model to client model
+    private fun convertEditPostResponse(
+        _editPostResponse_: _EditPostResponse_?
+    ): EditPostResponse? {
+        if (_editPostResponse_ == null) {
+            return null
+        }
+        return EditPostResponse(
+            convertPost(_editPostResponse_.post),
+            convertUsersMap(_editPostResponse_.users)
         )
     }
 
@@ -280,6 +340,30 @@ object ModelConverter {
         return AddCommentResponse(
             convertComment(_addCommentResponse_.comment),
             convertUsersMap(_addCommentResponse_.users)
+        )
+    }
+
+    // converts api EditCommentResponse model to LM EditCommentResponse model
+    fun convertEditCommentAPIResponse(
+        apiResponse: APIResponse<_EditCommentResponse_>
+    ): LMResponse<EditCommentResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertEditCommentResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal EditCommentResponse model to client model
+    private fun convertEditCommentResponse(
+        _editCommentResponse_: _EditCommentResponse_?
+    ): EditCommentResponse? {
+        if (_editCommentResponse_ == null) {
+            return null
+        }
+        return EditCommentResponse(
+            convertComment(_editCommentResponse_.comment),
+            convertUsersMap(_editCommentResponse_.users)
         )
     }
 
@@ -481,6 +565,7 @@ object ModelConverter {
             convertAttachments(_post_.attachments),
             _post_.communityId,
             _post_.isLiked,
+            _post_.isEdited,
             _post_.isPinned,
             _post_.userId,
             _post_.likesCount,
@@ -559,6 +644,7 @@ object ModelConverter {
         return Comment(
             _comment_.id,
             _comment_.isLiked,
+            _comment_.isEdited,
             _comment_.userId,
             _comment_.text,
             _comment_.level,
@@ -585,7 +671,10 @@ object ModelConverter {
     private fun convertMenuItem(
         _menuItem_: _MenuItem_
     ): MenuItem {
-        return MenuItem(_menuItem_.title)
+        return MenuItem(
+            _menuItem_.id,
+            _menuItem_.title
+        )
     }
 
     /**--------------------------------

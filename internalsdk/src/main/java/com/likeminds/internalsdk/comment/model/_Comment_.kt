@@ -8,6 +8,8 @@ data class _Comment_(
     var id: String,
     @SerializedName("is_liked")
     var isLiked: Boolean,
+    @SerializedName("is_edited")
+    var isEdited: Boolean,
     @SerializedName("user_id")
     var userId: String,
     @SerializedName("text")

@@ -7,11 +7,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.comment.model.EditCommentRequest
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
 import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
+import com.likeminds.likemindsfeed.post.model.EditPostRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,10 +30,10 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val clientResult = client.initiateUser(
                 InitiateUserRequest.Builder()
-                    .apiKey("6a4cc38e-02c7-4dfa-96b7-68a3078ad922")
-                    .userId("299dc20c-72e1-49cf-8018-8ae33208d0a2")
-                    .deviceId("233")
-                    .userName("Mahir Gupta")
+                    .apiKey("69edd43f-4a5e-4077-9c50-2b7aa740acce")
+                    .userId("029f66a8-264b-413f-a9df-3ae2f4166486")
+                    .deviceId("23344")
+                    .userName("Ads")
                     .isGuest(false)
                     .build()
             )
@@ -52,6 +54,33 @@ class MainActivity : AppCompatActivity() {
                     "result: ${getPostResult.data?.post?.text}",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+
+            val editPostResult = client.editPost(
+                EditPostRequest.Builder().postId("643520269c5a7fb3ac013ec0")
+                    .text("This post is edited!")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Log.d(
+                    "PUI", """
+                    $editPostResult
+                """.trimIndent()
+                )
+            }
+
+            val editCommentResult = client.editComment(
+                EditCommentRequest.Builder().postId("643520269c5a7fb3ac013ec0")
+                    .commentId("643d1557a563b0ca5b38928a")
+                    .text("This comment is edited!")
+                    .build()
+            )
+            withContext(Dispatchers.Main) {
+                Log.d(
+                    "PUI", """
+                    $editCommentResult
+                """.trimIndent()
+                )
             }
 
 //            val postResult = client.addPost(
@@ -114,7 +143,11 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             val memberStateResult = client.getMemberState()
-            Log.d("TAG", "memberStateResult: $memberStateResult")
+            Log.d(
+                "TAG", """
+                ${memberStateResult.data}
+            """.trimIndent()
+            )
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
