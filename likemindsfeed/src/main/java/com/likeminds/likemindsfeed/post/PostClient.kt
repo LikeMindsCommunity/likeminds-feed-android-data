@@ -104,6 +104,50 @@ class PostClient @Inject constructor() : BaseClient() {
 
     /**
      * Converts client request model to internal model and calls the api
+     * @param editPostRequest - client request model to edit post
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return EditPostResponse- EditPostResponse model for editPostRequest
+     */
+    suspend fun editPost(editPostRequest: EditPostRequest): LMResponse<EditPostResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateEditPostRequest(editPostRequest)
+
+        // builds internal request model
+        val request = _EditPostRequest_.Builder().postId(editPostRequest.postId)
+            .text(editPostRequest.text)
+            .attachments(ModelConverter.createAttachments(editPostRequest.attachments))
+            .build()
+        // calls api and processes the response accordingly
+        return when (val response = postApi.editPost(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+            is NetworkResponse.Success -> {
+                val body = response.body
+                ModelConverter.convertEditPostAPIResponse(body)
+            }
+        }
+    }
+
+    /**
+     * validates [editPostRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateEditPostRequest(editPostRequest: EditPostRequest) {
+        if (editPostRequest.postId.isNullOrEmpty()) {
+            RequestUtils.throwException("postId")
+        }
+        if (editPostRequest.text.isNullOrEmpty() && editPostRequest.attachments.isNullOrEmpty()) {
+            RequestUtils.throwException("text")
+        }
+    }
+
+    /**
+     * Converts client request model to internal model and calls the api
      * @param getPostLikesRequest - client request model to get likes data on the post
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return GetPostLikesResponse - GetPostLikesResponse model for getPostLikesRequest

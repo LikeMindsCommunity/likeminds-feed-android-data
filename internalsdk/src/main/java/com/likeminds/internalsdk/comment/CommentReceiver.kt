@@ -8,13 +8,32 @@ import javax.inject.Inject
 class CommentReceiver @Inject constructor(
     private val commentNetworkApi: CommentNetworkApi
 ) {
-
     suspend fun addComment(
         request: _AddCommentRequest_
     ): NetworkResponse<APIResponse<_AddCommentResponse_>> {
         val postId = request.postId ?: ""
         val newRequest = request.toBuilder().postId(null).build()
-        return commentNetworkApi.addComment(postId, newRequest)
+
+        return commentNetworkApi.addComment(
+            postId,
+            newRequest
+        )
+    }
+
+    suspend fun editComment(
+        request: _EditCommentRequest_
+    ): NetworkResponse<APIResponse<_EditCommentResponse_>> {
+        val postId = request.postId ?: ""
+        val commentId = request.commentId ?: ""
+        val newRequest = request.toBuilder().postId(null)
+            .commentId(null)
+            .build()
+
+        return commentNetworkApi.editComment(
+            postId,
+            commentId,
+            newRequest
+        )
     }
 
     suspend fun replyComment(

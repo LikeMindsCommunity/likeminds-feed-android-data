@@ -11,6 +11,11 @@ interface PostApi {
         request: _AddPostRequest_
     ): NetworkResponse<APIResponse<_AddPostResponse_>>
 
+    // api to edit the post
+    suspend fun editPost(
+        request: _EditPostRequest_
+    ): NetworkResponse<APIResponse<_EditPostResponse_>>
+
     // api to fetch the post
     suspend fun getPost(
         request: _GetPostRequest_

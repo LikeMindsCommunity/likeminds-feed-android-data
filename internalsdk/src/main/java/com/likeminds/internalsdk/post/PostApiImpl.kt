@@ -15,6 +15,12 @@ class PostApiImpl @Inject constructor(
         return postReceiver.addPost(request)
     }
 
+    override suspend fun editPost(
+        request: _EditPostRequest_
+    ): NetworkResponse<APIResponse<_EditPostResponse_>> {
+        return postReceiver.editPost(request)
+    }
+
     override suspend fun getPost(
         request: _GetPostRequest_
     ): NetworkResponse<APIResponse<_GetPostResponse_>> {
