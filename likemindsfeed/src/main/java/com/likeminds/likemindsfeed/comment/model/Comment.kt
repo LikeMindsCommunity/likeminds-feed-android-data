@@ -5,6 +5,7 @@ import com.likeminds.likemindsfeed.post.model.MenuItem
 data class Comment(
     var id: String,
     var isLiked: Boolean,
+    var isEdited: Boolean,
     var userId: String,
     var text: String,
     var level: Int,

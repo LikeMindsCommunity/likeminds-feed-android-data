@@ -1,8 +1,13 @@
 package com.likeminds.internalsdk.post.model
 
+import com.google.gson.annotations.SerializedName
+
 class _GetPostRequest_ private constructor(
+    @SerializedName("post_id")
     var postId: String,
+    @SerializedName("page")
     var page: Int,
+    @SerializedName("page_size")
     var pageSize: Int
 ) {
 

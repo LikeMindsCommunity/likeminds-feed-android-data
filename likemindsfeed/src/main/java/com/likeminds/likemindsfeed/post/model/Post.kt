@@ -8,6 +8,7 @@ data class Post(
     var attachments: List<Attachment>?,
     var communityId: Int,
     var isLiked: Boolean,
+    var isEdited: Boolean,
     var isPinned: Boolean,
     var userId: String,
     var likesCount: Int,

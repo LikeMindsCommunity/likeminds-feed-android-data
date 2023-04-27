@@ -11,6 +11,11 @@ interface CommentApi {
         request: _AddCommentRequest_
     ): NetworkResponse<APIResponse<_AddCommentResponse_>>
 
+    // api to edit comment to the post
+    suspend fun editComment(
+        request: _EditCommentRequest_
+    ): NetworkResponse<APIResponse<_EditCommentResponse_>>
+
     // api to add reply on the comment
     suspend fun replyComment(
         request: _ReplyCommentRequest_
