@@ -1,11 +1,10 @@
 package com.likeminds.likemindsfeed.post.model
 
 class GetPostRequest private constructor(
-    var postId: String,
-    var page: Int,
-    var pageSize: Int
+    val postId: String,
+    val page: Int,
+    val pageSize: Int
 ) {
-
     class Builder {
         private var postId: String = ""
         private var page: Int = 1

@@ -1,10 +1,9 @@
 package com.likeminds.likemindsfeed.post.model
 
 class AddPostRequest private constructor(
-    var text: String?,
-    var attachments: List<Attachment>?
+    val text: String?,
+    val attachments: List<Attachment>?
 ) {
-
     class Builder {
         private var text: String? = null
         private var attachments: List<Attachment>? = null

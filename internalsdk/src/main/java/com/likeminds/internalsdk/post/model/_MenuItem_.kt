@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class _MenuItem_(
     @SerializedName("id")
-    var id: Int,
+    val id: Int,
     @SerializedName("title")
-    var title: String
+    val title: String
 )

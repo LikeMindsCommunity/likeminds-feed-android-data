@@ -1,8 +1,8 @@
 package com.likeminds.likemindsfeed.post.model
 
 data class Like(
-    var id: String,
-    var createdAt: Long,
-    var updatedAt: Long,
-    var userId: String
+    val id: String,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val userId: String
 )

@@ -1,17 +1,14 @@
 package com.likeminds.likemindsfeed.post.model
 
 class AttachmentMeta private constructor(
-    var name: String?,
-    var url: String?,
-    var format: String?,
-    var size: Long?,
-    var duration: Int?,
-    var pageCount: Int?,
-    var ogTags: LinkOGTags,
-    var width: Int?,
-    var height: Int?
+    val name: String?,
+    val url: String?,
+    val format: String?,
+    val size: Long?,
+    val duration: Int?,
+    val pageCount: Int?,
+    val ogTags: LinkOGTags
 ) {
-
     class Builder {
 
         private var name: String? = null
@@ -21,8 +18,6 @@ class AttachmentMeta private constructor(
         private var duration: Int? = null
         private var pageCount: Int? = null
         private var ogTags: LinkOGTags = LinkOGTags.Builder().build()
-        private var width: Int? = null
-        private var height: Int? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -31,8 +26,6 @@ class AttachmentMeta private constructor(
         fun duration(duration: Int?) = apply { this.duration = duration }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
         fun ogTags(ogTags: LinkOGTags) = apply { this.ogTags = ogTags }
-        fun width(width: Int?) = apply { this.width = width }
-        fun height(height: Int?) = apply { this.height = height }
 
         fun build() = AttachmentMeta(
             name,
@@ -41,9 +34,7 @@ class AttachmentMeta private constructor(
             size,
             duration,
             pageCount,
-            ogTags,
-            width,
-            height
+            ogTags
         )
     }
 
@@ -55,7 +46,5 @@ class AttachmentMeta private constructor(
             .duration(duration)
             .pageCount(pageCount)
             .ogTags(ogTags)
-            .width(width)
-            .height(height)
     }
 }

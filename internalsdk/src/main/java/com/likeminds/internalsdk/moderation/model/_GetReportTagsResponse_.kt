@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class _GetReportTagsResponse_ constructor(
     @SerializedName("report_tags")
-    var tags: List<_ReportTag_>
+    val tags: List<_ReportTag_>
 )
 
 data class _ReportTag_(
     @SerializedName("id")
-    var id: Int,
+    val id: Int,
     @SerializedName("name")
-    var name: String
+    val name: String
 )

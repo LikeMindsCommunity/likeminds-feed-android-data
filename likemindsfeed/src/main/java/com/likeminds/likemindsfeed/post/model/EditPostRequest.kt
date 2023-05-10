@@ -1,9 +1,9 @@
 package com.likeminds.likemindsfeed.post.model
 
 class EditPostRequest private constructor(
-    var postId: String,
-    var text: String?,
-    var attachments: List<Attachment>?
+    val postId: String,
+    val text: String?,
+    val attachments: List<Attachment>?
 ) {
     class Builder {
         private var postId: String = ""

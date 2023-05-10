@@ -5,29 +5,29 @@ import com.likeminds.internalsdk.post.model._MenuItem_
 
 data class _Comment_(
     @SerializedName("_id")
-    var id: String,
+    val id: String,
     @SerializedName("is_liked")
-    var isLiked: Boolean,
+    val isLiked: Boolean,
     @SerializedName("is_edited")
-    var isEdited: Boolean,
+    val isEdited: Boolean,
     @SerializedName("user_id")
-    var userId: String,
+    val userId: String,
     @SerializedName("text")
-    var text: String,
+    val text: String,
     @SerializedName("level")
-    var level: Int,
+    val level: Int,
     @SerializedName("likes_count")
-    var likesCount: Int,
+    val likesCount: Int,
     @SerializedName("comments_count")
-    var commentsCount: Int,
+    val commentsCount: Int,
     @SerializedName("created_at")
-    var createdAt: Long,
+    val createdAt: Long,
     @SerializedName("updated_at")
-    var updatedAt: Long,
+    val updatedAt: Long,
     @SerializedName("replies")
-    var replies: List<_Comment_>?,
+    val replies: List<_Comment_>?,
     @SerializedName("menu_items")
-    var menuItems: List<_MenuItem_>,
+    val menuItems: List<_MenuItem_>,
     @SerializedName("parent_comment")
-    var parentComment: _Comment_?
+    val parentComment: _Comment_?
 )
