@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class _InitiateUserResponse_(
     @SerializedName("community")
-    var community: _Community_,
+    val community: _Community_,
     @SerializedName("access_token")
-    var accessToken: String,
+    val accessToken: String,
     @SerializedName("refresh_token")
-    var refreshToken: String,
+    val refreshToken: String,
     @SerializedName("user")
-    var user: _User_,
+    val user: _User_,
     @SerializedName("app_access")
-    var appAccess: Boolean,
+    val appAccess: Boolean,
     @SerializedName("has_answers")
-    var hasAnswers: Boolean?
+    val hasAnswers: Boolean?
 )
