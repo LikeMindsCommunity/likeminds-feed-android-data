@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed.initiateUser
 
+import android.util.Log
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.sdk.model._LogoutRequest_
@@ -59,6 +60,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = sdkApi.initiateUser(request.apiKey!!, request)) {
             is NetworkResponse.Error -> {
+                Log.d("Proguard", "initiateUser: ${response.body.errorMessage}")
                 LMResponse(
                     success = false,
                     errorMessage = response.body.errorMessage,
@@ -70,7 +72,9 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
             is NetworkResponse.Success -> {
                 val body = response.body
                 val accessToken = body.data?.accessToken ?: ""
+                Log.d("Proguard", "initiateUser: $accessToken")
                 val refreshToken = body.data?.refreshToken ?: ""
+                Log.d("Proguard", "initiateUser: $refreshToken")
 
                 val feedTokenManager = FeedTokenManager.getInstance()
                 feedTokenManager.updateTokens(accessToken, refreshToken)
