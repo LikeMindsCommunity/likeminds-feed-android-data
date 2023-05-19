@@ -70,13 +70,10 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var helperClient: HelperClient
-
+    @Keep
     class Builder(val application: Application) {
-
         private var lmCallback: LMCallback? = null
-
         fun lmCallback(lmCallback: LMCallback?) = apply { this.lmCallback = lmCallback }
-
         fun build(): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
             val sdkApplication = LikeMindsFeedApplication.getInstance()
@@ -85,11 +82,10 @@ class LMFeedClient private constructor() {
             return lmFeedClientInstance!!
         }
     }
-
+    @Keep
     companion object {
         @JvmStatic
         private var lmFeedClientInstance: LMFeedClient? = null
-
         @JvmStatic
         fun getInstance(): LMFeedClient {
             if (lmFeedClientInstance == null) {
