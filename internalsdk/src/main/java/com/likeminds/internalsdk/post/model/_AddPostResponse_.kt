@@ -5,7 +5,7 @@ import com.likeminds.internalsdk.sdk.model._User_
 
 data class _AddPostResponse_(
     @SerializedName("post")
-    var post: _Post_,
+    val post: _Post_,
     @SerializedName("users")
-    var users: Map<String, _User_>
+    val users: Map<String, _User_>
 )

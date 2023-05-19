@@ -1,9 +1,9 @@
 package com.likeminds.likemindsfeed.sdk.model
 
 data class Community(
-    var id: String,
-    var name: String,
-    var imageUrl: String?,
-    var membersCount: Int?,
-    var updatedAt: String?
+    val id: String,
+    val name: String,
+    val imageUrl: String?,
+    val membersCount: Int?,
+    val updatedAt: String?
 )

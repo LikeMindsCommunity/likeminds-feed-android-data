@@ -1,9 +1,8 @@
 package com.likeminds.likemindsfeed.helper.model
 
 class DecodeUrlRequest private constructor(
-    var url: String
+    val url: String
 ) {
-
     class Builder {
         private var url: String = ""
 

@@ -1,13 +1,13 @@
 package com.likeminds.likemindsfeed.helper.model
 
 data class GetTaggingListResponse(
-    var members: List<TagMember>
+    val members: List<TagMember>
 )
 
 data class TagMember(
-    var id: Int,
-    var imageUrl: String,
-    var isGuest: Boolean,
-    var name: String,
-    var userUniqueId: String,
+    val id: Int,
+    val imageUrl: String,
+    val isGuest: Boolean,
+    val name: String,
+    val userUniqueId: String,
 )

@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 class _GetReportTagsRequest_ private constructor(
     @SerializedName("type")
-    var type: Int
+    val type: Int
 ) {
-
     class Builder {
         private var type: Int = 0
 

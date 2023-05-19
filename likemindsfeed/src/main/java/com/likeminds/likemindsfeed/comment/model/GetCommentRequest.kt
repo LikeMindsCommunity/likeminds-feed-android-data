@@ -1,12 +1,11 @@
 package com.likeminds.likemindsfeed.comment.model
 
 class GetCommentRequest private constructor(
-    var postId: String,
-    var commentId: String,
-    var page: Int,
-    var pageSize: Int
+    val postId: String,
+    val commentId: String,
+    val page: Int,
+    val pageSize: Int
 ) {
-
     class Builder {
         private var postId: String = ""
         private var commentId: String = ""

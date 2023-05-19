@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 class _DecodeUrlRequest_ private constructor(
     @SerializedName("url")
-    var url: String
+    val url: String
 ) {
-
     class Builder {
         private var url: String = ""
 

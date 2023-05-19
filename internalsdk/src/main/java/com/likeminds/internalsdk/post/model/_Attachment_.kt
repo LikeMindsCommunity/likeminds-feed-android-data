@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 class _Attachment_ private constructor(
     @SerializedName("attachment_type")
-    var attachmentType: Int,
+    val attachmentType: Int,
     @SerializedName("attachment_meta")
-    var attachmentMeta: _AttachmentMeta_
+    val attachmentMeta: _AttachmentMeta_
 ) {
     class Builder {
 

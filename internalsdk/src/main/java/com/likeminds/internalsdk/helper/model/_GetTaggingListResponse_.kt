@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName
 
 data class _GetTaggingListResponse_(
     @SerializedName("members")
-    var members: List<_TagMember_>
+    val members: List<_TagMember_>
 )
 
 data class _TagMember_(
     @SerializedName("id")
-    var id: Int,
+    val id: Int,
     @SerializedName("image_url")
-    var imageUrl: String,
+    val imageUrl: String,
     @SerializedName("is_guest")
-    var isGuest: Boolean,
+    val isGuest: Boolean,
     @SerializedName("name")
-    var name: String,
+    val name: String,
     @SerializedName("user_unique_id")
-    var userUniqueId: String
+    val userUniqueId: String
 )

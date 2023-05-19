@@ -5,33 +5,33 @@ import com.likeminds.internalsdk.comment.model._Comment_
 
 data class _Post_(
     @SerializedName("_id")
-    var id: String,
+    val id: String,
     @SerializedName("text")
-    var text: String,
+    val text: String,
     @SerializedName("attachments")
-    var attachments: List<_Attachment_>?,
+    val attachments: List<_Attachment_>?,
     @SerializedName("community_id")
-    var communityId: Int,
+    val communityId: Int,
     @SerializedName("is_liked")
-    var isLiked: Boolean,
+    val isLiked: Boolean,
     @SerializedName("is_edited")
-    var isEdited: Boolean,
+    val isEdited: Boolean,
     @SerializedName("is_pinned")
-    var isPinned: Boolean,
+    val isPinned: Boolean,
     @SerializedName("user_id")
-    var userId: String,
+    val userId: String,
     @SerializedName("likes_count")
-    var likesCount: Int,
+    val likesCount: Int,
     @SerializedName("comments_count")
-    var commentsCount: Int,
+    val commentsCount: Int,
     @SerializedName("is_saved")
-    var isSaved: Boolean,
+    val isSaved: Boolean,
     @SerializedName("menu_items")
-    var menuItems: List<_MenuItem_>,
+    val menuItems: List<_MenuItem_>,
     @SerializedName("replies")
-    var replies: List<_Comment_>?,
+    val replies: List<_Comment_>?,
     @SerializedName("created_at")
-    var createdAt: Long,
+    val createdAt: Long,
     @SerializedName("updated_at")
-    var updatedAt: Long
+    val updatedAt: Long
 )

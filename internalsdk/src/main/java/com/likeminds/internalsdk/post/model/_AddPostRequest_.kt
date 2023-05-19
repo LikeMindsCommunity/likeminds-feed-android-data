@@ -4,11 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 class _AddPostRequest_ private constructor(
     @SerializedName("text")
-    var text: String?,
+    val text: String?,
     @SerializedName("attachments")
-    var attachments: List<_Attachment_>?
+    val attachments: List<_Attachment_>?
 ) {
-
     class Builder {
         private var text: String? = null
         private var attachments: List<_Attachment_>? = null
