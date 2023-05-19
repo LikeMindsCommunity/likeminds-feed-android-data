@@ -1,11 +1,10 @@
 package com.likeminds.likemindsfeed.comment.model
 
 class DeleteCommentRequest private constructor(
-    var postId: String,
-    var commentId: String,
-    var reason: String?
+    val postId: String,
+    val commentId: String,
+    val reason: String?
 ) {
-
     class Builder {
         private var postId: String = ""
         private var commentId: String = ""

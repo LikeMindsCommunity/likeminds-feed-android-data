@@ -3,7 +3,7 @@ package com.likeminds.likemindsfeed.post.model
 import com.likeminds.likemindsfeed.sdk.model.User
 
 data class GetPostLikesResponse(
-    var likes: List<Like>,
-    var totalCount: Int,
-    var users: Map<String, User>
+    val likes: List<Like>,
+    val totalCount: Int,
+    val users: Map<String, User>
 )

@@ -4,18 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 class _PostReportRequest_ private constructor(
     @SerializedName("entity_id")
-    var entityId: String,
+    val entityId: String,
     @SerializedName("entity_creator_id")
-    var entityCreatorId: String,
+    val entityCreatorId: String,
     @SerializedName("entity_type")
     @EntityType
-    var entityType: Int,
+    val entityType: Int,
     @SerializedName("tag_id")
-    var tagId: Int,
+    val tagId: Int,
     @SerializedName("reason")
-    var reason: String?
+    val reason: String?
 ) {
-
     class Builder {
         private var entityId: String = ""
         private var entityCreatorId: String = ""

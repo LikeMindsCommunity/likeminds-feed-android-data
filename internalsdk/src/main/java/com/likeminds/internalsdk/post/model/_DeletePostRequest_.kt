@@ -4,11 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 class _DeletePostRequest_ private constructor(
     @SerializedName("post_id")
-    var postId: String?,
+    val postId: String?,
     @SerializedName("delete_reason")
-    var deleteReason: String?,
+    val deleteReason: String?,
 ) {
-
     class Builder {
         private var postId: String? = null
         private var deleteReason: String? = ""

@@ -4,11 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 class _LogoutRequest_ private constructor(
     @SerializedName("refresh_token")
-    var refreshToken: String,
+    val refreshToken: String,
     @SerializedName("device_id")
-    var deviceId: String?
+    val deviceId: String?
 ) {
-
     class Builder {
 
         private var refreshToken: String = ""

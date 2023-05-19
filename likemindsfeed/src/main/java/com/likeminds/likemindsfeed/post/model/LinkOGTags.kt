@@ -6,7 +6,6 @@ class LinkOGTags private constructor(
     val description: String? = null,
     val url: String? = null,
 ) {
-
     class Builder {
 
         private var title: String? = null

@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 class _AddCommentRequest_ private constructor(
     @SerializedName("post_id")
-    var postId: String?,
+    val postId: String?,
     @SerializedName("text")
-    var text: String
+    val text: String
 ) {
     class Builder {
         private var postId: String? = null

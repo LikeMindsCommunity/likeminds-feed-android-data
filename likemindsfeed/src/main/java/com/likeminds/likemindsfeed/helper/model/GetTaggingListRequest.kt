@@ -1,9 +1,9 @@
 package com.likeminds.likemindsfeed.helper.model
 
 class GetTaggingListRequest private constructor(
-    var page: Int,
-    var pageSize: Int,
-    var searchName: String?
+    val page: Int,
+    val pageSize: Int,
+    val searchName: String?
 ) {
     class Builder {
         private var page: Int = 1

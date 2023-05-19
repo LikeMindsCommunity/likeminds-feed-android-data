@@ -107,16 +107,12 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
-        if (initiateUserRequest.userName.isNullOrEmpty()) {
+        if (initiateUserRequest.userName.isEmpty()) {
             RequestUtils.throwException("userName")
         }
 
         if (initiateUserRequest.deviceId.isEmpty()) {
             RequestUtils.throwException("deviceId")
-        }
-
-        if (initiateUserRequest.isGuest == null) {
-            RequestUtils.throwException("isGuest")
         }
 
         if (initiateUserRequest.apiKey.isEmpty()) {

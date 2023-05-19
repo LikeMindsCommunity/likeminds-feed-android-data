@@ -4,34 +4,34 @@ import com.google.gson.annotations.SerializedName
 
 data class _MemberStateResponse_(
     @SerializedName("state")
-    var state: Int,
+    val state: Int,
     @SerializedName("member")
-    var member: _Member_?,
+    val member: _Member_?,
     @SerializedName("manager_rights")
-    var managerRights: List<_ManagementRightPermissionData_>?,
+    val managerRights: List<_ManagementRightPermissionData_>?,
     @SerializedName("member_rights")
-    var memberRights: List<_ManagementRightPermissionData_>,
+    val memberRights: List<_ManagementRightPermissionData_>,
 )
 
 data class _Member_(
     @SerializedName("id")
-    var id: Int,
+    val id: Int,
     @SerializedName("user_unique_id")
-    var userUniqueId: String,
+    val userUniqueId: String,
     @SerializedName("custom_title")
-    var customTitle: String?,
+    val customTitle: String?,
     @SerializedName("image_url")
-    var imageUrl: String,
+    val imageUrl: String,
     @SerializedName("is_guest")
-    var isGuest: Boolean,
+    val isGuest: Boolean,
     @SerializedName("is_owner")
-    var isOwner: Boolean,
+    val isOwner: Boolean,
     @SerializedName("name")
-    var name: String,
+    val name: String,
     @SerializedName("organisation_name")
-    var organisationName: String?,
+    val organisationName: String?,
     @SerializedName("state")
-    var state: Int,
+    val state: Int,
     @SerializedName("updated_at")
-    var updatedAt: Long
+    val updatedAt: Long
 )

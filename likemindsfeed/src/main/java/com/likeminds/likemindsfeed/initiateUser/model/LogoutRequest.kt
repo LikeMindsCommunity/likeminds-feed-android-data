@@ -1,10 +1,9 @@
 package com.likeminds.likemindsfeed.initiateUser.model
 
 class LogoutRequest private constructor(
-    var refreshToken: String,
-    var deviceId: String
+    val refreshToken: String,
+    val deviceId: String
 ) {
-
     class Builder {
         private var refreshToken: String = ""
         private var deviceId: String = ""
