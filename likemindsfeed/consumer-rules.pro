@@ -7,3 +7,4 @@
 -keep class com.likeminds.likemindsfeed.sdk.model.** { *; }
 -keep class com.likeminds.likemindsfeed.universalfeed.model.** { *; }
 -keep class com.likeminds.likemindsfeed.LMResponse
+-keep class com.likeminds.likemindsfeed.LMFeedClient
