@@ -35,16 +35,13 @@ Now pass the following parameters to the `LMFeedClient` and create it in your Ap
 | application      	| Context of your application. 			             |
 | lmCallback  		| Used to implement the `LMCallback` interface.   	 |
 
-#### Create the `client` object by passing the parameters to the `Builder`
+#### Create the `client` object by passing the parameters to the `Builder`. You will use this client throughout your Android application to call various functions to fetch data.
 
 ```kotlin
 val client = LMFeedClient.Builder(application) //Application context
         .lmCallback(LMCallback) 
         .build()
 ```
-:::note
-You will use this client throughout your Android application to call various functions to fetch data.
-:::
 
 ### LMCallback
 
