@@ -26,3 +26,30 @@ dependencies {
 	implementation 'com.github.NateshR.LikeMinds-Android-Feed-SDK:likemindsfeed:v1.2.0'
 }
 ```
+
+### 2. Initiate LikeMinds Feed SDK
+Now pass the following parameters to the `LMFeedClient` and create it in your Application class `onCreate()`.
+
+| VARIABLE   		| DESCRIPTION                                        |
+| ----------------- | -------------------------------------------------- |
+| application      	| Context of your application. 			             |
+| lmCallback  		| Used to implement the `LMCallback` interface.   	 |
+
+#### Create the `client` object by passing the parameters to the `Builder`
+
+```kotlin
+val client = LMFeedClient.Builder(application) //Application context
+        .lmCallback(LMCallback) 
+        .build()
+```
+
+### LMCallback
+
+```kotlin
+interface LMCallback {
+	// This method is called when the user is not logged in or guest
+  	// It is called when the user tries to perform an action that requires login
+  	// The user should be redirected to your appropriate login screen
+    fun login() {}
+}
+```
