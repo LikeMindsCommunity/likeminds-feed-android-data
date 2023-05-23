@@ -11,18 +11,18 @@ Implement the LikeMinds Feed SDK dependency to setup the Feed SDK.
 
 ```groovy
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 
 2. Add the dependency in app level `build.gradle` file
 
 ```groovy
 dependencies {
-		...
-		implementation 'com.github.NateshR.LikeMinds-Android-Feed-SDK:likemindsfeed:v1.2.0'
-	}
+	...
+	implementation 'com.github.NateshR.LikeMinds-Android-Feed-SDK:likemindsfeed:v1.2.0'
+}
 ```
