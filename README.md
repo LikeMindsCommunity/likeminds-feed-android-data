@@ -42,6 +42,9 @@ val client = LMFeedClient.Builder(application) //Application context
         .lmCallback(LMCallback) 
         .build()
 ```
+:::note
+You will use this client throughout your Android application to call various functions to fetch data.
+:::
 
 ### LMCallback
 
