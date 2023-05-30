@@ -63,6 +63,7 @@ deps.gson = gson
 
 def chucker = [:]
 chucker.main = "com.github.chuckerteam.chucker:library:$versions.chucker"
+chucker.no_op = "com.github.chuckerteam.chucker:library-no-op:$versions.chucker"
 deps.chucker = chucker
 
 def sentry = [:]
