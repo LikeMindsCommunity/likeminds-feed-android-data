@@ -138,7 +138,7 @@ class PostClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateEditPostRequest(editPostRequest: EditPostRequest) {
-        if (editPostRequest.postId.isNullOrEmpty()) {
+        if (editPostRequest.postId.isEmpty()) {
             RequestUtils.throwException("postId")
         }
         if (editPostRequest.text.isNullOrEmpty() && editPostRequest.attachments.isNullOrEmpty()) {

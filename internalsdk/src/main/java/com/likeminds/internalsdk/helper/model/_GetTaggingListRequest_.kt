@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 class _GetTaggingListRequest_ private constructor(
     @SerializedName("page")
-    var page: Int,
+    val page: Int,
     @SerializedName("page_size")
-    var pageSize: Int,
+    val pageSize: Int,
     @SerializedName("search_name")
-    var searchName: String?
+    val searchName: String?
 ) {
     class Builder {
         private var page: Int = 1

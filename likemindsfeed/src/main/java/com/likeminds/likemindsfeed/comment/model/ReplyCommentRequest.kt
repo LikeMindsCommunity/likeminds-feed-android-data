@@ -1,11 +1,10 @@
 package com.likeminds.likemindsfeed.comment.model
 
 class ReplyCommentRequest private constructor(
-    var postId: String,
-    var commentId: String,
-    var text: String
+    val postId: String,
+    val commentId: String,
+    val text: String
 ) {
-
     class Builder {
         private var postId: String = ""
         private var commentId: String = ""

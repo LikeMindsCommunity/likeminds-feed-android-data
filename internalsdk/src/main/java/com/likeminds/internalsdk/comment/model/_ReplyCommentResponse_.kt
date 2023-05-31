@@ -5,7 +5,7 @@ import com.likeminds.internalsdk.sdk.model._User_
 
 data class _ReplyCommentResponse_(
     @SerializedName("comment")
-    var comment: _Comment_,
+    val comment: _Comment_,
     @SerializedName("users")
-    var users: Map<String, _User_>
+    val users: Map<String, _User_>
 )

@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class _ManagementRightPermissionData_(
     @SerializedName("id")
-    var id: Int,
+    val id: Int,
     @SerializedName("is_locked")
-    var isLocked: Boolean?,
+    val isLocked: Boolean?,
     @SerializedName("is_selected")
-    var isSelected: Boolean,
+    val isSelected: Boolean,
     @SerializedName("state")
-    var state: Int,
+    val state: Int,
     @SerializedName("title")
-    var title: String,
+    val title: String,
     @SerializedName("sub_title")
-    var subtitle: String?
+    val subtitle: String?
 )

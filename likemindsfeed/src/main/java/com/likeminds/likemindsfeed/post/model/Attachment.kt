@@ -1,8 +1,8 @@
 package com.likeminds.likemindsfeed.post.model
 
 class Attachment private constructor(
-    var attachmentType: Int,
-    var attachmentMeta: AttachmentMeta
+    val attachmentType: Int,
+    val attachmentMeta: AttachmentMeta
 ) {
     class Builder {
 

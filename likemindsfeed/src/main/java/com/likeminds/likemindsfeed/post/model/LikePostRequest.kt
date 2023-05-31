@@ -1,9 +1,8 @@
 package com.likeminds.likemindsfeed.post.model
 
 class LikePostRequest private constructor(
-    var postId: String,
+    val postId: String,
 ) {
-
     class Builder {
         private var postId: String = ""
 

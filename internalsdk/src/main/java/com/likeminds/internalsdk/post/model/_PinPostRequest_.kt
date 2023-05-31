@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 class _PinPostRequest_ private constructor(
     @SerializedName("post_id")
-    var postId: String,
+    val postId: String,
 ) {
-
     class Builder {
         private var postId: String = ""
 

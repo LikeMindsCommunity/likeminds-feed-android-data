@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 class _EditCommentRequest_ private constructor(
     @SerializedName("post_id")
-    var postId: String?,
+    val postId: String?,
     @SerializedName("comment_id")
-    var commentId: String?,
+    val commentId: String?,
     @SerializedName("text")
-    var text: String
+    val text: String
 ) {
     class Builder {
         private var postId: String? = null
