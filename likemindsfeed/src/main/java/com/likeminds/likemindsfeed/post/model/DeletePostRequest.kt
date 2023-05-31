@@ -1,10 +1,9 @@
 package com.likeminds.likemindsfeed.post.model
 
 class DeletePostRequest private constructor(
-    var postId: String,
-    var deleteReason: String?,
+    val postId: String,
+    val deleteReason: String?,
 ) {
-
     class Builder {
         private var postId: String = ""
         private var deleteReason: String? = null

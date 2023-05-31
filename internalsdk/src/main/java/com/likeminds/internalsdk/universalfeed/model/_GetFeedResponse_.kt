@@ -6,7 +6,7 @@ import com.likeminds.internalsdk.sdk.model._User_
 
 data class _GetFeedResponse_(
     @SerializedName("posts")
-    var posts: List<_Post_>,
+    val posts: List<_Post_>,
     @SerializedName("users")
-    var users: Map<String, _User_>
+    val users: Map<String, _User_>
 )

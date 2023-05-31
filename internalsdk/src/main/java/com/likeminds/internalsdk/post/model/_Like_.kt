@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class _Like_(
     @SerializedName("_id")
-    var id: String,
+    val id: String,
     @SerializedName("created_at")
-    var createdAt: Long,
+    val createdAt: Long,
     @SerializedName("updated_at")
-    var updatedAt: Long,
+    val updatedAt: Long,
     @SerializedName("user_id")
-    var userId: String
+    val userId: String
 )

@@ -7,9 +7,9 @@ import com.likeminds.internalsdk.sdk.model._User_
 
 data class _GetCommentLikesResponse_(
     @SerializedName("likes")
-    var likes: List<_Like_>,
+    val likes: List<_Like_>,
     @SerializedName("total_count")
-    var totalCount: Int,
+    val totalCount: Int,
     @SerializedName("users")
-    var users: Map<String, _User_>
+    val users: Map<String, _User_>
 )

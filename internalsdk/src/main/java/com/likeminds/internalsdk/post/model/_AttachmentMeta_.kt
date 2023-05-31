@@ -2,28 +2,22 @@ package com.likeminds.internalsdk.post.model
 
 import com.google.gson.annotations.SerializedName
 
-//TODO: check for width and height
 class _AttachmentMeta_ private constructor(
     @SerializedName("name")
-    var name: String?,
+    val name: String?,
     @SerializedName("url")
-    var url: String?,
+    val url: String?,
     @SerializedName("format")
-    var format: String?,
+    val format: String?,
     @SerializedName("size")
-    var size: Long?,
+    val size: Long?,
     @SerializedName("duration")
-    var duration: Int?,
+    val duration: Int?,
     @SerializedName("page_count")
-    var pageCount: Int?,
+    val pageCount: Int?,
     @SerializedName("og_tags")
-    var ogTags: _LinkOGTags_,
-    @SerializedName("width")
-    var width: Int?,
-    @SerializedName("height")
-    var height: Int?
+    val ogTags: _LinkOGTags_
 ) {
-
     class Builder {
 
         private var name: String? = null
@@ -33,8 +27,6 @@ class _AttachmentMeta_ private constructor(
         private var duration: Int? = null
         private var pageCount: Int? = null
         private var ogTags: _LinkOGTags_ = _LinkOGTags_.Builder().build()
-        private var width: Int? = null
-        private var height: Int? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -43,8 +35,6 @@ class _AttachmentMeta_ private constructor(
         fun duration(duration: Int?) = apply { this.duration = duration }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
         fun ogTags(ogTags: _LinkOGTags_) = apply { this.ogTags = ogTags }
-        fun width(width: Int?) = apply { this.width = width }
-        fun height(height: Int?) = apply { this.height = height }
 
         fun build() = _AttachmentMeta_(
             name,
@@ -53,9 +43,7 @@ class _AttachmentMeta_ private constructor(
             size,
             duration,
             pageCount,
-            ogTags,
-            width,
-            height
+            ogTags
         )
     }
 
@@ -67,7 +55,5 @@ class _AttachmentMeta_ private constructor(
             .duration(duration)
             .pageCount(pageCount)
             .ogTags(ogTags)
-            .width(width)
-            .height(height)
     }
 }

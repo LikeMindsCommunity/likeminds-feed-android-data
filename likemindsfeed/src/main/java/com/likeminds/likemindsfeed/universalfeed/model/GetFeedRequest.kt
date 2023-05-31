@@ -1,10 +1,9 @@
 package com.likeminds.likemindsfeed.universalfeed.model
 
 class GetFeedRequest private constructor(
-    var page: Int,
-    var pageSize: Int
+    val page: Int,
+    val pageSize: Int
 ) {
-
     class Builder {
 
         private var page: Int = 1

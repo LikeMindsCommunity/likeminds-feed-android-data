@@ -1,16 +1,16 @@
 package com.likeminds.likemindsfeed.initiateUser.model
 
 data class MemberStateResponse(
-    var id: Int,
-    var state: Int,
-    var userUniqueId: String,
-    var customTitle: String?,
-    var imageUrl: String,
-    var isGuest: Boolean,
-    var isOwner: Boolean,
-    var name: String,
-    var organisationName: String?,
-    var managerRights: List<ManagementRightPermissionData>?,
-    var memberRights: List<ManagementRightPermissionData>,
-    var updatedAt: Long
+    val id: Int,
+    val state: Int,
+    val userUniqueId: String,
+    val customTitle: String?,
+    val imageUrl: String,
+    val isGuest: Boolean,
+    val isOwner: Boolean,
+    val name: String,
+    val organisationName: String?,
+    val managerRights: List<ManagementRightPermissionData>?,
+    val memberRights: List<ManagementRightPermissionData>,
+    val updatedAt: Long
 )

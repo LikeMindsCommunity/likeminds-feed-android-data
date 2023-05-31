@@ -1,10 +1,10 @@
 package com.likeminds.likemindsfeed.initiateUser.model
 
 data class ManagementRightPermissionData(
-    var id: Int,
-    var isLocked: Boolean?,
-    var isSelected: Boolean,
-    var state: Int,
-    var title: String,
-    var subtitle: String?
+    val id: Int,
+    val isLocked: Boolean?,
+    val isSelected: Boolean,
+    val state: Int,
+    val title: String,
+    val subtitle: String?
 )

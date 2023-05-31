@@ -5,5 +5,5 @@ import com.likeminds.internalsdk.post.model._LinkOGTags_
 
 data class _DecodeUrlResponse_(
     @SerializedName("og_tags")
-    var ogTags: _LinkOGTags_
+    val ogTags: _LinkOGTags_
 )

@@ -12,7 +12,6 @@ class _LinkOGTags_ private constructor(
     @SerializedName("url")
     val url: String? = null
 ) {
-
     class Builder {
 
         private var title: String? = null

@@ -4,15 +4,14 @@ import com.google.gson.annotations.SerializedName
 
 class _GetCommentLikesRequest_ private constructor(
     @SerializedName("post_id")
-    var postId: String,
+    val postId: String,
     @SerializedName("comment_id")
-    var commentId: String,
+    val commentId: String,
     @SerializedName("page")
-    var page: Int,
+    val page: Int,
     @SerializedName("page_size")
-    var pageSize: Int
+    val pageSize: Int
 ) {
-
     class Builder {
         private var postId: String = ""
         private var commentId: String = ""
