@@ -12,6 +12,8 @@ import com.likeminds.likemindsfeed.di.internalsdk.SDKModule
 import com.likeminds.likemindsfeed.di.internalsdk.SharedModule
 import com.likeminds.likemindsfeed.di.moderation.ModerationModule
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
+import com.likeminds.likemindsfeed.di.notificationfeed.NotificationFeedModule
+import com.likeminds.likemindsfeed.di.notificationfeed.NotificationFeedSubComponent
 import com.likeminds.likemindsfeed.di.post.PostModule
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedModule
@@ -31,7 +33,8 @@ import javax.inject.Singleton
         CommentModule::class,
         PostModule::class,
         ModerationModule::class,
-        HelperModule::class
+        HelperModule::class,
+        NotificationFeedModule::class
     ]
 )
 internal interface LikeMindsFeedComponent {
@@ -45,6 +48,7 @@ internal interface LikeMindsFeedComponent {
     fun postComponent(): PostSubComponent.Factory
     fun moderationComponent(): ModerationSubComponent.Factory
     fun helperComponent(): HelperSubComponent.Factory
+    fun notificationFeedComponent(): NotificationFeedSubComponent.Factory
 
     @Component.Builder
     interface Builder {

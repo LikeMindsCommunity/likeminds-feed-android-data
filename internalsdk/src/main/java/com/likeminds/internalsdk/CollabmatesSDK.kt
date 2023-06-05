@@ -11,6 +11,8 @@ import com.likeminds.internalsdk.helper.HelperApi
 import com.likeminds.internalsdk.helper.HelperApiImpl
 import com.likeminds.internalsdk.moderation.ModerationApi
 import com.likeminds.internalsdk.moderation.ModerationApiImpl
+import com.likeminds.internalsdk.notificationfeed.NotificationFeedApi
+import com.likeminds.internalsdk.notificationfeed.NotificationFeedApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
@@ -51,6 +53,9 @@ class CollabmatesSDK {
 
     @Inject
     lateinit var helperApiImpl: HelperApiImpl
+
+    @Inject
+    lateinit var notificationFeedApiImpl: NotificationFeedApiImpl
 
     var lmInternalCallback: LMInternalCallback? = null
 
@@ -106,5 +111,9 @@ class CollabmatesSDK {
 
     fun getHelperApi(): HelperApi {
         return helperApiImpl
+    }
+
+    fun getNotificationFeedApi(): NotificationFeedApi {
+        return notificationFeedApiImpl
     }
 }

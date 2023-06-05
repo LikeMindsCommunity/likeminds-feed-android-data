@@ -1,4 +1,5 @@
 package com.likeminds.internalsdk.notificationfeed.model
 
-class _GetNotificationFeedResponse_ {
-}
+// todo:
+class _GetNotificationFeedResponse_(
+)
