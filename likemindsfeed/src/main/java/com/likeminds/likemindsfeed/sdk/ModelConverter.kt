@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed.sdk
 
+import android.util.Log
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
@@ -532,7 +533,8 @@ object ModelConverter {
             return null
         }
         return GetNotificationFeedResponse(
-            convertActivities(_getNotificationFeedResponse_.activities)
+            convertActivities(_getNotificationFeedResponse_.activities),
+            convertUsersMap(_getNotificationFeedResponse_.users)
         )
     }
 
@@ -551,6 +553,10 @@ object ModelConverter {
     private fun convertGetUnreadNotificationCountResponse(
         _getUnreadNotificationCountResponse_: _GetUnreadNotificationCountResponse_?
     ): GetUnreadNotificationCountResponse? {
+        Log.d(
+            "PUI",
+            "convertGetUnreadNotificationCountResponse: ${_getUnreadNotificationCountResponse_?.count}"
+        )
         if (_getUnreadNotificationCountResponse_ == null) {
             return null
         }
@@ -755,7 +761,7 @@ object ModelConverter {
             _activity_.entityType,
             _activity_.isRead,
             _activity_.updatedAt,
-            convertActivityEntityData(_activity_.activityEntityData),
+            convertActivityEntityData(_activity_.activityEntityData)
         )
     }
 

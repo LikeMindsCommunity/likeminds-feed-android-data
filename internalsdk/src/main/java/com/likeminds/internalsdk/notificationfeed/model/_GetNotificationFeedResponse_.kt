@@ -3,10 +3,13 @@ package com.likeminds.internalsdk.notificationfeed.model
 import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.post.model._Attachment_
+import com.likeminds.internalsdk.sdk.model._User_
 
 data class _GetNotificationFeedResponse_(
     @SerializedName("activities")
-    val activities: List<_Activity_>
+    val activities: List<_Activity_>,
+    @SerializedName("users")
+    val users: Map<String, _User_>
 )
 
 data class _Activity_(
@@ -35,9 +38,7 @@ data class _Activity_(
     @SerializedName("updated_at")
     val updatedAt: Long,
     @SerializedName("activity_entity_data")
-    val activityEntityData: _ActivityEntityData_,
-//    todo:
-//    @SerializedName("activity_user_data")
+    val activityEntityData: _ActivityEntityData_
 )
 
 data class _ActivityEntityData_(

@@ -2,9 +2,11 @@ package com.likeminds.likemindsfeed.notificationfeed.model
 
 import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.post.model.Attachment
+import com.likeminds.likemindsfeed.sdk.model.User
 
 data class GetNotificationFeedResponse(
-    val activities: List<Activity>
+    val activities: List<Activity>,
+    val users: Map<String, User>
 )
 
 data class Activity(
@@ -20,9 +22,7 @@ data class Activity(
     val entityType: Int,
     val isRead: Boolean,
     val updatedAt: Long,
-    val activityEntityData: ActivityEntityData,
-//    todo:
-//    @SerializedName("activity_user_data")
+    val activityEntityData: ActivityEntityData
 )
 
 data class ActivityEntityData(
