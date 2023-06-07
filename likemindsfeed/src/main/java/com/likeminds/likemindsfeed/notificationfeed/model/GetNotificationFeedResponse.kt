@@ -28,18 +28,17 @@ data class Activity(
 data class ActivityEntityData(
     val id: String,
     val text: String,
-    val deleteReason: String,
-    val deletedBy: String,
-    val heading: String,
+    val deleteReason: String?,
+    val deletedBy: String?,
+    val heading: String?,
     val attachments: List<Attachment>?,
     val communityId: Int,
     val isEdited: Boolean,
-    val isPinned: Boolean,
+    val isPinned: Boolean?,
     val postId: String?,
     val userId: String,
     val replies: List<Comment>?,
-    val level: Int,
-    // todo: String to Long
-    val createdAt: String,
-    val updatedAt: String
+    val level: Int?,
+    val createdAt: Long,
+    val updatedAt: Long
 )

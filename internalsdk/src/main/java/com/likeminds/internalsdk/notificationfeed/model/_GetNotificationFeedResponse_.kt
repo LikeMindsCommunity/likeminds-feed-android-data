@@ -47,11 +47,11 @@ data class _ActivityEntityData_(
     @SerializedName("text")
     val text: String,
     @SerializedName("delete_reason")
-    val deleteReason: String,
+    val deleteReason: String?,
     @SerializedName("deleted_by")
-    val deletedBy: String,
+    val deletedBy: String?,
     @SerializedName("heading")
-    val heading: String,
+    val heading: String?,
     @SerializedName("attachments")
     val attachments: List<_Attachment_>?,
     @SerializedName("community_id")
@@ -59,7 +59,7 @@ data class _ActivityEntityData_(
     @SerializedName("is_liked")
     val isEdited: Boolean,
     @SerializedName("is_pinned")
-    val isPinned: Boolean,
+    val isPinned: Boolean?,
     @SerializedName("post_id")
     val postId: String?,
     @SerializedName("user_id")
@@ -67,10 +67,9 @@ data class _ActivityEntityData_(
     @SerializedName("replies")
     val replies: List<_Comment_>?,
     @SerializedName("level")
-    val level: Int,
-    // todo: String to Long
+    val level: Int?,
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: Long,
     @SerializedName("updated_at")
-    val updatedAt: String
+    val updatedAt: Long
 )
