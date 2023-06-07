@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             val getUnreadNotificationCountResult = client.getUnreadNotificationCount()
             Log.d(
                 "TAG",
-                "getUnreadNotificationCountResult: ${getUnreadNotificationCountResult.data}"
+                "getUnreadNotificationCountResult: ${getUnreadNotificationCountResult.data?.count}"
             )
             withContext(Dispatchers.Main) {
                 Toast.makeText(
