@@ -38,6 +38,7 @@ data class ActivityEntityData(
     val userId: String,
     val replies: List<Comment>?,
     val level: Int,
+    // todo: String to Long
     val createdAt: Long,
     val updatedAt: Long
 )

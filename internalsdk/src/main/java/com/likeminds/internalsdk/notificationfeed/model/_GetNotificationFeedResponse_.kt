@@ -66,8 +66,9 @@ data class _ActivityEntityData_(
     val replies: List<_Comment_>?,
     @SerializedName("level")
     val level: Int,
+    // todo: String to Long
     @SerializedName("created_at")
-    val createdAt: Long,
+    val createdAt: String,
     @SerializedName("updated_at")
-    val updatedAt: Long
+    val updatedAt: String
 )
