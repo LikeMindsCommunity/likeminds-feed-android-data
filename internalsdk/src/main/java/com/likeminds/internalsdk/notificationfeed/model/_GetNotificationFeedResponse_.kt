@@ -60,6 +60,8 @@ data class _ActivityEntityData_(
     val isEdited: Boolean,
     @SerializedName("is_pinned")
     val isPinned: Boolean,
+    @SerializedName("post_id")
+    val postId: String?,
     @SerializedName("user_id")
     val userId: String,
     @SerializedName("replies")

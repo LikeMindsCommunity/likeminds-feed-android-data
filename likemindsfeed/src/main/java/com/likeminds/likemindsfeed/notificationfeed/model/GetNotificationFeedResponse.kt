@@ -35,6 +35,7 @@ data class ActivityEntityData(
     val communityId: Int,
     val isEdited: Boolean,
     val isPinned: Boolean,
+    val postId: String?,
     val userId: String,
     val replies: List<Comment>?,
     val level: Int,

@@ -774,6 +774,7 @@ object ModelConverter {
             _activityEntityData_.communityId,
             _activityEntityData_.isEdited,
             _activityEntityData_.isPinned,
+            _activityEntityData_.postId,
             _activityEntityData_.userId,
             convertComments(_activityEntityData_.replies),
             _activityEntityData_.level,
