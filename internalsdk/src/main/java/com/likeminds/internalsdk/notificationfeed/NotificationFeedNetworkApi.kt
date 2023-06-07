@@ -5,6 +5,7 @@ import com.likeminds.internalsdk.notificationfeed.model._GetUnreadNotificationCo
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -16,7 +17,7 @@ interface NotificationFeedNetworkApi {
         @Query("page_size") pageSize: Int
     ): NetworkResponse<APIResponse<_GetNotificationFeedResponse_>>
 
-    @GET("feed/user/activity/{activity_id}/mark_read")
+    @POST("feed/user/activity/{activity_id}/mark_read")
     suspend fun markReadNotification(
         @Path("activity_id") activityId: String
     ): NetworkResponse<APIResponse<Nothing>>
