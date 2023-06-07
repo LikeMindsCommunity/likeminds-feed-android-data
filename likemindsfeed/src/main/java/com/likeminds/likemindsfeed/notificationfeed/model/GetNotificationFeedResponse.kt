@@ -39,6 +39,6 @@ data class ActivityEntityData(
     val replies: List<Comment>?,
     val level: Int,
     // todo: String to Long
-    val createdAt: Long,
-    val updatedAt: Long
+    val createdAt: String,
+    val updatedAt: String
 )

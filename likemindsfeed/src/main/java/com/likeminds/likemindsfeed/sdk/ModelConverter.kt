@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.sdk
 
-import android.util.Log
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
@@ -553,10 +552,6 @@ object ModelConverter {
     private fun convertGetUnreadNotificationCountResponse(
         _getUnreadNotificationCountResponse_: _GetUnreadNotificationCountResponse_?
     ): GetUnreadNotificationCountResponse? {
-        Log.d(
-            "PUI",
-            "convertGetUnreadNotificationCountResponse: ${_getUnreadNotificationCountResponse_?.count}"
-        )
         if (_getUnreadNotificationCountResponse_ == null) {
             return null
         }

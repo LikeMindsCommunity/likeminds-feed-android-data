@@ -1,6 +1,5 @@
 package com.likeminds.likemindsfeed.notificationfeed
 
-import android.util.Log
 import com.likeminds.internalsdk.notificationfeed.model._GetNotificationFeedRequest_
 import com.likeminds.internalsdk.notificationfeed.model._MarkReadNotificationRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -44,7 +43,6 @@ class NotificationFeedClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = notificationFeedApi.getNotificationFeed(request)) {
             is NetworkResponse.Error -> {
-                Log.d("PUI", "getNotificationFeed: ${response.body.errorMessage}")
                 LMResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage,
@@ -68,14 +66,12 @@ class NotificationFeedClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = notificationFeedApi.getUnreadNotificationCount()) {
             is NetworkResponse.Error -> {
-                Log.d("PUI", "getUnreadNotificationCount: ${response.body.errorMessage}")
                 LMResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage,
                 )
             }
             is NetworkResponse.Success -> {
-                Log.d("PUI", "getUnreadNotificationCount: Success")
                 ModelConverter.convertGetUnreadNotificationCountAPIResponse(response.body)
             }
         }
