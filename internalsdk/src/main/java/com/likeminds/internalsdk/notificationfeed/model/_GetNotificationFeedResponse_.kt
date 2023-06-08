@@ -38,7 +38,7 @@ data class _Activity_(
     @SerializedName("updated_at")
     val updatedAt: Long,
     @SerializedName("activity_entity_data")
-    val activityEntityData: _ActivityEntityData_
+    val activityEntityData: _ActivityEntityData_?
 )
 
 data class _ActivityEntityData_(

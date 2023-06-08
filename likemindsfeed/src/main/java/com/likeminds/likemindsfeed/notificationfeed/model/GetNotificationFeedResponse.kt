@@ -22,7 +22,7 @@ data class Activity(
     val entityType: Int,
     val isRead: Boolean,
     val updatedAt: Long,
-    val activityEntityData: ActivityEntityData
+    val activityEntityData: ActivityEntityData?
 )
 
 data class ActivityEntityData(
