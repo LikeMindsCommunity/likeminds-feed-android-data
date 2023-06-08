@@ -17,7 +17,8 @@ import javax.inject.Singleton
         CommentModule::class,
         PostModule::class,
         ModerationModule::class,
-        HelperModule::class
+        HelperModule::class,
+        NotificationFeedModule::class
     ]
 )
 interface SDKComponent {
