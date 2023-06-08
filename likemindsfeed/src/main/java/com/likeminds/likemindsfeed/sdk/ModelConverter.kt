@@ -762,8 +762,11 @@ object ModelConverter {
 
     // converts internal ActivityEntityData model to client model
     private fun convertActivityEntityData(
-        _activityEntityData_: _ActivityEntityData_
-    ): ActivityEntityData {
+        _activityEntityData_: _ActivityEntityData_?
+    ): ActivityEntityData? {
+        if (_activityEntityData_ == null) {
+            return null
+        }
         return ActivityEntityData(
             _activityEntityData_.id,
             _activityEntityData_.text,
