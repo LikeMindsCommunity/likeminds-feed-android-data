@@ -6,6 +6,10 @@ import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.helper.model._TagMember_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
+import com.likeminds.internalsdk.notificationfeed.model._ActivityEntityData_
+import com.likeminds.internalsdk.notificationfeed.model._Activity_
+import com.likeminds.internalsdk.notificationfeed.model._GetNotificationFeedResponse_
+import com.likeminds.internalsdk.notificationfeed.model._GetUnreadNotificationCountResponse_
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
@@ -20,6 +24,10 @@ import com.likeminds.likemindsfeed.initiateUser.model.ManagementRightPermissionD
 import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
+import com.likeminds.likemindsfeed.notificationfeed.model.Activity
+import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
+import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedResponse
+import com.likeminds.likemindsfeed.notificationfeed.model.GetUnreadNotificationCountResponse
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
@@ -505,6 +513,53 @@ object ModelConverter {
         )
     }
 
+    // converts api GetNotificationFeedResponse model to LM GetNotificationFeedResponse model
+    fun convertGetNotificationFeedAPIResponse(
+        apiResponse: APIResponse<_GetNotificationFeedResponse_>
+    ): LMResponse<GetNotificationFeedResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetNotificationFeedResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal GetNotificationFeedResponse model to client model
+    private fun convertGetNotificationFeedResponse(
+        _getNotificationFeedResponse_: _GetNotificationFeedResponse_?
+    ): GetNotificationFeedResponse? {
+        if (_getNotificationFeedResponse_ == null) {
+            return null
+        }
+        return GetNotificationFeedResponse(
+            convertActivities(_getNotificationFeedResponse_.activities),
+            convertUsersMap(_getNotificationFeedResponse_.users)
+        )
+    }
+
+    // converts api GetUnreadNotificationCountResponse model to LM GetUnreadNotificationCountResponse model
+    fun convertGetUnreadNotificationCountAPIResponse(
+        apiResponse: APIResponse<_GetUnreadNotificationCountResponse_>
+    ): LMResponse<GetUnreadNotificationCountResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetUnreadNotificationCountResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal GetNotificationFeedResponse model to client model
+    private fun convertGetUnreadNotificationCountResponse(
+        _getUnreadNotificationCountResponse_: _GetUnreadNotificationCountResponse_?
+    ): GetUnreadNotificationCountResponse? {
+        if (_getUnreadNotificationCountResponse_ == null) {
+            return null
+        }
+        return GetUnreadNotificationCountResponse(
+            _getUnreadNotificationCountResponse_.count
+        )
+    }
+
     // converts internal TagMember model list to client model list
     private fun convertTagMembers(
         _tagMembers_: List<_TagMember_>
@@ -672,6 +727,62 @@ object ModelConverter {
         return MenuItem(
             _menuItem_.id,
             _menuItem_.title
+        )
+    }
+
+    // converts internal Activity model list to client model list
+    private fun convertActivities(
+        _activities_: List<_Activity_>
+    ): List<Activity> {
+        return _activities_.map {
+            convertActivity(it)
+        }
+    }
+
+    // converts internal Activity model to client model
+    private fun convertActivity(
+        _activity_: _Activity_
+    ): Activity {
+        return Activity(
+            _activity_.id,
+            _activity_.action,
+            _activity_.actionBy,
+            _activity_.actionOn,
+            _activity_.activityText,
+            _activity_.createdAt,
+            _activity_.cta,
+            _activity_.entityId,
+            _activity_.entityOwnerId,
+            _activity_.entityType,
+            _activity_.isRead,
+            _activity_.updatedAt,
+            convertActivityEntityData(_activity_.activityEntityData)
+        )
+    }
+
+    // converts internal ActivityEntityData model to client model
+    private fun convertActivityEntityData(
+        _activityEntityData_: _ActivityEntityData_?
+    ): ActivityEntityData? {
+        if (_activityEntityData_ == null) {
+            return null
+        }
+        return ActivityEntityData(
+            _activityEntityData_.id,
+            _activityEntityData_.text,
+            _activityEntityData_.deleteReason,
+            _activityEntityData_.deletedBy,
+            _activityEntityData_.heading,
+            convertAttachments(_activityEntityData_.attachments),
+            _activityEntityData_.communityId,
+            _activityEntityData_.isEdited,
+            _activityEntityData_.isPinned,
+            _activityEntityData_.postId,
+            _activityEntityData_.userId,
+            convertComments(_activityEntityData_.replies),
+            _activityEntityData_.level,
+            _activityEntityData_.createdAt,
+            _activityEntityData_.updatedAt,
         )
     }
 
