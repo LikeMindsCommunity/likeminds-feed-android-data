@@ -13,6 +13,7 @@ import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
 import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
+import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedRequest
 import com.likeminds.likemindsfeed.post.model.EditPostRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import kotlinx.coroutines.CoroutineScope
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val clientResult = client.initiateUser(
                 InitiateUserRequest.Builder()
-                    .apiKey("69edd43f-4a5e-4077-9c50-2b7aa740acce")
-                    .userId("029f66a8-264b-413f-a9df-3ae2f4166486")
+                    .apiKey("97cb8c16-4eb2-4141-a882-dfc7fe4d43ac")
+                    .userId("siddharth-2")
                     .deviceId("23344")
                     .userName("Ads")
                     .isGuest(false)
@@ -127,6 +128,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
             val getTagging = client.getTaggingList(
                 GetTaggingListRequest.Builder()
                     .page(1)
@@ -134,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                     .searchName("mah")
                     .build()
             )
-            Log.d("TAG", "logout: ${getTagging.success}")
+            Log.d("TAG", "getTagging: ${getTagging.success}")
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@MainActivity,
@@ -142,6 +144,35 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+            val getNotificationFeedResult = client.getNotificationFeed(
+                GetNotificationFeedRequest.Builder()
+                    .page(1)
+                    .pageSize(5)
+                    .build()
+            )
+            Log.d("TAG", "getNotificationFeedResult: ${getNotificationFeedResult.data}")
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${getNotificationFeedResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            val getUnreadNotificationCountResult = client.getUnreadNotificationCount()
+            Log.d(
+                "TAG",
+                "getUnreadNotificationCountResult: ${getUnreadNotificationCountResult.data?.count}"
+            )
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "result: ${getUnreadNotificationCountResult.success}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             val memberStateResult = client.getMemberState()
             Log.d(
                 "TAG", """
@@ -155,6 +186,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
             val logoutResult = client.logout(
                 LogoutRequest.Builder()
                     .refreshToken(refreshToken ?: "")

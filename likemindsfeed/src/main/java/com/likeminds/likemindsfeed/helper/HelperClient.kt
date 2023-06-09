@@ -22,18 +22,6 @@ class HelperClient @Inject constructor() : BaseClient() {
         collabmatesSDK.getHelperApi()
     }
 
-    companion object {
-        @JvmStatic
-        private var helperClient: HelperClient? = null
-
-        fun getInstance(): HelperClient {
-            if (helperClient == null) {
-                helperClient = HelperClient()
-            }
-            return helperClient!!
-        }
-    }
-
     /**
      * Converts client request model to internal model and calls the api
      * @param decodeUrlRequest - client request model to decode a url and get og tags

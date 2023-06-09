@@ -16,7 +16,7 @@ class PostModule {
 
     @Provides
     @Singleton
-    fun providePostNetworkApi(
+    fun providePostModule(
         client: OkHttpClient,
         gson: Gson,
         baseUrl: BaseUrl
