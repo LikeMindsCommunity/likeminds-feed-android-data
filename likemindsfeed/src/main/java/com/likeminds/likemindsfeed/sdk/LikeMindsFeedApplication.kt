@@ -12,6 +12,7 @@ import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
 import com.likeminds.likemindsfeed.di.helper.HelperSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
+import com.likeminds.likemindsfeed.di.notificationfeed.NotificationFeedSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import javax.inject.Inject
@@ -35,6 +36,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     private var postComponent: PostSubComponent? = null
     private var moderationComponent: ModerationSubComponent? = null
     private var helperComponent: HelperSubComponent? = null
+    private var notificationFeedComponent: NotificationFeedSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -107,6 +109,14 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
             helperComponent = likeMindsFeedComponent?.helperComponent()?.create()
         }
         return helperComponent
+    }
+
+    fun notificationFeedComponent(): NotificationFeedSubComponent? {
+        if (notificationFeedComponent == null) {
+            notificationFeedComponent =
+                likeMindsFeedComponent?.notificationFeedComponent()?.create()
+        }
+        return notificationFeedComponent
     }
 
     override fun login() {
