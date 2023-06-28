@@ -9,6 +9,7 @@
 <!-- (Update "[ ]" to "[x]" to check a box) -->
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Hotfix (breaking changes)
 - [ ] New Feature (non-breaking change which adds functionality)
 - [ ] Refactor
 - [ ] Build-related changes
@@ -25,6 +26,7 @@
 
 - [ ] PR title starts with Jira ticket number prefix
 - [ ] PR title is understandable
+- [ ] If hotfix, Add Hotfix as prefix in PR title
 - [ ] Label added
 - [ ] Commit messages follows standard format (added, changed, removed, code commented and chore)
 - [ ] Description about the Feature/ Bugs added
