@@ -182,7 +182,8 @@ object ModelConverter {
             member.organisationName,
             convertManagerRights(_memberStateResponse_.managerRights),
             convertMemberRights(_memberStateResponse_.memberRights),
-            member.updatedAt
+            member.updatedAt,
+            member.sdkClientInfo?.uuid ?: ""
         )
     }
 

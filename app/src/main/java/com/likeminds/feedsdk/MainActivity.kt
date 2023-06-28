@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val client = LMFeedClient.getInstance()
         CoroutineScope(Dispatchers.IO).launch {
-            val clientResult = client.initiateUser(
+            val initiateResponse = client.initiateUser(
                 InitiateUserRequest.Builder()
                     .apiKey("97cb8c16-4eb2-4141-a882-dfc7fe4d43ac")
                     .userId("siddharth-2")
@@ -39,9 +39,12 @@ class MainActivity : AppCompatActivity() {
                     .build()
             )
 
-            val refreshToken = clientResult.data?.refreshToken
+            val refreshToken = initiateResponse.data?.refreshToken
 
-            Log.d("TAG", "onCreate: ${client.getMemberState()}")
+
+
+
+            Log.d("TAG", "onCreate: ${client.getMemberState()?.data}")
 
             val getPostResult = client.getPost(
                 GetPostRequest.Builder().postId("63f4caadc52f148210f7496a")
