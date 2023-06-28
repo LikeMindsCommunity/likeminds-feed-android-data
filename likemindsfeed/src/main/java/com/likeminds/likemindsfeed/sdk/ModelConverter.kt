@@ -1,6 +1,11 @@
 package com.likeminds.likemindsfeed.sdk
 
-import com.likeminds.internalsdk.comment.model.*
+import com.likeminds.internalsdk.comment.model._AddCommentResponse_
+import com.likeminds.internalsdk.comment.model._Comment_
+import com.likeminds.internalsdk.comment.model._EditCommentResponse_
+import com.likeminds.internalsdk.comment.model._GetCommentLikesResponse_
+import com.likeminds.internalsdk.comment.model._GetCommentResponse_
+import com.likeminds.internalsdk.comment.model._ReplyCommentResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.helper.model._TagMember_
@@ -10,12 +15,31 @@ import com.likeminds.internalsdk.notificationfeed.model._ActivityEntityData_
 import com.likeminds.internalsdk.notificationfeed.model._Activity_
 import com.likeminds.internalsdk.notificationfeed.model._GetNotificationFeedResponse_
 import com.likeminds.internalsdk.notificationfeed.model._GetUnreadNotificationCountResponse_
-import com.likeminds.internalsdk.post.model.*
-import com.likeminds.internalsdk.sdk.model.*
+import com.likeminds.internalsdk.post.model._AddPostResponse_
+import com.likeminds.internalsdk.post.model._AttachmentMeta_
+import com.likeminds.internalsdk.post.model._Attachment_
+import com.likeminds.internalsdk.post.model._EditPostResponse_
+import com.likeminds.internalsdk.post.model._GetPostLikesResponse_
+import com.likeminds.internalsdk.post.model._GetPostResponse_
+import com.likeminds.internalsdk.post.model._Like_
+import com.likeminds.internalsdk.post.model._LinkOGTags_
+import com.likeminds.internalsdk.post.model._MenuItem_
+import com.likeminds.internalsdk.post.model._Post_
+import com.likeminds.internalsdk.sdk.model._Community_
+import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
+import com.likeminds.internalsdk.sdk.model._ManagementRightPermissionData_
+import com.likeminds.internalsdk.sdk.model._MemberStateResponse_
+import com.likeminds.internalsdk.sdk.model._SDKClientInfo_
+import com.likeminds.internalsdk.sdk.model._User_
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
-import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
+import com.likeminds.likemindsfeed.comment.model.Comment
+import com.likeminds.likemindsfeed.comment.model.EditCommentResponse
+import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
+import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
+import com.likeminds.likemindsfeed.comment.model.ReplyCommentResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.helper.model.TagMember
@@ -28,7 +52,16 @@ import com.likeminds.likemindsfeed.notificationfeed.model.Activity
 import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
 import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedResponse
 import com.likeminds.likemindsfeed.notificationfeed.model.GetUnreadNotificationCountResponse
-import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.likemindsfeed.post.model.AddPostResponse
+import com.likeminds.likemindsfeed.post.model.Attachment
+import com.likeminds.likemindsfeed.post.model.AttachmentMeta
+import com.likeminds.likemindsfeed.post.model.EditPostResponse
+import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
+import com.likeminds.likemindsfeed.post.model.GetPostResponse
+import com.likeminds.likemindsfeed.post.model.Like
+import com.likeminds.likemindsfeed.post.model.LinkOGTags
+import com.likeminds.likemindsfeed.post.model.MenuItem
+import com.likeminds.likemindsfeed.post.model.Post
 import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -69,18 +102,18 @@ object ModelConverter {
     private fun convertUser(
         _user_: _User_
     ): User {
-        return User(
-            _user_.id,
-            _user_.imageUrl,
-            _user_.isGuest,
-            _user_.name,
-            _user_.organisationName,
-            convertSDKClientInfo(_user_.sdkClientInfo),
-            _user_.isDeleted,
-            _user_.customTitle,
-            _user_.updatedAt,
-            _user_.userUniqueId
-        )
+        return User.Builder()
+            .id(_user_.id)
+            .imageUrl(_user_.imageUrl)
+            .isGuest(_user_.isGuest)
+            .name(_user_.name)
+            .organisationName(_user_.organisationName)
+            .sdkClientInfo(convertSDKClientInfo(_user_.sdkClientInfo))
+            .isDeleted(_user_.isDeleted)
+            .customTitle(_user_.customTitle)
+            .userUniqueId(_user_.userUniqueId)
+            .uuid(_user_.uuid)
+            .build()
     }
 
     // converts the internal User model hashmap to client User Hashmap
@@ -111,11 +144,12 @@ object ModelConverter {
         _sdkClientInfo_: _SDKClientInfo_?
     ): SDKClientInfo? {
         return _sdkClientInfo_?.let {
-            SDKClientInfo(
-                it.community,
-                it.user,
-                it.userUniqueId
-            )
+            SDKClientInfo.Builder()
+                .uuid(it.uuid)
+                .userUniqueId(it.userUniqueId)
+                .user(it.user)
+                .community(it.community)
+                .build()
         }
     }
 
