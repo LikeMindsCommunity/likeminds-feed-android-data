@@ -2,11 +2,8 @@
 
 **Features**
 
--
-
 **Bugs**
 
--
 
 **What kind of change does this PR introduce?** (check at least one)
 <!-- (Update "[ ]" to "[x]" to check a box) -->
@@ -22,11 +19,12 @@
 - [ ] Assignee added
 - [ ] Reviewer added
 - [ ] Description added
-- [ ] Unit test added
+- [ ] Unit test cases added
 
 ### Reviewer Checklist
 
 - [ ] PR title starts with Jira ticket number prefix
 - [ ] PR title is understandable
-- [ ] Commit messages follows standard format (added, changed and removed, code commented)
+- [ ] Label added
+- [ ] Commit messages follows standard format (added, changed, removed, code commented and chore)
 - [ ] Description about the Feature/ Bugs added
