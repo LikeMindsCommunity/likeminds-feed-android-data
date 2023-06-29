@@ -141,9 +141,9 @@ object ModelConverter {
 
     // converts internal SDKClientInfo model to client model
     private fun convertSDKClientInfo(
-        _sdkClientInfo_: _SDKClientInfo_?
-    ): SDKClientInfo? {
-        return _sdkClientInfo_?.let {
+        _sdkClientInfo_: _SDKClientInfo_
+    ): SDKClientInfo {
+        return _sdkClientInfo_.let {
             SDKClientInfo.Builder()
                 .uuid(it.uuid)
                 .userUniqueId(it.userUniqueId)
@@ -183,7 +183,7 @@ object ModelConverter {
             convertManagerRights(_memberStateResponse_.managerRights),
             convertMemberRights(_memberStateResponse_.memberRights),
             member.updatedAt,
-            member.sdkClientInfo?.uuid ?: ""
+            member.sdkClientInfo.uuid
         )
     }
 

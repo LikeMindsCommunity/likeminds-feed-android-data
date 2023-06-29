@@ -6,7 +6,7 @@ class User private constructor(
     val isGuest: Boolean,
     val name: String,
     val organisationName: String?,
-    val sdkClientInfo: SDKClientInfo?,
+    val sdkClientInfo: SDKClientInfo,
     val isDeleted: Boolean?,
     val customTitle: String?,
     val updatedAt: Long,
@@ -19,7 +19,7 @@ class User private constructor(
         private var isGuest: Boolean = false
         private var name: String = ""
         private var organisationName: String? = null
-        private var sdkClientInfo: SDKClientInfo? = null
+        private var sdkClientInfo: SDKClientInfo = SDKClientInfo.Builder().build()
         private var isDeleted: Boolean? = null
         private var customTitle: String? = ""
         private var updatedAt: Long = 0L
@@ -33,7 +33,7 @@ class User private constructor(
         fun organisationName(organisationName: String?) =
             apply { this.organisationName = organisationName }
 
-        fun sdkClientInfo(sdkClientInfo: SDKClientInfo?) =
+        fun sdkClientInfo(sdkClientInfo: SDKClientInfo) =
             apply { this.sdkClientInfo = sdkClientInfo }
 
         fun isDeleted(isDeleted: Boolean?) = apply { this.isDeleted = isDeleted }

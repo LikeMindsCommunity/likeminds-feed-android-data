@@ -14,7 +14,7 @@ class _User_ private constructor(
     @SerializedName("organisation_name")
     val organisationName: String?,
     @SerializedName("sdk_client_info")
-    val sdkClientInfo: _SDKClientInfo_?,
+    val sdkClientInfo: _SDKClientInfo_,
     @SerializedName("is_deleted")
     val isDeleted: Boolean?,
     @SerializedName("custom_title")
@@ -32,7 +32,7 @@ class _User_ private constructor(
         private var isGuest: Boolean = false
         private var name: String = ""
         private var organisationName: String? = null
-        private var sdkClientInfo: _SDKClientInfo_? = null
+        private var sdkClientInfo: _SDKClientInfo_ = _SDKClientInfo_.Builder().build()
         private var isDeleted: Boolean? = null
         private var customTitle: String? = null
         private var updatedAt: Long = 0L
@@ -45,7 +45,7 @@ class _User_ private constructor(
         fun organisationName(organisationName: String?) =
             apply { this.organisationName = organisationName }
 
-        fun sdkClientInfo(sdkClientInfo: _SDKClientInfo_?) =
+        fun sdkClientInfo(sdkClientInfo: _SDKClientInfo_) =
             apply { this.sdkClientInfo = sdkClientInfo }
 
         fun isDeleted(isDeleted: Boolean?) = apply { this.isDeleted = isDeleted }
