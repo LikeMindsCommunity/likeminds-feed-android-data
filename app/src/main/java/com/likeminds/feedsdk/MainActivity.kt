@@ -49,12 +49,12 @@ class MainActivity : AppCompatActivity() {
 
             Log.d(
                 TAG, """
-                notificationFeedResponse: ${
-                    notificationFeedResponse.data?.users?.forEach {
+               notificationFeedResponse: ${
+                    notificationFeedResponse.data?.users?.map {
                         it.value.sdkClientInfo?.uuid
                     }
                 }
-            """.trimIndent()
+           """.trimIndent()
             )
         }
     }
