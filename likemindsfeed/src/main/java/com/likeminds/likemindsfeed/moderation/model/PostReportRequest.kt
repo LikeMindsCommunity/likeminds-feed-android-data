@@ -16,8 +16,8 @@ class PostReportRequest private constructor(
         private var reason: String? = null
 
         fun entityId(entityId: String) = apply { this.entityId = entityId }
-        fun entityCreatorId(entityCreatorId: String) =
-            apply { this.uuid = entityCreatorId }
+        fun uuid(uuid: String) =
+            apply { this.uuid = uuid }
 
         fun entityType(entityType: Int) = apply { this.entityType = entityType }
         fun tagId(tagId: Int) = apply { this.tagId = tagId }
@@ -34,7 +34,7 @@ class PostReportRequest private constructor(
 
     fun toBuilder(): Builder {
         return Builder().entityId(entityId)
-            .entityCreatorId(uuid)
+            .uuid(uuid)
             .entityType(entityType)
             .tagId(tagId)
             .reason(reason)
