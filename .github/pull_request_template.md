@@ -9,7 +9,7 @@
 <!-- (Update "[ ]" to "[x]" to check a box) -->
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] Hotfix (breaking changes)
+- [ ] Hotfix (fixes a breaking changes)
 - [ ] New Feature (non-breaking change which adds functionality)
 - [ ] Refactor
 - [ ] Build-related changes
