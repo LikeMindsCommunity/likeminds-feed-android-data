@@ -1,11 +1,11 @@
 package com.likeminds.likemindsfeed.moderation.model
 
 class PostReportRequest private constructor(
-    var entityId: String,
-    var uuid: String,
-    var entityType: Int,
-    var tagId: Int,
-    var reason: String?
+    val entityId: String,
+    val uuid: String,
+    val entityType: Int,
+    val tagId: Int,
+    val reason: String?
 ) {
 
     class Builder {
