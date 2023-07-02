@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 class _PostReportRequest_ private constructor(
     @SerializedName("entity_id")
     val entityId: String,
-    @SerializedName("entity_creator_id")
-    val entityCreatorId: String,
+    @SerializedName("uuid")
+    val uuid: String,
     @SerializedName("entity_type")
     @EntityType
     val entityType: Int,
@@ -17,7 +17,7 @@ class _PostReportRequest_ private constructor(
 ) {
     class Builder {
         private var entityId: String = ""
-        private var entityCreatorId: String = ""
+        private var uuid: String = ""
 
         @EntityType
         private var entityType: Int = POST
@@ -25,8 +25,8 @@ class _PostReportRequest_ private constructor(
         private var reason: String? = null
 
         fun entityId(entityId: String) = apply { this.entityId = entityId }
-        fun entityCreatorId(entityCreatorId: String) =
-            apply { this.entityCreatorId = entityCreatorId }
+        fun uuid(uuid: String) =
+            apply { this.uuid = uuid }
 
         fun entityType(@EntityType entityType: Int) = apply { this.entityType = entityType }
         fun tagId(tagId: Int) = apply { this.tagId = tagId }
@@ -34,7 +34,7 @@ class _PostReportRequest_ private constructor(
 
         fun build() = _PostReportRequest_(
             entityId,
-            entityCreatorId,
+            uuid,
             entityType,
             tagId,
             reason
@@ -43,7 +43,7 @@ class _PostReportRequest_ private constructor(
 
     fun toBuilder(): Builder {
         return Builder().entityId(entityId)
-            .entityCreatorId(entityCreatorId)
+            .uuid(uuid)
             .entityType(entityType)
             .tagId(tagId)
             .reason(reason)
