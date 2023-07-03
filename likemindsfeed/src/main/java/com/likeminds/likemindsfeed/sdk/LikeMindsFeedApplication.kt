@@ -4,7 +4,6 @@ import android.app.Application
 import com.likeminds.internalsdk.CollabmatesSDK
 import com.likeminds.internalsdk.LMInternalCallback
 import com.likeminds.internalsdk.di.SDKSharedResources
-import com.likeminds.internalsdk.sdk.SDKPreferences
 import com.likeminds.likemindsfeed.LMCallback
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
@@ -24,9 +23,6 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
 
     @Inject
     lateinit var sdkSharedResources: SDKSharedResources
-
-    @Inject
-    lateinit var sdkPreferences: SDKPreferences
 
     var likeMindsFeedComponent: LikeMindsFeedComponent? = null
 
