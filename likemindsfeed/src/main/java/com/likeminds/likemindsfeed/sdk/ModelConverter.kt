@@ -325,12 +325,12 @@ object ModelConverter {
     private fun convertLike(
         _like_: _Like_
     ): Like {
-        return Like(
-            _like_.id,
-            _like_.createdAt,
-            _like_.updatedAt,
-            _like_.userId,
-        )
+        return Like.Builder()
+            .id(_like_.id)
+            .createdAt(_like_.createdAt)
+            .updatedAt(_like_.updatedAt)
+            .userId(_like_.userId)
+            .build()
     }
 
     // converts api AddCommentResponse model to LM AddCommentResponse model
@@ -598,23 +598,24 @@ object ModelConverter {
     private fun convertPost(
         _post_: _Post_
     ): Post {
-        return Post(
-            _post_.id,
-            _post_.text,
-            convertAttachments(_post_.attachments),
-            _post_.communityId,
-            _post_.isLiked,
-            _post_.isEdited,
-            _post_.isPinned,
-            _post_.userId,
-            _post_.likesCount,
-            _post_.commentsCount,
-            _post_.isSaved,
-            convertMenuItems(_post_.menuItems),
-            convertComments(_post_.replies),
-            _post_.createdAt,
-            _post_.updatedAt
-        )
+        return Post.Builder()
+            .id(_post_.id)
+            .text(_post_.text)
+            .attachments(convertAttachments(_post_.attachments))
+            .communityId(_post_.communityId)
+            .isLiked(_post_.isLiked)
+            .isEdited(_post_.isEdited)
+            .isPinned(_post_.isPinned)
+            .userId(_post_.userId)
+            .likesCount(_post_.likesCount)
+            .commentCount(_post_.commentsCount)
+            .isSaved(_post_.isSaved)
+            .menuItems(convertMenuItems(_post_.menuItems))
+            .replies(convertComments(_post_.replies))
+            .createdAt(_post_.createdAt)
+            .updatedAt(_post_.updatedAt)
+            .uuid(_post_.uuid)
+            .build()
     }
 
     // converts internal Attachment model list to client model list
@@ -678,21 +679,22 @@ object ModelConverter {
     private fun convertComment(
         _comment_: _Comment_
     ): Comment {
-        return Comment(
-            _comment_.id,
-            _comment_.isLiked,
-            _comment_.isEdited,
-            _comment_.userId,
-            _comment_.text,
-            _comment_.level,
-            _comment_.likesCount,
-            _comment_.commentsCount,
-            _comment_.createdAt,
-            _comment_.updatedAt,
-            convertComments(_comment_.replies),
-            convertMenuItems(_comment_.menuItems),
-            _comment_.parentComment?.let { convertComment(it) },
-        )
+        return Comment.Builder()
+            .id(_comment_.id)
+            .isLiked(_comment_.isLiked)
+            .isEdited(_comment_.isEdited)
+            .userId(_comment_.userId)
+            .text(_comment_.text)
+            .level(_comment_.level)
+            .likesCount(_comment_.likesCount)
+            .commentsCount(_comment_.commentsCount)
+            .createdAt(_comment_.createdAt)
+            .updatedAt(_comment_.updatedAt)
+            .replies(convertComments(_comment_.replies))
+            .menuItems(convertMenuItems(_comment_.menuItems))
+            .parentComment(_comment_.parentComment?.let { convertComment(it) })
+            .uuid(_comment_.uuid)
+            .build()
     }
 
     // converts internal MenuItem model list to client model list
@@ -727,21 +729,21 @@ object ModelConverter {
     private fun convertActivity(
         _activity_: _Activity_
     ): Activity {
-        return Activity(
-            _activity_.id,
-            _activity_.action,
-            _activity_.actionBy,
-            _activity_.actionOn,
-            _activity_.activityText,
-            _activity_.createdAt,
-            _activity_.cta,
-            _activity_.entityId,
-            _activity_.entityOwnerId,
-            _activity_.entityType,
-            _activity_.isRead,
-            _activity_.updatedAt,
-            convertActivityEntityData(_activity_.activityEntityData)
-        )
+        return Activity.Builder()
+            .id(_activity_.id)
+            .action(_activity_.action)
+            .actionBy(_activity_.actionBy)
+            .actionOn(_activity_.actionOn)
+            .activityText(_activity_.activityText)
+            .createdAt(_activity_.createdAt)
+            .cta(_activity_.cta)
+            .entityId(_activity_.entityId)
+            .entityOwnerId(_activity_.entityOwnerId)
+            .entityType(_activity_.entityType)
+            .isRead(_activity_.isRead)
+            .updatedAt(_activity_.updatedAt)
+            .activityEntityData(convertActivityEntityData(_activity_.activityEntityData))
+            .build()
     }
 
     // converts internal ActivityEntityData model to client model
@@ -751,23 +753,24 @@ object ModelConverter {
         if (_activityEntityData_ == null) {
             return null
         }
-        return ActivityEntityData(
-            _activityEntityData_.id,
-            _activityEntityData_.text,
-            _activityEntityData_.deleteReason,
-            _activityEntityData_.deletedBy,
-            _activityEntityData_.heading,
-            convertAttachments(_activityEntityData_.attachments),
-            _activityEntityData_.communityId,
-            _activityEntityData_.isEdited,
-            _activityEntityData_.isPinned,
-            _activityEntityData_.postId,
-            _activityEntityData_.userId,
-            convertComments(_activityEntityData_.replies),
-            _activityEntityData_.level,
-            _activityEntityData_.createdAt,
-            _activityEntityData_.updatedAt,
-        )
+        return ActivityEntityData.Builder()
+            .id(_activityEntityData_.id)
+            .text(_activityEntityData_.text)
+            .deleteReason(_activityEntityData_.deleteReason)
+            .deletedBy(_activityEntityData_.deletedBy)
+            .heading(_activityEntityData_.heading)
+            .attachments(convertAttachments(_activityEntityData_.attachments))
+            .communityId(_activityEntityData_.communityId)
+            .isEdited(_activityEntityData_.isEdited)
+            .isPinned(_activityEntityData_.isPinned)
+            .postId(_activityEntityData_.postId)
+            .userId(_activityEntityData_.userId)
+            .replies(convertComments(_activityEntityData_.replies))
+            .level(_activityEntityData_.level)
+            .createdAt(_activityEntityData_.createdAt)
+            .updatedAt(_activityEntityData_.updatedAt)
+            .uuid(_activityEntityData_.uuid)
+            .build()
     }
 
     /**--------------------------------
