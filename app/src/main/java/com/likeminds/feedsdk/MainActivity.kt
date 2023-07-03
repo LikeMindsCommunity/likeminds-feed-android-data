@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedRequest
+import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,15 +26,29 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val initiateResponse = client.initiateUser(
                 InitiateUserRequest.Builder()
-                    .apiKey("97cb8c16-4eb2-4141-a882-dfc7fe4d43ac")
-                    .userId("siddharth-2")
-                    .deviceId("23344")
-                    .userName("Ads")
+                    .apiKey("6b11d5f6-19fc-48aa-9140-0f59c88b0d0a")
+                    .userId("564578")
+                    .deviceId("adadad")
+                    .userName("Ishaan")
                     .isGuest(false)
                     .build()
             )
 
             Log.d(TAG, "initiateResponse: ${initiateResponse.data?.user?.sdkClientInfo?.uuid}")
+
+            val getUniversalFeedResponse =
+                client.getFeed(GetFeedRequest.Builder().page(1).pageSize(10).build())
+
+            Log.d(
+                TAG, """
+                getUniversalFeedResponse
+                getUniversalFeedResponse: ${
+                    getUniversalFeedResponse.data?.posts?.map {
+                        it.uuid
+                    }
+                }
+            """.trimIndent()
+            )
 
             val memberStateResponse = client.getMemberState()
 
@@ -51,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 TAG, """
                notificationFeedResponse: ${
                     notificationFeedResponse.data?.users?.map {
-                        it.value.sdkClientInfo?.uuid
+                        it.value.sdkClientInfo.uuid
                     }
                 }
            """.trimIndent()
