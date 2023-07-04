@@ -330,6 +330,7 @@ object ModelConverter {
             .createdAt(_like_.createdAt)
             .updatedAt(_like_.updatedAt)
             .userId(_like_.userId)
+            .uuid(_like_.uuid)
             .build()
     }
 
@@ -743,6 +744,7 @@ object ModelConverter {
             .isRead(_activity_.isRead)
             .updatedAt(_activity_.updatedAt)
             .activityEntityData(convertActivityEntityData(_activity_.activityEntityData))
+            .uuid(_activity_.uuid)
             .build()
     }
 
@@ -770,6 +772,7 @@ object ModelConverter {
             .createdAt(_activityEntityData_.createdAt)
             .updatedAt(_activityEntityData_.updatedAt)
             .uuid(_activityEntityData_.uuid)
+            .deletedByUUID(_activityEntityData_.deletedByUUID)
             .build()
     }
 
