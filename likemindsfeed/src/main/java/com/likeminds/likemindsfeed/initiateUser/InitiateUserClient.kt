@@ -50,7 +50,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
 
         // builds internal request model
         val request =
-            _InitiateUserRequest_.Builder().userId(initiateUserRequest.userId)
+            _InitiateUserRequest_.Builder().uuid(initiateUserRequest.uuid)
                 .apiKey(initiateUserRequest.apiKey)
                 .userName(initiateUserRequest.userName)
                 .isGuest(initiateUserRequest.isGuest)
@@ -67,6 +67,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                     )
                 )
             }
+
             is NetworkResponse.Success -> {
                 val body = response.body
                 val accessToken = body.data?.accessToken ?: ""
@@ -141,6 +142,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 LMResponse(
                     success = response.body.success
@@ -177,6 +179,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                     null
                 )
             }
+
             is NetworkResponse.Success -> {
                 ModelConverter.convertMemberStateResponse(response.body)
             }
