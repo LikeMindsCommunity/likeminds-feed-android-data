@@ -28,7 +28,9 @@ class _Activity_ private constructor(
     @SerializedName("updated_at")
     val updatedAt: Long,
     @SerializedName("activity_entity_data")
-    val activityEntityData: _ActivityEntityData_?
+    val activityEntityData: _ActivityEntityData_?,
+    @SerializedName("uuid")
+    val uuid: String
 ) {
     class Builder {
         private var id: String = ""
@@ -44,6 +46,7 @@ class _Activity_ private constructor(
         private var isRead: Boolean = false
         private var updatedAt: Long = 0L
         private var activityEntityData: _ActivityEntityData_? = null
+        private var uuid: String = ""
 
         fun id(id: String) = apply { this.id = id }
         fun action(action: Int) = apply { this.action = action }
@@ -60,6 +63,8 @@ class _Activity_ private constructor(
         fun activityEntityData(activityEntityData: _ActivityEntityData_?) =
             apply { this.activityEntityData = activityEntityData }
 
+        fun uuid(uuid: String) = apply { this.uuid = uuid }
+
         fun build() = _Activity_(
             id,
             action,
@@ -73,7 +78,8 @@ class _Activity_ private constructor(
             entityType,
             isRead,
             updatedAt,
-            activityEntityData
+            activityEntityData,
+            uuid
         )
     }
 
@@ -91,5 +97,6 @@ class _Activity_ private constructor(
             .isRead(isRead)
             .updatedAt(updatedAt)
             .activityEntityData(activityEntityData)
+            .uuid(uuid)
     }
 }

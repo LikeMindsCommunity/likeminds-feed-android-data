@@ -13,7 +13,8 @@ class Activity private constructor(
     val entityType: Int,
     val isRead: Boolean,
     val updatedAt: Long,
-    val activityEntityData: ActivityEntityData?
+    val activityEntityData: ActivityEntityData?,
+    val uuid: String
 ) {
     class Builder {
         private var id: String = ""
@@ -29,6 +30,7 @@ class Activity private constructor(
         private var isRead: Boolean = false
         private var updatedAt: Long = 0L
         private var activityEntityData: ActivityEntityData? = null
+        private var uuid: String = ""
 
         fun id(id: String) = apply { this.id = id }
         fun action(action: Int) = apply { this.action = action }
@@ -45,6 +47,8 @@ class Activity private constructor(
         fun activityEntityData(activityEntityData: ActivityEntityData?) =
             apply { this.activityEntityData = activityEntityData }
 
+        fun uuid(uuid: String) = apply { this.uuid = uuid }
+
         fun build() = Activity(
             id,
             action,
@@ -58,7 +62,8 @@ class Activity private constructor(
             entityType,
             isRead,
             updatedAt,
-            activityEntityData
+            activityEntityData,
+            uuid
         )
     }
 
@@ -76,5 +81,6 @@ class Activity private constructor(
             .isRead(isRead)
             .updatedAt(updatedAt)
             .activityEntityData(activityEntityData)
+            .uuid(uuid)
     }
 }

@@ -36,7 +36,9 @@ class _ActivityEntityData_ private constructor(
     @SerializedName("updated_at")
     val updatedAt: Long,
     @SerializedName("uuid")
-    val uuid: String
+    val uuid: String,
+    @SerializedName("deleted_by_uuid")
+    val deletedByUUID: String?
 ) {
     class Builder {
         private var id: String = ""
@@ -55,6 +57,7 @@ class _ActivityEntityData_ private constructor(
         private var createdAt: Long = 0L
         private var updatedAt: Long = 0L
         private var uuid: String = ""
+        private var deletedByUUID: String? = null
 
         fun id(id: String) = apply { this.id = id }
         fun text(text: String) = apply { this.text = text }
@@ -72,6 +75,7 @@ class _ActivityEntityData_ private constructor(
         fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
         fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun deletedByUUID(deletedByUUID: String?) = apply { this.deletedByUUID = deletedByUUID }
 
         fun build() = _ActivityEntityData_(
             id,
@@ -89,7 +93,8 @@ class _ActivityEntityData_ private constructor(
             level,
             createdAt,
             updatedAt,
-            uuid
+            uuid,
+            deletedByUUID
         )
     }
 
@@ -110,5 +115,6 @@ class _ActivityEntityData_ private constructor(
             .createdAt(createdAt)
             .updatedAt(updatedAt)
             .uuid(uuid)
+            .deletedByUUID(deletedByUUID)
     }
 }

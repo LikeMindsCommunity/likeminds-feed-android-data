@@ -19,7 +19,8 @@ class ActivityEntityData private constructor(
     val level: Int?,
     val createdAt: Long,
     val updatedAt: Long,
-    val uuid: String
+    val uuid: String,
+    val deletedByUUID: String?
 ) {
     class Builder {
         private var id: String = ""
@@ -38,6 +39,7 @@ class ActivityEntityData private constructor(
         private var createdAt: Long = 0L
         private var updatedAt: Long = 0L
         private var uuid: String = ""
+        private var deletedByUUID: String? = null
 
         fun id(id: String) = apply { this.id = id }
         fun text(text: String) = apply { this.text = text }
@@ -55,6 +57,7 @@ class ActivityEntityData private constructor(
         fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
         fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun deletedByUUID(deletedByUUID: String?) = apply { this.deletedByUUID = deletedByUUID }
 
         fun build() = ActivityEntityData(
             id,
@@ -72,7 +75,8 @@ class ActivityEntityData private constructor(
             level,
             createdAt,
             updatedAt,
-            uuid
+            uuid,
+            deletedByUUID
         )
     }
 
@@ -93,5 +97,6 @@ class ActivityEntityData private constructor(
             .createdAt(createdAt)
             .updatedAt(updatedAt)
             .uuid(uuid)
+            .deletedByUUID(deletedByUUID)
     }
 }

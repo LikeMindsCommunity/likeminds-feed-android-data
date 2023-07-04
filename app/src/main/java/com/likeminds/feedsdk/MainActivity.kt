@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedRequest
+import com.likeminds.likemindsfeed.post.model.GetPostLikesRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             val initiateResponse = client.initiateUser(
                 InitiateUserRequest.Builder()
                     .apiKey("6b11d5f6-19fc-48aa-9140-0f59c88b0d0a")
-                    .userId("564578")
+                    .uuid("564578")
                     .deviceId("adadad")
                     .userName("Ishaan")
                     .isGuest(false)
@@ -50,6 +51,30 @@ class MainActivity : AppCompatActivity() {
             """.trimIndent()
             )
 
+            val postsId = getUniversalFeedResponse.data?.posts?.map {
+                it.id
+            }
+
+            postsId?.forEach { postId ->
+                val likes = client.getPostLikes(
+                    GetPostLikesRequest.Builder()
+                        .postId(postId)
+                        .page(1)
+                        .pageSize(10)
+                        .build()
+                )
+
+                Log.d(
+                    TAG, """
+                    likes: ${
+                        likes.data?.likes?.map {
+                            it.uuid
+                        }
+                    }
+                """.trimIndent()
+                )
+            }
+
             val memberStateResponse = client.getMemberState()
 
             Log.d(TAG, "memberStateResponse: ${memberStateResponse.data?.uuid}")
@@ -64,9 +89,15 @@ class MainActivity : AppCompatActivity() {
 
             Log.d(
                 TAG, """
-               notificationFeedResponse: ${
-                    notificationFeedResponse.data?.users?.map {
-                        it.value.sdkClientInfo.uuid
+               notificationFeedResponse: deletedByUUID ${
+                    notificationFeedResponse.data?.activities?.map {
+                        it.activityEntityData?.deletedByUUID
+                    }
+                }
+                
+               uuid ${
+                    notificationFeedResponse.data?.activities?.map {
+                        it.uuid
                     }
                 }
            """.trimIndent()

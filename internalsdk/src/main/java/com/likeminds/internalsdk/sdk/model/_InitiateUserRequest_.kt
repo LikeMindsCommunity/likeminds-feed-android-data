@@ -7,26 +7,26 @@ class _InitiateUserRequest_ private constructor(
     val apiKey: String?,
     @SerializedName("user_name")
     val userName: String?,
-    @SerializedName("user_unique_id")
-    val userId: String?,
+    @SerializedName("uuid")
+    val uuid: String?,
     @SerializedName("is_guest")
     val isGuest: Boolean?
 ) {
     class Builder {
         private var apiKey: String? = null
         private var userName: String? = null
-        private var userId: String? = null
+        private var uuid: String? = null
         private var isGuest: Boolean? = null
 
         fun apiKey(apiKey: String?) = apply { this.apiKey = apiKey }
         fun userName(userName: String?) = apply { this.userName = userName }
-        fun userId(userId: String?) = apply { this.userId = userId }
+        fun uuid(uuid: String?) = apply { this.uuid = uuid }
         fun isGuest(isGuest: Boolean?) = apply { this.isGuest = isGuest }
 
         fun build() = _InitiateUserRequest_(
             apiKey,
             userName,
-            userId,
+            uuid,
             isGuest
         )
     }
@@ -34,7 +34,7 @@ class _InitiateUserRequest_ private constructor(
     fun toBuilder(): Builder {
         return Builder().isGuest(isGuest)
             .apiKey(apiKey)
-            .userId(userId)
+            .uuid(uuid)
             .userName(userName)
     }
 }
