@@ -6,9 +6,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedRequest
-import com.likeminds.likemindsfeed.post.model.GetPostLikesRequest
-import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,72 +33,6 @@ class MainActivity : AppCompatActivity() {
             )
 
             Log.d(TAG, "initiateResponse: ${initiateResponse.data?.user?.sdkClientInfo?.uuid}")
-
-            val getUniversalFeedResponse =
-                client.getFeed(GetFeedRequest.Builder().page(1).pageSize(10).build())
-
-            Log.d(
-                TAG, """
-                getUniversalFeedResponse
-                getUniversalFeedResponse: ${
-                    getUniversalFeedResponse.data?.posts?.map {
-                        it.uuid
-                    }
-                }
-            """.trimIndent()
-            )
-
-            val postsId = getUniversalFeedResponse.data?.posts?.map {
-                it.id
-            }
-
-            postsId?.forEach { postId ->
-                val likes = client.getPostLikes(
-                    GetPostLikesRequest.Builder()
-                        .postId(postId)
-                        .page(1)
-                        .pageSize(10)
-                        .build()
-                )
-
-                Log.d(
-                    TAG, """
-                    likes: ${
-                        likes.data?.likes?.map {
-                            it.uuid
-                        }
-                    }
-                """.trimIndent()
-                )
-            }
-
-            val memberStateResponse = client.getMemberState()
-
-            Log.d(TAG, "memberStateResponse: ${memberStateResponse.data?.uuid}")
-
-            val notificationFeedResponse =
-                client.getNotificationFeed(
-                    GetNotificationFeedRequest.Builder()
-                        .page(1)
-                        .pageSize(10)
-                        .build()
-                )
-
-            Log.d(
-                TAG, """
-               notificationFeedResponse: deletedByUUID ${
-                    notificationFeedResponse.data?.activities?.map {
-                        it.activityEntityData?.deletedByUUID
-                    }
-                }
-                
-               uuid ${
-                    notificationFeedResponse.data?.activities?.map {
-                        it.uuid
-                    }
-                }
-           """.trimIndent()
-            )
         }
     }
 }
