@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             val initiateResponse = client.initiateUser(
                 InitiateUserRequest.Builder()
                     .apiKey("6b11d5f6-19fc-48aa-9140-0f59c88b0d0a")
-                    .userId("564578")
+                    .uuid("564578")
                     .deviceId("adadad")
                     .userName("Ishaan")
                     .isGuest(false)
