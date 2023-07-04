@@ -1,13 +1,7 @@
 package com.likeminds.likemindsfeed.helper.model
 
-data class GetTaggingListResponse(
-    val members: List<TagMember>
-)
+import com.likeminds.likemindsfeed.sdk.model.User
 
-data class TagMember(
-    val id: Int,
-    val imageUrl: String,
-    val isGuest: Boolean,
-    val name: String,
-    val userUniqueId: String,
+data class GetTaggingListResponse(
+    val members: List<User>
 )

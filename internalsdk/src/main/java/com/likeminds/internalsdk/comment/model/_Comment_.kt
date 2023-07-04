@@ -3,7 +3,7 @@ package com.likeminds.internalsdk.comment.model
 import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.post.model._MenuItem_
 
-data class _Comment_(
+class _Comment_ private constructor(
     @SerializedName("_id")
     val id: String,
     @SerializedName("is_liked")
@@ -29,5 +29,74 @@ data class _Comment_(
     @SerializedName("menu_items")
     val menuItems: List<_MenuItem_>,
     @SerializedName("parent_comment")
-    val parentComment: _Comment_?
-)
+    val parentComment: _Comment_?,
+    @SerializedName("uuid")
+    val uuid: String
+) {
+    class Builder {
+        private var id: String = ""
+        private var isLiked: Boolean = false
+        private var isEdited: Boolean = false
+        private var userId: String = ""
+        private var text: String = ""
+        private var level: Int = 0
+        private var likesCount: Int = 0
+        private var commentsCount: Int = 0
+        private var createdAt: Long = 0L
+        private var updatedAt: Long = 0L
+        private var replies: List<_Comment_>? = null
+        private var menuItems: List<_MenuItem_> = emptyList()
+        private var parentComment: _Comment_? = null
+        private var uuid: String = ""
+
+        fun id(id: String) = apply { this.id = id }
+        fun isLiked(isLiked: Boolean) = apply { this.isLiked = isLiked }
+        fun isEdited(isEdited: Boolean) = apply { this.isEdited = isEdited }
+        fun userId(userId: String) = apply { this.userId = userId }
+        fun text(text: String) = apply { this.text = text }
+        fun level(level: Int) = apply { this.level = level }
+        fun likesCount(likesCount: Int) = apply { this.likesCount = likesCount }
+        fun commentsCount(commentsCount: Int) = apply { this.commentsCount = commentsCount }
+        fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
+        fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
+        fun replies(replies: List<_Comment_>?) = apply { this.replies = replies }
+        fun menuItems(menuItems: List<_MenuItem_>) = apply { this.menuItems = menuItems }
+        fun parentComment(parentComment: _Comment_?) = apply { this.parentComment = parentComment }
+
+        fun uuid(uuid: String) = apply { this.uuid = uuid }
+
+        fun build() = _Comment_(
+            id,
+            isLiked,
+            isEdited,
+            userId,
+            text,
+            level,
+            likesCount,
+            commentsCount,
+            createdAt,
+            updatedAt,
+            replies,
+            menuItems,
+            parentComment,
+            uuid
+        )
+    }
+
+    fun toBuilder(): Builder {
+        return Builder().id(id)
+            .isLiked(isLiked)
+            .isEdited(isEdited)
+            .userId(userId)
+            .text(text)
+            .level(level)
+            .likesCount(likesCount)
+            .commentsCount(commentsCount)
+            .createdAt(createdAt)
+            .updatedAt(updatedAt)
+            .replies(replies)
+            .menuItems(menuItems)
+            .parentComment(parentComment)
+            .uuid(uuid)
+    }
+}

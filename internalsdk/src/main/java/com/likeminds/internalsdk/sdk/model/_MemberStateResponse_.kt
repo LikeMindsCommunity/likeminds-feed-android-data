@@ -33,5 +33,7 @@ data class _Member_(
     @SerializedName("state")
     val state: Int,
     @SerializedName("updated_at")
-    val updatedAt: Long
+    val updatedAt: Long,
+    @SerializedName("sdk_client_info")
+    val sdkClientInfo: _SDKClientInfo_
 )

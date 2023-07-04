@@ -12,5 +12,6 @@ data class MemberStateResponse(
     val organisationName: String?,
     val managerRights: List<ManagementRightPermissionData>?,
     val memberRights: List<ManagementRightPermissionData>,
-    val updatedAt: Long
+    val updatedAt: Long,
+    val uuid: String
 )

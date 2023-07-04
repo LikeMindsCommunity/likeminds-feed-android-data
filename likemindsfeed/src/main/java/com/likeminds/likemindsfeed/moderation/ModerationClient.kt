@@ -77,7 +77,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _PostReportRequest_.Builder()
             .entityId(postReportRequest.entityId)
-            .entityCreatorId(postReportRequest.entityCreatorId)
+            .uuid(postReportRequest.uuid)
             .entityType(postReportRequest.entityType)
             .tagId(postReportRequest.tagId)
             .reason(postReportRequest.reason)
@@ -108,8 +108,8 @@ class ModerationClient @Inject constructor() : BaseClient() {
             RequestUtils.throwException("entityId")
         }
 
-        if (postReportRequest.entityCreatorId.isEmpty()) {
-            RequestUtils.throwException("entityCreatorId")
+        if (postReportRequest.uuid.isEmpty()) {
+            RequestUtils.throwException("uuid")
         }
 
         if (postReportRequest.entityType == -1) {
