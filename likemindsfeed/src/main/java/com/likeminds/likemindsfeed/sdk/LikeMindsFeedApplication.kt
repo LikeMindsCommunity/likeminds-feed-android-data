@@ -48,6 +48,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     }
 
     fun initSDKApplication(application: Application, lmCallback: LMCallback?) {
+        println("initSDKApplication method called")
         likeMindsFeedApplicationInstance = this
         LikeMindsFeedApplication.lmCallback = lmCallback
 
@@ -58,6 +59,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
 
     private fun initLikeMindsFeedComponent(application: Application) {
         if (likeMindsFeedComponent == null) {
+            println("initLikeMindsFeedComponent method called")
             likeMindsFeedComponent = DaggerLikeMindsFeedComponent.builder()
                 .application(application)
                 .build()

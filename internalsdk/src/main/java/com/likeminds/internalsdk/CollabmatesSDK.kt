@@ -76,12 +76,14 @@ class CollabmatesSDK {
         sdkSharedResources: SDKSharedResources,
         lmInternalCallback: LMInternalCallback?
     ) {
+        println("initialize method called")
         initSDKComponent(sdkSharedResources)
         this.lmInternalCallback = lmInternalCallback
     }
 
     private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {
         if (sdkComponent == null) {
+            println("initSDKComponent method called")
             sdkComponent = DaggerSDKComponent.builder()
                 .sdkSharedResources(sdkSharedResources)
                 .build()
