@@ -18,7 +18,8 @@ import javax.inject.Singleton
         PostModule::class,
         ModerationModule::class,
         HelperModule::class,
-        NotificationFeedModule::class
+        NotificationFeedModule::class,
+        CommunityModule::class
     ]
 )
 interface SDKComponent {

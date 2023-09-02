@@ -9,6 +9,7 @@ import com.likeminds.likemindsfeed.LMCallback
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
+import com.likeminds.likemindsfeed.di.community.CommunitySubComponent
 import com.likeminds.likemindsfeed.di.helper.HelperSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
@@ -31,12 +32,13 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     var likeMindsFeedComponent: LikeMindsFeedComponent? = null
 
     private var initiateUserSubComponent: InitiateUserSubComponent? = null
-    private var commentSubComponent: CommentSubComponent? = null
+    private var commentComponent: CommentSubComponent? = null
     private var universalFeedComponent: UniversalFeedSubComponent? = null
     private var postComponent: PostSubComponent? = null
     private var moderationComponent: ModerationSubComponent? = null
     private var helperComponent: HelperSubComponent? = null
     private var notificationFeedComponent: NotificationFeedSubComponent? = null
+    private var communityComponent: CommunitySubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -98,10 +100,10 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     }
 
     fun commentComponent(): CommentSubComponent? {
-        if (commentSubComponent == null) {
-            commentSubComponent = likeMindsFeedComponent?.commentComponent()?.create()
+        if (commentComponent == null) {
+            commentComponent = likeMindsFeedComponent?.commentComponent()?.create()
         }
-        return commentSubComponent
+        return commentComponent
     }
 
     fun helperComponent(): HelperSubComponent? {
@@ -117,6 +119,13 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
                 likeMindsFeedComponent?.notificationFeedComponent()?.create()
         }
         return notificationFeedComponent
+    }
+
+    fun communityComponent(): CommunitySubComponent? {
+        if (communityComponent == null) {
+            communityComponent = likeMindsFeedComponent?.communityComponent()?.create()
+        }
+        return communityComponent
     }
 
     override fun login() {
