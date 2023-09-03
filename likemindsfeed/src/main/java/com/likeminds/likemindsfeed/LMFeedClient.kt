@@ -5,8 +5,7 @@ import androidx.annotation.Keep
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.community.CommunityClient
-import com.likeminds.likemindsfeed.community.model.GetAllMembersRequest
-import com.likeminds.likemindsfeed.community.model.GetAllMembersResponse
+import com.likeminds.likemindsfeed.community.model.*
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
@@ -215,5 +214,10 @@ class LMFeedClient private constructor() {
     // Exposed function to get all the community members
     suspend fun getAllMembers(getAllMembersRequest: GetAllMembersRequest): LMResponse<GetAllMembersResponse> {
         return communityClient.getAllMembers(getAllMembersRequest)
+    }
+
+    // Exposed function to search community members
+    suspend fun searchMembers(searchMembersRequest: SearchMembersRequest): LMResponse<SearchMembersResponse> {
+        return communityClient.searchMember(searchMembersRequest)
     }
 }

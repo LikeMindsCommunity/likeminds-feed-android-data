@@ -1,12 +1,11 @@
 package com.likeminds.likemindsfeed.community
 
 import com.likeminds.internalsdk.community.model._GetAllMembersRequest_
+import com.likeminds.internalsdk.community.model._SearchMembersRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
-import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
-import com.likeminds.likemindsfeed.community.model.GetAllMembersRequest
-import com.likeminds.likemindsfeed.community.model.GetAllMembersResponse
+import com.likeminds.likemindsfeed.community.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.util.RequestUtils
@@ -65,15 +64,45 @@ class CommunityClient @Inject constructor() : BaseClient() {
     }
 
     /**
-     * validates [getCommentRequest]
+     * Converts client request model to internal model and calls the api
+     * @param searchMembersRequest - client request model to search community members
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return SearchMembersResponse - SearchMembersResponse model for searchMembersRequest
+     */
+    suspend fun searchMember(searchMembersRequest: SearchMembersRequest): LMResponse<SearchMembersResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateSearchMembersRequest(searchMembersRequest)
+
+        // builds internal request model
+        val request = _SearchMembersRequest_.Builder()
+            .page(searchMembersRequest.page)
+            .pageSize(searchMembersRequest.pageSize)
+            .search(searchMembersRequest.search)
+            .build()
+
+        // calls api and processes the response accordingly
+        return when (val response = communityApi.searchMembers(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+
+            is NetworkResponse.Success -> {
+                ModelConverter.convertSearchMembersAPIResponse(response.body)
+            }
+        }
+    }
+
+    /**
+     * validates [searchMembersRequest]
      * @throws IllegalArgumentException - when required properties not provided
      */
-    private fun validateGetCommentRequest(getCommentRequest: GetCommentRequest) {
-        if (getCommentRequest.postId.isEmpty()) {
-            RequestUtils.throwException("postId")
-        }
-        if (getCommentRequest.commentId.isEmpty()) {
-            RequestUtils.throwException("commentId")
+    private fun validateSearchMembersRequest(searchMembersRequest: SearchMembersRequest) {
+        if (searchMembersRequest.search.isEmpty()) {
+            RequestUtils.throwException("search")
         }
     }
 }

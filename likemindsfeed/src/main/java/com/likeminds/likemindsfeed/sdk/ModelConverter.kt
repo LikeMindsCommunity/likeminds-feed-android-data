@@ -2,6 +2,7 @@ package com.likeminds.likemindsfeed.sdk
 
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.community.model._GetAllMembersResponse_
+import com.likeminds.internalsdk.community.model._SearchMembersResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -14,6 +15,7 @@ import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.community.model.GetAllMembersResponse
+import com.likeminds.likemindsfeed.community.model.SearchMembersResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.initiateUser.model.*
@@ -76,6 +78,10 @@ object ModelConverter {
             .customTitle(_user_.customTitle)
             .userUniqueId(_user_.userUniqueId)
             .uuid(_user_.uuid)
+            .state(_user_.state)
+            .customIntroText(_user_.customIntroText)
+            .memberSince(_user_.memberSince)
+            .questionAnswers(convertQuestionAnswers(_user_.questionAnswers))
             .build()
     }
 
@@ -788,7 +794,7 @@ object ModelConverter {
         }
         return GetAllMembersResponse(
             convertCommunity(_getAllMembersResponse_.community),
-            convertMembers(_getAllMembersResponse_.members),
+            convertUsers(_getAllMembersResponse_.members),
             _getAllMembersResponse_.totalFilteredMembers,
             _getAllMembersResponse_.totalMembers,
             _getAllMembersResponse_.totalOnlyMembers,
@@ -796,34 +802,26 @@ object ModelConverter {
         )
     }
 
-    // converts internal Member model list to client model list
-    private fun convertMembers(
-        _members_: List<_Member_>
-    ): List<Member> {
-        return _members_.map {
-            convertMember(it)
-        }
+    // converts api SearchMembersResponse model to LM SearchMembersResponse model
+    fun convertSearchMembersAPIResponse(
+        apiResponse: APIResponse<_SearchMembersResponse_>
+    ): LMResponse<SearchMembersResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertSearchMembersResponse(apiResponse.data)
+        )
     }
 
-    // converts internal Member model to client model
-    private fun convertMember(
-        _member_: _Member_
-    ): Member {
-        return Member(
-            _member_.id,
-            _member_.userUniqueId,
-            _member_.customTitle,
-            _member_.imageUrl,
-            _member_.isGuest,
-            _member_.isOwner,
-            _member_.name,
-            _member_.organisationName,
-            _member_.state,
-            _member_.updatedAt,
-            convertSDKClientInfo(_member_.sdkClientInfo),
-            _member_.customIntroText,
-            _member_.memberSince,
-            convertQuestionAnswers(_member_.questionAnswers)
+    // converts internal SearchMembersResponse model to client model
+    private fun convertSearchMembersResponse(
+        _searchMembersResponse: _SearchMembersResponse_?
+    ): SearchMembersResponse? {
+        if (_searchMembersResponse == null) {
+            return null
+        }
+        return SearchMembersResponse(
+            convertUsers(_searchMembersResponse.members),
         )
     }
 
