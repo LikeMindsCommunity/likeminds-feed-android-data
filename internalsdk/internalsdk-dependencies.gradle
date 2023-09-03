@@ -3,9 +3,6 @@ ext.keys = [:]
 def keys = [:]
 keys.KETTLE_BASE_URL = "KETTLE_BASE_URL"
 keys.DOMAIN = "DOMAIN"
-keys.IDENTITY_POOL_ID = "IDENTITY_POOL_ID"
-keys.BUCKET_NAME = "BUCKET_NAME"
-keys.BUCKET_BASE_URL = "BUCKET_BASE_URL"
 keys.SENTRY_DSN = "SENTRY_DSN"
 ext.keys = keys
 
