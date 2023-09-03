@@ -1,35 +1,27 @@
 package com.likeminds.likemindsfeed.sdk
 
 import com.likeminds.internalsdk.comment.model.*
+import com.likeminds.internalsdk.community.model._GetAllMembersResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
-import com.likeminds.internalsdk.notificationfeed.model._ActivityEntityData_
-import com.likeminds.internalsdk.notificationfeed.model._Activity_
-import com.likeminds.internalsdk.notificationfeed.model._GetNotificationFeedResponse_
-import com.likeminds.internalsdk.notificationfeed.model._GetUnreadNotificationCountResponse_
+import com.likeminds.internalsdk.notificationfeed.model.*
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.community.model.GetAllMembersResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
-import com.likeminds.likemindsfeed.initiateUser.model.ManagementRightPermissionData
-import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
+import com.likeminds.likemindsfeed.initiateUser.model.*
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
-import com.likeminds.likemindsfeed.notificationfeed.model.Activity
-import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
-import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedResponse
-import com.likeminds.likemindsfeed.notificationfeed.model.GetUnreadNotificationCountResponse
+import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.post.model.*
-import com.likeminds.likemindsfeed.sdk.model.Community
-import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
-import com.likeminds.likemindsfeed.sdk.model.User
+import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 
 object ModelConverter {
@@ -774,6 +766,94 @@ object ModelConverter {
             .uuid(_activityEntityData_.uuid)
             .deletedByUUID(_activityEntityData_.deletedByUUID)
             .build()
+    }
+
+    // converts api GetAllMembersResponse model to LM GetAllMembersResponse model
+    fun convertGetAllMembersAPIResponse(
+        apiResponse: APIResponse<_GetAllMembersResponse_>
+    ): LMResponse<GetAllMembersResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetAllMembersResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal GetAllMembersResponse model to client model
+    private fun convertGetAllMembersResponse(
+        _getAllMembersResponse_: _GetAllMembersResponse_?
+    ): GetAllMembersResponse? {
+        if (_getAllMembersResponse_ == null) {
+            return null
+        }
+        return GetAllMembersResponse(
+            convertCommunity(_getAllMembersResponse_.community),
+            convertMembers(_getAllMembersResponse_.members),
+            _getAllMembersResponse_.totalFilteredMembers,
+            _getAllMembersResponse_.totalMembers,
+            _getAllMembersResponse_.totalOnlyMembers,
+            _getAllMembersResponse_.totalPendingMembers
+        )
+    }
+
+    // converts internal Member model list to client model list
+    private fun convertMembers(
+        _members_: List<_Member_>
+    ): List<Member> {
+        return _members_.map {
+            convertMember(it)
+        }
+    }
+
+    // converts internal Member model to client model
+    private fun convertMember(
+        _member_: _Member_
+    ): Member {
+        return Member(
+            _member_.id,
+            _member_.userUniqueId,
+            _member_.customTitle,
+            _member_.imageUrl,
+            _member_.isGuest,
+            _member_.isOwner,
+            _member_.name,
+            _member_.organisationName,
+            _member_.state,
+            _member_.updatedAt,
+            convertSDKClientInfo(_member_.sdkClientInfo),
+            _member_.customIntroText,
+            _member_.memberSince,
+            convertQuestionAnswers(_member_.questionAnswers)
+        )
+    }
+
+    // converts internal QuestionAnswer model list to client model list
+    private fun convertQuestionAnswers(
+        _questionAnswers_: List<_QuestionAnswer_>?
+    ): List<QuestionAnswer>? {
+        if (_questionAnswers_ == null) {
+            return null
+        }
+        return _questionAnswers_.map {
+            convertMember(it)
+        }
+    }
+
+    // converts internal QuestionAnswer model to client model
+    private fun convertMember(
+        _questionAnswer_: _QuestionAnswer_
+    ): QuestionAnswer {
+        return QuestionAnswer(
+            _questionAnswer_.communityId,
+            _questionAnswer_.directoryFields,
+            _questionAnswer_.isHidden,
+            _questionAnswer_.memberId,
+            _questionAnswer_.questionId,
+            _questionAnswer_.questionTitle,
+            _questionAnswer_.state,
+            _questionAnswer_.tag,
+            _questionAnswer_.value,
+        )
     }
 
     /**--------------------------------
