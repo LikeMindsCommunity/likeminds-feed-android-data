@@ -836,25 +836,55 @@ object ModelConverter {
             return null
         }
         return _questionAnswers_.map {
-            convertMember(it)
+            convertQuestionAnswer(it)
         }
     }
 
     // converts internal QuestionAnswer model to client model
-    private fun convertMember(
+    private fun convertQuestionAnswer(
         _questionAnswer_: _QuestionAnswer_
     ): QuestionAnswer {
         return QuestionAnswer(
-            _questionAnswer_.communityId,
-            _questionAnswer_.directoryFields,
-            _questionAnswer_.isHidden,
-            _questionAnswer_.memberId,
-            _questionAnswer_.questionId,
-            _questionAnswer_.questionTitle,
-            _questionAnswer_.state,
-            _questionAnswer_.tag,
-            _questionAnswer_.value,
+            convertAnswer(_questionAnswer_.answer),
+            convertQuestion(_questionAnswer_.question)
         )
+    }
+
+    // converts internal Question model to client model
+    private fun convertQuestion(
+        _question_: _Question_
+    ): Question {
+        return Question.Builder()
+            .id(_question_.id)
+            .questionTitle(_question_.questionTitle)
+            .state(_question_.state)
+            .value(_question_.value)
+            .optional(_question_.optional)
+            .helpText(_question_.helpText)
+            .field(_question_.field)
+            .isCompulsory(_question_.isCompulsory)
+            .isHidden(_question_.isHidden)
+            .communityId(_question_.communityId)
+            .memberId(_question_.memberId)
+            .directoryFields(_question_.directoryFields)
+            .imageUrl(_question_.imageUrl)
+            .canAddOtherOptions(_question_.canAddOtherOptions)
+            .isAnswerEditable(_question_.isAnswerEditable)
+            .questionChangeState(_question_.questionChangeState)
+            .build()
+    }
+
+    // converts internal Answer model to client model
+    private fun convertAnswer(
+        _answer_: _Answer_
+    ): Answer {
+        return Answer.Builder()
+            .answer(_answer_.answer)
+            .memberId(_answer_.memberId)
+            .questionId(_answer_.questionId)
+            .communityId(_answer_.communityId)
+            .imageUrl(_answer_.imageUrl)
+            .build()
     }
 
     /**--------------------------------
