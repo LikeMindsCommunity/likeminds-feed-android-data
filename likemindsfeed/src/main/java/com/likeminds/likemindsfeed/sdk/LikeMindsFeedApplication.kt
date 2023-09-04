@@ -31,7 +31,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
 
     var likeMindsFeedComponent: LikeMindsFeedComponent? = null
 
-    private var initiateUserSubComponent: InitiateUserSubComponent? = null
+    private var initiateUserComponent: InitiateUserSubComponent? = null
     private var commentComponent: CommentSubComponent? = null
     private var universalFeedComponent: UniversalFeedSubComponent? = null
     private var postComponent: PostSubComponent? = null
@@ -72,10 +72,10 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     }
 
     fun initiateUserComponent(): InitiateUserSubComponent? {
-        if (initiateUserSubComponent == null) {
-            initiateUserSubComponent = likeMindsFeedComponent?.initiateUserComponent()?.create()
+        if (initiateUserComponent == null) {
+            initiateUserComponent = likeMindsFeedComponent?.initiateUserComponent()?.create()
         }
-        return initiateUserSubComponent
+        return initiateUserComponent
     }
 
     fun universalFeedComponent(): UniversalFeedSubComponent? {

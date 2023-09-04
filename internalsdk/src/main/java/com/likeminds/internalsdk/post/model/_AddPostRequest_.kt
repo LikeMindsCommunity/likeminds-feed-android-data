@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 class _AddPostRequest_ private constructor(
     @SerializedName("text")
     val text: String?,
-    // todo: check
     @SerializedName("on_behalf_of_uuid")
     val onBehalfOfUUID: String?,
     @SerializedName("heading")
