@@ -7,7 +7,10 @@ class AttachmentMeta private constructor(
     val size: Long?,
     val duration: Int?,
     val pageCount: Int?,
-    val ogTags: LinkOGTags
+    val ogTags: LinkOGTags,
+    val coverImageUrl: String?,
+    val title: String?,
+    val body: String?
 ) {
     class Builder {
 
@@ -18,6 +21,9 @@ class AttachmentMeta private constructor(
         private var duration: Int? = null
         private var pageCount: Int? = null
         private var ogTags: LinkOGTags = LinkOGTags.Builder().build()
+        private var coverImageUrl: String? = null
+        private var title: String? = null
+        private var body: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -26,6 +32,9 @@ class AttachmentMeta private constructor(
         fun duration(duration: Int?) = apply { this.duration = duration }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
         fun ogTags(ogTags: LinkOGTags) = apply { this.ogTags = ogTags }
+        fun coverImageUrl(coverImageUrl: String?) = apply { this.coverImageUrl = coverImageUrl }
+        fun title(title: String?) = apply { this.title = title }
+        fun body(body: String?) = apply { this.body = body }
 
         fun build() = AttachmentMeta(
             name,
@@ -34,7 +43,10 @@ class AttachmentMeta private constructor(
             size,
             duration,
             pageCount,
-            ogTags
+            ogTags,
+            coverImageUrl,
+            title,
+            body
         )
     }
 
@@ -46,5 +58,8 @@ class AttachmentMeta private constructor(
             .duration(duration)
             .pageCount(pageCount)
             .ogTags(ogTags)
+            .coverImageUrl(coverImageUrl)
+            .title(title)
+            .body(body)
     }
 }

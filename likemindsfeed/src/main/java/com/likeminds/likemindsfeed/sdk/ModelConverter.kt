@@ -649,6 +649,9 @@ object ModelConverter {
             .duration(_attachmentMeta_.duration)
             .pageCount(_attachmentMeta_.pageCount)
             .ogTags(convertOGTags(_attachmentMeta_.ogTags))
+            .coverImageUrl(_attachmentMeta_.coverImageUrl)
+            .title(_attachmentMeta_.title)
+            .body(_attachmentMeta_.body)
             .build()
     }
 
@@ -883,6 +886,9 @@ object ModelConverter {
             .duration(attachmentMeta.duration)
             .pageCount(attachmentMeta.pageCount)
             .ogTags(convertOGTags(attachmentMeta.ogTags))
+            .coverImageUrl(attachmentMeta.coverImageUrl)
+            .title(attachmentMeta.title)
+            .body(attachmentMeta.body)
             .build()
     }
 

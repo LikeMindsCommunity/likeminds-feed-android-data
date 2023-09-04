@@ -16,7 +16,13 @@ class _AttachmentMeta_ private constructor(
     @SerializedName("page_count")
     val pageCount: Int?,
     @SerializedName("og_tags")
-    val ogTags: _LinkOGTags_
+    val ogTags: _LinkOGTags_,
+    @SerializedName("cover_image_url")
+    val coverImageUrl: String?,
+    @SerializedName("title")
+    val title: String?,
+    @SerializedName("body")
+    val body: String?
 ) {
     class Builder {
 
@@ -27,6 +33,9 @@ class _AttachmentMeta_ private constructor(
         private var duration: Int? = null
         private var pageCount: Int? = null
         private var ogTags: _LinkOGTags_ = _LinkOGTags_.Builder().build()
+        private var coverImageUrl: String? = null
+        private var title: String? = null
+        private var body: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -35,6 +44,9 @@ class _AttachmentMeta_ private constructor(
         fun duration(duration: Int?) = apply { this.duration = duration }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
         fun ogTags(ogTags: _LinkOGTags_) = apply { this.ogTags = ogTags }
+        fun coverImageUrl(coverImageUrl: String?) = apply { this.coverImageUrl = coverImageUrl }
+        fun title(title: String?) = apply { this.title = title }
+        fun body(body: String?) = apply { this.body = body }
 
         fun build() = _AttachmentMeta_(
             name,
@@ -43,7 +55,10 @@ class _AttachmentMeta_ private constructor(
             size,
             duration,
             pageCount,
-            ogTags
+            ogTags,
+            coverImageUrl,
+            title,
+            body
         )
     }
 
@@ -55,5 +70,8 @@ class _AttachmentMeta_ private constructor(
             .duration(duration)
             .pageCount(pageCount)
             .ogTags(ogTags)
+            .coverImageUrl(coverImageUrl)
+            .title(title)
+            .body(body)
     }
 }
