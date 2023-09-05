@@ -4,8 +4,6 @@ import android.app.Application
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.di.comment.CommentModule
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
-import com.likeminds.likemindsfeed.di.community.CommunityModule
-import com.likeminds.likemindsfeed.di.community.CommunitySubComponent
 import com.likeminds.likemindsfeed.di.helper.HelperModule
 import com.likeminds.likemindsfeed.di.helper.HelperSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserModule
@@ -36,8 +34,7 @@ import javax.inject.Singleton
         PostModule::class,
         ModerationModule::class,
         HelperModule::class,
-        NotificationFeedModule::class,
-        CommunityModule::class
+        NotificationFeedModule::class
     ]
 )
 internal interface LikeMindsFeedComponent {
@@ -52,7 +49,6 @@ internal interface LikeMindsFeedComponent {
     fun moderationComponent(): ModerationSubComponent.Factory
     fun helperComponent(): HelperSubComponent.Factory
     fun notificationFeedComponent(): NotificationFeedSubComponent.Factory
-    fun communityComponent(): CommunitySubComponent.Factory
 
     @Component.Builder
     interface Builder {

@@ -1,8 +1,6 @@
 package com.likeminds.likemindsfeed.sdk
 
 import com.likeminds.internalsdk.comment.model.*
-import com.likeminds.internalsdk.community.model._GetAllMembersResponse_
-import com.likeminds.internalsdk.community.model._SearchMembersResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -14,8 +12,6 @@ import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
-import com.likeminds.likemindsfeed.community.model.GetAllMembersResponse
-import com.likeminds.likemindsfeed.community.model.SearchMembersResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.initiateUser.model.*
@@ -775,57 +771,6 @@ object ModelConverter {
             .uuid(_activityEntityData_.uuid)
             .deletedByUUID(_activityEntityData_.deletedByUUID)
             .build()
-    }
-
-    // converts api GetAllMembersResponse model to LM GetAllMembersResponse model
-    fun convertGetAllMembersAPIResponse(
-        apiResponse: APIResponse<_GetAllMembersResponse_>
-    ): LMResponse<GetAllMembersResponse> {
-        return LMResponse(
-            apiResponse.success,
-            apiResponse.errorMessage,
-            convertGetAllMembersResponse(apiResponse.data)
-        )
-    }
-
-    // converts internal GetAllMembersResponse model to client model
-    private fun convertGetAllMembersResponse(
-        _getAllMembersResponse_: _GetAllMembersResponse_?
-    ): GetAllMembersResponse? {
-        if (_getAllMembersResponse_ == null) {
-            return null
-        }
-        return GetAllMembersResponse(
-            convertCommunity(_getAllMembersResponse_.community),
-            convertUsers(_getAllMembersResponse_.members),
-            _getAllMembersResponse_.totalFilteredMembers,
-            _getAllMembersResponse_.totalMembers,
-            _getAllMembersResponse_.totalOnlyMembers,
-            _getAllMembersResponse_.totalPendingMembers
-        )
-    }
-
-    // converts api SearchMembersResponse model to LM SearchMembersResponse model
-    fun convertSearchMembersAPIResponse(
-        apiResponse: APIResponse<_SearchMembersResponse_>
-    ): LMResponse<SearchMembersResponse> {
-        return LMResponse(
-            apiResponse.success,
-            apiResponse.errorMessage,
-            convertSearchMembersResponse(apiResponse.data)
-        )
-    }
-
-    // converts internal SearchMembersResponse model to client model
-    private fun convertSearchMembersResponse(
-        _searchMembersResponse: _SearchMembersResponse_?
-    ): SearchMembersResponse? {
-        if (_searchMembersResponse == null) {
-            return null
-        }
-        return SearchMembersResponse(
-            convertUsers(_searchMembersResponse.members),
-        )
     }
 
     // converts internal QuestionAnswer model list to client model list

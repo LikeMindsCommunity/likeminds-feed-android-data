@@ -4,8 +4,6 @@ import android.app.Application
 import com.google.gson.Gson
 import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
-import com.likeminds.internalsdk.community.CommunityApi
-import com.likeminds.internalsdk.community.CommunityApiImpl
 import com.likeminds.internalsdk.di.*
 import com.likeminds.internalsdk.helper.HelperApi
 import com.likeminds.internalsdk.helper.HelperApiImpl
@@ -54,9 +52,6 @@ class FeedSDK {
 
     @Inject
     lateinit var notificationFeedApiImpl: NotificationFeedApiImpl
-
-    @Inject
-    lateinit var communityApiImpl: CommunityApiImpl
 
     var lmInternalCallback: LMInternalCallback? = null
 
@@ -116,9 +111,5 @@ class FeedSDK {
 
     fun getNotificationFeedApi(): NotificationFeedApi {
         return notificationFeedApiImpl
-    }
-
-    fun getCommunityApi(): CommunityApi {
-        return communityApiImpl
     }
 }
