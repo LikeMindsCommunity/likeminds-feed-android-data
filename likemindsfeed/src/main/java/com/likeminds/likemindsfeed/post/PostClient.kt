@@ -17,7 +17,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     private val postApi by lazy {
-        collabmatesSDK.getPostApi()
+        feedSDK.getPostApi()
     }
 
     /**

@@ -22,7 +22,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CollabmatesSDK {
+class FeedSDK {
     private var sdkComponent: SDKComponent? = null
 
     @Inject
@@ -61,15 +61,15 @@ class CollabmatesSDK {
     var lmInternalCallback: LMInternalCallback? = null
 
     companion object {
-        private var collabmatesSDKInstance: CollabmatesSDK? = null
+        private var feedSDKInstance: FeedSDK? = null
         const val LOG_TAG = "LikeMinds"
 
         @JvmStatic
-        fun getInstance(): CollabmatesSDK {
-            if (collabmatesSDKInstance == null) {
-                collabmatesSDKInstance = CollabmatesSDK()
+        fun getInstance(): FeedSDK {
+            if (feedSDKInstance == null) {
+                feedSDKInstance = FeedSDK()
             }
-            return collabmatesSDKInstance!!
+            return feedSDKInstance!!
         }
     }
 

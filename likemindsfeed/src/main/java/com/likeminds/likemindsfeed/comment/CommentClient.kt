@@ -17,7 +17,7 @@ class CommentClient @Inject constructor() : BaseClient() {
     }
 
     private val commentApi by lazy {
-        collabmatesSDK.getCommentApi()
+        feedSDK.getCommentApi()
     }
 
     companion object {

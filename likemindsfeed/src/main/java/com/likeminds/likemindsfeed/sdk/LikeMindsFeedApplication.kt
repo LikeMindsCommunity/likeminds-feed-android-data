@@ -1,7 +1,7 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.app.Application
-import com.likeminds.internalsdk.CollabmatesSDK
+import com.likeminds.internalsdk.FeedSDK
 import com.likeminds.internalsdk.LMInternalCallback
 import com.likeminds.internalsdk.di.SDKSharedResources
 import com.likeminds.internalsdk.sdk.SDKPreferences
@@ -21,7 +21,7 @@ import javax.inject.Inject
 internal class LikeMindsFeedApplication private constructor() : LMInternalCallback {
 
     @Inject
-    lateinit var collabmatesSDK: CollabmatesSDK
+    lateinit var feedSDK: FeedSDK
 
     @Inject
     lateinit var sdkSharedResources: SDKSharedResources
@@ -59,7 +59,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
 
         //init dagger
         initLikeMindsFeedComponent(application)
-        collabmatesSDK.initialize(sdkSharedResources, this)
+        feedSDK.initialize(sdkSharedResources, this)
     }
 
     private fun initLikeMindsFeedComponent(application: Application) {

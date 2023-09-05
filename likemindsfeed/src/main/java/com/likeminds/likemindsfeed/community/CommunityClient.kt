@@ -18,7 +18,7 @@ class CommunityClient @Inject constructor() : BaseClient() {
     }
 
     private val communityApi by lazy {
-        collabmatesSDK.getCommunityApi()
+        feedSDK.getCommunityApi()
     }
 
     companion object {

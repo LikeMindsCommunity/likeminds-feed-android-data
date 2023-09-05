@@ -1,14 +1,11 @@
 package com.likeminds.internalsdk.sdk
 
 import android.util.Log
-import com.likeminds.internalsdk.CollabmatesSDK.Companion.LOG_TAG
+import com.likeminds.internalsdk.FeedSDK.Companion.LOG_TAG
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import kotlinx.coroutines.runBlocking
-import okhttp3.Authenticator
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.Route
+import okhttp3.*
 import javax.inject.Inject
 
 class TokenAuthenticator @Inject constructor(
