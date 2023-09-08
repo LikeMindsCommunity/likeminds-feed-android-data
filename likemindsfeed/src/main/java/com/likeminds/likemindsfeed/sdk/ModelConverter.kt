@@ -91,6 +91,43 @@ object ModelConverter {
         return usersMap
     }
 
+    // converts the internal Widgets model hashmap to client Widget Hashmap
+    private fun convertWidgetsMap(
+        _widgetsMap_: Map<String, _Widgets_>
+    ): Map<String, Widgets> {
+        val widgetsMap = _widgetsMap_.mapValues {
+            convertWidgets(it.value)
+        }
+        return widgetsMap
+    }
+
+    // converts the internal Widgets model to client Widget
+    private fun convertWidgets(
+        _widgets_: _Widgets_
+    ): Widgets {
+        return Widgets(
+            _widgets_.id,
+            _widgets_.createdAt,
+            convertMetaData(_widgets_.metaData),
+            _widgets_.parentEntityId,
+            _widgets_.parentEntityType,
+            _widgets_.updatedAt,
+        )
+    }
+
+    // converts the internal MetaData model to client MetaData
+    private fun convertMetaData(
+        _metaData_: _MetaData_
+    ): MetaData {
+        return MetaData(
+            _metaData_.body,
+            _metaData_.coverImageUrl,
+            _metaData_.name,
+            _metaData_.title,
+        )
+    }
+
+
     // converts internal Community model to client model
     private fun convertCommunity(
         _community_: _Community_
@@ -205,7 +242,8 @@ object ModelConverter {
         }
         return GetFeedResponse(
             convertPosts(_getFeedResponse_.posts),
-            convertUsersMap(_getFeedResponse_.users)
+            convertUsersMap(_getFeedResponse_.users),
+            convertWidgetsMap(_getFeedResponse_.widgets)
         )
     }
 
@@ -229,7 +267,8 @@ object ModelConverter {
         }
         return AddPostResponse(
             convertPost(_addPostResponse_.post),
-            convertUsersMap(_addPostResponse_.users)
+            convertUsersMap(_addPostResponse_.users),
+            convertWidgetsMap(_addPostResponse_.widgets)
         )
     }
 
@@ -253,7 +292,8 @@ object ModelConverter {
         }
         return EditPostResponse(
             convertPost(_editPostResponse_.post),
-            convertUsersMap(_editPostResponse_.users)
+            convertUsersMap(_editPostResponse_.users),
+            convertWidgetsMap(_editPostResponse_.widgets)
         )
     }
 
@@ -277,7 +317,8 @@ object ModelConverter {
         }
         return GetPostResponse(
             convertPost(_getPostResponse_.post),
-            convertUsersMap(_getPostResponse_.users)
+            convertUsersMap(_getPostResponse_.users),
+            convertWidgetsMap(_getPostResponse_.widgets)
         )
     }
 
@@ -534,7 +575,8 @@ object ModelConverter {
         }
         return GetNotificationFeedResponse(
             convertActivities(_getNotificationFeedResponse_.activities),
-            convertUsersMap(_getNotificationFeedResponse_.users)
+            convertUsersMap(_getNotificationFeedResponse_.users),
+            convertWidgetsMap(_getNotificationFeedResponse_.widgets)
         )
     }
 
