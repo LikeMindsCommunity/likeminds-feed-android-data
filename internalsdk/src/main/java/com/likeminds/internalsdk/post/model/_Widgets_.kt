@@ -8,7 +8,7 @@ data class _Widgets_(
     @SerializedName("created_at")
     val createdAt: Long,
     @SerializedName("meta_data")
-    val metaData: _MetaData_,
+    val metaData: _MetaData_?,
     @SerializedName("parent_entity_id")
     val parentEntityId: String,
     @SerializedName("parent_entity_type")
@@ -22,8 +22,6 @@ data class _MetaData_(
     val body: String,
     @SerializedName("cover_image_url")
     val coverImageUrl: String,
-    @SerializedName("name")
-    val name: String,
     @SerializedName("title")
     val title: String
 )

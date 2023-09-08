@@ -117,12 +117,14 @@ object ModelConverter {
 
     // converts the internal MetaData model to client MetaData
     private fun convertMetaData(
-        _metaData_: _MetaData_
-    ): MetaData {
+        _metaData_: _MetaData_?
+    ): MetaData? {
+        if (_metaData_ == null) {
+            return null
+        }
         return MetaData(
             _metaData_.body,
             _metaData_.coverImageUrl,
-            _metaData_.name,
             _metaData_.title,
         )
     }
