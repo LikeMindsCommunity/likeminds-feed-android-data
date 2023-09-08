@@ -7,5 +7,7 @@ data class _AddPostResponse_(
     @SerializedName("post")
     val post: _Post_,
     @SerializedName("users")
-    val users: Map<String, _User_>
+    val users: Map<String, _User_>,
+    @SerializedName("widgets")
+    val widgets: Map<String, _Widgets_>
 )
