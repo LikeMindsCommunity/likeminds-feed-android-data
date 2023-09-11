@@ -8,7 +8,7 @@ class _Widgets_ private constructor(
     @SerializedName("created_at")
     val createdAt: Long,
     @SerializedName("meta_data")
-    val metaData: _MetaData_?,
+    val metaData: _WidgetMetaData_?,
     @SerializedName("parent_entity_id")
     val parentEntityId: String,
     @SerializedName("parent_entity_type")
@@ -19,14 +19,14 @@ class _Widgets_ private constructor(
     class Builder {
         private var id: String = ""
         private var createdAt: Long = 0L
-        private var metaData: _MetaData_? = null
+        private var metaData: _WidgetMetaData_? = null
         private var parentEntityId: String = ""
         private var parentEntityType: String = ""
         private var updatedAt: Long = 0L
 
         fun id(id: String) = apply { this.id = id }
         fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
-        fun metaData(metaData: _MetaData_?) = apply { this.metaData = metaData }
+        fun metaData(metaData: _WidgetMetaData_?) = apply { this.metaData = metaData }
         fun parentEntityId(parentEntityId: String) = apply { this.parentEntityId = parentEntityId }
         fun parentEntityType(parentEntityType: String) =
             apply { this.parentEntityType = parentEntityType }

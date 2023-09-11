@@ -1,6 +1,6 @@
 package com.likeminds.likemindsfeed.widgets.model
 
-class MetaData private constructor(
+class WidgetMetaData private constructor(
     val body: String,
     val coverImageUrl: String,
     val title: String
@@ -14,7 +14,7 @@ class MetaData private constructor(
         fun coverImageUrl(coverImageUrl: String) = apply { this.coverImageUrl = coverImageUrl }
         fun title(title: String) = apply { this.title = title }
 
-        fun build() = MetaData(
+        fun build() = WidgetMetaData(
             body,
             coverImageUrl,
             title

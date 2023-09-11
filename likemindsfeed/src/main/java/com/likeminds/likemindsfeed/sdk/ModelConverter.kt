@@ -10,7 +10,7 @@ import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
-import com.likeminds.internalsdk.widgets.model._MetaData_
+import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
 import com.likeminds.internalsdk.widgets.model._Widgets_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
@@ -23,7 +23,7 @@ import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
-import com.likeminds.likemindsfeed.widgets.model.MetaData
+import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
 import com.likeminds.likemindsfeed.widgets.model.Widgets
 
 object ModelConverter {
@@ -112,7 +112,7 @@ object ModelConverter {
         return Widgets.Builder()
             .id(_widgets_.id)
             .createdAt(_widgets_.createdAt)
-            .metaData(convertMetaData(_widgets_.metaData))
+            .metaData(convertWidgetMetaData(_widgets_.metaData))
             .parentEntityId(_widgets_.parentEntityId)
             .parentEntityType(_widgets_.parentEntityType)
             .updatedAt(_widgets_.updatedAt)
@@ -120,16 +120,16 @@ object ModelConverter {
     }
 
     // converts the internal MetaData model to client MetaData
-    private fun convertMetaData(
-        _metaData_: _MetaData_?
-    ): MetaData? {
-        if (_metaData_ == null) {
+    private fun convertWidgetMetaData(
+        _Widget_metaData_: _WidgetMetaData_?
+    ): WidgetMetaData? {
+        if (_Widget_metaData_ == null) {
             return null
         }
-        return MetaData.Builder()
-            .body(_metaData_.body)
-            .title(_metaData_.title)
-            .coverImageUrl(_metaData_.coverImageUrl)
+        return WidgetMetaData.Builder()
+            .body(_Widget_metaData_.body)
+            .title(_Widget_metaData_.title)
+            .coverImageUrl(_Widget_metaData_.coverImageUrl)
             .build()
     }
 

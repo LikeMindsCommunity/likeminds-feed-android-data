@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.widgets.model
 
 import com.google.gson.annotations.SerializedName
 
-class _MetaData_ private constructor(
+class _WidgetMetaData_ private constructor(
     @SerializedName("body")
     val body: String,
     @SerializedName("cover_image_url")
@@ -19,7 +19,7 @@ class _MetaData_ private constructor(
         fun coverImageUrl(coverImageUrl: String) = apply { this.coverImageUrl = coverImageUrl }
         fun title(title: String) = apply { this.title = title }
 
-        fun build() = _MetaData_(
+        fun build() = _WidgetMetaData_(
             body,
             coverImageUrl,
             title
