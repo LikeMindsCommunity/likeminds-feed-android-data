@@ -1,7 +1,7 @@
 package com.likeminds.likemindsfeed.notificationfeed.model
 
-import com.likeminds.likemindsfeed.post.model.Widgets
 import com.likeminds.likemindsfeed.sdk.model.User
+import com.likeminds.likemindsfeed.widgets.model.Widgets
 
 data class GetNotificationFeedResponse(
     val activities: List<Activity>,

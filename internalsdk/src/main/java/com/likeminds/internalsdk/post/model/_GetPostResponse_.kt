@@ -2,6 +2,7 @@ package com.likeminds.internalsdk.post.model
 
 import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.internalsdk.widgets.model._Widgets_
 
 data class _GetPostResponse_(
     @SerializedName("post")

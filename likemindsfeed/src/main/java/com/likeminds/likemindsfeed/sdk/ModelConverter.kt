@@ -10,6 +10,8 @@ import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
+import com.likeminds.internalsdk.widgets.model._MetaData_
+import com.likeminds.internalsdk.widgets.model._Widgets_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
@@ -21,6 +23,8 @@ import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.widgets.model.MetaData
+import com.likeminds.likemindsfeed.widgets.model.Widgets
 
 object ModelConverter {
 
@@ -105,14 +109,14 @@ object ModelConverter {
     private fun convertWidgets(
         _widgets_: _Widgets_
     ): Widgets {
-        return Widgets(
-            _widgets_.id,
-            _widgets_.createdAt,
-            convertMetaData(_widgets_.metaData),
-            _widgets_.parentEntityId,
-            _widgets_.parentEntityType,
-            _widgets_.updatedAt,
-        )
+        return Widgets.Builder()
+            .id(_widgets_.id)
+            .createdAt(_widgets_.createdAt)
+            .metaData(convertMetaData(_widgets_.metaData))
+            .parentEntityId(_widgets_.parentEntityId)
+            .parentEntityType(_widgets_.parentEntityType)
+            .updatedAt(_widgets_.updatedAt)
+            .build()
     }
 
     // converts the internal MetaData model to client MetaData
@@ -122,11 +126,11 @@ object ModelConverter {
         if (_metaData_ == null) {
             return null
         }
-        return MetaData(
-            _metaData_.body,
-            _metaData_.coverImageUrl,
-            _metaData_.title,
-        )
+        return MetaData.Builder()
+            .body(_metaData_.body)
+            .title(_metaData_.title)
+            .coverImageUrl(_metaData_.coverImageUrl)
+            .build()
     }
 
 

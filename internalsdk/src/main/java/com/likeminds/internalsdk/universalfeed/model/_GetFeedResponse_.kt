@@ -2,8 +2,8 @@ package com.likeminds.internalsdk.universalfeed.model
 
 import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.post.model._Post_
-import com.likeminds.internalsdk.post.model._Widgets_
 import com.likeminds.internalsdk.sdk.model._User_
+import com.likeminds.internalsdk.widgets.model._Widgets_
 
 data class _GetFeedResponse_(
     @SerializedName("posts")
