@@ -1,8 +1,6 @@
 package com.likeminds.likemindsfeed.helper
 
-import com.likeminds.internalsdk.helper.model._DecodeUrlRequest_
-import com.likeminds.internalsdk.helper.model._GetTaggingListRequest_
-import com.likeminds.internalsdk.helper.model._RegisterDeviceRequest_
+import com.likeminds.internalsdk.helper.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -19,7 +17,7 @@ class HelperClient @Inject constructor() : BaseClient() {
     }
 
     private val helperApi by lazy {
-        collabmatesSDK.getHelperApi()
+        feedSDK.getHelperApi()
     }
 
     /**

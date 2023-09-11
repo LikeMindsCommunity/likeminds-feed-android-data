@@ -6,10 +6,7 @@ import com.likeminds.internalsdk.sdk.model._LogoutRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
-import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
-import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
+import com.likeminds.likemindsfeed.initiateUser.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.util.RequestUtils
@@ -22,7 +19,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
     }
 
     private val sdkApi by lazy {
-        collabmatesSDK.getSDKApi()
+        feedSDK.getSDKApi()
     }
 
     companion object {

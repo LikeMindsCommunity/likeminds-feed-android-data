@@ -5,10 +5,7 @@ import com.likeminds.internalsdk.notificationfeed.model._MarkReadNotificationReq
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
-import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedRequest
-import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedResponse
-import com.likeminds.likemindsfeed.notificationfeed.model.GetUnreadNotificationCountResponse
-import com.likeminds.likemindsfeed.notificationfeed.model.MarkReadNotificationRequest
+import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.util.RequestUtils
@@ -21,7 +18,7 @@ class NotificationFeedClient @Inject constructor() : BaseClient() {
     }
 
     private val notificationFeedApi by lazy {
-        collabmatesSDK.getNotificationFeedApi()
+        feedSDK.getNotificationFeedApi()
     }
 
     /**

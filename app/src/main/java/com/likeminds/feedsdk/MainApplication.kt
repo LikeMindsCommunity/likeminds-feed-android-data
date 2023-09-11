@@ -10,7 +10,7 @@ class MainApplication : Application(), LMCallback {
     override fun onCreate() {
         super.onCreate()
 
-        val client = LMFeedClient.Builder(this)
+        LMFeedClient.Builder(this)
             .lmCallback(this)
             .build()
     }

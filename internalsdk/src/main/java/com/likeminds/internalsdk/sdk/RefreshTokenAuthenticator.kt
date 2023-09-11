@@ -1,13 +1,10 @@
 package com.likeminds.internalsdk.sdk
 
 import android.util.Log
-import com.likeminds.internalsdk.CollabmatesSDK
-import com.likeminds.internalsdk.CollabmatesSDK.Companion.LOG_TAG
+import com.likeminds.internalsdk.FeedSDK
+import com.likeminds.internalsdk.FeedSDK.Companion.LOG_TAG
 import com.likeminds.internalsdk.FeedTokenManager
-import okhttp3.Authenticator
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.Route
+import okhttp3.*
 import javax.inject.Inject
 
 class RefreshTokenAuthenticator @Inject constructor() : Authenticator {
@@ -25,7 +22,7 @@ class RefreshTokenAuthenticator @Inject constructor() : Authenticator {
             Log.d(LOG_TAG, "refresh token is expired, clearing tokens")
             val feedTokenManager = FeedTokenManager.getInstance()
             feedTokenManager.clear()
-            val lmInternalCallback = CollabmatesSDK.getInstance().lmInternalCallback
+            val lmInternalCallback = FeedSDK.getInstance().lmInternalCallback
             lmInternalCallback?.login()
             null
         } else {

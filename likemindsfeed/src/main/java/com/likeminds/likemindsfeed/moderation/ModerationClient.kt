@@ -5,9 +5,7 @@ import com.likeminds.internalsdk.moderation.model._PostReportRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
-import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
-import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
-import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
+import com.likeminds.likemindsfeed.moderation.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.util.RequestUtils
@@ -20,7 +18,7 @@ class ModerationClient @Inject constructor() : BaseClient() {
     }
 
     private val moderationApi by lazy {
-        collabmatesSDK.getModerationApi()
+        feedSDK.getModerationApi()
     }
 
     /**

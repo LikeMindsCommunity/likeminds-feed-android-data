@@ -5,32 +5,26 @@ import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
-import com.likeminds.internalsdk.notificationfeed.model._ActivityEntityData_
-import com.likeminds.internalsdk.notificationfeed.model._Activity_
-import com.likeminds.internalsdk.notificationfeed.model._GetNotificationFeedResponse_
-import com.likeminds.internalsdk.notificationfeed.model._GetUnreadNotificationCountResponse_
+import com.likeminds.internalsdk.notificationfeed.model.*
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
+import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
+import com.likeminds.internalsdk.widgets.model._Widgets_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
-import com.likeminds.likemindsfeed.initiateUser.model.ManagementRightPermissionData
-import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
+import com.likeminds.likemindsfeed.initiateUser.model.*
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
-import com.likeminds.likemindsfeed.notificationfeed.model.Activity
-import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
-import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedResponse
-import com.likeminds.likemindsfeed.notificationfeed.model.GetUnreadNotificationCountResponse
+import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.post.model.*
-import com.likeminds.likemindsfeed.sdk.model.Community
-import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
-import com.likeminds.likemindsfeed.sdk.model.User
+import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
+import com.likeminds.likemindsfeed.widgets.model.Widgets
 
 object ModelConverter {
 
@@ -84,6 +78,10 @@ object ModelConverter {
             .customTitle(_user_.customTitle)
             .userUniqueId(_user_.userUniqueId)
             .uuid(_user_.uuid)
+            .state(_user_.state)
+            .customIntroText(_user_.customIntroText)
+            .memberSince(_user_.memberSince)
+            .questionAnswers(convertQuestionAnswers(_user_.questionAnswers))
             .build()
     }
 
@@ -96,6 +94,45 @@ object ModelConverter {
         }
         return usersMap
     }
+
+    // converts the internal Widgets model hashmap to client Widget Hashmap
+    private fun convertWidgetsMap(
+        _widgetsMap_: Map<String, _Widgets_>
+    ): Map<String, Widgets> {
+        val widgetsMap = _widgetsMap_.mapValues {
+            convertWidgets(it.value)
+        }
+        return widgetsMap
+    }
+
+    // converts the internal Widgets model to client Widget
+    private fun convertWidgets(
+        _widgets_: _Widgets_
+    ): Widgets {
+        return Widgets.Builder()
+            .id(_widgets_.id)
+            .createdAt(_widgets_.createdAt)
+            .metaData(convertWidgetMetaData(_widgets_.metaData))
+            .parentEntityId(_widgets_.parentEntityId)
+            .parentEntityType(_widgets_.parentEntityType)
+            .updatedAt(_widgets_.updatedAt)
+            .build()
+    }
+
+    // converts the internal MetaData model to client MetaData
+    private fun convertWidgetMetaData(
+        _Widget_metaData_: _WidgetMetaData_?
+    ): WidgetMetaData? {
+        if (_Widget_metaData_ == null) {
+            return null
+        }
+        return WidgetMetaData.Builder()
+            .body(_Widget_metaData_.body)
+            .title(_Widget_metaData_.title)
+            .coverImageUrl(_Widget_metaData_.coverImageUrl)
+            .build()
+    }
+
 
     // converts internal Community model to client model
     private fun convertCommunity(
@@ -211,7 +248,8 @@ object ModelConverter {
         }
         return GetFeedResponse(
             convertPosts(_getFeedResponse_.posts),
-            convertUsersMap(_getFeedResponse_.users)
+            convertUsersMap(_getFeedResponse_.users),
+            convertWidgetsMap(_getFeedResponse_.widgets)
         )
     }
 
@@ -235,7 +273,8 @@ object ModelConverter {
         }
         return AddPostResponse(
             convertPost(_addPostResponse_.post),
-            convertUsersMap(_addPostResponse_.users)
+            convertUsersMap(_addPostResponse_.users),
+            convertWidgetsMap(_addPostResponse_.widgets)
         )
     }
 
@@ -259,7 +298,8 @@ object ModelConverter {
         }
         return EditPostResponse(
             convertPost(_editPostResponse_.post),
-            convertUsersMap(_editPostResponse_.users)
+            convertUsersMap(_editPostResponse_.users),
+            convertWidgetsMap(_editPostResponse_.widgets)
         )
     }
 
@@ -283,7 +323,8 @@ object ModelConverter {
         }
         return GetPostResponse(
             convertPost(_getPostResponse_.post),
-            convertUsersMap(_getPostResponse_.users)
+            convertUsersMap(_getPostResponse_.users),
+            convertWidgetsMap(_getPostResponse_.widgets)
         )
     }
 
@@ -540,7 +581,8 @@ object ModelConverter {
         }
         return GetNotificationFeedResponse(
             convertActivities(_getNotificationFeedResponse_.activities),
-            convertUsersMap(_getNotificationFeedResponse_.users)
+            convertUsersMap(_getNotificationFeedResponse_.users),
+            convertWidgetsMap(_getNotificationFeedResponse_.widgets)
         )
     }
 
@@ -651,6 +693,9 @@ object ModelConverter {
             .duration(_attachmentMeta_.duration)
             .pageCount(_attachmentMeta_.pageCount)
             .ogTags(convertOGTags(_attachmentMeta_.ogTags))
+            .coverImageUrl(_attachmentMeta_.coverImageUrl)
+            .title(_attachmentMeta_.title)
+            .body(_attachmentMeta_.body)
             .build()
     }
 
@@ -776,6 +821,65 @@ object ModelConverter {
             .build()
     }
 
+    // converts internal QuestionAnswer model list to client model list
+    private fun convertQuestionAnswers(
+        _questionAnswers_: List<_QuestionAnswer_>?
+    ): List<QuestionAnswer>? {
+        if (_questionAnswers_ == null) {
+            return null
+        }
+        return _questionAnswers_.map {
+            convertQuestionAnswer(it)
+        }
+    }
+
+    // converts internal QuestionAnswer model to client model
+    private fun convertQuestionAnswer(
+        _questionAnswer_: _QuestionAnswer_
+    ): QuestionAnswer {
+        return QuestionAnswer(
+            convertAnswer(_questionAnswer_.answer),
+            convertQuestion(_questionAnswer_.question)
+        )
+    }
+
+    // converts internal Question model to client model
+    private fun convertQuestion(
+        _question_: _Question_
+    ): Question {
+        return Question.Builder()
+            .id(_question_.id)
+            .questionTitle(_question_.questionTitle)
+            .state(_question_.state)
+            .value(_question_.value)
+            .optional(_question_.optional)
+            .helpText(_question_.helpText)
+            .field(_question_.field)
+            .isCompulsory(_question_.isCompulsory)
+            .isHidden(_question_.isHidden)
+            .communityId(_question_.communityId)
+            .memberId(_question_.memberId)
+            .directoryFields(_question_.directoryFields)
+            .imageUrl(_question_.imageUrl)
+            .canAddOtherOptions(_question_.canAddOtherOptions)
+            .isAnswerEditable(_question_.isAnswerEditable)
+            .questionChangeState(_question_.questionChangeState)
+            .build()
+    }
+
+    // converts internal Answer model to client model
+    private fun convertAnswer(
+        _answer_: _Answer_
+    ): Answer {
+        return Answer.Builder()
+            .answer(_answer_.answer)
+            .memberId(_answer_.memberId)
+            .questionId(_answer_.questionId)
+            .communityId(_answer_.communityId)
+            .imageUrl(_answer_.imageUrl)
+            .build()
+    }
+
     /**--------------------------------
      * Client Model -> Internal Model
     --------------------------------*/
@@ -805,6 +909,9 @@ object ModelConverter {
             .duration(attachmentMeta.duration)
             .pageCount(attachmentMeta.pageCount)
             .ogTags(convertOGTags(attachmentMeta.ogTags))
+            .coverImageUrl(attachmentMeta.coverImageUrl)
+            .title(attachmentMeta.title)
+            .body(attachmentMeta.body)
             .build()
     }
 

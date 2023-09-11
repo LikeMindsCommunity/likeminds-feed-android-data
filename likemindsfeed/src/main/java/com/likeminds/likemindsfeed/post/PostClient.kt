@@ -17,7 +17,7 @@ class PostClient @Inject constructor() : BaseClient() {
     }
 
     private val postApi by lazy {
-        collabmatesSDK.getPostApi()
+        feedSDK.getPostApi()
     }
 
     /**
@@ -45,6 +45,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 val body = response.body
                 return ModelConverter.convertGetPostAPIResponse(body)
@@ -75,6 +76,8 @@ class PostClient @Inject constructor() : BaseClient() {
 
         // builds internal request model
         val request = _AddPostRequest_.Builder().text(addPostRequest.text)
+            .onBehalfOfUUID(addPostRequest.onBehalfOfUUID)
+            .heading(addPostRequest.heading)
             .attachments(ModelConverter.createAttachments(addPostRequest.attachments))
             .build()
         // calls api and processes the response accordingly
@@ -85,6 +88,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 val body = response.body
                 ModelConverter.convertAddPostAPIResponse(body)
@@ -116,6 +120,7 @@ class PostClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request = _EditPostRequest_.Builder().postId(editPostRequest.postId)
             .text(editPostRequest.text)
+            .heading(editPostRequest.heading)
             .attachments(ModelConverter.createAttachments(editPostRequest.attachments))
             .build()
         // calls api and processes the response accordingly
@@ -126,6 +131,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 val body = response.body
                 ModelConverter.convertEditPostAPIResponse(body)
@@ -170,6 +176,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 val body = response.body
                 return ModelConverter.convertGetPostLikesAPIResponse(body)
@@ -211,6 +218,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 LMResponse(
                     success = response.body.success
@@ -252,6 +260,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 LMResponse(
                     success = response.body.success
@@ -293,6 +302,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 LMResponse(
                     success = response.body.success
@@ -334,6 +344,7 @@ class PostClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 LMResponse(
                     success = response.body.success
