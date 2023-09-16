@@ -11,7 +11,8 @@ class AttachmentMeta private constructor(
     val coverImageUrl: String?,
     val title: String?,
     val body: String?,
-    val entityId: String?
+    val entityId: String?,
+    val thumbnailUrl: String?
 ) {
     class Builder {
 
@@ -26,6 +27,7 @@ class AttachmentMeta private constructor(
         private var title: String? = null
         private var body: String? = null
         private var entityId: String? = null
+        private var thumbnailUrl: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -38,6 +40,7 @@ class AttachmentMeta private constructor(
         fun title(title: String?) = apply { this.title = title }
         fun body(body: String?) = apply { this.body = body }
         fun entityId(entityId: String?) = apply { this.entityId = entityId }
+        fun thumbnailUrl(thumbnailUrl: String?) = apply { this.thumbnailUrl = thumbnailUrl }
 
         fun build() = AttachmentMeta(
             name,
@@ -50,7 +53,8 @@ class AttachmentMeta private constructor(
             coverImageUrl,
             title,
             body,
-            entityId
+            entityId,
+            thumbnailUrl
         )
     }
 
@@ -66,5 +70,6 @@ class AttachmentMeta private constructor(
             .title(title)
             .body(body)
             .entityId(entityId)
+            .thumbnailUrl(thumbnailUrl)
     }
 }

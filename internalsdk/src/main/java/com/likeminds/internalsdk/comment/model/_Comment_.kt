@@ -31,7 +31,9 @@ class _Comment_ private constructor(
     @SerializedName("parent_comment")
     val parentComment: _Comment_?,
     @SerializedName("uuid")
-    val uuid: String
+    val uuid: String,
+    @SerializedName("temp_id")
+    val tempId: Long?
 ) {
     class Builder {
         private var id: String = ""
@@ -48,6 +50,7 @@ class _Comment_ private constructor(
         private var menuItems: List<_MenuItem_> = emptyList()
         private var parentComment: _Comment_? = null
         private var uuid: String = ""
+        private var tempId: Long? = null
 
         fun id(id: String) = apply { this.id = id }
         fun isLiked(isLiked: Boolean) = apply { this.isLiked = isLiked }
@@ -62,8 +65,8 @@ class _Comment_ private constructor(
         fun replies(replies: List<_Comment_>?) = apply { this.replies = replies }
         fun menuItems(menuItems: List<_MenuItem_>) = apply { this.menuItems = menuItems }
         fun parentComment(parentComment: _Comment_?) = apply { this.parentComment = parentComment }
-
         fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun tempId(tempId: Long?) = apply { this.tempId = tempId }
 
         fun build() = _Comment_(
             id,
@@ -79,7 +82,8 @@ class _Comment_ private constructor(
             replies,
             menuItems,
             parentComment,
-            uuid
+            uuid,
+            tempId
         )
     }
 
@@ -98,5 +102,6 @@ class _Comment_ private constructor(
             .menuItems(menuItems)
             .parentComment(parentComment)
             .uuid(uuid)
+            .tempId(tempId)
     }
 }

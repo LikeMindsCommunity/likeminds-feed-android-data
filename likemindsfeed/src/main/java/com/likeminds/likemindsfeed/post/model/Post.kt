@@ -18,7 +18,9 @@ class Post private constructor(
     val replies: List<Comment>?,
     val createdAt: Long,
     val updatedAt: Long,
-    val uuid: String
+    val uuid: String,
+    val heading: String?,
+    val tempId: Long?
 ) {
     class Builder {
         private var id: String = ""
@@ -37,6 +39,8 @@ class Post private constructor(
         private var createdAt: Long = 0L
         private var updatedAt: Long = 0L
         private var uuid: String = ""
+        private var heading: String? = null
+        private var tempId: Long? = null
 
         fun id(id: String) = apply { this.id = id }
         fun text(text: String) = apply { this.text = text }
@@ -53,8 +57,9 @@ class Post private constructor(
         fun replies(replies: List<Comment>?) = apply { this.replies = replies }
         fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
-
         fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun heading(heading: String?) = apply { this.heading = heading }
+        fun tempId(tempId: Long?) = apply { this.tempId = tempId }
 
         fun build() = Post(
             id,
@@ -72,7 +77,9 @@ class Post private constructor(
             replies,
             createdAt,
             updatedAt,
-            uuid
+            uuid,
+            heading,
+            tempId
         )
     }
 
@@ -93,5 +100,7 @@ class Post private constructor(
             .createdAt(createdAt)
             .updatedAt(updatedAt)
             .uuid(uuid)
+            .heading(heading)
+            .tempId(tempId)
     }
 }

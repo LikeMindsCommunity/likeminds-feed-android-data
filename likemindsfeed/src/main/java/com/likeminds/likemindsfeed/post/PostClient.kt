@@ -79,6 +79,7 @@ class PostClient @Inject constructor() : BaseClient() {
             .onBehalfOfUUID(addPostRequest.onBehalfOfUUID)
             .heading(addPostRequest.heading)
             .attachments(ModelConverter.createAttachments(addPostRequest.attachments))
+            .tempId(addPostRequest.tempId)
             .build()
         // calls api and processes the response accordingly
         return when (val response = postApi.addPost(request)) {

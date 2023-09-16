@@ -24,7 +24,9 @@ class _AttachmentMeta_ private constructor(
     @SerializedName("body")
     val body: String?,
     @SerializedName("entity_id")
-    val entityId: String?
+    val entityId: String?,
+    @SerializedName("thumbnail_url")
+    val thumbnailUrl: String?
 ) {
     class Builder {
 
@@ -39,6 +41,7 @@ class _AttachmentMeta_ private constructor(
         private var title: String? = null
         private var body: String? = null
         private var entityId: String? = null
+        private var thumbnailUrl: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -51,6 +54,7 @@ class _AttachmentMeta_ private constructor(
         fun title(title: String?) = apply { this.title = title }
         fun body(body: String?) = apply { this.body = body }
         fun entityId(entityId: String?) = apply { this.entityId = entityId }
+        fun thumbnailUrl(thumbnailUrl: String?) = apply { this.thumbnailUrl = thumbnailUrl }
 
         fun build() = _AttachmentMeta_(
             name,
@@ -63,7 +67,8 @@ class _AttachmentMeta_ private constructor(
             coverImageUrl,
             title,
             body,
-            entityId
+            entityId,
+            thumbnailUrl
         )
     }
 
@@ -79,5 +84,6 @@ class _AttachmentMeta_ private constructor(
             .title(title)
             .body(body)
             .entityId(entityId)
+            .thumbnailUrl(thumbnailUrl)
     }
 }
