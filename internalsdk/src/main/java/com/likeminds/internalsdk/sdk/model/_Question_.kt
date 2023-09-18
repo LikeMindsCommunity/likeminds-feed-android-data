@@ -41,7 +41,7 @@ class _Question_ private constructor(
     @SerializedName("tag")
     val tag: String?,
     @SerializedName("rank")
-    val rank: String?,
+    val rank: Int?,
 ) : Parcelable {
     class Builder {
         private var id: Int? = null
@@ -61,7 +61,7 @@ class _Question_ private constructor(
         private var questionChangeState: Int? = -1
         private var isAnswerEditable: Boolean = true
         private var tag: String? = null
-        private var rank: String? = null
+        private var rank: Int? = null
 
         fun id(id: Int?) = apply { this.id = id }
         fun questionTitle(questionTitle: String) = apply { this.questionTitle = questionTitle }
@@ -89,7 +89,7 @@ class _Question_ private constructor(
             apply { this.isAnswerEditable = isAnswerEditable }
 
         fun tag(tag: String?) = apply { this.tag = tag }
-        fun rank(rank: String?) = apply { this.rank = rank }
+        fun rank(rank: Int?) = apply { this.rank = rank }
 
         fun build() = _Question_(
             id,

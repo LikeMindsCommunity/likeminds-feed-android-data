@@ -22,7 +22,7 @@ class Question private constructor(
     val questionChangeState: Int?,
     val isAnswerEditable: Boolean,
     val tag: String?,
-    val rank: String?
+    val rank: Int?
 ) : Parcelable {
     class Builder {
         private var id: Int? = null
@@ -42,7 +42,7 @@ class Question private constructor(
         private var questionChangeState: Int? = -1
         private var isAnswerEditable: Boolean = true
         private var tag: String? = null
-        private var rank: String? = null
+        private var rank: Int? = null
 
         fun id(id: Int?) = apply { this.id = id }
         fun questionTitle(questionTitle: String) = apply { this.questionTitle = questionTitle }
@@ -70,7 +70,7 @@ class Question private constructor(
             apply { this.isAnswerEditable = isAnswerEditable }
 
         fun tag(tag: String?) = apply { this.tag = tag }
-        fun rank(rank: String?) = apply { this.rank = rank }
+        fun rank(rank: Int?) = apply { this.rank = rank }
 
         fun build() = Question(
             id,
