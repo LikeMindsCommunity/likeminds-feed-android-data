@@ -130,6 +130,9 @@ object ModelConverter {
             .body(_widgetMetaData_.body)
             .title(_widgetMetaData_.title)
             .coverImageUrl(_widgetMetaData_.coverImageUrl)
+            .name(_widgetMetaData_.name)
+            .size(_widgetMetaData_.size)
+            .url(_widgetMetaData_.url)
             .build()
     }
 
