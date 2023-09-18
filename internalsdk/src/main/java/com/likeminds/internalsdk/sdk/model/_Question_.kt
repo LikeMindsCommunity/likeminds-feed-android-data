@@ -37,7 +37,11 @@ class _Question_ private constructor(
     @SerializedName("question_change_state")
     val questionChangeState: Int?,
     @SerializedName("is_answer_editable")
-    val isAnswerEditable: Boolean
+    val isAnswerEditable: Boolean,
+    @SerializedName("tag")
+    val tag: String?,
+    @SerializedName("rank")
+    val rank: String?,
 ) : Parcelable {
     class Builder {
         private var id: Int? = null
@@ -56,6 +60,8 @@ class _Question_ private constructor(
         private var canAddOtherOptions: Boolean? = null
         private var questionChangeState: Int? = -1
         private var isAnswerEditable: Boolean = true
+        private var tag: String? = null
+        private var rank: String? = null
 
         fun id(id: Int?) = apply { this.id = id }
         fun questionTitle(questionTitle: String) = apply { this.questionTitle = questionTitle }
@@ -82,6 +88,9 @@ class _Question_ private constructor(
         fun isAnswerEditable(isAnswerEditable: Boolean) =
             apply { this.isAnswerEditable = isAnswerEditable }
 
+        fun tag(tag: String?) = apply { this.tag = tag }
+        fun rank(rank: String?) = apply { this.rank = rank }
+
         fun build() = _Question_(
             id,
             questionTitle,
@@ -98,7 +107,9 @@ class _Question_ private constructor(
             imageUrl,
             canAddOtherOptions,
             questionChangeState,
-            isAnswerEditable
+            isAnswerEditable,
+            tag,
+            rank
         )
     }
 
@@ -119,5 +130,7 @@ class _Question_ private constructor(
             .canAddOtherOptions(canAddOtherOptions)
             .isAnswerEditable(isAnswerEditable)
             .questionChangeState(questionChangeState)
+            .tag(tag)
+            .rank(rank)
     }
 }

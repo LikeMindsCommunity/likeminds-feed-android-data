@@ -869,6 +869,8 @@ object ModelConverter {
             .canAddOtherOptions(_question_.canAddOtherOptions)
             .isAnswerEditable(_question_.isAnswerEditable)
             .questionChangeState(_question_.questionChangeState)
+            .tag(_question_.tag)
+            .rank(_question_.rank)
             .build()
     }
 

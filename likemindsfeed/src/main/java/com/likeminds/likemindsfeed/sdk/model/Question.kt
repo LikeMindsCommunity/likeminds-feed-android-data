@@ -20,7 +20,9 @@ class Question private constructor(
     val imageUrl: String?,
     val canAddOtherOptions: Boolean?,
     val questionChangeState: Int?,
-    val isAnswerEditable: Boolean
+    val isAnswerEditable: Boolean,
+    val tag: String?,
+    val rank: String?
 ) : Parcelable {
     class Builder {
         private var id: Int? = null
@@ -39,6 +41,8 @@ class Question private constructor(
         private var canAddOtherOptions: Boolean? = null
         private var questionChangeState: Int? = -1
         private var isAnswerEditable: Boolean = true
+        private var tag: String? = null
+        private var rank: String? = null
 
         fun id(id: Int?) = apply { this.id = id }
         fun questionTitle(questionTitle: String) = apply { this.questionTitle = questionTitle }
@@ -65,6 +69,9 @@ class Question private constructor(
         fun isAnswerEditable(isAnswerEditable: Boolean) =
             apply { this.isAnswerEditable = isAnswerEditable }
 
+        fun tag(tag: String?) = apply { this.tag = tag }
+        fun rank(rank: String?) = apply { this.rank = rank }
+
         fun build() = Question(
             id,
             questionTitle,
@@ -81,7 +88,9 @@ class Question private constructor(
             imageUrl,
             canAddOtherOptions,
             questionChangeState,
-            isAnswerEditable
+            isAnswerEditable,
+            tag,
+            rank
         )
     }
 
@@ -102,5 +111,7 @@ class Question private constructor(
             .canAddOtherOptions(canAddOtherOptions)
             .isAnswerEditable(isAnswerEditable)
             .questionChangeState(questionChangeState)
+            .tag(tag)
+            .rank(rank)
     }
 }
