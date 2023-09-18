@@ -122,6 +122,7 @@ class PostClient @Inject constructor() : BaseClient() {
         val request = _EditPostRequest_.Builder().postId(editPostRequest.postId)
             .text(editPostRequest.text)
             .heading(editPostRequest.heading)
+            .entityId(editPostRequest.entityId)
             .attachments(ModelConverter.createAttachments(editPostRequest.attachments))
             .build()
         // calls api and processes the response accordingly
