@@ -35,7 +35,11 @@ class _Post_ private constructor(
     @SerializedName("updated_at")
     val updatedAt: Long,
     @SerializedName("uuid")
-    val uuid: String
+    val uuid: String,
+    @SerializedName("heading")
+    val heading: String?,
+    @SerializedName("temp_id")
+    val tempId: Long?
 ) {
     class Builder {
         private var id: String = ""
@@ -54,6 +58,8 @@ class _Post_ private constructor(
         private var createdAt: Long = 0L
         private var updatedAt: Long = 0L
         private var uuid: String = ""
+        private var heading: String? = null
+        private var tempId: Long? = null
 
         fun id(id: String) = apply { this.id = id }
         fun text(text: String) = apply { this.text = text }
@@ -70,8 +76,9 @@ class _Post_ private constructor(
         fun replies(replies: List<_Comment_>?) = apply { this.replies = replies }
         fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
-
         fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun heading(heading: String?) = apply { this.heading = heading }
+        fun tempId(tempId: Long?) = apply { this.tempId = tempId }
 
         fun build() = _Post_(
             id,
@@ -89,7 +96,9 @@ class _Post_ private constructor(
             replies,
             createdAt,
             updatedAt,
-            uuid
+            uuid,
+            heading,
+            tempId
         )
     }
 
@@ -110,5 +119,7 @@ class _Post_ private constructor(
             .createdAt(createdAt)
             .updatedAt(updatedAt)
             .uuid(uuid)
+            .heading(heading)
+            .tempId(tempId)
     }
 }

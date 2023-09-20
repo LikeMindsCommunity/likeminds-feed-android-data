@@ -47,6 +47,7 @@ class CommentClient @Inject constructor() : BaseClient() {
         val request = _AddCommentRequest_.Builder()
             .postId(addCommentRequest.postId)
             .text(addCommentRequest.text)
+            .tempId(addCommentRequest.tempId)
             .build()
         // calls api and processes the response accordingly
         return when (val response = commentApi.addComment(request)) {
@@ -56,6 +57,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 ModelConverter.convertAddCommentAPIResponse(response.body)
             }
@@ -100,6 +102,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 ModelConverter.convertEditCommentAPIResponse(response.body)
             }
@@ -148,6 +151,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 ModelConverter.convertReplyCommentAPIResponse(response.body)
             }
@@ -197,6 +201,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 ModelConverter.convertGetCommentAPIResponse(response.body)
             }
@@ -243,6 +248,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 ModelConverter.convertGetCommentLikesAPIResponse(response.body)
             }
@@ -287,6 +293,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 LMResponse(
                     success = response.body.success
@@ -334,6 +341,7 @@ class CommentClient @Inject constructor() : BaseClient() {
                     errorMessage = response.body.errorMessage
                 )
             }
+
             is NetworkResponse.Success -> {
                 LMResponse(
                     success = response.body.success

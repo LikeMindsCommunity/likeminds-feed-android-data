@@ -7,7 +7,7 @@ class _Widgets_ private constructor(
     val id: String,
     @SerializedName("created_at")
     val createdAt: Long,
-    @SerializedName("meta_data")
+    @SerializedName("metadata")
     val metaData: _WidgetMetaData_?,
     @SerializedName("parent_entity_id")
     val parentEntityId: String,

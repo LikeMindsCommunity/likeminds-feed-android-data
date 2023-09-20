@@ -79,6 +79,7 @@ class PostClient @Inject constructor() : BaseClient() {
             .onBehalfOfUUID(addPostRequest.onBehalfOfUUID)
             .heading(addPostRequest.heading)
             .attachments(ModelConverter.createAttachments(addPostRequest.attachments))
+            .tempId(addPostRequest.tempId)
             .build()
         // calls api and processes the response accordingly
         return when (val response = postApi.addPost(request)) {
@@ -121,6 +122,7 @@ class PostClient @Inject constructor() : BaseClient() {
         val request = _EditPostRequest_.Builder().postId(editPostRequest.postId)
             .text(editPostRequest.text)
             .heading(editPostRequest.heading)
+            .entityId(editPostRequest.entityId)
             .attachments(ModelConverter.createAttachments(editPostRequest.attachments))
             .build()
         // calls api and processes the response accordingly

@@ -121,15 +121,18 @@ object ModelConverter {
 
     // converts the internal MetaData model to client MetaData
     private fun convertWidgetMetaData(
-        _Widget_metaData_: _WidgetMetaData_?
+        _widgetMetaData_: _WidgetMetaData_?
     ): WidgetMetaData? {
-        if (_Widget_metaData_ == null) {
+        if (_widgetMetaData_ == null) {
             return null
         }
         return WidgetMetaData.Builder()
-            .body(_Widget_metaData_.body)
-            .title(_Widget_metaData_.title)
-            .coverImageUrl(_Widget_metaData_.coverImageUrl)
+            .body(_widgetMetaData_.body)
+            .title(_widgetMetaData_.title)
+            .coverImageUrl(_widgetMetaData_.coverImageUrl)
+            .name(_widgetMetaData_.name)
+            .size(_widgetMetaData_.size)
+            .url(_widgetMetaData_.url)
             .build()
     }
 
@@ -658,6 +661,8 @@ object ModelConverter {
             .createdAt(_post_.createdAt)
             .updatedAt(_post_.updatedAt)
             .uuid(_post_.uuid)
+            .heading(_post_.heading)
+            .tempId(_post_.tempId)
             .build()
     }
 
@@ -696,6 +701,8 @@ object ModelConverter {
             .coverImageUrl(_attachmentMeta_.coverImageUrl)
             .title(_attachmentMeta_.title)
             .body(_attachmentMeta_.body)
+            .entityId(_attachmentMeta_.entityId)
+            .thumbnailUrl(_attachmentMeta_.thumbnailUrl)
             .build()
     }
 
@@ -740,6 +747,7 @@ object ModelConverter {
             .menuItems(convertMenuItems(_comment_.menuItems))
             .parentComment(_comment_.parentComment?.let { convertComment(it) })
             .uuid(_comment_.uuid)
+            .tempId(_comment_.tempId)
             .build()
     }
 
@@ -864,6 +872,8 @@ object ModelConverter {
             .canAddOtherOptions(_question_.canAddOtherOptions)
             .isAnswerEditable(_question_.isAnswerEditable)
             .questionChangeState(_question_.questionChangeState)
+            .tag(_question_.tag)
+            .rank(_question_.rank)
             .build()
     }
 
@@ -912,6 +922,7 @@ object ModelConverter {
             .coverImageUrl(attachmentMeta.coverImageUrl)
             .title(attachmentMeta.title)
             .body(attachmentMeta.body)
+            .thumbnailUrl(attachmentMeta.thumbnailUrl)
             .build()
     }
 
