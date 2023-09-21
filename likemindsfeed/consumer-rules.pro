@@ -6,4 +6,5 @@
 -keep class com.likeminds.likemindsfeed.notificationfeed.model.** { *; }
 -keep class com.likeminds.likemindsfeed.post.model.** { *; }
 -keep class com.likeminds.likemindsfeed.sdk.model.** { *; }
+-keep class com.likeminds.likemindsfeed.topic.model.** { *; }
 -keep class com.likeminds.likemindsfeed.universalfeed.model.** { *; }

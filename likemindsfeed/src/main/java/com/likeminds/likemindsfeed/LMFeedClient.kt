@@ -3,18 +3,55 @@ package com.likeminds.likemindsfeed
 import android.app.Application
 import androidx.annotation.Keep
 import com.likeminds.likemindsfeed.comment.CommentClient
-import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
+import com.likeminds.likemindsfeed.comment.model.AddCommentResponse
+import com.likeminds.likemindsfeed.comment.model.DeleteCommentRequest
+import com.likeminds.likemindsfeed.comment.model.EditCommentRequest
+import com.likeminds.likemindsfeed.comment.model.EditCommentResponse
+import com.likeminds.likemindsfeed.comment.model.GetCommentLikesRequest
+import com.likeminds.likemindsfeed.comment.model.GetCommentLikesResponse
+import com.likeminds.likemindsfeed.comment.model.GetCommentRequest
+import com.likeminds.likemindsfeed.comment.model.GetCommentResponse
+import com.likeminds.likemindsfeed.comment.model.LikeCommentRequest
+import com.likeminds.likemindsfeed.comment.model.ReplyCommentRequest
+import com.likeminds.likemindsfeed.comment.model.ReplyCommentResponse
 import com.likeminds.likemindsfeed.helper.HelperClient
-import com.likeminds.likemindsfeed.helper.model.*
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
+import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
+import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
+import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
-import com.likeminds.likemindsfeed.initiateUser.model.*
+import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.initiateUser.model.LogoutRequest
+import com.likeminds.likemindsfeed.initiateUser.model.MemberStateResponse
 import com.likeminds.likemindsfeed.moderation.ModerationClient
-import com.likeminds.likemindsfeed.moderation.model.*
+import com.likeminds.likemindsfeed.moderation.model.GetReportTagsRequest
+import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
+import com.likeminds.likemindsfeed.moderation.model.PostReportRequest
 import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
-import com.likeminds.likemindsfeed.notificationfeed.model.*
+import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedRequest
+import com.likeminds.likemindsfeed.notificationfeed.model.GetNotificationFeedResponse
+import com.likeminds.likemindsfeed.notificationfeed.model.GetUnreadNotificationCountResponse
+import com.likeminds.likemindsfeed.notificationfeed.model.MarkReadNotificationRequest
 import com.likeminds.likemindsfeed.post.PostClient
-import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.likemindsfeed.post.model.AddPostRequest
+import com.likeminds.likemindsfeed.post.model.AddPostResponse
+import com.likeminds.likemindsfeed.post.model.DeletePostRequest
+import com.likeminds.likemindsfeed.post.model.EditPostRequest
+import com.likeminds.likemindsfeed.post.model.EditPostResponse
+import com.likeminds.likemindsfeed.post.model.GetPostLikesRequest
+import com.likeminds.likemindsfeed.post.model.GetPostLikesResponse
+import com.likeminds.likemindsfeed.post.model.GetPostRequest
+import com.likeminds.likemindsfeed.post.model.GetPostResponse
+import com.likeminds.likemindsfeed.post.model.LikePostRequest
+import com.likeminds.likemindsfeed.post.model.PinPostRequest
+import com.likeminds.likemindsfeed.post.model.SavePostRequest
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
+import com.likeminds.likemindsfeed.topic.TopicClient
+import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
+import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
@@ -44,6 +81,9 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var notificationFeedClient: NotificationFeedClient
+
+    @Inject
+    lateinit var topicClient: TopicClient
 
     @Keep
     class Builder(val application: Application) {
@@ -204,5 +244,10 @@ class LMFeedClient private constructor() {
     // Exposed function to mark a notification as read
     suspend fun markReadNotification(markReadNotificationRequest: MarkReadNotificationRequest): LMResponse<Nothing> {
         return notificationFeedClient.markReadNotification(markReadNotificationRequest)
+    }
+
+    //Exposed funtion to get all topics
+    suspend fun getTopics(getTopicRequest: GetTopicRequest): LMResponse<GetTopicResponse> {
+        return topicClient.getTopics(getTopicRequest)
     }
 }

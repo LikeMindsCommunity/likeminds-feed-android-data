@@ -14,6 +14,7 @@ import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.notificationfeed.NotificationFeedSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
+import com.likeminds.likemindsfeed.di.topic.TopicSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import javax.inject.Inject
 
@@ -37,6 +38,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     private var moderationComponent: ModerationSubComponent? = null
     private var helperComponent: HelperSubComponent? = null
     private var notificationFeedComponent: NotificationFeedSubComponent? = null
+    private var topicSubComponent: TopicSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -117,6 +119,14 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
                 likeMindsFeedComponent?.notificationFeedComponent()?.create()
         }
         return notificationFeedComponent
+    }
+
+    fun topicComponent(): TopicSubComponent? {
+        if (topicSubComponent == null) {
+            topicSubComponent = likeMindsFeedComponent?.topicComponent()?.create()
+        }
+
+        return topicSubComponent
     }
 
     override fun login() {
