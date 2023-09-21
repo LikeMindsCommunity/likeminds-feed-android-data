@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,64 +34,6 @@ class MainActivity : AppCompatActivity() {
             )
 
             Log.d(TAG, "initiateResponse: ${initiateResponse.data?.user?.sdkClientInfo?.uuid}")
-
-            val topicsRequest = GetTopicRequest.Builder()
-                .page(1)
-                .pageSize(10)
-                .build()
-
-            val topics = client.getTopics(topicsRequest)
-
-            Log.d(
-                TAG, """
-                
-               topics: ${
-                    topics.data?.topics?.map {
-                        it.name
-                    }
-                }
-            """.trimIndent()
-            )
-
-            val enabledTopicsRequest = GetTopicRequest.Builder()
-                .page(1)
-                .pageSize(10)
-                .isEnabled(false)
-                .build()
-
-            val enabledTopics = client.getTopics(enabledTopicsRequest)
-
-            Log.d(
-                TAG, """
-                
-               topics: ${
-                    enabledTopics.data?.topics?.map {
-                        it.name
-                    }
-                }
-            """.trimIndent()
-            )
-
-
-            val searchedTopicsRequest = GetTopicRequest.Builder()
-                .page(1)
-                .pageSize(10)
-                .search("name")
-                .searchType("name")
-                .build()
-
-            val searchedTopics = client.getTopics(searchedTopicsRequest)
-
-            Log.d(
-                TAG, """
-                
-               topics: ${
-                    searchedTopics.data?.topics?.map {
-                        it.name
-                    }
-                }
-            """.trimIndent()
-            )
         }
     }
 }
