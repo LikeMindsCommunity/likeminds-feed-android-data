@@ -646,7 +646,8 @@ object ModelConverter {
         return GetNotificationFeedResponse(
             convertActivities(_getNotificationFeedResponse_.activities),
             convertUsersMap(_getNotificationFeedResponse_.users),
-            convertWidgetsMap(_getNotificationFeedResponse_.widgets)
+            convertWidgetsMap(_getNotificationFeedResponse_.widgets),
+            convertTopicsMap(_getNotificationFeedResponse_.topics)
         )
     }
 
