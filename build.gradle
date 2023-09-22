@@ -6,13 +6,20 @@ buildscript {
     }
 }
 plugins {
-    id 'com.android.application' version '7.1.2' apply false
-    id 'com.android.library' version '7.1.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
-    id "org.jetbrains.kotlin.kapt" version '1.6.20' apply false
+    id 'com.android.application' version '8.1.1' apply false
+    id 'com.android.library' version '8.1.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
+    id "org.jetbrains.kotlin.kapt" version '1.9.0' apply false
 }
 
-apply from: "publish.gradle"
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        ext[name] = value
+    }
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

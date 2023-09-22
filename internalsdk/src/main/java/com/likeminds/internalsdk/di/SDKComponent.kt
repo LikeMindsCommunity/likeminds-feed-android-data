@@ -1,6 +1,6 @@
 package com.likeminds.internalsdk.di
 
-import com.likeminds.internalsdk.CollabmatesSDK
+import com.likeminds.internalsdk.FeedSDK
 import com.likeminds.internalsdk.di.modules.*
 import dagger.BindsInstance
 import dagger.Component
@@ -22,7 +22,7 @@ import javax.inject.Singleton
     ]
 )
 interface SDKComponent {
-    fun inject(collabmatesSDK: CollabmatesSDK)
+    fun inject(feedSDK: FeedSDK)
 
     @Component.Builder
     interface Builder {

@@ -18,7 +18,7 @@ class UniversalFeedClient @Inject constructor() : BaseClient() {
     }
 
     private val universalApi by lazy {
-        collabmatesSDK.getUniversalFeedApi()
+        feedSDK.getUniversalFeedApi()
     }
 
     /**

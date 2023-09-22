@@ -1,18 +1,13 @@
 ext.keys = [:]
 
 def keys = [:]
-keys.CARAVAN_BASE_URL = "CARAVAN_BASE_URL"
 keys.KETTLE_BASE_URL = "KETTLE_BASE_URL"
 keys.DOMAIN = "DOMAIN"
-keys.IDENTITY_POOL_ID = "IDENTITY_POOL_ID"
-keys.BUCKET_NAME = "BUCKET_NAME"
-keys.BUCKET_BASE_URL = "BUCKET_BASE_URL"
 keys.SENTRY_DSN = "SENTRY_DSN"
 ext.keys = keys
 
 ext.urls = [:]
 def urls = [:]
-urls."$keys.CARAVAN_BASE_URL" = "\"https://www.likeminds.community/\""
 urls."$keys.KETTLE_BASE_URL" = "\"https://auth.likeminds.community/\""
 urls."$keys.DOMAIN" = "\"www.likeminds.community\""
 urls."$keys.SENTRY_DSN" = "\"https://5802d81a53354c2593a6683813e26f78@o613148.ingest.sentry.io/5748758\""
@@ -20,7 +15,6 @@ ext.urls = urls
 
 ext.beta_urls = [:]
 def beta_urls = [:]
-beta_urls."$keys.CARAVAN_BASE_URL" = "\"https://beta.likeminds.community/\""
 beta_urls."$keys.KETTLE_BASE_URL" = "\"https://betaauth.likeminds.community/\""
 beta_urls."$keys.DOMAIN" = "\"beta.likeminds.community\""
 beta_urls."$keys.SENTRY_DSN" = "\"https://5802d81a53354c2593a6683813e26f78@o613148.ingest.sentry.io/5748758\""

@@ -24,7 +24,15 @@ class _User_ private constructor(
     @SerializedName("user_unique_id")
     val userUniqueId: String,
     @SerializedName("uuid")
-    val uuid: String
+    val uuid: String,
+    @SerializedName("state")
+    val state: Int,
+    @SerializedName("custom_intro_text")
+    val customIntroText: String?,
+    @SerializedName("member_since")
+    val memberSince: String?,
+    @SerializedName("question_answers")
+    val questionAnswers: List<_QuestionAnswer_>?
 ) {
     class Builder {
         private var id: Int = 0
@@ -38,6 +46,11 @@ class _User_ private constructor(
         private var updatedAt: Long = 0L
         private var userUniqueId: String = ""
         private var uuid: String = ""
+        private var state: Int = 1
+        private var customIntroText: String? = null
+        private var memberSince: String? = null
+        private var questionAnswers: List<_QuestionAnswer_>? = null
+
         fun id(id: Int) = apply { this.id = id }
         fun imageUrl(imageUrl: String) = apply { this.imageUrl = imageUrl }
         fun isGuest(isGuest: Boolean) = apply { this.isGuest = isGuest }
@@ -53,6 +66,13 @@ class _User_ private constructor(
         fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
         fun userUniqueId(userUniqueId: String) = apply { this.userUniqueId = userUniqueId }
         fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun state(state: Int) = apply { this.state = state }
+        fun customIntroText(customIntroText: String?) =
+            apply { this.customIntroText = customIntroText }
+
+        fun memberSince(memberSince: String?) = apply { this.memberSince = memberSince }
+        fun questionAnswers(questionAnswers: List<_QuestionAnswer_>?) =
+            apply { this.questionAnswers = questionAnswers }
 
         fun build() = _User_(
             id,
@@ -65,7 +85,11 @@ class _User_ private constructor(
             customTitle,
             updatedAt,
             userUniqueId,
-            uuid
+            uuid,
+            state,
+            customIntroText,
+            memberSince,
+            questionAnswers
         )
     }
 
@@ -81,5 +105,9 @@ class _User_ private constructor(
             .updatedAt(updatedAt)
             .userUniqueId(userUniqueId)
             .uuid(uuid)
+            .state(state)
+            .customIntroText(customIntroText)
+            .memberSince(memberSince)
+            .questionAnswers(questionAnswers)
     }
 }

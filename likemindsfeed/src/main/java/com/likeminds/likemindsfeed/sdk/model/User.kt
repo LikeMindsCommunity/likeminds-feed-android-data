@@ -11,7 +11,11 @@ class User private constructor(
     val customTitle: String?,
     val updatedAt: Long,
     val userUniqueId: String,
-    val uuid: String
+    val uuid: String,
+    val state: Int,
+    val customIntroText: String?,
+    val memberSince: String?,
+    val questionAnswers: List<QuestionAnswer>?
 ) {
     class Builder {
         private var id: Int = 0
@@ -25,6 +29,10 @@ class User private constructor(
         private var updatedAt: Long = 0L
         private var userUniqueId: String = ""
         private var uuid: String = ""
+        private var state: Int = 1
+        private var customIntroText: String? = null
+        private var memberSince: String? = null
+        private var questionAnswers: List<QuestionAnswer>? = null
 
         fun id(id: Int) = apply { this.id = id }
         fun imageUrl(imageUrl: String) = apply { this.imageUrl = imageUrl }
@@ -41,6 +49,13 @@ class User private constructor(
         fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
         fun userUniqueId(userUniqueId: String) = apply { this.userUniqueId = userUniqueId }
         fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun state(state: Int) = apply { this.state = state }
+        fun customIntroText(customIntroText: String?) =
+            apply { this.customIntroText = customIntroText }
+
+        fun memberSince(memberSince: String?) = apply { this.memberSince = memberSince }
+        fun questionAnswers(questionAnswers: List<QuestionAnswer>?) =
+            apply { this.questionAnswers = questionAnswers }
 
         fun build() = User(
             id,
@@ -53,7 +68,11 @@ class User private constructor(
             customTitle,
             updatedAt,
             userUniqueId,
-            uuid
+            uuid,
+            state,
+            customIntroText,
+            memberSince,
+            questionAnswers
         )
     }
 
@@ -69,5 +88,9 @@ class User private constructor(
             .updatedAt(updatedAt)
             .userUniqueId(userUniqueId)
             .uuid(uuid)
+            .state(state)
+            .customIntroText(customIntroText)
+            .memberSince(memberSince)
+            .questionAnswers(questionAnswers)
     }
 }
