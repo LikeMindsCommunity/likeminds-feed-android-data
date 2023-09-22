@@ -10,8 +10,8 @@ class GetTopicRequest private constructor(
 
     class Builder {
         private var isEnabled: Boolean? = null
-        private var page: Int = 0
-        private var pageSize: Int = 0
+        private var page: Int = 1
+        private var pageSize: Int = 10
         private var search: String? = null
         private var searchType: String? = null
 
