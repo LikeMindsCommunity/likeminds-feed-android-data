@@ -32,8 +32,10 @@ class UniversalFeedClient @Inject constructor() : BaseClient() {
         RequestUtils.validate()
 
         // builds internal request model
-        val request = _GetFeedRequest_.Builder().page(getFeedRequest.page)
+        val request = _GetFeedRequest_.Builder()
+            .page(getFeedRequest.page)
             .pageSize(getFeedRequest.pageSize)
+            .topicIds(getFeedRequest.topicIds)
             .build()
 
         // calls api and processes the response accordingly

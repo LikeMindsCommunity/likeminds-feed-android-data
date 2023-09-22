@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.post.model
 
 import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.sdk.model._User_
-import com.likeminds.internalsdk.widgets.model._Widgets_
+import com.likeminds.internalsdk.widgets.model._Widget_
 
 data class _GetPostResponse_(
     @SerializedName("post")
@@ -10,5 +10,5 @@ data class _GetPostResponse_(
     @SerializedName("users")
     val users: Map<String, _User_>,
     @SerializedName("widgets")
-    val widgets: Map<String, _Widgets_>
+    val widgets: Map<String, _Widget_>
 )

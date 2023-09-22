@@ -9,12 +9,20 @@ import javax.inject.Inject
 class UniversalFeedReceiver @Inject constructor(
     private val universalFeedNetworkApi: UniversalFeedNetworkApi
 ) {
+
     suspend fun getFeed(
         request: _GetFeedRequest_
     ): NetworkResponse<APIResponse<_GetFeedResponse_>> {
+        val queries = HashMap<String, Any?>()
+        queries["page"] = request.page
+        queries["page_size"] = request.pageSize
+
+        if (!request.topicIds.isNullOrEmpty()) {
+            queries["topic_ids"] = request.topicIds
+        }
+
         return universalFeedNetworkApi.getFeed(
-            request.page,
-            request.pageSize
+            queries
         )
     }
 }
