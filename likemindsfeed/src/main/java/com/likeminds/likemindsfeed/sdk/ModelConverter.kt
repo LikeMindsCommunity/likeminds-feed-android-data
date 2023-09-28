@@ -338,7 +338,8 @@ object ModelConverter {
         return AddPostResponse(
             convertPost(_addPostResponse_.post),
             convertUsersMap(_addPostResponse_.users),
-            convertWidgetsMap(_addPostResponse_.widgets)
+            convertWidgetsMap(_addPostResponse_.widgets),
+            convertTopicsMap(_addPostResponse_.topics)
         )
     }
 
@@ -363,7 +364,8 @@ object ModelConverter {
         return EditPostResponse(
             convertPost(_editPostResponse_.post),
             convertUsersMap(_editPostResponse_.users),
-            convertWidgetsMap(_editPostResponse_.widgets)
+            convertWidgetsMap(_editPostResponse_.widgets),
+            convertTopicsMap(_editPostResponse_.topics)
         )
     }
 
@@ -388,7 +390,8 @@ object ModelConverter {
         return GetPostResponse(
             convertPost(_getPostResponse_.post),
             convertUsersMap(_getPostResponse_.users),
-            convertWidgetsMap(_getPostResponse_.widgets)
+            convertWidgetsMap(_getPostResponse_.widgets),
+            convertTopicsMap(_getPostResponse_.topics)
         )
     }
 
