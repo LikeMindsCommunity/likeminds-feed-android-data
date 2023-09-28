@@ -728,6 +728,7 @@ object ModelConverter {
             .uuid(_post_.uuid)
             .heading(_post_.heading)
             .tempId(_post_.tempId)
+            .topicIds(_post_.topicIds)
             .build()
     }
 
