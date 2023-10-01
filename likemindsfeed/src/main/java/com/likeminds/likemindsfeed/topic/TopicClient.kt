@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed.topic
 
+import com.likeminds.internalsdk.topic.model._GetTopicsRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -13,11 +14,7 @@ import javax.inject.Inject
 class TopicClient @Inject constructor() : BaseClient() {
 
     companion object {
-        const val PAGE_QUERY = "page"
-        const val PAGE_SIZE_QUERY = "page_size"
-        const val IS_ENABLED_QUERY = "is_enabled"
-        const val SEARCH_QUERY = "search"
-        const val SEARCH_TYPE_QUERY = "search_type"
+
     }
 
     override fun attachDagger() {
@@ -38,30 +35,16 @@ class TopicClient @Inject constructor() : BaseClient() {
         // validates the client request
         RequestUtils.validate()
 
-        //create queries map
-        val queries = HashMap<String, String>()
-
-        //add page and page size
-        queries[PAGE_QUERY] = getTopicRequest.page.toString()
-        queries[PAGE_SIZE_QUERY] = getTopicRequest.pageSize.toString()
-
-        //add is enabled
-        if (getTopicRequest.isEnabled != null) {
-            queries[IS_ENABLED_QUERY] = getTopicRequest.isEnabled.toString()
-        }
-
-        //add search
-        if (!getTopicRequest.search.isNullOrEmpty()) {
-            queries[SEARCH_QUERY] = getTopicRequest.search
-        }
-
-        //add search type
-        if (!getTopicRequest.searchType.isNullOrEmpty()) {
-            queries[SEARCH_TYPE_QUERY] = getTopicRequest.searchType
-        }
+        val request = _GetTopicsRequest_.Builder()
+            .page(getTopicRequest.page)
+            .pageSize(getTopicRequest.pageSize)
+            .search(getTopicRequest.search)
+            .searchType(getTopicRequest.searchType)
+            .isEnabled(getTopicRequest.isEnabled)
+            .build()
 
         //calls api and processes the response accordingly
-        return when (val response = topicApi.getTopics(queries)) {
+        return when (val response = topicApi.getTopics(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = response.body.success,
