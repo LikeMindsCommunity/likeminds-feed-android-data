@@ -4,7 +4,9 @@ import android.app.Application
 import com.google.gson.Gson
 import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
-import com.likeminds.internalsdk.di.*
+import com.likeminds.internalsdk.di.DaggerSDKComponent
+import com.likeminds.internalsdk.di.SDKComponent
+import com.likeminds.internalsdk.di.SDKSharedResources
 import com.likeminds.internalsdk.helper.HelperApi
 import com.likeminds.internalsdk.helper.HelperApiImpl
 import com.likeminds.internalsdk.moderation.ModerationApi
@@ -13,7 +15,11 @@ import com.likeminds.internalsdk.notificationfeed.NotificationFeedApi
 import com.likeminds.internalsdk.notificationfeed.NotificationFeedApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
-import com.likeminds.internalsdk.sdk.*
+import com.likeminds.internalsdk.sdk.RefreshTokenApiImpl
+import com.likeminds.internalsdk.sdk.SDKApi
+import com.likeminds.internalsdk.sdk.SDKApiImpl
+import com.likeminds.internalsdk.topic.TopicApi
+import com.likeminds.internalsdk.topic.TopicApiImpl
 import com.likeminds.internalsdk.universalfeed.UniversalFeedApi
 import com.likeminds.internalsdk.universalfeed.UniversalFeedApiImpl
 import javax.inject.Inject
@@ -52,6 +58,9 @@ class FeedSDK {
 
     @Inject
     lateinit var notificationFeedApiImpl: NotificationFeedApiImpl
+
+    @Inject
+    lateinit var topicApiImpl: TopicApiImpl
 
     var lmInternalCallback: LMInternalCallback? = null
 
@@ -111,5 +120,9 @@ class FeedSDK {
 
     fun getNotificationFeedApi(): NotificationFeedApi {
         return notificationFeedApiImpl
+    }
+
+    fun getTopicApi(): TopicApi {
+        return topicApiImpl
     }
 }

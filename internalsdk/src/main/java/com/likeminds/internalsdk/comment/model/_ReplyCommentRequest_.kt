@@ -8,21 +8,26 @@ class _ReplyCommentRequest_ private constructor(
     @SerializedName("comment_id")
     val commentId: String?,
     @SerializedName("text")
-    val text: String
+    val text: String,
+    @SerializedName("temp_id")
+    val tempId: String?
 ) {
     class Builder {
         private var postId: String? = null
         private var commentId: String? = null
         private var text: String = ""
+        private var tempId: String? = null
 
         fun text(text: String) = apply { this.text = text }
         fun postId(postId: String?) = apply { this.postId = postId }
         fun commentId(commentId: String?) = apply { this.commentId = commentId }
+        fun tempId(tempId: String?) = apply { this.tempId = tempId }
 
         fun build() = _ReplyCommentRequest_(
             postId,
             commentId,
-            text
+            text,
+            tempId
         )
     }
 
@@ -30,5 +35,6 @@ class _ReplyCommentRequest_ private constructor(
         return Builder().postId(postId)
             .commentId(commentId)
             .text(text)
+            .tempId(tempId)
     }
 }

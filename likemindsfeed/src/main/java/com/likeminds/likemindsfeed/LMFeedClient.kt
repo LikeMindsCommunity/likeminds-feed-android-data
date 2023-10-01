@@ -15,6 +15,9 @@ import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
+import com.likeminds.likemindsfeed.topic.TopicClient
+import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
+import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
@@ -44,6 +47,9 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var notificationFeedClient: NotificationFeedClient
+
+    @Inject
+    lateinit var topicClient: TopicClient
 
     @Keep
     class Builder(val application: Application) {
@@ -204,5 +210,10 @@ class LMFeedClient private constructor() {
     // Exposed function to mark a notification as read
     suspend fun markReadNotification(markReadNotificationRequest: MarkReadNotificationRequest): LMResponse<Nothing> {
         return notificationFeedClient.markReadNotification(markReadNotificationRequest)
+    }
+
+    //Exposed function to get all topics
+    suspend fun getTopics(getTopicRequest: GetTopicRequest): LMResponse<GetTopicResponse> {
+        return topicClient.getTopics(getTopicRequest)
     }
 }

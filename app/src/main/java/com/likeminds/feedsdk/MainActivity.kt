@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val TAG = "test_feed_data"
     }
+
     @SuppressLint("HardwareIds")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val initiateResponse = client.initiateUser(
                 InitiateUserRequest.Builder()
-                    .apiKey("6b11d5f6-19fc-48aa-9140-0f59c88b0d0a")
-                    .uuid("564578")
+                    .apiKey("69edd43f-4a5e-4077-9c50-2b7aa740acce")
+                    .uuid("10003")
                     .deviceId("adadad")
                     .userName("Ishaan")
                     .isGuest(false)

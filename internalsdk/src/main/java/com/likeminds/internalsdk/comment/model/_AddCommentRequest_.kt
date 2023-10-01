@@ -8,16 +8,16 @@ class _AddCommentRequest_ private constructor(
     @SerializedName("text")
     val text: String,
     @SerializedName("temp_id")
-    val tempId: Long?
+    val tempId: String?
 ) {
     class Builder {
         private var postId: String? = null
         private var text: String = ""
-        private var tempId: Long? = null
+        private var tempId: String? = null
 
         fun text(text: String) = apply { this.text = text }
         fun postId(postId: String?) = apply { this.postId = postId }
-        fun tempId(tempId: Long?) = apply { this.tempId = tempId }
+        fun tempId(tempId: String?) = apply { this.tempId = tempId }
 
         fun build() = _AddCommentRequest_(
             postId,

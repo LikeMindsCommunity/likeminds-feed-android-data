@@ -141,6 +141,7 @@ class CommentClient @Inject constructor() : BaseClient() {
             .postId(replyCommentRequest.postId)
             .commentId(replyCommentRequest.commentId)
             .text(replyCommentRequest.text)
+            .tempId(replyCommentRequest.tempId)
             .build()
 
         // calls api and processes the response accordingly

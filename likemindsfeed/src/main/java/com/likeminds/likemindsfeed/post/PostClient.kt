@@ -75,12 +75,15 @@ class PostClient @Inject constructor() : BaseClient() {
         validateAddPostRequest(addPostRequest)
 
         // builds internal request model
-        val request = _AddPostRequest_.Builder().text(addPostRequest.text)
+        val request = _AddPostRequest_.Builder()
+            .text(addPostRequest.text)
             .onBehalfOfUUID(addPostRequest.onBehalfOfUUID)
             .heading(addPostRequest.heading)
             .attachments(ModelConverter.createAttachments(addPostRequest.attachments))
             .tempId(addPostRequest.tempId)
+            .topicIds(addPostRequest.topicIds)
             .build()
+
         // calls api and processes the response accordingly
         return when (val response = postApi.addPost(request)) {
             is NetworkResponse.Error -> {
@@ -119,12 +122,15 @@ class PostClient @Inject constructor() : BaseClient() {
         validateEditPostRequest(editPostRequest)
 
         // builds internal request model
-        val request = _EditPostRequest_.Builder().postId(editPostRequest.postId)
+        val request = _EditPostRequest_.Builder()
+            .postId(editPostRequest.postId)
             .text(editPostRequest.text)
             .heading(editPostRequest.heading)
             .entityId(editPostRequest.entityId)
             .attachments(ModelConverter.createAttachments(editPostRequest.attachments))
+            .topicIds(editPostRequest.topicIds)
             .build()
+
         // calls api and processes the response accordingly
         return when (val response = postApi.editPost(request)) {
             is NetworkResponse.Error -> {
@@ -166,7 +172,8 @@ class PostClient @Inject constructor() : BaseClient() {
         validateGetPostLikesRequest(getPostLikesRequest)
 
         // builds internal request model
-        val request = _GetPostLikesRequest_.Builder().postId(getPostLikesRequest.postId)
+        val request = _GetPostLikesRequest_.Builder()
+            .postId(getPostLikesRequest.postId)
             .page(getPostLikesRequest.page)
             .pageSize(getPostLikesRequest.pageSize)
             .build()
@@ -251,7 +258,8 @@ class PostClient @Inject constructor() : BaseClient() {
         validateLikePostRequest(likePostRequest)
 
         // builds internal request model
-        val request = _LikePostRequest_.Builder().postId(likePostRequest.postId)
+        val request = _LikePostRequest_.Builder()
+            .postId(likePostRequest.postId)
             .build()
 
         // calls api and processes the response accordingly
@@ -293,7 +301,8 @@ class PostClient @Inject constructor() : BaseClient() {
         validateSavePostRequest(savePostRequest)
 
         // builds internal request model
-        val request = _SavePostRequest_.Builder().postId(savePostRequest.postId)
+        val request = _SavePostRequest_.Builder()
+            .postId(savePostRequest.postId)
             .build()
 
         // calls api and processes the response accordingly
@@ -335,7 +344,8 @@ class PostClient @Inject constructor() : BaseClient() {
         validatePinPostRequest(pinPostRequest)
 
         // builds internal request model
-        val request = _PinPostRequest_.Builder().postId(pinPostRequest.postId)
+        val request = _PinPostRequest_.Builder()
+            .postId(pinPostRequest.postId)
             .build()
 
         // calls api and processes the response accordingly
