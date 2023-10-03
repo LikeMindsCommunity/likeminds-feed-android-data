@@ -17,7 +17,7 @@ class Comment private constructor(
     val menuItems: List<MenuItem>,
     val parentComment: Comment?,
     val uuid: String,
-    val tempId: Long?
+    val tempId: String?
 ) {
     class Builder {
         private var id: String = ""
@@ -34,7 +34,7 @@ class Comment private constructor(
         private var menuItems: List<MenuItem> = emptyList()
         private var parentComment: Comment? = null
         private var uuid: String = ""
-        private var tempId: Long? = null
+        private var tempId: String? = null
 
         fun id(id: String) = apply { this.id = id }
         fun isLiked(isLiked: Boolean) = apply { this.isLiked = isLiked }
@@ -50,7 +50,7 @@ class Comment private constructor(
         fun menuItems(menuItems: List<MenuItem>) = apply { this.menuItems = menuItems }
         fun parentComment(parentComment: Comment?) = apply { this.parentComment = parentComment }
         fun uuid(uuid: String) = apply { this.uuid = uuid }
-        fun tempId(tempId: Long?) = apply { this.tempId = tempId }
+        fun tempId(tempId: String?) = apply { this.tempId = tempId }
 
         fun build() = Comment(
             id,

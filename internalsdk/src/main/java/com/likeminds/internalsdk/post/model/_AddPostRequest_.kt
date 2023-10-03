@@ -12,27 +12,32 @@ class _AddPostRequest_ private constructor(
     @SerializedName("attachments")
     val attachments: List<_Attachment_>?,
     @SerializedName("temp_id")
-    val tempId: Long?
+    val tempId: String?,
+    @SerializedName("topic_ids")
+    val topicIds: List<String>?
 ) {
     class Builder {
         private var text: String? = null
         private var onBehalfOfUUID: String? = null
         private var heading: String? = null
         private var attachments: List<_Attachment_>? = null
-        private var tempId: Long? = null
+        private var tempId: String? = null
+        private var topicIds: List<String>? = null
 
         fun text(text: String?) = apply { this.text = text }
         fun onBehalfOfUUID(onBehalfOfUUID: String?) = apply { this.onBehalfOfUUID = onBehalfOfUUID }
         fun heading(heading: String?) = apply { this.heading = heading }
         fun attachments(attachments: List<_Attachment_>?) = apply { this.attachments = attachments }
-        fun tempId(tempId: Long?) = apply { this.tempId = tempId }
+        fun tempId(tempId: String?) = apply { this.tempId = tempId }
+        fun topicIds(topicIds: List<String>?) = apply { this.topicIds = topicIds }
 
         fun build() = _AddPostRequest_(
             text,
             onBehalfOfUUID,
             heading,
             attachments,
-            tempId
+            tempId,
+            topicIds
         )
     }
 
@@ -42,5 +47,6 @@ class _AddPostRequest_ private constructor(
             .heading(heading)
             .attachments(attachments)
             .tempId(tempId)
+            .topicIds(topicIds)
     }
 }

@@ -5,6 +5,7 @@
 -keep class com.likeminds.internalsdk.notificationfeed.model.** { *; }
 -keep class com.likeminds.internalsdk.post.model.**{ *; }
 -keep class com.likeminds.internalsdk.sdk.model.** { *; }
+-keep class com.likeminds.internalsdk.topic.model.** { *; }
 -keep class com.likeminds.internalsdk.universalfeed.model.** { *; }
 -keep class com.likeminds.internalsdk.utils.retrofit.model.** { *; }
 -keep class com.likeminds.internalsdk.widgets.model.** { *; }
