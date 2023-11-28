@@ -33,6 +33,7 @@ import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.widgets.model.Widget
 import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
+import org.json.JSONObject
 
 object ModelConverter {
 
@@ -964,10 +965,11 @@ object ModelConverter {
     }
 
     private fun convertConfiguration(_configuration_: _Configuration_): Configuration {
+        val jsonString = _configuration_.value.toString()
         return Configuration.Builder()
             .type(_configuration_.type)
             .description(_configuration_.description)
-            .value(_configuration_.value)
+            .value(JSONObject(jsonString))
             .build()
     }
 

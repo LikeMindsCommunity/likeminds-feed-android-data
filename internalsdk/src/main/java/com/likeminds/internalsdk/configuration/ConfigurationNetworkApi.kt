@@ -7,6 +7,6 @@ import retrofit2.http.GET
 
 interface ConfigurationNetworkApi {
 
-    @GET
+    @GET("community/configurations")
     suspend fun getCommunityConfiguration(): NetworkResponse<APIResponse<_GetCommunityConfiguration_>>
 }

@@ -24,4 +24,8 @@ class Configuration private constructor(
             .description(description)
             .value(value)
     }
+
+    override fun toString(): String {
+        return "Configuration recieved as type: $type description:$description value$value"
+    }
 }
