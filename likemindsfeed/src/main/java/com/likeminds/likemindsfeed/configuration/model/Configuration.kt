@@ -1,14 +1,10 @@
-package com.likeminds.internalsdk.configuration.model
+package com.likeminds.likemindsfeed.configuration.model
 
-import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
 
-class _Configuration_ private constructor(
-    @SerializedName("type")
+class Configuration private constructor(
     val type: String,
-    @SerializedName("description")
     val description: String,
-    @SerializedName("value")
     val value: JSONObject
 ) {
     class Builder {
@@ -20,7 +16,7 @@ class _Configuration_ private constructor(
         fun description(description: String) = apply { this.description = description }
         fun value(value: JSONObject) = apply { this.value = value }
 
-        fun build() = _Configuration_(type, description, value)
+        fun build() = Configuration(type, description, value)
     }
 
     fun toBuilder(): Builder {

@@ -1,5 +1,6 @@
 # Kepping all models
 -keep class com.likeminds.likemindsfeed.comment.model.** { *; }
+-keep class com.likeminds.likemindsfeed.configuration.model.** { *; }
 -keep class com.likeminds.likemindsfeed.helper.model.** { *; }
 -keep class com.likeminds.likemindsfeed.initiateUser.model.** { *; }
 -keep class com.likeminds.likemindsfeed.moderation.model.** { *; }

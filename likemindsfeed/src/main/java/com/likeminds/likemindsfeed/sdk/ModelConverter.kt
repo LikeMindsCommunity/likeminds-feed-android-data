@@ -1,6 +1,8 @@
 package com.likeminds.likemindsfeed.sdk
 
 import com.likeminds.internalsdk.comment.model.*
+import com.likeminds.internalsdk.configuration.model._Configuration_
+import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -16,6 +18,8 @@ import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
 import com.likeminds.internalsdk.widgets.model._Widget_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.configuration.model.Configuration
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.initiateUser.model.*
@@ -935,6 +939,35 @@ object ModelConverter {
             .id(_topic_.id)
             .isEnabled(_topic_.isEnabled)
             .name(_topic_.name)
+            .build()
+    }
+
+    fun convertGetCommunityConfigurationAPIResponse(
+        apiResponse: APIResponse<_GetCommunityConfiguration_>
+    ): LMResponse<GetCommunityConfiguration> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetCommunityConfiguration(apiResponse.data)
+        )
+    }
+
+    private fun convertGetCommunityConfiguration(_getCommunityConfiguration_: _GetCommunityConfiguration_?): GetCommunityConfiguration? {
+        if (_getCommunityConfiguration_ == null) {
+            return null
+        }
+        return GetCommunityConfiguration(
+            _getCommunityConfiguration_.configurations.map { _configuration_ ->
+                convertConfiguration(_configuration_)
+            }
+        )
+    }
+
+    private fun convertConfiguration(_configuration_: _Configuration_): Configuration {
+        return Configuration.Builder()
+            .type(_configuration_.type)
+            .description(_configuration_.description)
+            .value(_configuration_.value)
             .build()
     }
 

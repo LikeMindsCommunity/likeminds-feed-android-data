@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.annotation.Keep
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.configuration.ConfigurationClient
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
@@ -50,6 +52,9 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var topicClient: TopicClient
+
+    @Inject
+    lateinit var configurationClient: ConfigurationClient
 
     @Keep
     class Builder(val application: Application) {
@@ -215,5 +220,10 @@ class LMFeedClient private constructor() {
     //Exposed function to get all topics
     suspend fun getTopics(getTopicRequest: GetTopicRequest): LMResponse<GetTopicResponse> {
         return topicClient.getTopics(getTopicRequest)
+    }
+
+    //Exposed function to get all community configurations
+    suspend fun getCommunityConfiguration(): LMResponse<GetCommunityConfiguration> {
+        return configurationClient.getCommunityConfiguration()
     }
 }
