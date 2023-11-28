@@ -943,6 +943,7 @@ object ModelConverter {
             .build()
     }
 
+    // converts APIResponse<_GetCommunityConfiguration_> to LMResponse<GetCommunityConfiguration> model
     fun convertGetCommunityConfigurationAPIResponse(
         apiResponse: APIResponse<_GetCommunityConfiguration_>
     ): LMResponse<GetCommunityConfiguration> {
@@ -953,6 +954,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal _GetCommunityConfiguration_ to client GetCommunityConfiguration
     private fun convertGetCommunityConfiguration(_getCommunityConfiguration_: _GetCommunityConfiguration_?): GetCommunityConfiguration? {
         if (_getCommunityConfiguration_ == null) {
             return null
@@ -964,6 +966,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal _Configuration_ to client Configuration
     private fun convertConfiguration(_configuration_: _Configuration_): Configuration {
         val jsonString = _configuration_.value.toString()
         return Configuration.Builder()

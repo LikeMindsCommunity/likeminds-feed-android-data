@@ -33,7 +33,8 @@ class ConfigurationClient @Inject constructor() : BaseClient() {
     }
 
     /****
-     * Calls the APIs
+     * Calls the community configuration API and
+     * convert internal response model to exposed response model
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated
      * @return [GetCommunityConfiguration] - [GetCommunityConfiguration] model
      */
