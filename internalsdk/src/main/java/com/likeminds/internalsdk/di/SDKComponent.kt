@@ -1,17 +1,7 @@
 package com.likeminds.internalsdk.di
 
 import com.likeminds.internalsdk.FeedSDK
-import com.likeminds.internalsdk.di.modules.CommentModule
-import com.likeminds.internalsdk.di.modules.GsonModule
-import com.likeminds.internalsdk.di.modules.HelperModule
-import com.likeminds.internalsdk.di.modules.ModerationModule
-import com.likeminds.internalsdk.di.modules.NetworkModule
-import com.likeminds.internalsdk.di.modules.NotificationFeedModule
-import com.likeminds.internalsdk.di.modules.PostModule
-import com.likeminds.internalsdk.di.modules.SDKModule
-import com.likeminds.internalsdk.di.modules.SDKSharedResourcesModule
-import com.likeminds.internalsdk.di.modules.TopicModule
-import com.likeminds.internalsdk.di.modules.UniversalFeedModule
+import com.likeminds.internalsdk.di.modules.*
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -29,7 +19,8 @@ import javax.inject.Singleton
         ModerationModule::class,
         HelperModule::class,
         NotificationFeedModule::class,
-        TopicModule::class
+        TopicModule::class,
+        ConfigurationModule::class
     ]
 )
 interface SDKComponent {

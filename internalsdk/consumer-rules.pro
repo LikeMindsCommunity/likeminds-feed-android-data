@@ -1,5 +1,6 @@
 # Model Class
 -keep class com.likeminds.internalsdk.comment.model.** { *; }
+-keep class com.likeminds.internalsdk.configuration.model.** { *; }
 -keep class com.likeminds.internalsdk.helper.model.** { *; }
 -keep class com.likeminds.internalsdk.moderation.model.** { *; }
 -keep class com.likeminds.internalsdk.notificationfeed.model.** { *; }

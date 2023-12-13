@@ -9,6 +9,7 @@ import com.likeminds.likemindsfeed.LMCallback
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
+import com.likeminds.likemindsfeed.di.configuration.ConfigurationSubComponent
 import com.likeminds.likemindsfeed.di.helper.HelperSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
@@ -39,6 +40,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     private var helperComponent: HelperSubComponent? = null
     private var notificationFeedComponent: NotificationFeedSubComponent? = null
     private var topicSubComponent: TopicSubComponent? = null
+    private var configurationSubComponent: ConfigurationSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -127,6 +129,14 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
         }
 
         return topicSubComponent
+    }
+
+    fun configurationComponent(): ConfigurationSubComponent? {
+        if (configurationSubComponent == null) {
+            configurationSubComponent = likeMindsFeedComponent?.configurationComponent()?.create()
+        }
+
+        return configurationSubComponent
     }
 
     override fun login() {

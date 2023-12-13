@@ -1,6 +1,8 @@
 package com.likeminds.likemindsfeed.sdk
 
 import com.likeminds.internalsdk.comment.model.*
+import com.likeminds.internalsdk.configuration.model._Configuration_
+import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -16,6 +18,8 @@ import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
 import com.likeminds.internalsdk.widgets.model._Widget_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.configuration.model.Configuration
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.initiateUser.model.*
@@ -29,6 +33,7 @@ import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.widgets.model.Widget
 import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
+import org.json.JSONObject
 
 object ModelConverter {
 
@@ -935,6 +940,39 @@ object ModelConverter {
             .id(_topic_.id)
             .isEnabled(_topic_.isEnabled)
             .name(_topic_.name)
+            .build()
+    }
+
+    // converts APIResponse<_GetCommunityConfiguration_> to LMResponse<GetCommunityConfiguration> model
+    fun convertGetCommunityConfigurationAPIResponse(
+        apiResponse: APIResponse<_GetCommunityConfiguration_>
+    ): LMResponse<GetCommunityConfiguration> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetCommunityConfiguration(apiResponse.data)
+        )
+    }
+
+    // converts internal _GetCommunityConfiguration_ to client GetCommunityConfiguration
+    private fun convertGetCommunityConfiguration(_getCommunityConfiguration_: _GetCommunityConfiguration_?): GetCommunityConfiguration? {
+        if (_getCommunityConfiguration_ == null) {
+            return null
+        }
+        return GetCommunityConfiguration(
+            _getCommunityConfiguration_.configurations.map { _configuration_ ->
+                convertConfiguration(_configuration_)
+            }
+        )
+    }
+
+    // converts internal _Configuration_ to client Configuration
+    private fun convertConfiguration(_configuration_: _Configuration_): Configuration {
+        val jsonString = _configuration_.value.toString()
+        return Configuration.Builder()
+            .type(_configuration_.type)
+            .description(_configuration_.description)
+            .value(JSONObject(jsonString))
             .build()
     }
 
