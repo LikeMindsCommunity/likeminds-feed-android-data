@@ -76,7 +76,6 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false
                     val logoutRequest = LogoutRequest.Builder()
-                        .refreshToken(refreshToken)
                         .deviceId(initiateUserRequest.deviceId)
                         .build()
 
@@ -128,7 +127,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         // builds internal request model
         val request =
             _LogoutRequest_.Builder()
-                .refreshToken(logoutRequest.refreshToken)
+                .refreshToken(FeedTokenManager.getInstance().refreshToken ?: "")
                 .deviceId(logoutRequest.deviceId)
                 .build()
 
@@ -141,6 +140,7 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
             }
 
             is NetworkResponse.Success -> {
+                FeedTokenManager.getInstance().clear()
                 LMResponse(
                     success = response.body.success
                 )
@@ -153,8 +153,8 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateLogoutResponse(logoutRequest: LogoutRequest) {
-        if (logoutRequest.refreshToken.isEmpty()) {
-            RequestUtils.throwException("refreshToken")
+        if (logoutRequest.deviceId.isEmpty()) {
+            RequestUtils.throwException("deviceId")
         }
     }
 

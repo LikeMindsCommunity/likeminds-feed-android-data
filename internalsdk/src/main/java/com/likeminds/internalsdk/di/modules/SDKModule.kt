@@ -1,6 +1,5 @@
 package com.likeminds.internalsdk.di.modules
 
-import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.RefreshTokenAuthenticator
@@ -11,6 +10,7 @@ import com.likeminds.internalsdk.utils.retrofit.model.BaseUrl
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -43,13 +43,13 @@ class SDKModule {
     @Provides
     @Singleton
     fun provideRefreshTokenApi(
-        chuckInterceptor: ChuckerInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor,
         gson: Gson,
         baseUrl: BaseUrl,
         refreshTokenAuthenticator: RefreshTokenAuthenticator
     ): RefreshTokenNetworkApi {
         val client: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(chuckInterceptor)
+            .addInterceptor(loggingInterceptor)
             .authenticator(refreshTokenAuthenticator)
             .build()
         return Retrofit.Builder()
