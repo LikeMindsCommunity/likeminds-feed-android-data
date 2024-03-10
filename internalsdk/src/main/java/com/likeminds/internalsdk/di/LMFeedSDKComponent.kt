@@ -9,10 +9,10 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        SDKSharedResourcesModule::class,
+        LMFeedSDKSharedResourcesModule::class,
         GsonModule::class,
         NetworkModule::class,
-        SDKModule::class,
+        LMFeedSDKModule::class,
         UniversalFeedModule::class,
         CommentModule::class,
         PostModule::class,
@@ -23,14 +23,14 @@ import javax.inject.Singleton
         ConfigurationModule::class
     ]
 )
-interface SDKComponent {
+interface LMFeedSDKComponent {
     fun inject(feedSDK: FeedSDK)
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun sdkSharedResources(sdkSharedResources: SDKSharedResources): Builder
+        fun sdkSharedResources(lmFeedSDKSharedResources: LMFeedSDKSharedResources): Builder
 
-        fun build(): SDKComponent
+        fun build(): LMFeedSDKComponent
     }
 }

@@ -25,7 +25,7 @@ import javax.inject.Singleton
 
 @Singleton
 class FeedSDK {
-    private var sdkComponent: SDKComponent? = null
+    private var sdkComponent: LMFeedSDKComponent? = null
 
     @Inject
     lateinit var application: Application
@@ -79,17 +79,17 @@ class FeedSDK {
     }
 
     fun initialize(
-        sdkSharedResources: SDKSharedResources,
+        lmFeedSDKSharedResources: LMFeedSDKSharedResources,
         lmInternalCallback: LMInternalCallback?
     ) {
-        initSDKComponent(sdkSharedResources)
+        initSDKComponent(lmFeedSDKSharedResources)
         this.lmInternalCallback = lmInternalCallback
     }
 
-    private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {
+    private fun initSDKComponent(lmFeedSDKSharedResources: LMFeedSDKSharedResources) {
         if (sdkComponent == null) {
-            sdkComponent = DaggerSDKComponent.builder()
-                .sdkSharedResources(sdkSharedResources)
+            sdkComponent = DaggerLMFeedSDKComponent.builder()
+                .sdkSharedResources(lmFeedSDKSharedResources)
                 .build()
             sdkComponent?.inject(this)
         }

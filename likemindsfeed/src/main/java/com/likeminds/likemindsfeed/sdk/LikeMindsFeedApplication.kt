@@ -3,7 +3,7 @@ package com.likeminds.likemindsfeed.sdk
 import android.app.Application
 import com.likeminds.internalsdk.FeedSDK
 import com.likeminds.internalsdk.LMInternalCallback
-import com.likeminds.internalsdk.di.SDKSharedResources
+import com.likeminds.internalsdk.di.LMFeedSDKSharedResources
 import com.likeminds.internalsdk.sdk.SDKPreferences
 import com.likeminds.likemindsfeed.LMCallback
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
@@ -25,7 +25,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     lateinit var feedSDK: FeedSDK
 
     @Inject
-    lateinit var sdkSharedResources: SDKSharedResources
+    lateinit var lmFeedSDKSharedResources: LMFeedSDKSharedResources
 
     @Inject
     lateinit var sdkPreferences: SDKPreferences
@@ -61,7 +61,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
 
         //init dagger
         initLikeMindsFeedComponent(application)
-        feedSDK.initialize(sdkSharedResources, this)
+        feedSDK.initialize(lmFeedSDKSharedResources, this)
     }
 
     private fun initLikeMindsFeedComponent(application: Application) {
