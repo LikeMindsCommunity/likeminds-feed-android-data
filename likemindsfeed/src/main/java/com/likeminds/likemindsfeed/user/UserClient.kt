@@ -226,4 +226,25 @@ class UserClient @Inject constructor() : BaseClient() {
 
         userDao.insertUserWithRights(userEntity, memberRightsEntity)
     }
+
+    /**
+     * Calls the db query to get the logged user details
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return GetLoggedInUserWithRightsResponse - GetLoggedInUserWithRightsResponse model
+     */
+    suspend fun getLoggedInUserWithRights(): LMResponse<GetLoggedInUserWithRightsResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
+        //query
+        val userWithRights = userDao.getLoggedInUserWithRights()
+        return if (userWithRights == null) {
+            LMResponse(
+                success = false,
+                errorMessage = "Logged user not found!"
+            )
+        } else {
+            ModelConverter.convertGetLoggedInUserWithRightsResponse(userWithRights)
+        }
+    }
 }

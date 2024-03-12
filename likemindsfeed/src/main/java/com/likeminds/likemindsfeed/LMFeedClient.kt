@@ -8,8 +8,6 @@ import com.likeminds.likemindsfeed.configuration.ConfigurationClient
 import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.*
-import com.likeminds.likemindsfeed.user.UserClient
-import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.*
 import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
@@ -23,6 +21,8 @@ import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.user.UserClient
+import com.likeminds.likemindsfeed.user.model.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -225,5 +225,10 @@ class LMFeedClient private constructor() {
     //Exposed function to get all community configurations
     suspend fun getCommunityConfiguration(): LMResponse<GetCommunityConfiguration> {
         return configurationClient.getCommunityConfiguration()
+    }
+
+    //Exposed function to get logged in user with rights
+    suspend fun getLoggedInUserWithRights(): LMResponse<GetLoggedInUserWithRightsResponse> {
+        return userClient.getLoggedInUserWithRights()
     }
 }

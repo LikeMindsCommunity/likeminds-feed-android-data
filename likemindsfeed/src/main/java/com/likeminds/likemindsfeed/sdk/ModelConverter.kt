@@ -1099,4 +1099,97 @@ object ModelConverter {
             .userUniqueId(userUniqueId)
             .build()
     }
+
+
+    /**--------------------------------
+     * Db Model -> Client Model
+    --------------------------------*/
+
+    /**
+     * converts [UserWithRights] to [LMResponse] of [GetLoggedInUserWithRightsResponse]
+     * @param userWithRights: object of [UserWithRights] from db
+     * @return [LMResponse] of [GetLoggedInUserWithRightsResponse]
+     * */
+    fun convertGetLoggedInUserWithRightsResponse(
+        userWithRights: UserWithRights
+    ): LMResponse<GetLoggedInUserWithRightsResponse> {
+        return LMResponse(
+            success = true,
+            data = convertUserWithRights(userWithRights)
+        )
+    }
+
+    /**
+     * converts [UserWithRights] to [GetLoggedInUserWithRightsResponse]
+     * @param userWithRights: object of [UserWithRights] from db
+     * @return [GetLoggedInUserWithRightsResponse]
+     * */
+    private fun convertUserWithRights(userWithRights: UserWithRights): GetLoggedInUserWithRightsResponse {
+        return GetLoggedInUserWithRightsResponse(
+            makeUser(userWithRights.user),
+            makeUserRights(userWithRights.memberRights)
+        )
+    }
+
+    /**
+     * converts [UserEntity] to [User]
+     * @param userEntity: object of [UserEntity] from db
+     * @return [User]
+     * */
+    private fun makeUser(userEntity: UserEntity): User {
+        return User.Builder()
+            .id(userEntity.id)
+            .imageUrl(userEntity.imageUrl)
+            .isGuest(userEntity.isGuest)
+            .name(userEntity.name)
+            .sdkClientInfo(makeSDKClientInfo(userEntity.sdkClientInfoEntity))
+            .isDeleted(userEntity.isDeleted)
+            .customTitle(userEntity.customTitle)
+            .updatedAt(userEntity.updatedAt)
+            .userUniqueId(userEntity.userUniqueId)
+            .uuid(userEntity.uuid)
+            .state(userEntity.state)
+            .build()
+    }
+
+    /**
+     * converts [SDKClientInfoEntity] to [SDKClientInfo]
+     * @param sdkClientInfoEntity: object of [SDKClientInfoEntity] from db
+     * @return [SDKClientInfo]
+     * */
+    private fun makeSDKClientInfo(sdkClientInfoEntity: SDKClientInfoEntity): SDKClientInfo {
+        return SDKClientInfo.Builder()
+            .uuid(sdkClientInfoEntity.uuid)
+            .user(sdkClientInfoEntity.user)
+            .userUniqueId(sdkClientInfoEntity.userUniqueId)
+            .community(sdkClientInfoEntity.community)
+            .build()
+    }
+
+    /**
+     * converts List of [MemberRightsEntity] to List of [ManagementRightPermissionData]
+     * @param userRights: List of [MemberRightsEntity] from db
+     * @return List of [ManagementRightPermissionData]
+     * */
+    private fun makeUserRights(userRights: List<MemberRightsEntity>): List<ManagementRightPermissionData> {
+        return userRights.map { right ->
+            makeUserRight(right)
+        }
+    }
+
+    /**
+     * converts [MemberRightsEntity] to [ManagementRightPermissionData]
+     * @param right: object of [MemberRightsEntity] from db
+     * @return [ManagementRightPermissionData]
+     * */
+    private fun makeUserRight(right: MemberRightsEntity): ManagementRightPermissionData {
+        return ManagementRightPermissionData(
+            id = right.id,
+            isLocked = right.isLocked,
+            isSelected = right.isSelected,
+            state = right.state,
+            title = right.title,
+            subtitle = right.subtitle,
+        )
+    }
 }

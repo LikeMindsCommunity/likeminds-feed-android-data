@@ -27,4 +27,8 @@ interface UserWithRightsDao {
     @Transaction
     @Query("SELECT * FROM ${LMFeedDbConstants.USER_TABLE} WHERE user_unique_id = :id")
     suspend fun getUserWithRights(id: String): UserWithRights
+
+    @Transaction
+    @Query("SELECT * FROM ${LMFeedDbConstants.USER_TABLE} LIMIT 1")
+    suspend fun getLoggedInUserWithRights():UserWithRights?
 }
