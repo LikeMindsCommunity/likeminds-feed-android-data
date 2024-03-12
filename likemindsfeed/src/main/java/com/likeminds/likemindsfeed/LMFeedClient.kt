@@ -8,8 +8,8 @@ import com.likeminds.likemindsfeed.configuration.ConfigurationClient
 import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.*
-import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
-import com.likeminds.likemindsfeed.initiateUser.model.*
+import com.likeminds.likemindsfeed.user.UserClient
+import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.*
 import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
@@ -30,7 +30,7 @@ import javax.inject.Singleton
 @Keep
 class LMFeedClient private constructor() {
     @Inject
-    lateinit var initiateUserClient: InitiateUserClient
+    lateinit var userClient: UserClient
 
     @Inject
     lateinit var universalFeedClient: UniversalFeedClient
@@ -85,17 +85,17 @@ class LMFeedClient private constructor() {
 
     // Exposed function to process initiate user request
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
-        return initiateUserClient.initiateUser(initiateUserRequest)
+        return userClient.initiateUser(initiateUserRequest)
     }
 
     // Exposed function to process logout request
     suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
-        return initiateUserClient.logout(logoutRequest)
+        return userClient.logout(logoutRequest)
     }
 
     // Exposed function to process member state
     suspend fun getMemberState(): LMResponse<MemberStateResponse> {
-        return initiateUserClient.getMemberState()
+        return userClient.getMemberState()
     }
 
     suspend fun registerDevice(registerDeviceRequest: RegisterDeviceRequest): LMResponse<Nothing> {

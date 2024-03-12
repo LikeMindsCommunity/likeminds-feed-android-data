@@ -6,6 +6,7 @@ import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.configuration.ConfigurationApi
 import com.likeminds.internalsdk.configuration.ConfigurationApiImpl
+import com.likeminds.internalsdk.db.dao.UserWithRightsDao
 import com.likeminds.internalsdk.di.*
 import com.likeminds.internalsdk.helper.HelperApi
 import com.likeminds.internalsdk.helper.HelperApiImpl
@@ -62,6 +63,9 @@ class FeedSDK {
 
     @Inject
     lateinit var configurationApiImpl: ConfigurationApiImpl
+
+    @Inject
+    lateinit var userDao: UserWithRightsDao
 
     var lmInternalCallback: LMInternalCallback? = null
 
@@ -129,5 +133,9 @@ class FeedSDK {
 
     fun getConfigurationApi(): ConfigurationApi {
         return configurationApiImpl
+    }
+
+    fun getUserWithRightsDao(): UserWithRightsDao {
+        return userDao
     }
 }

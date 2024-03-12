@@ -20,7 +20,8 @@ import javax.inject.Singleton
         HelperModule::class,
         NotificationFeedModule::class,
         TopicModule::class,
-        ConfigurationModule::class
+        ConfigurationModule::class,
+        RoomModule::class
     ]
 )
 interface LMFeedSDKComponent {

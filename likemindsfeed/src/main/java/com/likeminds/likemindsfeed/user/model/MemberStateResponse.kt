@@ -1,4 +1,4 @@
-package com.likeminds.likemindsfeed.initiateUser.model
+package com.likeminds.likemindsfeed.user.model
 
 data class MemberStateResponse(
     val id: Int,

@@ -1,4 +1,4 @@
-package com.likeminds.internalsdk.db.models
+package com.likeminds.internalsdk.db.model
 
 import androidx.room.*
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants

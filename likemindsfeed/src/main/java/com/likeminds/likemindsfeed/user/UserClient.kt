@@ -1,18 +1,17 @@
-package com.likeminds.likemindsfeed.initiateUser
+package com.likeminds.likemindsfeed.user
 
 import com.likeminds.internalsdk.FeedTokenManager
-import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
-import com.likeminds.internalsdk.sdk.model._LogoutRequest_
+import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
-import com.likeminds.likemindsfeed.initiateUser.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
+import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
-class InitiateUserClient @Inject constructor() : BaseClient() {
+class UserClient @Inject constructor() : BaseClient() {
 
     override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
@@ -22,15 +21,19 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         feedSDK.getSDKApi()
     }
 
+    private val userDao by lazy {
+        feedSDK.getUserWithRightsDao()
+    }
+
     companion object {
         @JvmStatic
-        private var initiateUserClient: InitiateUserClient? = null
+        private var userClient: UserClient? = null
 
-        fun getInstance(): InitiateUserClient {
-            if (initiateUserClient == null) {
-                initiateUserClient = InitiateUserClient()
+        fun getInstance(): UserClient {
+            if (userClient == null) {
+                userClient = UserClient()
             }
-            return initiateUserClient!!
+            return userClient!!
         }
     }
 
@@ -89,6 +92,11 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                         )
                     )
                 } else {
+                    //update db
+                    body.data?.user?.let { user ->
+                        insertUser(user)
+                    }
+                    //return the exposed
                     ModelConverter.convertInitiateUserResponse(body)
                 }
             }
@@ -111,6 +119,15 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
         if (initiateUserRequest.apiKey.isEmpty()) {
             RequestUtils.throwException("apiKey")
         }
+    }
+
+    //update DB for the user
+    private suspend fun insertUser(_user_: _User_) {
+        //get user entity
+        val userEntity = ModelConverter.createUserEntity(_user_)
+
+        //db query
+        userDao.insertUser(userEntity)
     }
 
     /**
@@ -177,9 +194,36 @@ class InitiateUserClient @Inject constructor() : BaseClient() {
                 )
             }
 
+
             is NetworkResponse.Success -> {
-                ModelConverter.convertMemberStateResponse(response.body)
+                val body = response.body
+                body.data?.let { memberStateResponse ->
+                    updateUserWithRightsInDb(memberStateResponse)
+                }
+
+                ModelConverter.convertMemberStateResponse(body)
             }
         }
+    }
+
+    //update db for user with rights
+    private suspend fun updateUserWithRightsInDb(memberStateResponse: _MemberStateResponse_) {
+        //get response variables
+        val uuid = memberStateResponse.member?.userUniqueId ?: return
+        val state = memberStateResponse.state
+        val isOwner = memberStateResponse.member?.isOwner ?: return
+
+        //get existing userEntity
+        var userEntity = userDao.getUser(uuid)
+
+        //updated userEntity
+        userEntity = userEntity.toBuilder().state(state).isOwner(isOwner).build()
+
+        val memberRightsEntity = ModelConverter.createMemberRightsEntity(
+            uuid,
+            memberStateResponse.memberRights
+        )
+
+        userDao.insertUserWithRights(userEntity, memberRightsEntity)
     }
 }

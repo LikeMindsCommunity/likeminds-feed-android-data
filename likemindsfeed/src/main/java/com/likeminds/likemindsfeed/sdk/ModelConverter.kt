@@ -3,6 +3,7 @@ package com.likeminds.likemindsfeed.sdk
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
+import com.likeminds.internalsdk.db.model.*
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -22,7 +23,6 @@ import com.likeminds.likemindsfeed.configuration.model.Configuration
 import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
-import com.likeminds.likemindsfeed.initiateUser.model.*
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.*
@@ -31,6 +31,7 @@ import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.widgets.model.Widget
 import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
 import org.json.JSONObject
@@ -1021,6 +1022,81 @@ object ModelConverter {
             .image(ogTags.image)
             .description(ogTags.description)
             .url(ogTags.url)
+            .build()
+    }
+
+    /**--------------------------------
+     * Internal Model -> Db Model
+    --------------------------------*/
+
+    /**
+     * converts [_User_] to [UserEntity]
+     * @param user: object of [_User_]
+     * @return object of [UserEntity]
+     */
+    fun createUserEntity(user: _User_): UserEntity {
+        return UserEntity.Builder()
+            .id(user.id)
+            .imageUrl(user.imageUrl)
+            .isGuest(user.isGuest)
+            .name(user.name)
+            .updatedAt(user.updatedAt)
+            .customTitle(user.customTitle)
+            .isDeleted(user.isDeleted)
+            .userUniqueId(user.userUniqueId)
+            .uuid(user.uuid)
+            .sdkClientInfoEntity(createSDKClientInfoEntity(user.sdkClientInfo))
+            .build()
+    }
+
+    /**
+     * converts [_SDKClientInfo_] to [SDKClientInfoEntity]
+     * @param sdkClientInfo: object of [_SDKClientInfo_]
+     * @return object of [SDKClientInfoEntity]
+     */
+    private fun createSDKClientInfoEntity(sdkClientInfo: _SDKClientInfo_): SDKClientInfoEntity {
+        return SDKClientInfoEntity.Builder()
+            .user(sdkClientInfo.user)
+            .community(sdkClientInfo.community)
+            .userUniqueId(sdkClientInfo.userUniqueId)
+            .uuid(sdkClientInfo.uuid)
+            .build()
+    }
+
+    /**
+     * converts list of [ManagementRightPermissionData] to list of [MemberRightsEntity]
+     * @param userUniqueId: unique id of the user
+     * @param memberRights: list of [_ManagementRightPermissionData_]
+     * */
+    fun createMemberRightsEntity(
+        userUniqueId: String,
+        memberRights: List<_ManagementRightPermissionData_>
+    ): List<MemberRightsEntity> {
+        return memberRights.map {
+            createMemberRightEntity(
+                userUniqueId,
+                it
+            )
+        }
+    }
+
+    /**
+     * converts [ManagementRightPermissionData] to [MemberRightsEntity]
+     * @param userUniqueId: unique id of the user
+     * @param memberRight: network model of member right [_ManagementRightPermissionData_]
+     * */
+    private fun createMemberRightEntity(
+        userUniqueId: String,
+        memberRight: _ManagementRightPermissionData_
+    ): MemberRightsEntity {
+        return MemberRightsEntity.Builder()
+            .id(memberRight.id)
+            .isLocked(memberRight.isLocked)
+            .isSelected(memberRight.isSelected)
+            .state(memberRight.state)
+            .title(memberRight.title)
+            .subtitle(memberRight.subtitle)
+            .userUniqueId(userUniqueId)
             .build()
     }
 }
