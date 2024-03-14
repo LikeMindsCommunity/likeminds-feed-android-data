@@ -20,6 +20,10 @@ class PostClient @Inject constructor() : BaseClient() {
         feedSDK.getPostApi()
     }
 
+    private val postDao by lazy {
+        feedSDK.getPostWithAttachmentsDao()
+    }
+
     /**
      * Converts client request model to internal model and calls the api
      * @param getPostRequest - client request model to fetch post
@@ -95,6 +99,12 @@ class PostClient @Inject constructor() : BaseClient() {
 
             is NetworkResponse.Success -> {
                 val body = response.body
+
+                //update db
+                body.data?.let { addPostResponse ->
+                    updatePostInDB(addPostResponse)
+                }
+
                 ModelConverter.convertAddPostAPIResponse(body)
             }
         }
@@ -108,6 +118,22 @@ class PostClient @Inject constructor() : BaseClient() {
         if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
             RequestUtils.throwException("text")
         }
+    }
+
+    private suspend fun updatePostInDB(addPostResponse: _AddPostResponse_) {
+        val post = addPostResponse.post
+        val temporaryPostId = post.tempId
+        val postId = post.id
+
+        //update isPosted and postId in Post table
+        postDao.updateIsPosted(
+            temporaryPostId,
+            postId,
+            true
+        )
+
+        //update postId in Attachment table
+        postDao.updatePostIdInAttachments(postId, temporaryPostId)
     }
 
     /**
@@ -372,6 +398,47 @@ class PostClient @Inject constructor() : BaseClient() {
     private fun validatePinPostRequest(pinPostRequest: PinPostRequest) {
         if (pinPostRequest.postId.isEmpty()) {
             RequestUtils.throwException("postId")
+        }
+    }
+
+    /**
+     * Converts client request model to db model and add in the db
+     * @param addTemporaryPostRequest - client request model to pin the post
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
+    suspend fun addTemporaryPost(addTemporaryPostRequest: AddTemporaryPostRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateAddTemporaryPostRequest(addTemporaryPostRequest)
+
+        val postEntity = ModelConverter.createPostEntity(
+            addTemporaryPostRequest.post,
+            addTemporaryPostRequest.postThumbnail
+        )
+
+        val attachmentEntities = ModelConverter.createAttachmentEntities(
+            addTemporaryPostRequest.post.tempId ?: "",
+            addTemporaryPostRequest.post.attachments
+        )
+
+        val topicEntities = ModelConverter.createTopicEntities(
+            addTemporaryPostRequest.post.tempId ?: "",
+            addTemporaryPostRequest.topics
+        )
+
+        postDao.insertPostWithAttachments(postEntity, attachmentEntities, topicEntities)
+
+        return LMResponse(success = true)
+    }
+
+    /**
+     * validates [addTemporaryPostRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateAddTemporaryPostRequest(addTemporaryPostRequest: AddTemporaryPostRequest) {
+        if (addTemporaryPostRequest.post.text.isEmpty() && addTemporaryPostRequest.post.attachments.isNullOrEmpty()) {
+            RequestUtils.throwException("text")
         }
     }
 }

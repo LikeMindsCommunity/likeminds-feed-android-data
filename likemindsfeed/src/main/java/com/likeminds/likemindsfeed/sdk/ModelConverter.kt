@@ -1100,6 +1100,99 @@ object ModelConverter {
             .build()
     }
 
+    /**--------------------------------
+     * Client Model -> Db Model
+    --------------------------------*/
+
+    /**
+     * converts [Post] to [PostEntity]
+     * @param post: object of [Post]
+     * @param thumbnail: Uri as String for thumbnail of the post
+     */
+    fun createPostEntity(post: Post, thumbnail: String?): PostEntity {
+        return PostEntity.Builder()
+            .temporaryId(post.tempId)
+            .postId(post.tempId.toString())
+            .uuid(post.uuid)
+            .thumbnail(thumbnail)
+            .text(post.text)
+            .build()
+    }
+
+    /**
+     * converts list of [Attachment] to list of [AttachmentEntity]
+     * @param attachments: list of [Attachment]
+     * @param postTemporaryId: temporary id of post
+     */
+    fun createAttachmentEntities(
+        postTemporaryId: String,
+        attachments: List<Attachment>?
+    ): List<AttachmentEntity> {
+        if (attachments.isNullOrEmpty()) return emptyList()
+        return attachments.map { attachment ->
+            createAttachmentEntity(postTemporaryId, attachment)
+        }
+    }
+
+    /**
+     * converts [Attachment] to [AttachmentEntity]
+     * @param attachment: object of [Attachment]
+     * @param postTemporaryId: temporary id of post
+     */
+    private fun createAttachmentEntity(
+        postTemporaryId: String,
+        attachment: Attachment
+    ): AttachmentEntity {
+        return AttachmentEntity.Builder()
+            .temporaryId(postTemporaryId)
+            .postId(postTemporaryId)
+            .attachmentType(attachment.attachmentType)
+            .attachmentMeta(createAttachmentMetaEntity(attachment.attachmentMeta))
+            .build()
+    }
+
+    /**
+     * converts [AttachmentMeta] to [AttachmentMetaEntity]
+     * @param attachmentMeta: object of [AttachmentMeta]
+     */
+    private fun createAttachmentMetaEntity(attachmentMeta: AttachmentMeta): AttachmentMetaEntity {
+        return AttachmentMetaEntity.Builder()
+            .name(attachmentMeta.name)
+            .url(attachmentMeta.url)
+            .uri(attachmentMeta.localUri.toString())
+            .pageCount(attachmentMeta.pageCount)
+            .size(attachmentMeta.size)
+            .duration(attachmentMeta.duration)
+            .format(attachmentMeta.format)
+            .awsFolderPath(attachmentMeta.awsFolderPath)
+            .localFilePath(attachmentMeta.localFilePath)
+            .build()
+    }
+
+    /**
+     * converts list of [Topic] to list of [TopicEntity]
+     * @param topics: list of [Topic]
+     * @param postTemporaryId: temporary id of post
+     */
+    fun createTopicEntities(postTemporaryId: String, topics: List<Topic>): List<TopicEntity> {
+        return topics.map { topic ->
+            createTopicEntity(postTemporaryId, topic)
+        }
+    }
+
+    /**
+     * converts [Topic] to [TopicEntity]
+     * @param topic: object of [TopicEntity]
+     * @param postTemporaryId: temporary id of post
+     */
+    private fun createTopicEntity(postTemporaryId: String, topic: Topic): TopicEntity {
+        return TopicEntity.Builder()
+            .id(topic.id)
+            .isEnabled(topic.isEnabled)
+            .name(topic.name)
+            .postId(postTemporaryId)
+            .build()
+    }
 
     /**--------------------------------
      * Db Model -> Client Model

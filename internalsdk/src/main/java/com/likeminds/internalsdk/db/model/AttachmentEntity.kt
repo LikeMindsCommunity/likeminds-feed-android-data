@@ -15,14 +15,14 @@ class AttachmentEntity constructor(
     @ColumnInfo(name = "post_id")
     val postId: String,
     @ColumnInfo(name = "temp_id")
-    val temporaryId: Long
+    val temporaryId: String?
 ) {
     class Builder {
         private var id: Long = 0
         private var attachmentType: Int = 0
         private var attachmentMeta: AttachmentMetaEntity =
             AttachmentMetaEntity.Builder().build()
-        private var temporaryId: Long = 0
+        private var temporaryId: String? = null
         private var postId: String = temporaryId.toString()
 
         fun id(id: Long) = apply { this.id = id }
@@ -31,7 +31,7 @@ class AttachmentEntity constructor(
             apply { this.attachmentMeta = attachmentMeta }
 
         fun postId(postId: String) = apply { this.postId = postId }
-        fun temporaryId(temporaryId: Long) = apply { this.temporaryId = temporaryId }
+        fun temporaryId(temporaryId: String?) = apply { this.temporaryId = temporaryId }
 
         fun build() = AttachmentEntity(
             id,

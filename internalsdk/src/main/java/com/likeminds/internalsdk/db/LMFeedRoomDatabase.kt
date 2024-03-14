@@ -2,6 +2,7 @@ package com.likeminds.internalsdk.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.likeminds.internalsdk.db.dao.PostWithAttachmentsDao
 import com.likeminds.internalsdk.db.dao.UserWithRightsDao
 import com.likeminds.internalsdk.db.model.*
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
@@ -19,5 +20,8 @@ import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 abstract class LMFeedRoomDatabase : RoomDatabase() {
 
     //User related Queries
-    abstract fun userDao():UserWithRightsDao
+    abstract fun userDao(): UserWithRightsDao
+
+    //Post with attachments Queries
+    abstract fun postWithAttachmentsDao(): PostWithAttachmentsDao
 }

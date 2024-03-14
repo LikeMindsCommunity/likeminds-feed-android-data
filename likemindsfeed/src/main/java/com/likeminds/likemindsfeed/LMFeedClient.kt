@@ -231,4 +231,10 @@ class LMFeedClient private constructor() {
     suspend fun getLoggedInUserWithRights(): LMResponse<GetLoggedInUserWithRightsResponse> {
         return userClient.getLoggedInUserWithRights()
     }
+
+    //Exposed function to get add temporary post in db
+    suspend fun addTemporaryPost(addTemporaryPostRequest: AddTemporaryPostRequest): LMResponse<Nothing> {
+        return postClient.addTemporaryPost(addTemporaryPostRequest)
+    }
+
 }
