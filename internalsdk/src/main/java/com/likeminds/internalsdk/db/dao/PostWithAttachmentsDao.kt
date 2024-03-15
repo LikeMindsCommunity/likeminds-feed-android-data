@@ -38,5 +38,5 @@ interface PostWithAttachmentsDao {
     //get post for a particular post.id (temporaryId)
     @Transaction
     @Query("SELECT * FROM ${LMFeedDbConstants.POST_TABLE} WHERE temp_id = :temporaryId")
-    suspend fun getPostWithAttachments(temporaryId: Long): PostWithAttachments
+    suspend fun getPostWithAttachments(temporaryId: String): PostWithAttachments?
 }

@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed.sdk
 
+import android.net.Uri
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
@@ -1166,6 +1167,12 @@ object ModelConverter {
             .format(attachmentMeta.format)
             .awsFolderPath(attachmentMeta.awsFolderPath)
             .localFilePath(attachmentMeta.localFilePath)
+            .thumbnailAWSFolderPath(attachmentMeta.thumbnailAWSFolderPath)
+            .thumbnailLocalFilePath(attachmentMeta.thumbnailLocalFilePath)
+            .coverImageUrl(attachmentMeta.coverImageUrl)
+            .body(attachmentMeta.body)
+            .title(attachmentMeta.title)
+            .entityId(attachmentMeta.entityId)
             .build()
     }
 
@@ -1283,6 +1290,125 @@ object ModelConverter {
             state = right.state,
             title = right.title,
             subtitle = right.subtitle,
+        )
+    }
+
+    /**
+     * converts [PostWithAttachments] to [LMResponse] of [GetCurrentUploadingPostResponse]
+     * @param postWithAttachments: object of [PostWithAttachments] from db
+     * @return [LMResponse] of [GetCurrentUploadingPostResponse]
+     * */
+    fun convertGetCurrentUploadingPostResponse(postWithAttachments: PostWithAttachments): LMResponse<GetCurrentUploadingPostResponse> {
+        return LMResponse(
+            success = true,
+            data = convertPostWithAttachments(postWithAttachments)
+        )
+    }
+
+    /**
+     * converts [PostWithAttachments] to [GetLoggedInUserWithRightsResponse]
+     * @param postWithAttachments: object of [PostWithAttachments] from db
+     * @return [GetCurrentUploadingPostResponse]
+     * */
+    private fun convertPostWithAttachments(postWithAttachments: PostWithAttachments): GetCurrentUploadingPostResponse {
+        return GetCurrentUploadingPostResponse(
+            post = makePost(postWithAttachments),
+            topics = makeTopics(postWithAttachments.topics)
+        )
+    }
+
+    /**
+     * converts [PostWithAttachments] to [Post]
+     * @param postWithAttachments: object of [PostWithAttachments] from db
+     * @return [Post]
+     * */
+    private fun makePost(postWithAttachments: PostWithAttachments): Post {
+        val postEntity = postWithAttachments.post
+        val attachmentEntities = postWithAttachments.attachments
+        return Post.Builder()
+            .tempId(postEntity.temporaryId)
+            .text(postEntity.text ?: "")
+            .uuid(postEntity.uuid)
+            .id(postEntity.postId)
+            .attachments(makeAttachments(attachmentEntities))
+            .build()
+    }
+
+    /**
+     * converts List of [AttachmentEntity] to List of [Attachment]
+     * @param attachmentEntities: List of [AttachmentEntity] from db
+     * @return List of [Attachment]
+     * */
+    private fun makeAttachments(attachmentEntities: List<AttachmentEntity>): List<Attachment> {
+        return attachmentEntities.map { attachment ->
+            makeAttachment(attachment)
+        }
+    }
+
+    /**
+     * converts [AttachmentEntity] to [Attachment]
+     * @param attachment: object of [AttachmentEntity] from db
+     * @return [Attachment]
+     * */
+    private fun makeAttachment(attachment: AttachmentEntity): Attachment {
+        return Attachment.Builder()
+            .attachmentType(attachment.attachmentType)
+            .attachmentMeta(makeAttachmentMeta(attachment.attachmentMeta))
+            .build()
+    }
+
+    /**
+     * converts [AttachmentMetaEntity] to [AttachmentMeta]
+     * @param attachmentMeta: object of [AttachmentMetaEntity] from db
+     * @return [AttachmentMeta]
+     * */
+    private fun makeAttachmentMeta(attachmentMeta: AttachmentMetaEntity): AttachmentMeta {
+        return AttachmentMeta.Builder()
+            .name(attachmentMeta.name)
+            .url(attachmentMeta.url)
+            .format(attachmentMeta.format)
+            .size(attachmentMeta.size)
+            .duration(attachmentMeta.duration)
+            .pageCount(attachmentMeta.pageCount)
+            .coverImageUrl(attachmentMeta.coverImageUrl)
+            .title(attachmentMeta.title)
+            .body(attachmentMeta.body)
+            .entityId(attachmentMeta.entityId)
+            .thumbnailUrl(attachmentMeta.thumbnailUrl)
+            .awsFolderPath(attachmentMeta.awsFolderPath)
+            .localFilePath(attachmentMeta.localFilePath)
+            .localUri(Uri.parse(attachmentMeta.uri))
+            .build()
+    }
+
+    /**
+     * converts List of [TopicEntity] to List of [Topic]
+     * @param topicsEntities: List of [TopicEntity] from db
+     * @return List of [Topic]
+     * */
+    private fun makeTopics(topicsEntities: List<TopicEntity>): List<Topic> {
+        return topicsEntities.map { topic ->
+            makeTopic(topic)
+        }
+    }
+
+    /**
+     * converts [TopicEntity] to [Topic]
+     * @param topic: object of [TopicEntity] from db
+     * @return [Topic]
+     * */
+    private fun makeTopic(topic: TopicEntity): Topic {
+        return Topic.Builder()
+            .id(topic.id)
+            .isEnabled(topic.isEnabled)
+            .name(topic.name)
+            .build()
+    }
+
+    fun convertGetTemporaryPostResponse(postWithAttachments: PostWithAttachments):LMResponse<GetTemporaryPostResponse>{
+        return LMResponse(
+            success = true,
+            data = convert
         )
     }
 }

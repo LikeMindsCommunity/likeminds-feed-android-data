@@ -17,7 +17,9 @@ class AttachmentMeta private constructor(
     val thumbnailUrl: String?,
     val awsFolderPath: String?,
     val localFilePath: String?,
-    val localUri: Uri?
+    val localUri: Uri?,
+    val thumbnailAWSFolderPath: String?,
+    val thumbnailLocalFilePath: String?,
 ) {
     class Builder {
 
@@ -36,6 +38,8 @@ class AttachmentMeta private constructor(
         private var awsFolderPath: String? = null
         private var localFilePath: String? = null
         private var localUri: Uri? = null
+        private var thumbnailAWSFolderPath: String? = null
+        private var thumbnailLocalFilePath: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -52,6 +56,11 @@ class AttachmentMeta private constructor(
         fun awsFolderPath(awsFolderPath: String?) = apply { this.awsFolderPath = awsFolderPath }
         fun localFilePath(localFilePath: String?) = apply { this.localFilePath = localFilePath }
         fun localUri(localUri: Uri?) = apply { this.localUri = localUri }
+        fun thumbnailAWSFolderPath(thumbnailAWSFolderPath: String?) =
+            apply { this.thumbnailAWSFolderPath = thumbnailAWSFolderPath }
+
+        fun thumbnailLocalFilePath(thumbnailLocalFilePath: String?) =
+            apply { this.thumbnailLocalFilePath = thumbnailLocalFilePath }
 
         fun build() = AttachmentMeta(
             name,
@@ -68,7 +77,9 @@ class AttachmentMeta private constructor(
             thumbnailUrl,
             awsFolderPath,
             localFilePath,
-            localUri
+            localUri,
+            thumbnailAWSFolderPath,
+            thumbnailLocalFilePath
         )
     }
 

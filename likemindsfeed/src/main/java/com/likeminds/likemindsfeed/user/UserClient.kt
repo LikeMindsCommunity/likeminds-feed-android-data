@@ -214,17 +214,19 @@ class UserClient @Inject constructor() : BaseClient() {
         val isOwner = memberStateResponse.member?.isOwner ?: return
 
         //get existing userEntity
-        var userEntity = userDao.getUser(uuid)
+        val userEntity = userDao.getUser(uuid)
 
-        //updated userEntity
-        userEntity = userEntity.toBuilder().state(state).isOwner(isOwner).build()
+        userEntity?.let { user ->
+            //updated userEntity
+            val updatedUser = user.toBuilder().state(state).isOwner(isOwner).build()
 
-        val memberRightsEntity = ModelConverter.createMemberRightsEntity(
-            uuid,
-            memberStateResponse.memberRights
-        )
+            val memberRightsEntity = ModelConverter.createMemberRightsEntity(
+                uuid,
+                memberStateResponse.memberRights
+            )
 
-        userDao.insertUserWithRights(userEntity, memberRightsEntity)
+            userDao.insertUserWithRights(updatedUser, memberRightsEntity)
+        }
     }
 
     /**
@@ -241,7 +243,7 @@ class UserClient @Inject constructor() : BaseClient() {
         return if (userWithRights == null) {
             LMResponse(
                 success = false,
-                errorMessage = "Logged user not found!"
+                errorMessage = "Logged in user not found!"
             )
         } else {
             ModelConverter.convertGetLoggedInUserWithRightsResponse(userWithRights)

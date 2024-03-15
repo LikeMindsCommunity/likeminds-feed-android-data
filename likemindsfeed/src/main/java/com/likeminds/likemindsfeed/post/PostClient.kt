@@ -441,4 +441,40 @@ class PostClient @Inject constructor() : BaseClient() {
             RequestUtils.throwException("text")
         }
     }
+
+    /**
+     * Get the current uploading post from db model Convert it to client model
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<GetCurrentUploadingPostResponse> - GetCurrentUploadingPostResponse
+     */
+    suspend fun getCurrentUploadingPost(): LMResponse<GetCurrentUploadingPostResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
+        val postWithAttachments = postDao.getLatestPostWithAttachments()
+        return if (postWithAttachments == null) {
+            LMResponse(
+                success = false,
+                errorMessage = "There is no post uploading right now."
+            )
+        } else {
+            ModelConverter.convertGetCurrentUploadingPostResponse(postWithAttachments)
+        }
+    }
+
+    suspend fun getTemporaryPost(temporaryId:String):LMResponse<GetTemporaryPostResponse>{
+        // validates the client request
+        RequestUtils.validate()
+
+        val postWithAttachments = postDao.getPostWithAttachments(temporaryId)
+
+        return if (postWithAttachments ==null){
+            LMResponse(
+                success = false,
+                errorMessage = "Post with respect to temporary id: $temporaryId not found."
+            )
+        }else{
+            ModelConverter
+        }
+    }
 }

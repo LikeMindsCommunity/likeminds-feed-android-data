@@ -21,12 +21,7 @@ interface UserWithRightsDao {
 
     //get user for a particular user.uuid
     @Query("SELECT * FROM ${LMFeedDbConstants.USER_TABLE} WHERE user_unique_id =:uuid")
-    suspend fun getUser(uuid: String): UserEntity
-
-    //get user for a particular user.id with rights
-    @Transaction
-    @Query("SELECT * FROM ${LMFeedDbConstants.USER_TABLE} WHERE user_unique_id = :id")
-    suspend fun getUserWithRights(id: String): UserWithRights
+    suspend fun getUser(uuid: String): UserEntity?
 
     @Transaction
     @Query("SELECT * FROM ${LMFeedDbConstants.USER_TABLE} LIMIT 1")

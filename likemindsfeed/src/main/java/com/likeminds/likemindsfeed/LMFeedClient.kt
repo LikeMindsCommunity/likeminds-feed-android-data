@@ -237,4 +237,7 @@ class LMFeedClient private constructor() {
         return postClient.addTemporaryPost(addTemporaryPostRequest)
     }
 
+    suspend fun getCurrentUploadingPost(): LMResponse<GetCurrentUploadingPostResponse> {
+        return postClient.getCurrentUploadingPost()
+    }
 }
