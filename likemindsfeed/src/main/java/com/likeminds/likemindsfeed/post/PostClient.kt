@@ -462,19 +462,19 @@ class PostClient @Inject constructor() : BaseClient() {
         }
     }
 
-    suspend fun getTemporaryPost(temporaryId:String):LMResponse<GetTemporaryPostResponse>{
+    suspend fun getTemporaryPost(temporaryId: String): LMResponse<GetTemporaryPostResponse> {
         // validates the client request
         RequestUtils.validate()
 
         val postWithAttachments = postDao.getPostWithAttachments(temporaryId)
 
-        return if (postWithAttachments ==null){
+        return if (postWithAttachments == null) {
             LMResponse(
                 success = false,
                 errorMessage = "Post with respect to temporary id: $temporaryId not found."
             )
-        }else{
-            ModelConverter
+        } else {
+            ModelConverter.convertGetTemporaryPostResponse(postWithAttachments)
         }
     }
 }

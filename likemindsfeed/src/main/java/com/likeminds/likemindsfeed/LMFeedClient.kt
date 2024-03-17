@@ -237,7 +237,13 @@ class LMFeedClient private constructor() {
         return postClient.addTemporaryPost(addTemporaryPostRequest)
     }
 
+    //Exposed model to get current uploading post
     suspend fun getCurrentUploadingPost(): LMResponse<GetCurrentUploadingPostResponse> {
         return postClient.getCurrentUploadingPost()
+    }
+
+    // Exposed model to get temporary post using temporary id
+    suspend fun getTemporaryPost(temporaryId: String): LMResponse<GetTemporaryPostResponse> {
+        return postClient.getTemporaryPost(temporaryId)
     }
 }

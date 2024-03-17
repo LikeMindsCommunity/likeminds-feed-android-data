@@ -1301,19 +1301,10 @@ object ModelConverter {
     fun convertGetCurrentUploadingPostResponse(postWithAttachments: PostWithAttachments): LMResponse<GetCurrentUploadingPostResponse> {
         return LMResponse(
             success = true,
-            data = convertPostWithAttachments(postWithAttachments)
-        )
-    }
-
-    /**
-     * converts [PostWithAttachments] to [GetLoggedInUserWithRightsResponse]
-     * @param postWithAttachments: object of [PostWithAttachments] from db
-     * @return [GetCurrentUploadingPostResponse]
-     * */
-    private fun convertPostWithAttachments(postWithAttachments: PostWithAttachments): GetCurrentUploadingPostResponse {
-        return GetCurrentUploadingPostResponse(
-            post = makePost(postWithAttachments),
-            topics = makeTopics(postWithAttachments.topics)
+            data = GetCurrentUploadingPostResponse(
+                post = makePost(postWithAttachments),
+                topics = makeTopics(postWithAttachments.topics)
+            )
         )
     }
 
@@ -1405,10 +1396,13 @@ object ModelConverter {
             .build()
     }
 
-    fun convertGetTemporaryPostResponse(postWithAttachments: PostWithAttachments):LMResponse<GetTemporaryPostResponse>{
+    fun convertGetTemporaryPostResponse(postWithAttachments: PostWithAttachments): LMResponse<GetTemporaryPostResponse> {
         return LMResponse(
             success = true,
-            data = convert
+            data = GetTemporaryPostResponse(
+                post = makePost(postWithAttachments),
+                topics = makeTopics(postWithAttachments.topics)
+            )
         )
     }
 }
