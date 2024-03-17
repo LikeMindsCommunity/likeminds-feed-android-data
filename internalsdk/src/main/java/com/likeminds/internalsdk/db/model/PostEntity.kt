@@ -7,7 +7,7 @@ import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 @Entity(tableName = LMFeedDbConstants.POST_TABLE, primaryKeys = ["temp_id", "post_id"])
 class PostEntity constructor(
     @ColumnInfo(name = "temp_id")
-    var temporaryId: String?,
+    var temporaryId: String,
     @ColumnInfo(name = "text")
     var text: String?,
     @ColumnInfo(name = "thumbnail")
@@ -20,14 +20,14 @@ class PostEntity constructor(
     var postId: String
 ) {
     class Builder {
-        private var temporaryId: String? = null
+        private var temporaryId: String = ""
         private var text: String? = null
         private var thumbnail: String? = null
         private var uuid: String = ""
         private var isPosted: Boolean = false
-        private var postId: String = temporaryId.toString()
+        private var postId: String = temporaryId
 
-        fun temporaryId(temporaryId: String?) = apply { this.temporaryId = temporaryId }
+        fun temporaryId(temporaryId: String) = apply { this.temporaryId = temporaryId }
         fun text(text: String?) = apply { this.text = text }
         fun thumbnail(thumbnail: String?) = apply { this.thumbnail = thumbnail }
         fun uuid(uuid: String) = apply { this.uuid = uuid }

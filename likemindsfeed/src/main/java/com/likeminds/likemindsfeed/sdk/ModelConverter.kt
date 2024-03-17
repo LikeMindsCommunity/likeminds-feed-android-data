@@ -1112,7 +1112,7 @@ object ModelConverter {
      */
     fun createPostEntity(post: Post, thumbnail: String?): PostEntity {
         return PostEntity.Builder()
-            .temporaryId(post.tempId)
+            .temporaryId(post.tempId ?: "-${System.currentTimeMillis()}")
             .postId(post.tempId.toString())
             .uuid(post.uuid)
             .thumbnail(thumbnail)
