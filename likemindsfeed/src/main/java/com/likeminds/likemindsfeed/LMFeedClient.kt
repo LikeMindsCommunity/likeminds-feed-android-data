@@ -5,7 +5,9 @@ import androidx.annotation.Keep
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.configuration.ConfigurationClient
-import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationRequest
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationResponse
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationsResponse
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.moderation.ModerationClient
@@ -223,8 +225,8 @@ class LMFeedClient private constructor() {
     }
 
     //Exposed function to get all community configurations
-    suspend fun getCommunityConfiguration(): LMResponse<GetCommunityConfiguration> {
-        return configurationClient.getCommunityConfiguration()
+    suspend fun getCommunityConfigurations(): LMResponse<GetCommunityConfigurationsResponse> {
+        return configurationClient.getCommunityConfigurations()
     }
 
     //Exposed function to get logged in user with rights
@@ -237,13 +239,18 @@ class LMFeedClient private constructor() {
         return postClient.addTemporaryPost(addTemporaryPostRequest)
     }
 
-    //Exposed model to get current uploading post
+    //Exposed function to get current uploading post
     suspend fun getCurrentUploadingPost(): LMResponse<GetCurrentUploadingPostResponse> {
         return postClient.getCurrentUploadingPost()
     }
 
-    // Exposed model to get temporary post using temporary id
+    // Exposed function to get temporary post using temporary id
     suspend fun getTemporaryPost(temporaryId: String): LMResponse<GetTemporaryPostResponse> {
         return postClient.getTemporaryPost(temporaryId)
+    }
+
+    //Exposed function to get community configuration using type
+    suspend fun getCommunityConfiguration(request: GetCommunityConfigurationRequest): LMResponse<GetCommunityConfigurationResponse> {
+        return configurationClient.getCommunityConfiguration(request)
     }
 }

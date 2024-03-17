@@ -6,6 +6,7 @@ import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.configuration.ConfigurationApi
 import com.likeminds.internalsdk.configuration.ConfigurationApiImpl
+import com.likeminds.internalsdk.db.dao.ConfigurationDao
 import com.likeminds.internalsdk.db.dao.PostWithAttachmentsDao
 import com.likeminds.internalsdk.db.dao.UserWithRightsDao
 import com.likeminds.internalsdk.di.*
@@ -70,6 +71,9 @@ class FeedSDK {
 
     @Inject
     lateinit var postDao: PostWithAttachmentsDao
+
+    @Inject
+    lateinit var configurationsDao: ConfigurationDao
 
     var lmInternalCallback: LMInternalCallback? = null
 
@@ -145,5 +149,9 @@ class FeedSDK {
 
     fun getPostWithAttachmentsDao(): PostWithAttachmentsDao {
         return postDao
+    }
+
+    fun getConfigurationDao(): ConfigurationDao{
+        return configurationsDao
     }
 }

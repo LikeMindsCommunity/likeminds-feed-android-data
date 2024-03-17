@@ -21,7 +21,9 @@ import com.likeminds.internalsdk.widgets.model._Widget_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.configuration.model.Configuration
-import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationResponse
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationsResponse
+import com.likeminds.likemindsfeed.configuration.util.ConfigurationUtil.getConfigurationType
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -948,7 +950,7 @@ object ModelConverter {
     // converts APIResponse<_GetCommunityConfiguration_> to LMResponse<GetCommunityConfiguration> model
     fun convertGetCommunityConfigurationAPIResponse(
         apiResponse: APIResponse<_GetCommunityConfiguration_>
-    ): LMResponse<GetCommunityConfiguration> {
+    ): LMResponse<GetCommunityConfigurationsResponse> {
         return LMResponse(
             apiResponse.success,
             apiResponse.errorMessage,
@@ -957,11 +959,11 @@ object ModelConverter {
     }
 
     // converts internal _GetCommunityConfiguration_ to client GetCommunityConfiguration
-    private fun convertGetCommunityConfiguration(_getCommunityConfiguration_: _GetCommunityConfiguration_?): GetCommunityConfiguration? {
+    private fun convertGetCommunityConfiguration(_getCommunityConfiguration_: _GetCommunityConfiguration_?): GetCommunityConfigurationsResponse? {
         if (_getCommunityConfiguration_ == null) {
             return null
         }
-        return GetCommunityConfiguration(
+        return GetCommunityConfigurationsResponse(
             _getCommunityConfiguration_.configurations.map { _configuration_ ->
                 convertConfiguration(_configuration_)
             }
@@ -972,7 +974,7 @@ object ModelConverter {
     private fun convertConfiguration(_configuration_: _Configuration_): Configuration {
         val jsonString = _configuration_.value.toString()
         return Configuration.Builder()
-            .type(_configuration_.type)
+            .type(_configuration_.type.getConfigurationType())
             .description(_configuration_.description)
             .value(JSONObject(jsonString))
             .build()
@@ -1098,6 +1100,21 @@ object ModelConverter {
             .title(memberRight.title)
             .subtitle(memberRight.subtitle)
             .userUniqueId(userUniqueId)
+            .build()
+    }
+
+    fun createConfigurationEntities(configurations: List<_Configuration_>): List<ConfigurationEntity> {
+        return configurations.map { configuration ->
+            createConfigurationEntity(configuration)
+        }
+    }
+
+    private fun createConfigurationEntity(configuration: _Configuration_): ConfigurationEntity {
+        val valueJSONString = configuration.value.toString()
+        return ConfigurationEntity.Builder()
+            .type(configuration.type)
+            .value(valueJSONString)
+            .description(configuration.description)
             .build()
     }
 
@@ -1404,5 +1421,22 @@ object ModelConverter {
                 topics = makeTopics(postWithAttachments.topics)
             )
         )
+    }
+
+    fun convertGetCommunityConfiguration(configurationEntity: ConfigurationEntity): LMResponse<GetCommunityConfigurationResponse> {
+        return LMResponse(
+            success = true,
+            data = GetCommunityConfigurationResponse(
+                configuration = makeConfiguration(configurationEntity)
+            )
+        )
+    }
+
+    private fun makeConfiguration(configurationEntity: ConfigurationEntity): Configuration {
+        return Configuration.Builder()
+            .description(configurationEntity.description)
+            .value(JSONObject(configurationEntity.value))
+            .type(configurationEntity.type.getConfigurationType())
+            .build()
     }
 }

@@ -3,6 +3,7 @@ package com.likeminds.internalsdk.di.modules
 import android.content.Context
 import androidx.room.Room
 import com.likeminds.internalsdk.db.LMFeedRoomDatabase
+import com.likeminds.internalsdk.db.dao.ConfigurationDao
 import com.likeminds.internalsdk.db.dao.PostWithAttachmentsDao
 import com.likeminds.internalsdk.db.dao.UserWithRightsDao
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
@@ -33,5 +34,11 @@ class RoomModule {
     @Singleton
     fun providesPostWithAttachmentsDao(db: LMFeedRoomDatabase): PostWithAttachmentsDao {
         return db.postWithAttachmentsDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideConfigurationDao(db: LMFeedRoomDatabase): ConfigurationDao {
+        return db.configurationDao()
     }
 }

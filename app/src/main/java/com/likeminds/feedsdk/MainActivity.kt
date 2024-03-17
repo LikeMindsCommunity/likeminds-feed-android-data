@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.configuration.model.ConfigurationType
+import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationRequest
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import kotlinx.coroutines.*
 
@@ -34,6 +36,24 @@ class MainActivity : AppCompatActivity() {
             val memberStateResponse = client.getMemberState()
 
             Log.d(TAG, "initiateResponse: ${initiateResponse.data?.user?.sdkClientInfo?.uuid}")
+
+            val communityConfigs = client.getCommunityConfigurations()
+
+            Log.d(
+                TAG,
+                "communityConfigs API: ${communityConfigs.data?.configurations?.size}"
+            )
+
+            val profileMetaData = client.getCommunityConfiguration(
+                GetCommunityConfigurationRequest.Builder()
+                    .type(ConfigurationType.PROFILE_METADATA)
+                    .build()
+            )
+
+            Log.d(
+                TAG,
+                "profileMetaData db: ${profileMetaData.data?.configuration?.value}"
+            )
         }
     }
 }

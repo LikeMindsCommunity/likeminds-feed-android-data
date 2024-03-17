@@ -1,5 +1,5 @@
 package com.likeminds.likemindsfeed.configuration.model
 
-data class GetCommunityConfiguration(
+data class GetCommunityConfigurationsResponse(
     val configurations: List<Configuration>
 )
