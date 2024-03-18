@@ -43,8 +43,8 @@ dependencies {
     implementation deps.sentry.okhttp
 
     //room
-    implementation deps.room.main
-    implementation deps.room.ktx
+    api deps.room.main
+    api deps.room.ktx
     kapt deps.room.compiler
 
     //testing

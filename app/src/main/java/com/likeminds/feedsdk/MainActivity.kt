@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.configuration.model.ConfigurationType
 import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationRequest
+import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.user.model.LogoutRequest
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +39,15 @@ class MainActivity : AppCompatActivity() {
 
             Log.d(TAG, "initiateResponse: ${initiateResponse.data?.user?.sdkClientInfo?.uuid}")
 
+            val getLoggedInUser = client.getLoggedInUserWithRights()
+
+            Log.d(
+                TAG, """
+                getLoggedInUser: ${getLoggedInUser.data?.user?.name}
+                rights: ${getLoggedInUser.data?.rights?.size}
+            """.trimIndent()
+            )
+
             val communityConfigs = client.getCommunityConfigurations()
 
             Log.d(
@@ -53,6 +64,30 @@ class MainActivity : AppCompatActivity() {
             Log.d(
                 TAG,
                 "profileMetaData db: ${profileMetaData.data?.configuration?.value}"
+            )
+
+            val registerDevice = client.registerDevice(
+                RegisterDeviceRequest.Builder()
+                    .deviceId("adadad")
+                    .token("0p0p0p0p0")
+                    .build()
+            )
+
+            Log.d(
+                TAG,
+                "register ${registerDevice.success}"
+            )
+
+
+            val logout = client.logout(
+                LogoutRequest.Builder()
+                    .deviceId("adadad")
+                    .build()
+            )
+
+            Log.d(
+                TAG,
+                "logout ${logout.success}"
             )
         }
     }

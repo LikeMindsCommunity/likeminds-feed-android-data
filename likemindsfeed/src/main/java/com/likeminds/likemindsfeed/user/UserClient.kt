@@ -25,6 +25,10 @@ class UserClient @Inject constructor() : BaseClient() {
         feedSDK.getUserWithRightsDao()
     }
 
+    private val dbInstance by lazy {
+        feedSDK.getDBInstance()
+    }
+
     companion object {
         @JvmStatic
         private var userClient: UserClient? = null
@@ -157,7 +161,13 @@ class UserClient @Inject constructor() : BaseClient() {
             }
 
             is NetworkResponse.Success -> {
+                //clear tokens
                 FeedTokenManager.getInstance().clear()
+
+                //clear db
+                clearDB()
+
+                //return response
                 LMResponse(
                     success = response.body.success
                 )
@@ -173,6 +183,11 @@ class UserClient @Inject constructor() : BaseClient() {
         if (logoutRequest.deviceId.isEmpty()) {
             RequestUtils.throwException("deviceId")
         }
+    }
+
+    //Clear all tables data
+    private fun clearDB() {
+        dbInstance.clearAllTables()
     }
 
     /**

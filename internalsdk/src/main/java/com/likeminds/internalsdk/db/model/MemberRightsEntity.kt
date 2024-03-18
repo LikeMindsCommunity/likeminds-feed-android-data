@@ -3,10 +3,9 @@ package com.likeminds.internalsdk.db.model
 import androidx.room.*
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 
-@Entity(tableName = LMFeedDbConstants.MEMBER_RIGHTS_TABLE)
+@Entity(tableName = LMFeedDbConstants.MEMBER_RIGHTS_TABLE, primaryKeys = ["user_unique_id", "id"])
 class MemberRightsEntity constructor(
     @ColumnInfo(name = "id")
-    @PrimaryKey
     val id: Int,
     @ColumnInfo(name = "is_locked")
     val isLocked: Boolean?,
