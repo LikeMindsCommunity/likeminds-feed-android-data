@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.sdk.model
 
 import com.google.gson.annotations.SerializedName
 
-data class _MemberStateResponse_(
+data class _GetMemberStateResponse_(
     @SerializedName("state")
     val state: Int,
     @SerializedName("member")

@@ -187,8 +187,8 @@ object ModelConverter {
 
     // converts api MemberStateResponse model to LM MemberStateResponse model
     fun convertMemberStateResponse(
-        apiResponse: APIResponse<_MemberStateResponse_>
-    ): LMResponse<MemberStateResponse> {
+        apiResponse: APIResponse<_GetMemberStateResponse_>
+    ): LMResponse<GetMemberStateResponse> {
         return LMResponse(
             apiResponse.success,
             apiResponse.errorMessage,
@@ -198,11 +198,11 @@ object ModelConverter {
 
     // converts internal MemberStateResponse model to client model
     private fun convertMemberStateResponse(
-        _memberStateResponse_: _MemberStateResponse_?
-    ): MemberStateResponse? {
+        _memberStateResponse_: _GetMemberStateResponse_?
+    ): GetMemberStateResponse? {
         val member = _memberStateResponse_?.member
         if (_memberStateResponse_ == null || member == null) return null
-        return MemberStateResponse(
+        return GetMemberStateResponse(
             member.id,
             _memberStateResponse_.state,
             member.userUniqueId,

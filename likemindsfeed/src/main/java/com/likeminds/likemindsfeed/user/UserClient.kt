@@ -195,7 +195,7 @@ class UserClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated
      * @return MemberStateResponse - MemberStateResponse model for MemberState api call
      */
-    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
+    suspend fun getMemberState(): LMResponse<GetMemberStateResponse> {
         // validates the client request
         RequestUtils.validate()
 
@@ -209,7 +209,6 @@ class UserClient @Inject constructor() : BaseClient() {
                 )
             }
 
-
             is NetworkResponse.Success -> {
                 val body = response.body
                 body.data?.let { memberStateResponse ->
@@ -222,7 +221,7 @@ class UserClient @Inject constructor() : BaseClient() {
     }
 
     //update db for user with rights
-    private suspend fun updateUserWithRightsInDb(memberStateResponse: _MemberStateResponse_) {
+    private suspend fun updateUserWithRightsInDb(memberStateResponse: _GetMemberStateResponse_) {
         //get response variables
         val uuid = memberStateResponse.member?.userUniqueId ?: return
         val state = memberStateResponse.state

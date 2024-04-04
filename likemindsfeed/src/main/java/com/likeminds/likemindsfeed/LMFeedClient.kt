@@ -96,7 +96,7 @@ class LMFeedClient private constructor() {
     }
 
     // Exposed function to process member state
-    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
+    suspend fun getMemberState(): LMResponse<GetMemberStateResponse> {
         return userClient.getMemberState()
     }
 
