@@ -5,23 +5,32 @@ import com.likeminds.likemindsfeed.topic.model.Topic
 class AddTemporaryPostRequest private constructor(
     val post: Post,
     val topics: List<Topic>,
-    val postThumbnail: String?
+    val postThumbnail: String?,
+    val workerUUID: String?
 ) {
     class Builder {
         private var post: Post = Post.Builder().build()
         private var topics: List<Topic> = emptyList()
         private var postThumbnail: String? = null
+        private var workerUUID: String? = null
 
         fun post(post: Post) = apply { this.post = post }
         fun topics(topics: List<Topic>) = apply { this.topics = topics }
         fun postThumbnail(postThumbnail: String?) = apply { this.postThumbnail = postThumbnail }
+        fun workerUUID(workerUUID: String?) = apply { this.workerUUID = workerUUID }
 
-        fun build() = AddTemporaryPostRequest(post, topics, postThumbnail)
+        fun build() = AddTemporaryPostRequest(
+            post,
+            topics,
+            postThumbnail,
+            workerUUID
+        )
     }
 
     fun toBuilder(): Builder {
         return Builder().post(post)
             .topics(topics)
             .postThumbnail(postThumbnail)
+            .workerUUID(workerUUID)
     }
 }

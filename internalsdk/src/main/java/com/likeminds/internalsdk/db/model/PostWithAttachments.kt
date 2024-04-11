@@ -3,7 +3,7 @@ package com.likeminds.internalsdk.db.model
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class PostWithAttachments constructor(
+data class PostWithAttachments(
     @Embedded
     val post: PostEntity,
     @Relation(

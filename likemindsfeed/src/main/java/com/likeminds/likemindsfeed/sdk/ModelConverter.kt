@@ -20,9 +20,7 @@ import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
 import com.likeminds.internalsdk.widgets.model._Widget_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
-import com.likeminds.likemindsfeed.configuration.model.Configuration
-import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationResponse
-import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationsResponse
+import com.likeminds.likemindsfeed.configuration.model.*
 import com.likeminds.likemindsfeed.configuration.util.ConfigurationUtil.getConfigurationType
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
@@ -1126,14 +1124,16 @@ object ModelConverter {
      * converts [Post] to [PostEntity]
      * @param post: object of [Post]
      * @param thumbnail: Uri as String for thumbnail of the post
+     * @param workerUUID: Upload worker UUID of the post
      */
-    fun createPostEntity(post: Post, thumbnail: String?): PostEntity {
+    fun createPostEntity(post: Post, thumbnail: String?, workerUUID: String?): PostEntity {
         return PostEntity.Builder()
             .temporaryId(post.tempId ?: "-${System.currentTimeMillis()}")
             .postId(post.tempId.toString())
-            .uuid(post.uuid)
+            .workerUUID(workerUUID ?: "")
             .thumbnail(thumbnail)
             .text(post.text)
+            .isPosted(false)
             .build()
     }
 
@@ -1336,9 +1336,10 @@ object ModelConverter {
         return Post.Builder()
             .tempId(postEntity.temporaryId)
             .text(postEntity.text ?: "")
-            .uuid(postEntity.uuid)
+            .workerUUID(postEntity.workerUUID)
             .id(postEntity.postId)
             .attachments(makeAttachments(attachmentEntities))
+            .isPosted(postEntity.isPosted)
             .build()
     }
 

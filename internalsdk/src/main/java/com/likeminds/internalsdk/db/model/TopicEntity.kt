@@ -4,7 +4,7 @@ import androidx.room.*
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 
 @Entity(tableName = LMFeedDbConstants.TOPIC_TABLE)
-class TopicEntity constructor(
+class TopicEntity(
     @ColumnInfo(name = "topic_id")
     @PrimaryKey
     var id: String,

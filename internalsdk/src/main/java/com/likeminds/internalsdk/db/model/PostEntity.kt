@@ -5,15 +5,15 @@ import androidx.room.Entity
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 
 @Entity(tableName = LMFeedDbConstants.POST_TABLE, primaryKeys = ["temp_id", "post_id"])
-class PostEntity constructor(
+class PostEntity(
     @ColumnInfo(name = "temp_id")
     var temporaryId: String,
     @ColumnInfo(name = "text")
     var text: String?,
     @ColumnInfo(name = "thumbnail")
     var thumbnail: String?,
-    @ColumnInfo(name = "uuid")
-    var uuid: String,
+    @ColumnInfo(name = "worker_uuid")
+    var workerUUID: String,
     @ColumnInfo(name = "is_posted")
     var isPosted: Boolean,
     @ColumnInfo(name = "post_id")
@@ -23,14 +23,14 @@ class PostEntity constructor(
         private var temporaryId: String = ""
         private var text: String? = null
         private var thumbnail: String? = null
-        private var uuid: String = ""
+        private var workerUUID: String = ""
         private var isPosted: Boolean = false
         private var postId: String = temporaryId
 
         fun temporaryId(temporaryId: String) = apply { this.temporaryId = temporaryId }
         fun text(text: String?) = apply { this.text = text }
         fun thumbnail(thumbnail: String?) = apply { this.thumbnail = thumbnail }
-        fun uuid(uuid: String) = apply { this.uuid = uuid }
+        fun workerUUID(workerUUID: String) = apply { this.workerUUID = workerUUID }
         fun isPosted(isPosted: Boolean) = apply { this.isPosted = isPosted }
         fun postId(postId: String) = apply {
             this.postId = postId
@@ -41,7 +41,7 @@ class PostEntity constructor(
                 temporaryId,
                 text,
                 thumbnail,
-                uuid,
+                workerUUID,
                 isPosted,
                 postId
             )
@@ -51,7 +51,7 @@ class PostEntity constructor(
         return Builder().temporaryId(temporaryId)
             .text(text)
             .thumbnail(thumbnail)
-            .uuid(uuid)
+            .workerUUID(workerUUID)
             .isPosted(isPosted)
             .postId(postId)
     }

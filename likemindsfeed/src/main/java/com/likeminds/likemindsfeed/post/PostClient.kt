@@ -403,7 +403,7 @@ class PostClient @Inject constructor() : BaseClient() {
 
     /**
      * Converts client request model to db model and add in the db
-     * @param addTemporaryPostRequest - client request model to pin the post
+     * @param addTemporaryPostRequest - client request model to add a temporary post in DB
      * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
@@ -414,7 +414,8 @@ class PostClient @Inject constructor() : BaseClient() {
 
         val postEntity = ModelConverter.createPostEntity(
             addTemporaryPostRequest.post,
-            addTemporaryPostRequest.postThumbnail
+            addTemporaryPostRequest.postThumbnail,
+            addTemporaryPostRequest.workerUUID
         )
 
         val attachmentEntities = ModelConverter.createAttachmentEntities(
@@ -430,6 +431,39 @@ class PostClient @Inject constructor() : BaseClient() {
         postDao.insertPostWithAttachments(postEntity, attachmentEntities, topicEntities)
 
         return LMResponse(success = true)
+    }
+
+    /**
+     * Converts client request model to db model and add in the db
+     * @param updatePostWorkerUUIDRequest - client request model to update post worker uuid in db
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
+    suspend fun updatePostWorkerUUID(updatePostWorkerUUIDRequest: UpdatePostWorkerUUIDRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateUpdatePostWorkerUUIDRequest(updatePostWorkerUUIDRequest)
+
+        postDao.updateUploadWorkerUUID(
+            updatePostWorkerUUIDRequest.temporaryId,
+            updatePostWorkerUUIDRequest.workerUUID
+        )
+
+        return LMResponse(success = true)
+    }
+
+    /**
+     * validates [updatePostWorkerUUIDRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateUpdatePostWorkerUUIDRequest(updatePostWorkerUUIDRequest: UpdatePostWorkerUUIDRequest) {
+        if (updatePostWorkerUUIDRequest.temporaryId.isEmpty()) {
+            RequestUtils.throwException("temporaryId")
+        }
+
+        if (updatePostWorkerUUIDRequest.workerUUID.isEmpty()) {
+            RequestUtils.throwException("workerUUID")
+        }
     }
 
     /**

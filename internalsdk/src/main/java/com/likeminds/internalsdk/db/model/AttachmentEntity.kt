@@ -4,7 +4,7 @@ import androidx.room.*
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 
 @Entity(tableName = LMFeedDbConstants.ATTACHMENT_TABLE)
-class AttachmentEntity constructor(
+class AttachmentEntity(
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     val id: Long,

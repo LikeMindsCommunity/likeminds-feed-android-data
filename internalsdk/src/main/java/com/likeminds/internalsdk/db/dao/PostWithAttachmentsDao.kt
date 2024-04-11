@@ -15,8 +15,8 @@ interface PostWithAttachmentsDao {
     )
 
     //update post upload uuid in local db
-    @Query("UPDATE ${LMFeedDbConstants.POST_TABLE} SET uuid = :uuid WHERE temp_id =:temporaryId")
-    suspend fun updateUploadWorkerUUID(temporaryId: Long, uuid: String)
+    @Query("UPDATE ${LMFeedDbConstants.POST_TABLE} SET worker_uuid = :workerUUID WHERE temp_id =:temporaryId")
+    suspend fun updateUploadWorkerUUID(temporaryId: String, workerUUID: String)
 
     // updates is_posted and post_id key in db
     @Query("UPDATE ${LMFeedDbConstants.POST_TABLE} SET post_id = :postId, is_posted = :isPosted WHERE temp_id =:temporaryId")
