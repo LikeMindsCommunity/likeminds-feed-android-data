@@ -39,4 +39,12 @@ interface PostWithAttachmentsDao {
     @Transaction
     @Query("SELECT * FROM ${LMFeedDbConstants.POST_TABLE} WHERE temp_id = :temporaryId")
     suspend fun getPostWithAttachments(temporaryId: String): PostWithAttachments?
+
+    //deletes post for a particular post.id (temporaryId)
+    @Query("DELETE FROM ${LMFeedDbConstants.POST_TABLE} WHERE temp_id=:temporaryId")
+    suspend fun deletePostByTempId(temporaryId: String?)
+
+    //deletes all attachments for a particular post.id (temporaryId)
+    @Query("DELETE FROM ${LMFeedDbConstants.ATTACHMENT_TABLE} WHERE temp_id=:temporaryId")
+    suspend fun deleteAttachmentsByPostTempId(temporaryId: String?)
 }

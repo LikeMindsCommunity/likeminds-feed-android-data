@@ -91,6 +91,9 @@ class PostClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = postApi.addPost(request)) {
             is NetworkResponse.Error -> {
+                //delete the post from DB
+                deletePostInDB(addPostRequest.tempId)
+
                 LMResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
@@ -134,6 +137,14 @@ class PostClient @Inject constructor() : BaseClient() {
 
         //update postId in Attachment table
         postDao.updatePostIdInAttachments(postId, temporaryPostId)
+    }
+
+    private suspend fun deletePostInDB(temporaryId: String?) {
+        //deletes the post from the post table
+        postDao.deletePostByTempId(temporaryId)
+
+        //deletes all the attachments with [temporaryId]
+        postDao.deleteAttachmentsByPostTempId(temporaryId)
     }
 
     /**

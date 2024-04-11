@@ -2,7 +2,7 @@ package com.likeminds.internalsdk.db.model
 
 import androidx.room.ColumnInfo
 
-class AttachmentMetaEntity constructor(
+class AttachmentMetaEntity(
     @ColumnInfo(name = "name")
     val name: String?,
     @ColumnInfo(name = "url")

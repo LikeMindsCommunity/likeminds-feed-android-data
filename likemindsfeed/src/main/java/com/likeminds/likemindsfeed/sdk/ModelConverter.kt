@@ -1184,6 +1184,7 @@ object ModelConverter {
             .format(attachmentMeta.format)
             .awsFolderPath(attachmentMeta.awsFolderPath)
             .localFilePath(attachmentMeta.localFilePath)
+            .thumbnailUrl(attachmentMeta.thumbnailUrl)
             .thumbnailAWSFolderPath(attachmentMeta.thumbnailAWSFolderPath)
             .thumbnailLocalFilePath(attachmentMeta.thumbnailLocalFilePath)
             .coverImageUrl(attachmentMeta.coverImageUrl)
