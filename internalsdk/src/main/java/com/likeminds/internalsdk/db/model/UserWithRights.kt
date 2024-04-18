@@ -3,7 +3,7 @@ package com.likeminds.internalsdk.db.model
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class UserWithRights constructor(
+data class UserWithRights(
     @Embedded
     val user: UserEntity,
     @Relation(

@@ -4,7 +4,7 @@ import androidx.room.*
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 
 @Entity(tableName = LMFeedDbConstants.USER_TABLE, primaryKeys = ["id", "user_unique_id"])
-class UserEntity constructor(
+class UserEntity(
     @ColumnInfo(name = "id")
     var id: Int,
     @ColumnInfo(name = "image_url")
