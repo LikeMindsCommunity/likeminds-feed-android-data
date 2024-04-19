@@ -6,6 +6,10 @@ import com.likeminds.internalsdk.comment.CommentApi
 import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.configuration.ConfigurationApi
 import com.likeminds.internalsdk.configuration.ConfigurationApiImpl
+import com.likeminds.internalsdk.db.LMFeedRoomDatabase
+import com.likeminds.internalsdk.db.dao.ConfigurationDao
+import com.likeminds.internalsdk.db.dao.PostWithAttachmentsDao
+import com.likeminds.internalsdk.db.dao.UserWithRightsDao
 import com.likeminds.internalsdk.di.*
 import com.likeminds.internalsdk.helper.HelperApi
 import com.likeminds.internalsdk.helper.HelperApiImpl
@@ -25,7 +29,7 @@ import javax.inject.Singleton
 
 @Singleton
 class FeedSDK {
-    private var sdkComponent: SDKComponent? = null
+    private var sdkComponent: LMFeedSDKComponent? = null
 
     @Inject
     lateinit var application: Application
@@ -63,6 +67,18 @@ class FeedSDK {
     @Inject
     lateinit var configurationApiImpl: ConfigurationApiImpl
 
+    @Inject
+    lateinit var userDao: UserWithRightsDao
+
+    @Inject
+    lateinit var postDao: PostWithAttachmentsDao
+
+    @Inject
+    lateinit var configurationsDao: ConfigurationDao
+
+    @Inject
+    lateinit var feedRoomDatabase: LMFeedRoomDatabase
+
     var lmInternalCallback: LMInternalCallback? = null
 
     companion object {
@@ -79,17 +95,17 @@ class FeedSDK {
     }
 
     fun initialize(
-        sdkSharedResources: SDKSharedResources,
+        lmFeedSDKSharedResources: LMFeedSDKSharedResources,
         lmInternalCallback: LMInternalCallback?
     ) {
-        initSDKComponent(sdkSharedResources)
+        initSDKComponent(lmFeedSDKSharedResources)
         this.lmInternalCallback = lmInternalCallback
     }
 
-    private fun initSDKComponent(sdkSharedResources: SDKSharedResources) {
+    private fun initSDKComponent(lmFeedSDKSharedResources: LMFeedSDKSharedResources) {
         if (sdkComponent == null) {
-            sdkComponent = DaggerSDKComponent.builder()
-                .sdkSharedResources(sdkSharedResources)
+            sdkComponent = DaggerLMFeedSDKComponent.builder()
+                .sdkSharedResources(lmFeedSDKSharedResources)
                 .build()
             sdkComponent?.inject(this)
         }
@@ -129,5 +145,21 @@ class FeedSDK {
 
     fun getConfigurationApi(): ConfigurationApi {
         return configurationApiImpl
+    }
+
+    fun getUserWithRightsDao(): UserWithRightsDao {
+        return userDao
+    }
+
+    fun getPostWithAttachmentsDao(): PostWithAttachmentsDao {
+        return postDao
+    }
+
+    fun getConfigurationDao(): ConfigurationDao {
+        return configurationsDao
+    }
+
+    fun getDBInstance(): LMFeedRoomDatabase {
+        return feedRoomDatabase
     }
 }

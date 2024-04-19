@@ -3,7 +3,7 @@ package com.likeminds.internalsdk.sdk
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._LogoutRequest_
-import com.likeminds.internalsdk.sdk.model._MemberStateResponse_
+import com.likeminds.internalsdk.sdk.model._GetMemberStateResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
@@ -22,5 +22,5 @@ interface SDKApi {
     ): NetworkResponse<APIResponse<Nothing>>
 
     // api to fetch member state
-    suspend fun getMemberState(): NetworkResponse<APIResponse<_MemberStateResponse_>>
+    suspend fun getMemberState(): NetworkResponse<APIResponse<_GetMemberStateResponse_>>
 }

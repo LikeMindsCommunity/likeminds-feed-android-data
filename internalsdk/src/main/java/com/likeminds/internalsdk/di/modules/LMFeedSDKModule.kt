@@ -2,9 +2,7 @@ package com.likeminds.internalsdk.di.modules
 
 import com.google.gson.Gson
 import com.likeminds.internalsdk.FeedTokenManager
-import com.likeminds.internalsdk.sdk.RefreshTokenAuthenticator
-import com.likeminds.internalsdk.sdk.RefreshTokenNetworkApi
-import com.likeminds.internalsdk.sdk.SDKNetworkApi
+import com.likeminds.internalsdk.sdk.*
 import com.likeminds.internalsdk.utils.retrofit.NetworkResponseAdapterFactory
 import com.likeminds.internalsdk.utils.retrofit.model.BaseUrl
 import dagger.Module
@@ -16,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class SDKModule {
+class LMFeedSDKModule {
 
     @Provides
     @Singleton

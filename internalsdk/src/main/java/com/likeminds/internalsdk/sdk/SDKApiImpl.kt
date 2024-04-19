@@ -3,7 +3,7 @@ package com.likeminds.internalsdk.sdk
 import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._LogoutRequest_
-import com.likeminds.internalsdk.sdk.model._MemberStateResponse_
+import com.likeminds.internalsdk.sdk.model._GetMemberStateResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class SDKApiImpl @Inject constructor(private val sdkReceiver: SDKReceiver) : SDK
         return sdkReceiver.logout(request)
     }
 
-    override suspend fun getMemberState(): NetworkResponse<APIResponse<_MemberStateResponse_>> {
+    override suspend fun getMemberState(): NetworkResponse<APIResponse<_GetMemberStateResponse_>> {
         return sdkReceiver.getMemberState()
     }
 }

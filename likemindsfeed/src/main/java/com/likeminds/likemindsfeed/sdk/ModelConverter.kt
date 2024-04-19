@@ -1,8 +1,10 @@
 package com.likeminds.likemindsfeed.sdk
 
+import android.net.Uri
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
+import com.likeminds.internalsdk.db.model.*
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -18,11 +20,10 @@ import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
 import com.likeminds.internalsdk.widgets.model._Widget_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
-import com.likeminds.likemindsfeed.configuration.model.Configuration
-import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
+import com.likeminds.likemindsfeed.configuration.model.*
+import com.likeminds.likemindsfeed.configuration.util.ConfigurationUtil.getConfigurationType
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
-import com.likeminds.likemindsfeed.initiateUser.model.*
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.*
@@ -31,6 +32,7 @@ import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.widgets.model.Widget
 import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
 import org.json.JSONObject
@@ -183,8 +185,8 @@ object ModelConverter {
 
     // converts api MemberStateResponse model to LM MemberStateResponse model
     fun convertMemberStateResponse(
-        apiResponse: APIResponse<_MemberStateResponse_>
-    ): LMResponse<MemberStateResponse> {
+        apiResponse: APIResponse<_GetMemberStateResponse_>
+    ): LMResponse<GetMemberStateResponse> {
         return LMResponse(
             apiResponse.success,
             apiResponse.errorMessage,
@@ -194,11 +196,11 @@ object ModelConverter {
 
     // converts internal MemberStateResponse model to client model
     private fun convertMemberStateResponse(
-        _memberStateResponse_: _MemberStateResponse_?
-    ): MemberStateResponse? {
+        _memberStateResponse_: _GetMemberStateResponse_?
+    ): GetMemberStateResponse? {
         val member = _memberStateResponse_?.member
         if (_memberStateResponse_ == null || member == null) return null
-        return MemberStateResponse(
+        return GetMemberStateResponse(
             member.id,
             _memberStateResponse_.state,
             member.userUniqueId,
@@ -946,7 +948,7 @@ object ModelConverter {
     // converts APIResponse<_GetCommunityConfiguration_> to LMResponse<GetCommunityConfiguration> model
     fun convertGetCommunityConfigurationAPIResponse(
         apiResponse: APIResponse<_GetCommunityConfiguration_>
-    ): LMResponse<GetCommunityConfiguration> {
+    ): LMResponse<GetCommunityConfigurationsResponse> {
         return LMResponse(
             apiResponse.success,
             apiResponse.errorMessage,
@@ -955,11 +957,11 @@ object ModelConverter {
     }
 
     // converts internal _GetCommunityConfiguration_ to client GetCommunityConfiguration
-    private fun convertGetCommunityConfiguration(_getCommunityConfiguration_: _GetCommunityConfiguration_?): GetCommunityConfiguration? {
+    private fun convertGetCommunityConfiguration(_getCommunityConfiguration_: _GetCommunityConfiguration_?): GetCommunityConfigurationsResponse? {
         if (_getCommunityConfiguration_ == null) {
             return null
         }
-        return GetCommunityConfiguration(
+        return GetCommunityConfigurationsResponse(
             _getCommunityConfiguration_.configurations.map { _configuration_ ->
                 convertConfiguration(_configuration_)
             }
@@ -970,7 +972,7 @@ object ModelConverter {
     private fun convertConfiguration(_configuration_: _Configuration_): Configuration {
         val jsonString = _configuration_.value.toString()
         return Configuration.Builder()
-            .type(_configuration_.type)
+            .type(_configuration_.type.getConfigurationType())
             .description(_configuration_.description)
             .value(JSONObject(jsonString))
             .build()
@@ -1021,6 +1023,422 @@ object ModelConverter {
             .image(ogTags.image)
             .description(ogTags.description)
             .url(ogTags.url)
+            .build()
+    }
+
+    /**--------------------------------
+     * Internal Model -> Db Model
+    --------------------------------*/
+
+    /**
+     * converts [_User_] to [UserEntity]
+     * @param user: object of [_User_]
+     * @return object of [UserEntity]
+     */
+    fun createUserEntity(user: _User_): UserEntity {
+        return UserEntity.Builder()
+            .id(user.id)
+            .imageUrl(user.imageUrl)
+            .isGuest(user.isGuest)
+            .name(user.name)
+            .updatedAt(user.updatedAt)
+            .customTitle(user.customTitle)
+            .isDeleted(user.isDeleted)
+            .userUniqueId(user.userUniqueId)
+            .uuid(user.uuid)
+            .sdkClientInfoEntity(createSDKClientInfoEntity(user.sdkClientInfo))
+            .build()
+    }
+
+    /**
+     * converts [_SDKClientInfo_] to [SDKClientInfoEntity]
+     * @param sdkClientInfo: object of [_SDKClientInfo_]
+     * @return object of [SDKClientInfoEntity]
+     */
+    private fun createSDKClientInfoEntity(sdkClientInfo: _SDKClientInfo_): SDKClientInfoEntity {
+        return SDKClientInfoEntity.Builder()
+            .user(sdkClientInfo.user)
+            .community(sdkClientInfo.community)
+            .userUniqueId(sdkClientInfo.userUniqueId)
+            .uuid(sdkClientInfo.uuid)
+            .build()
+    }
+
+    /**
+     * converts list of [ManagementRightPermissionData] to list of [MemberRightsEntity]
+     * @param userUniqueId: unique id of the user
+     * @param memberRights: list of [_ManagementRightPermissionData_]
+     * */
+    fun createMemberRightsEntity(
+        userUniqueId: String,
+        memberRights: List<_ManagementRightPermissionData_>
+    ): List<MemberRightsEntity> {
+        return memberRights.map {
+            createMemberRightEntity(
+                userUniqueId,
+                it
+            )
+        }
+    }
+
+    /**
+     * converts [ManagementRightPermissionData] to [MemberRightsEntity]
+     * @param userUniqueId: unique id of the user
+     * @param memberRight: network model of member right [_ManagementRightPermissionData_]
+     * */
+    private fun createMemberRightEntity(
+        userUniqueId: String,
+        memberRight: _ManagementRightPermissionData_
+    ): MemberRightsEntity {
+        return MemberRightsEntity.Builder()
+            .id(memberRight.id)
+            .isLocked(memberRight.isLocked)
+            .isSelected(memberRight.isSelected)
+            .state(memberRight.state)
+            .title(memberRight.title)
+            .subtitle(memberRight.subtitle)
+            .userUniqueId(userUniqueId)
+            .build()
+    }
+
+    fun createConfigurationEntities(configurations: List<_Configuration_>): List<ConfigurationEntity> {
+        return configurations.map { configuration ->
+            createConfigurationEntity(configuration)
+        }
+    }
+
+    private fun createConfigurationEntity(configuration: _Configuration_): ConfigurationEntity {
+        val valueJSONString = configuration.value.toString()
+        return ConfigurationEntity.Builder()
+            .type(configuration.type)
+            .value(valueJSONString)
+            .description(configuration.description)
+            .build()
+    }
+
+    /**--------------------------------
+     * Client Model -> Db Model
+    --------------------------------*/
+
+    /**
+     * converts [Post] to [PostEntity]
+     * @param post: object of [Post]
+     * @param thumbnail: Uri as String for thumbnail of the post
+     * @param workerUUID: Upload worker UUID of the post
+     */
+    fun createPostEntity(post: Post, thumbnail: String?, workerUUID: String?): PostEntity {
+        return PostEntity.Builder()
+            .temporaryId(post.tempId ?: "-${System.currentTimeMillis()}")
+            .postId(post.tempId.toString())
+            .workerUUID(workerUUID ?: "")
+            .thumbnail(thumbnail)
+            .text(post.text)
+            .isPosted(false)
+            .build()
+    }
+
+    /**
+     * converts list of [Attachment] to list of [AttachmentEntity]
+     * @param attachments: list of [Attachment]
+     * @param postTemporaryId: temporary id of post
+     */
+    fun createAttachmentEntities(
+        postTemporaryId: String,
+        attachments: List<Attachment>?
+    ): List<AttachmentEntity> {
+        if (attachments.isNullOrEmpty()) return emptyList()
+        return attachments.map { attachment ->
+            createAttachmentEntity(postTemporaryId, attachment)
+        }
+    }
+
+    /**
+     * converts [Attachment] to [AttachmentEntity]
+     * @param attachment: object of [Attachment]
+     * @param postTemporaryId: temporary id of post
+     */
+    private fun createAttachmentEntity(
+        postTemporaryId: String,
+        attachment: Attachment
+    ): AttachmentEntity {
+        return AttachmentEntity.Builder()
+            .temporaryId(postTemporaryId)
+            .postId(postTemporaryId)
+            .attachmentType(attachment.attachmentType)
+            .attachmentMeta(createAttachmentMetaEntity(attachment.attachmentMeta))
+            .build()
+    }
+
+    /**
+     * converts [AttachmentMeta] to [AttachmentMetaEntity]
+     * @param attachmentMeta: object of [AttachmentMeta]
+     */
+    private fun createAttachmentMetaEntity(attachmentMeta: AttachmentMeta): AttachmentMetaEntity {
+        return AttachmentMetaEntity.Builder()
+            .name(attachmentMeta.name)
+            .url(attachmentMeta.url)
+            .uri(attachmentMeta.localUri.toString())
+            .pageCount(attachmentMeta.pageCount)
+            .size(attachmentMeta.size)
+            .duration(attachmentMeta.duration)
+            .format(attachmentMeta.format)
+            .awsFolderPath(attachmentMeta.awsFolderPath)
+            .localFilePath(attachmentMeta.localFilePath)
+            .thumbnailUrl(attachmentMeta.thumbnailUrl)
+            .thumbnailAWSFolderPath(attachmentMeta.thumbnailAWSFolderPath)
+            .thumbnailLocalFilePath(attachmentMeta.thumbnailLocalFilePath)
+            .coverImageUrl(attachmentMeta.coverImageUrl)
+            .body(attachmentMeta.body)
+            .title(attachmentMeta.title)
+            .entityId(attachmentMeta.entityId)
+            .build()
+    }
+
+    /**
+     * converts list of [Topic] to list of [TopicEntity]
+     * @param topics: list of [Topic]
+     * @param postTemporaryId: temporary id of post
+     */
+    fun createTopicEntities(postTemporaryId: String, topics: List<Topic>): List<TopicEntity> {
+        return topics.map { topic ->
+            createTopicEntity(postTemporaryId, topic)
+        }
+    }
+
+    /**
+     * converts [Topic] to [TopicEntity]
+     * @param topic: object of [TopicEntity]
+     * @param postTemporaryId: temporary id of post
+     */
+    private fun createTopicEntity(postTemporaryId: String, topic: Topic): TopicEntity {
+        return TopicEntity.Builder()
+            .id(topic.id)
+            .isEnabled(topic.isEnabled)
+            .name(topic.name)
+            .postId(postTemporaryId)
+            .build()
+    }
+
+    /**--------------------------------
+     * Db Model -> Client Model
+    --------------------------------*/
+
+    /**
+     * converts [UserWithRights] to [LMResponse] of [GetLoggedInUserWithRightsResponse]
+     * @param userWithRights: object of [UserWithRights] from db
+     * @return [LMResponse] of [GetLoggedInUserWithRightsResponse]
+     * */
+    fun convertGetLoggedInUserWithRightsResponse(
+        userWithRights: UserWithRights
+    ): LMResponse<GetLoggedInUserWithRightsResponse> {
+        return LMResponse(
+            success = true,
+            data = convertUserWithRights(userWithRights)
+        )
+    }
+
+    /**
+     * converts [UserWithRights] to [GetLoggedInUserWithRightsResponse]
+     * @param userWithRights: object of [UserWithRights] from db
+     * @return [GetLoggedInUserWithRightsResponse]
+     * */
+    private fun convertUserWithRights(userWithRights: UserWithRights): GetLoggedInUserWithRightsResponse {
+        return GetLoggedInUserWithRightsResponse(
+            makeUser(userWithRights.user),
+            makeUserRights(userWithRights.memberRights)
+        )
+    }
+
+    /**
+     * converts [UserEntity] to [User]
+     * @param userEntity: object of [UserEntity] from db
+     * @return [User]
+     * */
+    private fun makeUser(userEntity: UserEntity): User {
+        return User.Builder()
+            .id(userEntity.id)
+            .imageUrl(userEntity.imageUrl)
+            .isGuest(userEntity.isGuest)
+            .name(userEntity.name)
+            .sdkClientInfo(makeSDKClientInfo(userEntity.sdkClientInfoEntity))
+            .isDeleted(userEntity.isDeleted)
+            .customTitle(userEntity.customTitle)
+            .updatedAt(userEntity.updatedAt)
+            .userUniqueId(userEntity.userUniqueId)
+            .uuid(userEntity.uuid)
+            .state(userEntity.state)
+            .build()
+    }
+
+    /**
+     * converts [SDKClientInfoEntity] to [SDKClientInfo]
+     * @param sdkClientInfoEntity: object of [SDKClientInfoEntity] from db
+     * @return [SDKClientInfo]
+     * */
+    private fun makeSDKClientInfo(sdkClientInfoEntity: SDKClientInfoEntity): SDKClientInfo {
+        return SDKClientInfo.Builder()
+            .uuid(sdkClientInfoEntity.uuid)
+            .user(sdkClientInfoEntity.user)
+            .userUniqueId(sdkClientInfoEntity.userUniqueId)
+            .community(sdkClientInfoEntity.community)
+            .build()
+    }
+
+    /**
+     * converts List of [MemberRightsEntity] to List of [ManagementRightPermissionData]
+     * @param userRights: List of [MemberRightsEntity] from db
+     * @return List of [ManagementRightPermissionData]
+     * */
+    private fun makeUserRights(userRights: List<MemberRightsEntity>): List<ManagementRightPermissionData> {
+        return userRights.map { right ->
+            makeUserRight(right)
+        }
+    }
+
+    /**
+     * converts [MemberRightsEntity] to [ManagementRightPermissionData]
+     * @param right: object of [MemberRightsEntity] from db
+     * @return [ManagementRightPermissionData]
+     * */
+    private fun makeUserRight(right: MemberRightsEntity): ManagementRightPermissionData {
+        return ManagementRightPermissionData(
+            id = right.id,
+            isLocked = right.isLocked,
+            isSelected = right.isSelected,
+            state = right.state,
+            title = right.title,
+            subtitle = right.subtitle,
+        )
+    }
+
+    /**
+     * converts [PostWithAttachments] to [LMResponse] of [GetCurrentUploadingPostResponse]
+     * @param postWithAttachments: object of [PostWithAttachments] from db
+     * @return [LMResponse] of [GetCurrentUploadingPostResponse]
+     * */
+    fun convertGetCurrentUploadingPostResponse(postWithAttachments: PostWithAttachments): LMResponse<GetCurrentUploadingPostResponse> {
+        return LMResponse(
+            success = true,
+            data = GetCurrentUploadingPostResponse(
+                post = makePost(postWithAttachments),
+                topics = makeTopics(postWithAttachments.topics)
+            )
+        )
+    }
+
+    /**
+     * converts [PostWithAttachments] to [Post]
+     * @param postWithAttachments: object of [PostWithAttachments] from db
+     * @return [Post]
+     * */
+    private fun makePost(postWithAttachments: PostWithAttachments): Post {
+        val postEntity = postWithAttachments.post
+        val attachmentEntities = postWithAttachments.attachments
+        return Post.Builder()
+            .tempId(postEntity.temporaryId)
+            .text(postEntity.text ?: "")
+            .workerUUID(postEntity.workerUUID)
+            .id(postEntity.postId)
+            .attachments(makeAttachments(attachmentEntities))
+            .isPosted(postEntity.isPosted)
+            .build()
+    }
+
+    /**
+     * converts List of [AttachmentEntity] to List of [Attachment]
+     * @param attachmentEntities: List of [AttachmentEntity] from db
+     * @return List of [Attachment]
+     * */
+    private fun makeAttachments(attachmentEntities: List<AttachmentEntity>): List<Attachment> {
+        return attachmentEntities.map { attachment ->
+            makeAttachment(attachment)
+        }
+    }
+
+    /**
+     * converts [AttachmentEntity] to [Attachment]
+     * @param attachment: object of [AttachmentEntity] from db
+     * @return [Attachment]
+     * */
+    private fun makeAttachment(attachment: AttachmentEntity): Attachment {
+        return Attachment.Builder()
+            .attachmentType(attachment.attachmentType)
+            .attachmentMeta(makeAttachmentMeta(attachment.attachmentMeta))
+            .build()
+    }
+
+    /**
+     * converts [AttachmentMetaEntity] to [AttachmentMeta]
+     * @param attachmentMeta: object of [AttachmentMetaEntity] from db
+     * @return [AttachmentMeta]
+     * */
+    private fun makeAttachmentMeta(attachmentMeta: AttachmentMetaEntity): AttachmentMeta {
+        return AttachmentMeta.Builder()
+            .name(attachmentMeta.name)
+            .url(attachmentMeta.url)
+            .format(attachmentMeta.format)
+            .size(attachmentMeta.size)
+            .duration(attachmentMeta.duration)
+            .pageCount(attachmentMeta.pageCount)
+            .coverImageUrl(attachmentMeta.coverImageUrl)
+            .title(attachmentMeta.title)
+            .body(attachmentMeta.body)
+            .entityId(attachmentMeta.entityId)
+            .thumbnailUrl(attachmentMeta.thumbnailUrl)
+            .awsFolderPath(attachmentMeta.awsFolderPath)
+            .localFilePath(attachmentMeta.localFilePath)
+            .localUri(Uri.parse(attachmentMeta.uri))
+            .build()
+    }
+
+    /**
+     * converts List of [TopicEntity] to List of [Topic]
+     * @param topicsEntities: List of [TopicEntity] from db
+     * @return List of [Topic]
+     * */
+    private fun makeTopics(topicsEntities: List<TopicEntity>): List<Topic> {
+        return topicsEntities.map { topic ->
+            makeTopic(topic)
+        }
+    }
+
+    /**
+     * converts [TopicEntity] to [Topic]
+     * @param topic: object of [TopicEntity] from db
+     * @return [Topic]
+     * */
+    private fun makeTopic(topic: TopicEntity): Topic {
+        return Topic.Builder()
+            .id(topic.id)
+            .isEnabled(topic.isEnabled)
+            .name(topic.name)
+            .build()
+    }
+
+    fun convertGetTemporaryPostResponse(postWithAttachments: PostWithAttachments): LMResponse<GetTemporaryPostResponse> {
+        return LMResponse(
+            success = true,
+            data = GetTemporaryPostResponse(
+                post = makePost(postWithAttachments),
+                topics = makeTopics(postWithAttachments.topics)
+            )
+        )
+    }
+
+    fun convertGetCommunityConfiguration(configurationEntity: ConfigurationEntity): LMResponse<GetCommunityConfigurationResponse> {
+        return LMResponse(
+            success = true,
+            data = GetCommunityConfigurationResponse(
+                configuration = makeConfiguration(configurationEntity)
+            )
+        )
+    }
+
+    private fun makeConfiguration(configurationEntity: ConfigurationEntity): Configuration {
+        return Configuration.Builder()
+            .description(configurationEntity.description)
+            .value(JSONObject(configurationEntity.value))
+            .type(configurationEntity.type.getConfigurationType())
             .build()
     }
 }

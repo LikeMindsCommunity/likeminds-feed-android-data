@@ -42,6 +42,11 @@ dependencies {
     implementation deps.sentry.main
     implementation deps.sentry.okhttp
 
+    //room
+    api deps.room.main
+    api deps.room.ktx
+    kapt deps.room.compiler
+
     //testing
     testImplementation deps.testing.junit
     androidTestImplementation deps.testing.android_junit

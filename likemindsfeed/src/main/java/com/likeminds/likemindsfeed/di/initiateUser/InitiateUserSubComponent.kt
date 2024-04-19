@@ -1,6 +1,6 @@
 package com.likeminds.likemindsfeed.di.initiateUser
 
-import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
+import com.likeminds.likemindsfeed.user.UserClient
 import dagger.Subcomponent
 
 @Subcomponent
@@ -11,5 +11,5 @@ interface InitiateUserSubComponent {
         fun create(): InitiateUserSubComponent
     }
 
-    fun inject(initiateUserClient: InitiateUserClient)
+    fun inject(userClient: UserClient)
 }

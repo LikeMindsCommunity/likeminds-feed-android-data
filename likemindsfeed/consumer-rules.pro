@@ -2,7 +2,7 @@
 -keep class com.likeminds.likemindsfeed.comment.model.** { *; }
 -keep class com.likeminds.likemindsfeed.configuration.model.** { *; }
 -keep class com.likeminds.likemindsfeed.helper.model.** { *; }
--keep class com.likeminds.likemindsfeed.initiateUser.model.** { *; }
+-keep class com.likeminds.likemindsfeed.user.model.** { *; }
 -keep class com.likeminds.likemindsfeed.moderation.model.** { *; }
 -keep class com.likeminds.likemindsfeed.notificationfeed.model.** { *; }
 -keep class com.likeminds.likemindsfeed.post.model.** { *; }

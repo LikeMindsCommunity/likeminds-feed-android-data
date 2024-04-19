@@ -1,7 +1,7 @@
 package com.likeminds.likemindsfeed.di.internalsdk
 
-import com.likeminds.internalsdk.di.SDKSharedResources
-import com.likeminds.likemindsfeed.sdk.utils.SDKSharedResourceImpl
+import com.likeminds.internalsdk.di.LMFeedSDKSharedResources
+import com.likeminds.likemindsfeed.sdk.utils.LMFeedSDKSharedResourceImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,7 +11,7 @@ internal class SharedModule {
 
     @Provides
     @Singleton
-    fun providesSDKSharedResource(sdkSharedResources: SDKSharedResourceImpl): SDKSharedResources {
+    fun providesSDKSharedResource(sdkSharedResources: LMFeedSDKSharedResourceImpl): LMFeedSDKSharedResources {
         return sdkSharedResources
     }
 }

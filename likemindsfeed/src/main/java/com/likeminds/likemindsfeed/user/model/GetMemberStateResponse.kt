@@ -1,6 +1,6 @@
-package com.likeminds.likemindsfeed.initiateUser.model
+package com.likeminds.likemindsfeed.user.model
 
-data class MemberStateResponse(
+data class GetMemberStateResponse(
     val id: Int,
     val state: Int,
     val userUniqueId: String,

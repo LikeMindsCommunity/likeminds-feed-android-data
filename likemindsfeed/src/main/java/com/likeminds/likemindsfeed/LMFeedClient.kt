@@ -5,11 +5,9 @@ import androidx.annotation.Keep
 import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.configuration.ConfigurationClient
-import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfiguration
+import com.likeminds.likemindsfeed.configuration.model.*
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.*
-import com.likeminds.likemindsfeed.initiateUser.InitiateUserClient
-import com.likeminds.likemindsfeed.initiateUser.model.*
 import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.*
 import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
@@ -23,6 +21,8 @@ import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.user.UserClient
+import com.likeminds.likemindsfeed.user.model.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +30,7 @@ import javax.inject.Singleton
 @Keep
 class LMFeedClient private constructor() {
     @Inject
-    lateinit var initiateUserClient: InitiateUserClient
+    lateinit var userClient: UserClient
 
     @Inject
     lateinit var universalFeedClient: UniversalFeedClient
@@ -85,17 +85,17 @@ class LMFeedClient private constructor() {
 
     // Exposed function to process initiate user request
     suspend fun initiateUser(initiateUserRequest: InitiateUserRequest): LMResponse<InitiateUserResponse> {
-        return initiateUserClient.initiateUser(initiateUserRequest)
+        return userClient.initiateUser(initiateUserRequest)
     }
 
     // Exposed function to process logout request
     suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
-        return initiateUserClient.logout(logoutRequest)
+        return userClient.logout(logoutRequest)
     }
 
     // Exposed function to process member state
-    suspend fun getMemberState(): LMResponse<MemberStateResponse> {
-        return initiateUserClient.getMemberState()
+    suspend fun getMemberState(): LMResponse<GetMemberStateResponse> {
+        return userClient.getMemberState()
     }
 
     suspend fun registerDevice(registerDeviceRequest: RegisterDeviceRequest): LMResponse<Nothing> {
@@ -223,7 +223,37 @@ class LMFeedClient private constructor() {
     }
 
     //Exposed function to get all community configurations
-    suspend fun getCommunityConfiguration(): LMResponse<GetCommunityConfiguration> {
-        return configurationClient.getCommunityConfiguration()
+    suspend fun getCommunityConfigurations(): LMResponse<GetCommunityConfigurationsResponse> {
+        return configurationClient.getCommunityConfigurations()
+    }
+
+    //Exposed function to get logged in user with rights
+    suspend fun getLoggedInUserWithRights(): LMResponse<GetLoggedInUserWithRightsResponse> {
+        return userClient.getLoggedInUserWithRights()
+    }
+
+    //Exposed function to get add temporary post in db
+    suspend fun addTemporaryPost(addTemporaryPostRequest: AddTemporaryPostRequest): LMResponse<Nothing> {
+        return postClient.addTemporaryPost(addTemporaryPostRequest)
+    }
+
+    //Exposed function to update the worker UUID of the post
+    suspend fun updatePostWorkerUUID(uploadPostWorkerUUIDRequest: UpdatePostWorkerUUIDRequest): LMResponse<Nothing> {
+        return postClient.updatePostWorkerUUID(uploadPostWorkerUUIDRequest)
+    }
+
+    //Exposed function to get current uploading post
+    suspend fun getCurrentUploadingPost(): LMResponse<GetCurrentUploadingPostResponse> {
+        return postClient.getCurrentUploadingPost()
+    }
+
+    // Exposed function to get temporary post using temporary id
+    suspend fun getTemporaryPost(temporaryId: String): LMResponse<GetTemporaryPostResponse> {
+        return postClient.getTemporaryPost(temporaryId)
+    }
+
+    //Exposed function to get community configuration using type
+    suspend fun getCommunityConfiguration(request: GetCommunityConfigurationRequest): LMResponse<GetCommunityConfigurationResponse> {
+        return configurationClient.getCommunityConfiguration(request)
     }
 }
