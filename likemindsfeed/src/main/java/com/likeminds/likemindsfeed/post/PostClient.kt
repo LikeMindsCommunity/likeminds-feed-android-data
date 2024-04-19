@@ -20,6 +20,10 @@ class PostClient @Inject constructor() : BaseClient() {
         feedSDK.getPostApi()
     }
 
+    private val postDao by lazy {
+        feedSDK.getPostWithAttachmentsDao()
+    }
+
     /**
      * Converts client request model to internal model and calls the api
      * @param getPostRequest - client request model to fetch post
@@ -87,6 +91,9 @@ class PostClient @Inject constructor() : BaseClient() {
         // calls api and processes the response accordingly
         return when (val response = postApi.addPost(request)) {
             is NetworkResponse.Error -> {
+                //delete the post from DB
+                deletePostInDB(addPostRequest.tempId)
+
                 LMResponse(
                     success = response.body.success,
                     errorMessage = response.body.errorMessage
@@ -95,6 +102,12 @@ class PostClient @Inject constructor() : BaseClient() {
 
             is NetworkResponse.Success -> {
                 val body = response.body
+
+                //update db
+                body.data?.let { addPostResponse ->
+                    updatePostInDB(addPostResponse)
+                }
+
                 ModelConverter.convertAddPostAPIResponse(body)
             }
         }
@@ -108,6 +121,30 @@ class PostClient @Inject constructor() : BaseClient() {
         if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
             RequestUtils.throwException("text")
         }
+    }
+
+    private suspend fun updatePostInDB(addPostResponse: _AddPostResponse_) {
+        val post = addPostResponse.post
+        val temporaryPostId = post.tempId
+        val postId = post.id
+
+        //update isPosted and postId in Post table
+        postDao.updateIsPosted(
+            temporaryPostId,
+            postId,
+            true
+        )
+
+        //update postId in Attachment table
+        postDao.updatePostIdInAttachments(postId, temporaryPostId)
+    }
+
+    private suspend fun deletePostInDB(temporaryId: String?) {
+        //deletes the post from the post table
+        postDao.deletePostByTempId(temporaryId)
+
+        //deletes all the attachments with [temporaryId]
+        postDao.deleteAttachmentsByPostTempId(temporaryId)
     }
 
     /**
@@ -372,6 +409,117 @@ class PostClient @Inject constructor() : BaseClient() {
     private fun validatePinPostRequest(pinPostRequest: PinPostRequest) {
         if (pinPostRequest.postId.isEmpty()) {
             RequestUtils.throwException("postId")
+        }
+    }
+
+    /**
+     * Converts client request model to db model and add in the db
+     * @param addTemporaryPostRequest - client request model to add a temporary post in DB
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
+    suspend fun addTemporaryPost(addTemporaryPostRequest: AddTemporaryPostRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateAddTemporaryPostRequest(addTemporaryPostRequest)
+
+        val postEntity = ModelConverter.createPostEntity(
+            addTemporaryPostRequest.post,
+            addTemporaryPostRequest.postThumbnail,
+            addTemporaryPostRequest.workerUUID
+        )
+
+        val attachmentEntities = ModelConverter.createAttachmentEntities(
+            addTemporaryPostRequest.post.tempId ?: "",
+            addTemporaryPostRequest.post.attachments
+        )
+
+        val topicEntities = ModelConverter.createTopicEntities(
+            addTemporaryPostRequest.post.tempId ?: "",
+            addTemporaryPostRequest.topics
+        )
+
+        postDao.insertPostWithAttachments(postEntity, attachmentEntities, topicEntities)
+
+        return LMResponse(success = true)
+    }
+
+    /**
+     * Converts client request model to db model and add in the db
+     * @param updatePostWorkerUUIDRequest - client request model to update post worker uuid in db
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
+    suspend fun updatePostWorkerUUID(updatePostWorkerUUIDRequest: UpdatePostWorkerUUIDRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateUpdatePostWorkerUUIDRequest(updatePostWorkerUUIDRequest)
+
+        postDao.updateUploadWorkerUUID(
+            updatePostWorkerUUIDRequest.temporaryId,
+            updatePostWorkerUUIDRequest.workerUUID
+        )
+
+        return LMResponse(success = true)
+    }
+
+    /**
+     * validates [updatePostWorkerUUIDRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateUpdatePostWorkerUUIDRequest(updatePostWorkerUUIDRequest: UpdatePostWorkerUUIDRequest) {
+        if (updatePostWorkerUUIDRequest.temporaryId.isEmpty()) {
+            RequestUtils.throwException("temporaryId")
+        }
+
+        if (updatePostWorkerUUIDRequest.workerUUID.isEmpty()) {
+            RequestUtils.throwException("workerUUID")
+        }
+    }
+
+    /**
+     * validates [addTemporaryPostRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateAddTemporaryPostRequest(addTemporaryPostRequest: AddTemporaryPostRequest) {
+        if (addTemporaryPostRequest.post.text.isEmpty() && addTemporaryPostRequest.post.attachments.isNullOrEmpty()) {
+            RequestUtils.throwException("text")
+        }
+    }
+
+    /**
+     * Get the current uploading post from db model Convert it to client model
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<GetCurrentUploadingPostResponse> - GetCurrentUploadingPostResponse
+     */
+    suspend fun getCurrentUploadingPost(): LMResponse<GetCurrentUploadingPostResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
+        val postWithAttachments = postDao.getLatestPostWithAttachments()
+        return if (postWithAttachments == null) {
+            LMResponse(
+                success = false,
+                errorMessage = "There is no post uploading right now."
+            )
+        } else {
+            ModelConverter.convertGetCurrentUploadingPostResponse(postWithAttachments)
+        }
+    }
+
+    suspend fun getTemporaryPost(temporaryId: String): LMResponse<GetTemporaryPostResponse> {
+        // validates the client request
+        RequestUtils.validate()
+
+        val postWithAttachments = postDao.getPostWithAttachments(temporaryId)
+
+        return if (postWithAttachments == null) {
+            LMResponse(
+                success = false,
+                errorMessage = "Post with respect to temporary id: $temporaryId not found."
+            )
+        } else {
+            ModelConverter.convertGetTemporaryPostResponse(postWithAttachments)
         }
     }
 }

@@ -3,16 +3,16 @@ package com.likeminds.likemindsfeed.configuration.model
 import org.json.JSONObject
 
 class Configuration private constructor(
-    val type: String,
+    val type: ConfigurationType,
     val description: String,
     val value: JSONObject
 ) {
     class Builder {
-        private var type: String = ""
+        private var type: ConfigurationType = ConfigurationType.NONE
         private var description: String = ""
         private var value: JSONObject = JSONObject()
 
-        fun type(type: String) = apply { this.type = type }
+        fun type(type: ConfigurationType) = apply { this.type = type }
         fun description(description: String) = apply { this.description = description }
         fun value(value: JSONObject) = apply { this.value = value }
 
@@ -26,6 +26,6 @@ class Configuration private constructor(
     }
 
     override fun toString(): String {
-        return "Configuration recieved as type: $type description:$description value$value"
+        return "Configuration received as type: $type description: $description value: $value"
     }
 }

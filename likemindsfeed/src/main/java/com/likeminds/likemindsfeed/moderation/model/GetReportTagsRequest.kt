@@ -1,7 +1,7 @@
 package com.likeminds.likemindsfeed.moderation.model
 
 class GetReportTagsRequest private constructor(
-    var type: Int
+    val type: Int
 ) {
 
     class Builder {

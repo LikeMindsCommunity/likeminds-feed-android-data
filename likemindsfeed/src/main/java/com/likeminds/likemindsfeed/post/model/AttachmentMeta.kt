@@ -1,5 +1,7 @@
 package com.likeminds.likemindsfeed.post.model
 
+import android.net.Uri
+
 class AttachmentMeta private constructor(
     val name: String?,
     val url: String?,
@@ -12,7 +14,12 @@ class AttachmentMeta private constructor(
     val title: String?,
     val body: String?,
     val entityId: String?,
-    val thumbnailUrl: String?
+    val thumbnailUrl: String?,
+    val awsFolderPath: String?,
+    val localFilePath: String?,
+    val localUri: Uri?,
+    val thumbnailAWSFolderPath: String?,
+    val thumbnailLocalFilePath: String?,
 ) {
     class Builder {
 
@@ -28,6 +35,11 @@ class AttachmentMeta private constructor(
         private var body: String? = null
         private var entityId: String? = null
         private var thumbnailUrl: String? = null
+        private var awsFolderPath: String? = null
+        private var localFilePath: String? = null
+        private var localUri: Uri? = null
+        private var thumbnailAWSFolderPath: String? = null
+        private var thumbnailLocalFilePath: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -41,6 +53,14 @@ class AttachmentMeta private constructor(
         fun body(body: String?) = apply { this.body = body }
         fun entityId(entityId: String?) = apply { this.entityId = entityId }
         fun thumbnailUrl(thumbnailUrl: String?) = apply { this.thumbnailUrl = thumbnailUrl }
+        fun awsFolderPath(awsFolderPath: String?) = apply { this.awsFolderPath = awsFolderPath }
+        fun localFilePath(localFilePath: String?) = apply { this.localFilePath = localFilePath }
+        fun localUri(localUri: Uri?) = apply { this.localUri = localUri }
+        fun thumbnailAWSFolderPath(thumbnailAWSFolderPath: String?) =
+            apply { this.thumbnailAWSFolderPath = thumbnailAWSFolderPath }
+
+        fun thumbnailLocalFilePath(thumbnailLocalFilePath: String?) =
+            apply { this.thumbnailLocalFilePath = thumbnailLocalFilePath }
 
         fun build() = AttachmentMeta(
             name,
@@ -54,7 +74,12 @@ class AttachmentMeta private constructor(
             title,
             body,
             entityId,
-            thumbnailUrl
+            thumbnailUrl,
+            awsFolderPath,
+            localFilePath,
+            localUri,
+            thumbnailAWSFolderPath,
+            thumbnailLocalFilePath
         )
     }
 
@@ -71,5 +96,8 @@ class AttachmentMeta private constructor(
             .body(body)
             .entityId(entityId)
             .thumbnailUrl(thumbnailUrl)
+            .awsFolderPath(awsFolderPath)
+            .localFilePath(localFilePath)
+            .localUri(localUri)
     }
 }

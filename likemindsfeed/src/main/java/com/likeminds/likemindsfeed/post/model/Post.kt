@@ -21,7 +21,9 @@ class Post private constructor(
     val uuid: String,
     val heading: String?,
     val tempId: String?,
-    val topicIds: List<String>?
+    val topicIds: List<String>?,
+    val workerUUID: String?,
+    val isPosted: Boolean
 ) {
     class Builder {
         private var id: String = ""
@@ -43,6 +45,8 @@ class Post private constructor(
         private var heading: String? = null
         private var tempId: String? = null
         private var topicIds: List<String>? = null
+        private var workerUUID: String? = null
+        private var isPosted: Boolean = true
 
         fun id(id: String) = apply { this.id = id }
         fun text(text: String) = apply { this.text = text }
@@ -63,6 +67,8 @@ class Post private constructor(
         fun heading(heading: String?) = apply { this.heading = heading }
         fun tempId(tempId: String?) = apply { this.tempId = tempId }
         fun topicIds(topicIds: List<String>?) = apply { this.topicIds = topicIds }
+        fun workerUUID(workerUUID: String?) = apply { this.workerUUID = workerUUID }
+        fun isPosted(isPosted: Boolean) = apply { this.isPosted = isPosted }
 
         fun build() = Post(
             id,
@@ -83,7 +89,9 @@ class Post private constructor(
             uuid,
             heading,
             tempId,
-            topicIds
+            topicIds,
+            workerUUID,
+            isPosted
         )
     }
 
@@ -107,5 +115,7 @@ class Post private constructor(
             .heading(heading)
             .tempId(tempId)
             .topicIds(topicIds)
+            .workerUUID(workerUUID)
+            .isPosted(isPosted)
     }
 }

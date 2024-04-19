@@ -2,11 +2,12 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import kotlinx.coroutines.*
+import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,8 +31,6 @@ class MainActivity : AppCompatActivity() {
                     .isGuest(false)
                     .build()
             )
-
-            Log.d(TAG, "initiateResponse: ${initiateResponse.data?.user?.sdkClientInfo?.uuid}")
         }
     }
 }

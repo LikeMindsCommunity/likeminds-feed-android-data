@@ -1,4 +1,4 @@
-package com.likeminds.likemindsfeed.initiateUser.model
+package com.likeminds.likemindsfeed.user.model
 
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.sdk.model.Community
