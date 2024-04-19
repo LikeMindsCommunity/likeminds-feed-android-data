@@ -2,15 +2,12 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.configuration.model.ConfigurationType
-import com.likeminds.likemindsfeed.configuration.model.GetCommunityConfigurationRequest
-import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.user.model.LogoutRequest
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,61 +30,6 @@ class MainActivity : AppCompatActivity() {
                     .userName("Ishaan")
                     .isGuest(false)
                     .build()
-            )
-
-            val memberStateResponse = client.getMemberState()
-
-            Log.d(TAG, "initiateResponse: ${initiateResponse.data?.user?.sdkClientInfo?.uuid}")
-
-            val getLoggedInUser = client.getLoggedInUserWithRights()
-
-            Log.d(
-                TAG, """
-                getLoggedInUser: ${getLoggedInUser.data?.user?.name}
-                rights: ${getLoggedInUser.data?.rights?.size}
-            """.trimIndent()
-            )
-
-            val communityConfigs = client.getCommunityConfigurations()
-
-            Log.d(
-                TAG,
-                "communityConfigs API: ${communityConfigs.data?.configurations?.size}"
-            )
-
-            val profileMetaData = client.getCommunityConfiguration(
-                GetCommunityConfigurationRequest.Builder()
-                    .type(ConfigurationType.PROFILE_METADATA)
-                    .build()
-            )
-
-            Log.d(
-                TAG,
-                "profileMetaData db: ${profileMetaData.data?.configuration?.value}"
-            )
-
-            val registerDevice = client.registerDevice(
-                RegisterDeviceRequest.Builder()
-                    .deviceId("adadad")
-                    .token("0p0p0p0p0")
-                    .build()
-            )
-
-            Log.d(
-                TAG,
-                "register ${registerDevice.success}"
-            )
-
-
-            val logout = client.logout(
-                LogoutRequest.Builder()
-                    .deviceId("adadad")
-                    .build()
-            )
-
-            Log.d(
-                TAG,
-                "logout ${logout.success}"
             )
         }
     }
