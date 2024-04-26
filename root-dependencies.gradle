@@ -5,7 +5,7 @@ versions.min_sdk = 21
 versions.target_sdk = 33
 versions.sdk_version_major = '1'
 versions.sdk_version_minor = '8'
-versions.sdk_version_patch = '0'
+versions.sdk_version_patch = '1'
 versions.sdk_version_code = 12
 versions.core = "1.8.0"
 versions.appcompat = "1.4.2"
@@ -20,6 +20,7 @@ versions.coroutines = "1.6.4"
 versions.sentry = '6.12.1'
 versions.dagger = '2.42'
 versions.room = '2.4.3'
+versions.chucker = '3.5.2'
 ext.versions = versions
 
 
@@ -77,5 +78,10 @@ room.main = "androidx.room:room-runtime:$versions.room"
 room.ktx = "androidx.room:room-ktx:$versions.room"
 room.compiler = "androidx.room:room-compiler:$versions.room"
 deps.room = room
+
+def chucker = [:]
+chucker.main = "com.github.chuckerteam.chucker:library:$versions.chucker"
+chucker.no_op = "com.github.chuckerteam.chucker:library-no-op:$versions.chucker"
+deps.chucker = chucker
 
 ext.deps = deps
