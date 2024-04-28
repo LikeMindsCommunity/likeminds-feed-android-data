@@ -28,6 +28,8 @@ import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
@@ -95,6 +97,7 @@ object ModelConverter {
             .questionAnswers(convertQuestionAnswers(_user_.questionAnswers))
             .build()
     }
+
 
     // converts the internal User model hashmap to client User Hashmap
     private fun convertUsersMap(
@@ -706,7 +709,7 @@ object ModelConverter {
         _attachment_: _Attachment_
     ): Attachment {
         return Attachment.Builder()
-            .attachmentType(_attachment_.attachmentType)
+            .attachmentType(_attachment_.attachmentType.getAttachmentType())
             .attachmentMeta(convertAttachmentMeta(_attachment_.attachmentMeta))
             .build()
     }
@@ -989,7 +992,7 @@ object ModelConverter {
         if (attachments == null) return null
         return attachments.map { attachment ->
             _Attachment_.Builder()
-                .attachmentType(attachment.attachmentType)
+                .attachmentType(attachment.attachmentType.getAttachmentValue())
                 .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta))
                 .build()
         }
@@ -1164,7 +1167,7 @@ object ModelConverter {
         return AttachmentEntity.Builder()
             .temporaryId(postTemporaryId)
             .postId(postTemporaryId)
-            .attachmentType(attachment.attachmentType)
+            .attachmentType(attachment.attachmentType.getAttachmentValue())
             .attachmentMeta(createAttachmentMetaEntity(attachment.attachmentMeta))
             .build()
     }
@@ -1362,7 +1365,7 @@ object ModelConverter {
      * */
     private fun makeAttachment(attachment: AttachmentEntity): Attachment {
         return Attachment.Builder()
-            .attachmentType(attachment.attachmentType)
+            .attachmentType(attachment.attachmentType.getAttachmentType())
             .attachmentMeta(makeAttachmentMeta(attachment.attachmentMeta))
             .build()
     }
