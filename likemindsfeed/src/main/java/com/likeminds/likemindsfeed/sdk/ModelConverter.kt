@@ -10,6 +10,7 @@ import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
 import com.likeminds.internalsdk.notificationfeed.model.*
+import com.likeminds.internalsdk.poll.model._AddPollOptionResponse_
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
@@ -27,6 +28,7 @@ import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.*
+import com.likeminds.likemindsfeed.poll.model.AddPollOptionResponse
 import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollMultiSelectStateValue
 import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollTypeValue
 import com.likeminds.likemindsfeed.post.model.*
@@ -995,6 +997,21 @@ object ModelConverter {
             .description(_configuration_.description)
             .value(JSONObject(jsonString))
             .build()
+    }
+
+    fun convertAddPollOptionAPIResponse(apiResponse: APIResponse<_AddPollOptionResponse_>): LMResponse<AddPollOptionResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertAddPollOptionResponse(apiResponse.data)
+        )
+    }
+
+    private fun convertAddPollOptionResponse(_addPollOptionResponse_: _AddPollOptionResponse_?): AddPollOptionResponse? {
+        if (_addPollOptionResponse_ == null) return null
+        return AddPollOptionResponse(
+            convertWidget(_addPollOptionResponse_.widget_)
+        )
     }
 
     /**--------------------------------

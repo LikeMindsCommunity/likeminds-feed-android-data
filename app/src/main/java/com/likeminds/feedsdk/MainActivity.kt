@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import kotlinx.coroutines.*
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                         .title("Test Poll")
                         .expiryTime(1716179508000)
                         .pollOptions(listOf("Option 1", "Option 2", "Option 3"))
+                        .allowAddOption(true)
                         .build()
                 )
                 .build()
@@ -54,9 +56,28 @@ class MainActivity : AppCompatActivity() {
             Log.d(
                 TAG, """
                 createPollResponse:${createPollResponse.success}
-                createPollResponse:${createPollResponse.data?.widgets?.values?.map { 
-                    it
-                }}
+                createPollResponse:${
+                    createPollResponse.data?.widgets?.values?.map {
+                        it
+                    }
+                }
+            """.trimIndent()
+            )
+
+            val pollId =
+                createPollResponse.data?.post?.attachments?.firstOrNull()?.attachmentMeta?.entityId
+                    ?: ""
+            Log.d(TAG, "poll id: $pollId")
+
+            val addPollOptionRequest = AddPollOptionRequest.Builder()
+                .pollId(pollId)
+                .text("Option 4")
+                .build()
+            val addPollResponse = client.addPollOption(addPollOptionRequest)
+
+            Log.d(
+                TAG, """
+                addPollResponse: ${addPollResponse.data?.widget}
             """.trimIndent()
             )
         }

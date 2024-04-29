@@ -8,7 +8,6 @@ import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 interface PollApi {
 
     suspend fun addPollOption(
-        pollId: String,
         request: _AddPollOptionRequest_
     ): NetworkResponse<APIResponse<_AddPollOptionResponse_>>
 }

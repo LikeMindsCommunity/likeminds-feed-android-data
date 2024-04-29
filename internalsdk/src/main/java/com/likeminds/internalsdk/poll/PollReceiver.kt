@@ -10,9 +10,11 @@ class PollReceiver @Inject constructor(
     private val pollNetworkApi: PollNetworkApi
 ) {
     suspend fun addPollOption(
-        pollId: String,
         request: _AddPollOptionRequest_
     ): NetworkResponse<APIResponse<_AddPollOptionResponse_>> {
-        return pollNetworkApi.addPollOption(pollId, request)
+        val pollId = request.pollId ?: ""
+        val newRequest = request.toBuilder().pollId(null).build()
+
+        return pollNetworkApi.addPollOption(pollId, newRequest)
     }
 }
