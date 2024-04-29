@@ -16,7 +16,7 @@ import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
 import com.likeminds.internalsdk.topic.model._Topic_
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
-import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
+import com.likeminds.internalsdk.widgets.model._LMMeta_
 import com.likeminds.internalsdk.widgets.model._Widget_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
@@ -27,6 +27,8 @@ import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.*
+import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollMultiSelectStateValue
+import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollTypeValue
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
@@ -35,8 +37,8 @@ import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.user.model.*
+import com.likeminds.likemindsfeed.widgets.model.LMMeta
 import com.likeminds.likemindsfeed.widgets.model.Widget
-import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
 import org.json.JSONObject
 
 object ModelConverter {
@@ -134,27 +136,41 @@ object ModelConverter {
         return Widget.Builder()
             .id(_widget_.id)
             .createdAt(_widget_.createdAt)
-            .metaData(convertWidgetMetaData(_widget_.metaData))
+            .metadata(JSONObject(_widget_.metadata.toString()))
             .parentEntityId(_widget_.parentEntityId)
             .parentEntityType(_widget_.parentEntityType)
             .updatedAt(_widget_.updatedAt)
+            .lmMeta(convertLMMeta(_widget_.lmMeta))
             .build()
     }
 
-    // converts the internal MetaData model to client MetaData
-    private fun convertWidgetMetaData(
-        _widgetMetaData_: _WidgetMetaData_?
-    ): WidgetMetaData? {
-        if (_widgetMetaData_ == null) {
-            return null
+    //converts the internal LMMeta model to client LMMeta
+    private fun convertLMMeta(
+        _lmMeta_: _LMMeta_?
+    ): LMMeta? {
+        if (_lmMeta_ == null) return null
+        return LMMeta.Builder()
+            .pollAnswerText(_lmMeta_.pollAnswerText)
+            .toShowResults(_lmMeta_.toShowResults)
+            .options(convertPollOptions(_lmMeta_.options))
+            .build()
+    }
+
+    //converts the all internal PollOptions to client PollOptions
+    private fun convertPollOptions(options: List<_PollOption_>?): List<PollOption>? {
+        return options?.map {
+            convertPollOption(it)
         }
-        return WidgetMetaData.Builder()
-            .body(_widgetMetaData_.body)
-            .title(_widgetMetaData_.title)
-            .coverImageUrl(_widgetMetaData_.coverImageUrl)
-            .name(_widgetMetaData_.name)
-            .size(_widgetMetaData_.size)
-            .url(_widgetMetaData_.url)
+    }
+
+    //converts the internal PollOption model to client PollOption
+    private fun convertPollOption(option: _PollOption_): PollOption {
+        return PollOption.Builder()
+            .id(option.id)
+            .isSelected(option.isSelected)
+            .uuid(option.uuid)
+            .percentage(option.percentage)
+            .voteCount(option.voteCount)
             .build()
     }
 
@@ -1014,6 +1030,13 @@ object ModelConverter {
             .title(attachmentMeta.title)
             .body(attachmentMeta.body)
             .thumbnailUrl(attachmentMeta.thumbnailUrl)
+            .expiryTime(attachmentMeta.expiryTime)
+            .pollOptions(attachmentMeta.pollOptions)
+            .multiSelectState(attachmentMeta.multiSelectState?.getPollMultiSelectStateValue())
+            .pollType(attachmentMeta.pollType?.getPollTypeValue())
+            .multiSelectNumber(attachmentMeta.multiSelectNumber)
+            .isAnonymous(attachmentMeta.isAnonymous)
+            .allowAddOption(attachmentMeta.allowAddOption)
             .build()
     }
 

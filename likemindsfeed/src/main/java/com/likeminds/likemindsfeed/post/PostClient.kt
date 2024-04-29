@@ -119,7 +119,29 @@ class PostClient @Inject constructor() : BaseClient() {
      */
     private fun validateAddPostRequest(addPostRequest: AddPostRequest) {
         if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
-            RequestUtils.throwException("text")
+            RequestUtils.throwException("text or attachments")
+        }
+
+        //check for individual meta value
+        val attachment = addPostRequest.attachments?.firstOrNull() ?: return
+        val attachmentType = attachment.attachmentType
+        val attachmentMeta = attachment.attachmentMeta
+        when (attachmentType) {
+            AttachmentType.POLL -> {
+                when {
+                    attachmentMeta.title.isNullOrEmpty() -> {
+                        RequestUtils.throwException("poll question")
+                    }
+
+                    attachmentMeta.expiryTime == null -> {
+                        RequestUtils.throwException("poll expiry time")
+                    }
+
+                    attachmentMeta.pollOptions.isNullOrEmpty() -> {
+                        RequestUtils.throwException("poll options")
+                    }
+                }
+            }
         }
     }
 

@@ -26,7 +26,23 @@ class _AttachmentMeta_ private constructor(
     @SerializedName("entity_id")
     val entityId: String?,
     @SerializedName("thumbnail_url")
-    val thumbnailUrl: String?
+    val thumbnailUrl: String?,
+
+    //poll related
+    @SerializedName("expiry_time")
+    val expiryTime: Long?,
+    @SerializedName("options")
+    val pollOptions: List<String>?,
+    @SerializedName("multiple_select_state")
+    val multiSelectState: String?,
+    @SerializedName("poll_type")
+    val pollType: String?,
+    @SerializedName("multiple_select_number")
+    val multiSelectNumber: Int?,
+    @SerializedName("is_anonymous")
+    val isAnonymous: Boolean?,
+    @SerializedName("allow_add_option")
+    val allowAddOption: Boolean?
 ) {
     class Builder {
 
@@ -42,6 +58,13 @@ class _AttachmentMeta_ private constructor(
         private var body: String? = null
         private var entityId: String? = null
         private var thumbnailUrl: String? = null
+        private var expiryTime: Long? = null
+        private var pollOptions: List<String>? = null
+        private var multiSelectState: String? = null
+        private var pollType: String? = null
+        private var multiSelectNumber: Int? = null
+        private var isAnonymous: Boolean? = null
+        private var allowAddOption: Boolean? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -55,6 +78,18 @@ class _AttachmentMeta_ private constructor(
         fun body(body: String?) = apply { this.body = body }
         fun entityId(entityId: String?) = apply { this.entityId = entityId }
         fun thumbnailUrl(thumbnailUrl: String?) = apply { this.thumbnailUrl = thumbnailUrl }
+        fun expiryTime(expiryTime: Long?) = apply { this.expiryTime = expiryTime }
+        fun pollOptions(pollOptions: List<String>?) = apply { this.pollOptions = pollOptions }
+        fun multiSelectState(multiSelectState: String?) =
+            apply { this.multiSelectState = multiSelectState }
+
+        fun pollType(pollType: String?) = apply { this.pollType = pollType }
+        fun multiSelectNumber(multiSelectNo: Int?) =
+            apply { this.multiSelectNumber = multiSelectNo }
+
+        fun isAnonymous(isAnonymous: Boolean?) = apply { this.isAnonymous = isAnonymous }
+        fun allowAddOption(allowAddOption: Boolean?) =
+            apply { this.allowAddOption = allowAddOption }
 
         fun build() = _AttachmentMeta_(
             name,
@@ -68,7 +103,14 @@ class _AttachmentMeta_ private constructor(
             title,
             body,
             entityId,
-            thumbnailUrl
+            thumbnailUrl,
+            expiryTime,
+            pollOptions,
+            multiSelectState,
+            pollType,
+            multiSelectNumber,
+            isAnonymous,
+            allowAddOption
         )
     }
 
@@ -85,5 +127,12 @@ class _AttachmentMeta_ private constructor(
             .body(body)
             .entityId(entityId)
             .thumbnailUrl(thumbnailUrl)
+            .expiryTime(expiryTime)
+            .pollOptions(pollOptions)
+            .multiSelectState(multiSelectState)
+            .pollType(pollType)
+            .multiSelectNumber(multiSelectNumber)
+            .isAnonymous(isAnonymous)
+            .allowAddOption(allowAddOption)
     }
 }

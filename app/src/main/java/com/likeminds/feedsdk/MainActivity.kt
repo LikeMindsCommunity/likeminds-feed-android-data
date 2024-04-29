@@ -2,12 +2,12 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +30,34 @@ class MainActivity : AppCompatActivity() {
                     .userName("Ishaan")
                     .isGuest(false)
                     .build()
+            )
+
+            val pollAttachment = Attachment.Builder()
+                .attachmentType(AttachmentType.POLL)
+                .attachmentMeta(
+                    AttachmentMeta.Builder()
+                        .title("Test Poll")
+                        .expiryTime(1716179508000)
+                        .pollOptions(listOf("Option 1", "Option 2", "Option 3"))
+                        .build()
+                )
+                .build()
+
+            val createPollRequest = AddPostRequest.Builder()
+                .text("Test Poll Post")
+                .heading("Test Poll Heading")
+                .attachments(listOf(pollAttachment))
+                .build()
+
+            val createPollResponse = client.addPost(createPollRequest)
+
+            Log.d(
+                TAG, """
+                createPollResponse:${createPollResponse.success}
+                createPollResponse:${createPollResponse.data?.widgets?.values?.map { 
+                    it
+                }}
+            """.trimIndent()
             )
         }
     }

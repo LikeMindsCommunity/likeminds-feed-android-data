@@ -21,7 +21,7 @@ class UserEntity(
     var isDeleted: Boolean?,
     @ColumnInfo(name = "user_unique_id")
     var userUniqueId: String,
-    @ColumnInfo(name = "state")
+    @ColumnInfo(name = "state", defaultValue = "-1")
     var state: Int,
     @ColumnInfo(name = "is_owner")
     var isOwner: Boolean,
