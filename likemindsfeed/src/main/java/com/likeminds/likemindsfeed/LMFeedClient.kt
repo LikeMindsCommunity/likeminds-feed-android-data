@@ -269,4 +269,8 @@ class LMFeedClient private constructor() {
     suspend fun submitVote(submitVoteRequest: SubmitVoteRequest): LMResponse<Nothing> {
         return pollClient.submitVote(submitVoteRequest)
     }
+
+    suspend fun getPollVotes(getPollVotesRequest: GetPollVotesRequest): LMResponse<GetPollVotesResponse> {
+        return pollClient.getPollVotes(getPollVotesRequest)
+    }
 }

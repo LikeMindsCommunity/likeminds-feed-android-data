@@ -17,5 +17,11 @@ interface PollNetworkApi {
     suspend fun submitVote(
         @Path("poll_id") pollId: String,
         @Body submitVoteRequest: _SubmitVoteRequest_
-    ):NetworkResponse<APIResponse<Nothing>>
+    ): NetworkResponse<APIResponse<Nothing>>
+
+    @GET("poll/{poll_id}/vote")
+    suspend fun getPollVotes(
+        @Path("poll_id") pollId: String,
+        @QueryMap queries: HashMap<String, Any>
+    ): NetworkResponse<APIResponse<_GetPollVotesResponse_>>
 }

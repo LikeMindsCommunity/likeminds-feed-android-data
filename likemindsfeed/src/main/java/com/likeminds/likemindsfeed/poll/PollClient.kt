@@ -1,7 +1,6 @@
 package com.likeminds.likemindsfeed.poll
 
-import com.likeminds.internalsdk.poll.model._AddPollOptionRequest_
-import com.likeminds.internalsdk.poll.model._SubmitVoteRequest_
+import com.likeminds.internalsdk.poll.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -89,6 +88,40 @@ class PollClient @Inject constructor() : BaseClient() {
         }
 
         if (submitVoteRequest.votes.isEmpty()) {
+            RequestUtils.throwException("options ids")
+        }
+    }
+
+    suspend fun getPollVotes(getPollVotesRequest: GetPollVotesRequest): LMResponse<GetPollVotesResponse> {
+        //validates the client request
+        RequestUtils.validate()
+        validateGetPollVotesRequest(getPollVotesRequest)
+
+        val request = _GetPollVotesRequest_.Builder()
+            .pollId(getPollVotesRequest.pollId)
+            .votes(getPollVotesRequest.votes)
+            .build()
+
+        return when (val response = pollApi.getPollVotes(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+
+            is NetworkResponse.Success -> {
+                val body = response.body
+                ModelConverter.convertGetPollVotesAPIResponse(body)
+            }
+        }
+    }
+
+    private fun validateGetPollVotesRequest(request: GetPollVotesRequest) {
+        if (request.pollId.isEmpty()) {
+            RequestUtils.throwException("poll id")
+        }
+        if (request.votes.isEmpty()) {
             RequestUtils.throwException("options ids")
         }
     }

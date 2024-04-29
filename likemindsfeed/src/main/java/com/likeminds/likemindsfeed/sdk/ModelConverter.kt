@@ -10,7 +10,7 @@ import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
 import com.likeminds.internalsdk.notificationfeed.model.*
-import com.likeminds.internalsdk.poll.model._AddPollOptionResponse_
+import com.likeminds.internalsdk.poll.model.*
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
@@ -28,7 +28,7 @@ import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.*
-import com.likeminds.likemindsfeed.poll.model.AddPollOptionResponse
+import com.likeminds.likemindsfeed.poll.model.*
 import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollMultiSelectStateValue
 import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollTypeValue
 import com.likeminds.likemindsfeed.post.model.*
@@ -1012,6 +1012,36 @@ object ModelConverter {
         return AddPollOptionResponse(
             convertWidget(_addPollOptionResponse_.widget_)
         )
+    }
+
+    fun convertGetPollVotesAPIResponse(apiResponse: APIResponse<_GetPollVotesResponse_>): LMResponse<GetPollVotesResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetPollVotesResponse(apiResponse.data)
+        )
+    }
+
+    private fun convertGetPollVotesResponse(data: _GetPollVotesResponse_?): GetPollVotesResponse? {
+        if (data == null) return null
+        return GetPollVotesResponse(
+            convertPollVotes(data.votes),
+            convertUsersMap(data.users),
+            convertWidgetsMap(data.widgets)
+        )
+    }
+
+    private fun convertPollVotes(votes: List<_PollVote_>): List<PollVote> {
+        return votes.map { vote ->
+            convertPollVote(vote)
+        }
+    }
+
+    private fun convertPollVote(vote: _PollVote_): PollVote {
+        return PollVote.Builder()
+            .id(vote.id)
+            .userIds(vote.userIds)
+            .build()
     }
 
     /**--------------------------------

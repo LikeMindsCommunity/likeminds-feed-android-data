@@ -25,4 +25,12 @@ class PollReceiver @Inject constructor(
 
         return pollNetworkApi.submitVote(pollId, newRequest)
     }
+
+    suspend fun getPollVotes(
+        request: _GetPollVotesRequest_
+    ): NetworkResponse<APIResponse<_GetPollVotesResponse_>> {
+        val queries = HashMap<String, Any>()
+        queries["votes"] = request.votes
+        return pollNetworkApi.getPollVotes(request.pollId, queries)
+    }
 }

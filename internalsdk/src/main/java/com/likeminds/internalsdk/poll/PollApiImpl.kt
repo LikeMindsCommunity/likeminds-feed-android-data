@@ -17,4 +17,8 @@ class PollApiImpl @Inject constructor(
     override suspend fun submitVote(request: _SubmitVoteRequest_): NetworkResponse<APIResponse<Nothing>> {
         return pollReceiver.submitVote(request)
     }
+
+    override suspend fun getPollVotes(request: _GetPollVotesRequest_): NetworkResponse<APIResponse<_GetPollVotesResponse_>> {
+        return pollReceiver.getPollVotes(request)
+    }
 }

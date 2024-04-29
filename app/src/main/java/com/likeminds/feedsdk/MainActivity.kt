@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
-import com.likeminds.likemindsfeed.poll.model.SubmitVoteRequest
+import com.likeminds.likemindsfeed.poll.model.*
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import kotlinx.coroutines.*
@@ -42,6 +41,8 @@ class MainActivity : AppCompatActivity() {
                         .expiryTime(1716179508000)
                         .pollOptions(listOf("Option 1", "Option 2", "Option 3"))
                         .allowAddOption(true)
+                        .multiSelectNumber(2)
+                        .multiSelectState(PollMultiSelectState.EXACTLY)
                         .build()
                 )
                 .build()
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
             val optionIds = addPollResponse.data?.widget?.lmMeta?.options?.map {
                 it.id
-            }?.subList(0, 1) ?: emptyList()
+            }?.subList(0, 2) ?: emptyList()
 
             val submitVoteRequest = SubmitVoteRequest.Builder()
                 .pollId(pollId)
@@ -99,6 +100,23 @@ class MainActivity : AppCompatActivity() {
             """.trimIndent()
             )
 
+            val getPollResponse = client.getPollVotes(
+                GetPollVotesRequest.Builder()
+                    .pollId(pollId)
+                    .votes(optionIds)
+                    .build()
+            )
+
+            Log.d(
+                TAG, """
+                getPollResponse: ${getPollResponse.success}
+                getPollResponse:${
+                    getPollResponse.data?.votes?.map {
+                        it.userIds.size
+                    }
+                }
+            """.trimIndent()
+            )
         }
     }
 }

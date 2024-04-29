@@ -13,4 +13,8 @@ interface PollApi {
     suspend fun submitVote(
         request: _SubmitVoteRequest_
     ): NetworkResponse<APIResponse<Nothing>>
+
+    suspend fun getPollVotes(
+        request: _GetPollVotesRequest_
+    ): NetworkResponse<APIResponse<_GetPollVotesResponse_>>
 }
