@@ -999,6 +999,7 @@ object ModelConverter {
             .build()
     }
 
+    // converts APIResponse<_AddPollOptionResponse_> to LMResponse<AddPollOptionResponse>
     fun convertAddPollOptionAPIResponse(apiResponse: APIResponse<_AddPollOptionResponse_>): LMResponse<AddPollOptionResponse> {
         return LMResponse(
             apiResponse.success,
@@ -1007,6 +1008,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal _AddPollOptionResponse_ to exposed AddPollOptionResponse
     private fun convertAddPollOptionResponse(_addPollOptionResponse_: _AddPollOptionResponse_?): AddPollOptionResponse? {
         if (_addPollOptionResponse_ == null) return null
         return AddPollOptionResponse(
@@ -1014,6 +1016,7 @@ object ModelConverter {
         )
     }
 
+    // converts APIResponse<_GetPollVotesResponse_> to LMResponse<GetPollVotesResponse>
     fun convertGetPollVotesAPIResponse(apiResponse: APIResponse<_GetPollVotesResponse_>): LMResponse<GetPollVotesResponse> {
         return LMResponse(
             apiResponse.success,
@@ -1022,6 +1025,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal _GetPollVotesResponse_ to exposed GetPollVotesResponse
     private fun convertGetPollVotesResponse(data: _GetPollVotesResponse_?): GetPollVotesResponse? {
         if (data == null) return null
         return GetPollVotesResponse(
@@ -1031,12 +1035,14 @@ object ModelConverter {
         )
     }
 
+    // converts list of internal _PollVote_ to list of exposed PollVote
     private fun convertPollVotes(votes: List<_PollVote_>): List<PollVote> {
         return votes.map { vote ->
             convertPollVote(vote)
         }
     }
 
+    // converts internal _PollVote_ to exposed PollVote
     private fun convertPollVote(vote: _PollVote_): PollVote {
         return PollVote.Builder()
             .id(vote.id)

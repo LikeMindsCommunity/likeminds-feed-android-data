@@ -262,14 +262,17 @@ class LMFeedClient private constructor() {
         return configurationClient.getCommunityConfiguration(request)
     }
 
+    //Exposed function to add poll option in a poll
     suspend fun addPollOption(addPollOptionRequest: AddPollOptionRequest): LMResponse<AddPollOptionResponse> {
         return pollClient.addPollOption(addPollOptionRequest)
     }
 
+    //Exposed function to submit vote to a poll
     suspend fun submitVote(submitVoteRequest: SubmitVoteRequest): LMResponse<Nothing> {
         return pollClient.submitVote(submitVoteRequest)
     }
 
+    //Exposed function to get result of the poll
     suspend fun getPollVotes(getPollVotesRequest: GetPollVotesRequest): LMResponse<GetPollVotesResponse> {
         return pollClient.getPollVotes(getPollVotesRequest)
     }

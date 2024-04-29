@@ -19,16 +19,25 @@ class PollClient @Inject constructor() : BaseClient() {
         feedSDK.getPollApi()
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param addPollOptionRequest - client request model to add poll option
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or request is not valid
+     * @return [AddPollOptionResponse] - AddPollOptionResponse model for addPollOption()
+     */
     suspend fun addPollOption(addPollOptionRequest: AddPollOptionRequest): LMResponse<AddPollOptionResponse> {
         //validates the client request
         RequestUtils.validate()
         validateAddPollOptionRequest(addPollOptionRequest)
 
+        //builds internal request model
         val request = _AddPollOptionRequest_.Builder()
             .pollId(addPollOptionRequest.pollId)
             .text(addPollOptionRequest.text)
             .build()
 
+
+        //calls api and processes the response accordingly
         return when (val response = pollApi.addPollOption(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
@@ -39,23 +48,32 @@ class PollClient @Inject constructor() : BaseClient() {
 
             is NetworkResponse.Success -> {
                 val body = response.body
-
                 ModelConverter.convertAddPollOptionAPIResponse(body)
             }
         }
     }
 
 
-    //validates the add poll option request
-    private fun validateAddPollOptionRequest(request: AddPollOptionRequest) {
-        if (request.pollId.isEmpty()) {
+    /**
+     * validates [addPollOptionRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateAddPollOptionRequest(addPollOptionRequest: AddPollOptionRequest) {
+        if (addPollOptionRequest.pollId.isEmpty()) {
             RequestUtils.throwException("poll id")
         }
-        if (request.text.isEmpty()) {
+        if (addPollOptionRequest.text.isEmpty()) {
             RequestUtils.throwException("poll option text")
         }
     }
 
+
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param submitVoteRequest - client request model to add poll option
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or request is not valid
+     * @return [Nothing]
+     */
     suspend fun submitVote(submitVoteRequest: SubmitVoteRequest): LMResponse<Nothing> {
         //validates the client request
         RequestUtils.validate()
@@ -82,6 +100,10 @@ class PollClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * validates [submitVoteRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
     private fun validateSubmitVoteRequest(submitVoteRequest: SubmitVoteRequest) {
         if (submitVoteRequest.pollId.isEmpty()) {
             RequestUtils.throwException("poll id")
@@ -92,6 +114,12 @@ class PollClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param getPollVotesRequest - client request model to add poll option
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or request is not valid
+     * @return [GetPollVotesResponse] - the response model for getPollVotes()
+     */
     suspend fun getPollVotes(getPollVotesRequest: GetPollVotesRequest): LMResponse<GetPollVotesResponse> {
         //validates the client request
         RequestUtils.validate()
@@ -117,11 +145,15 @@ class PollClient @Inject constructor() : BaseClient() {
         }
     }
 
-    private fun validateGetPollVotesRequest(request: GetPollVotesRequest) {
-        if (request.pollId.isEmpty()) {
+    /**
+     * validates [getPollVotesRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateGetPollVotesRequest(getPollVotesRequest: GetPollVotesRequest) {
+        if (getPollVotesRequest.pollId.isEmpty()) {
             RequestUtils.throwException("poll id")
         }
-        if (request.votes.isEmpty()) {
+        if (getPollVotesRequest.votes.isEmpty()) {
             RequestUtils.throwException("options ids")
         }
     }
