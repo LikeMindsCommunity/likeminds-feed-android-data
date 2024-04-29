@@ -1,7 +1,6 @@
 package com.likeminds.internalsdk.poll
 
-import com.likeminds.internalsdk.poll.model._AddPollOptionRequest_
-import com.likeminds.internalsdk.poll.model._AddPollOptionResponse_
+import com.likeminds.internalsdk.poll.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.*
@@ -13,4 +12,10 @@ interface PollNetworkApi {
         @Path("poll_id") pollId: String,
         @Body addPollOptionRequest_: _AddPollOptionRequest_
     ): NetworkResponse<APIResponse<_AddPollOptionResponse_>>
+
+    @PUT("poll/{poll_id}/vote")
+    suspend fun submitVote(
+        @Path("poll_id") pollId: String,
+        @Body submitVoteRequest: _SubmitVoteRequest_
+    ):NetworkResponse<APIResponse<Nothing>>
 }

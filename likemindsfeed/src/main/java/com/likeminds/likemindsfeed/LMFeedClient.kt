@@ -13,8 +13,7 @@ import com.likeminds.likemindsfeed.moderation.model.*
 import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
 import com.likeminds.likemindsfeed.notificationfeed.model.*
 import com.likeminds.likemindsfeed.poll.PollClient
-import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
-import com.likeminds.likemindsfeed.poll.model.AddPollOptionResponse
+import com.likeminds.likemindsfeed.poll.model.*
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -265,5 +264,9 @@ class LMFeedClient private constructor() {
 
     suspend fun addPollOption(addPollOptionRequest: AddPollOptionRequest): LMResponse<AddPollOptionResponse> {
         return pollClient.addPollOption(addPollOptionRequest)
+    }
+
+    suspend fun submitVote(submitVoteRequest: SubmitVoteRequest): LMResponse<Nothing> {
+        return pollClient.submitVote(submitVoteRequest)
     }
 }

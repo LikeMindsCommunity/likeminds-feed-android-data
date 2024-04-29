@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
+import com.likeminds.likemindsfeed.poll.model.SubmitVoteRequest
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import kotlinx.coroutines.*
@@ -80,6 +81,24 @@ class MainActivity : AppCompatActivity() {
                 addPollResponse: ${addPollResponse.data?.widget}
             """.trimIndent()
             )
+
+            val optionIds = addPollResponse.data?.widget?.lmMeta?.options?.map {
+                it.id
+            }?.subList(0, 1) ?: emptyList()
+
+            val submitVoteRequest = SubmitVoteRequest.Builder()
+                .pollId(pollId)
+                .votes(optionIds)
+                .build()
+
+            val submitVoteResponse = client.submitVote(submitVoteRequest)
+
+            Log.d(
+                TAG, """
+                submitVoteResponse: ${submitVoteResponse.success} ${submitVoteResponse.errorMessage}
+            """.trimIndent()
+            )
+
         }
     }
 }

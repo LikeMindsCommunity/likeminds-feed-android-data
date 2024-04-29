@@ -1,7 +1,6 @@
 package com.likeminds.internalsdk.poll
 
-import com.likeminds.internalsdk.poll.model._AddPollOptionRequest_
-import com.likeminds.internalsdk.poll.model._AddPollOptionResponse_
+import com.likeminds.internalsdk.poll.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
@@ -16,5 +15,14 @@ class PollReceiver @Inject constructor(
         val newRequest = request.toBuilder().pollId(null).build()
 
         return pollNetworkApi.addPollOption(pollId, newRequest)
+    }
+
+    suspend fun submitVote(
+        request: _SubmitVoteRequest_
+    ): NetworkResponse<APIResponse<Nothing>> {
+        val pollId = request.pollId ?: ""
+        val newRequest = request.toBuilder().pollId(null).build()
+
+        return pollNetworkApi.submitVote(pollId, newRequest)
     }
 }

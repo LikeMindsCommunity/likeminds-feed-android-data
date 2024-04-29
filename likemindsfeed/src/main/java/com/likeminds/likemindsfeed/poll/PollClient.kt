@@ -1,11 +1,11 @@
 package com.likeminds.likemindsfeed.poll
 
 import com.likeminds.internalsdk.poll.model._AddPollOptionRequest_
+import com.likeminds.internalsdk.poll.model._SubmitVoteRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
-import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
-import com.likeminds.likemindsfeed.poll.model.AddPollOptionResponse
+import com.likeminds.likemindsfeed.poll.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.util.RequestUtils
@@ -54,6 +54,42 @@ class PollClient @Inject constructor() : BaseClient() {
         }
         if (request.text.isEmpty()) {
             RequestUtils.throwException("poll option text")
+        }
+    }
+
+    suspend fun submitVote(submitVoteRequest: SubmitVoteRequest): LMResponse<Nothing> {
+        //validates the client request
+        RequestUtils.validate()
+        validateSubmitVoteRequest(submitVoteRequest)
+
+        val request = _SubmitVoteRequest_.Builder()
+            .pollId(submitVoteRequest.pollId)
+            .votes(submitVoteRequest.votes)
+            .build()
+
+        return when (val response = pollApi.submitVote(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+
+            is NetworkResponse.Success -> {
+                LMResponse(
+                    success = true
+                )
+            }
+        }
+    }
+
+    private fun validateSubmitVoteRequest(submitVoteRequest: SubmitVoteRequest) {
+        if (submitVoteRequest.pollId.isEmpty()) {
+            RequestUtils.throwException("poll id")
+        }
+
+        if (submitVoteRequest.votes.isEmpty()) {
+            RequestUtils.throwException("options ids")
         }
     }
 }

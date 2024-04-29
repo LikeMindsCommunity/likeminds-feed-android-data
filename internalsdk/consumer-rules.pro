@@ -4,6 +4,7 @@
 -keep class com.likeminds.internalsdk.helper.model.** { *; }
 -keep class com.likeminds.internalsdk.moderation.model.** { *; }
 -keep class com.likeminds.internalsdk.notificationfeed.model.** { *; }
+-keep class com.likeminds.internalsdk.poll.model.** { *; }
 -keep class com.likeminds.internalsdk.post.model.**{ *; }
 -keep class com.likeminds.internalsdk.sdk.model.** { *; }
 -keep class com.likeminds.internalsdk.topic.model.** { *; }
