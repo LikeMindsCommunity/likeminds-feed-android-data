@@ -12,6 +12,7 @@ import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.*
 import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
 import com.likeminds.likemindsfeed.notificationfeed.model.*
+import com.likeminds.likemindsfeed.poll.PollClient
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -55,6 +56,9 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var configurationClient: ConfigurationClient
+
+    @Inject
+    lateinit var pollClient: PollClient
 
     @Keep
     class Builder(val application: Application) {
