@@ -6,7 +6,7 @@ class Attachment private constructor(
 ) {
     class Builder {
 
-        private var attachmentType: AttachmentType = AttachmentType.IMAGE
+        private var attachmentType: AttachmentType = AttachmentType.NONE
         private var attachmentMeta: AttachmentMeta = AttachmentMeta.Builder().build()
 
         fun attachmentType(attachmentType: AttachmentType) =

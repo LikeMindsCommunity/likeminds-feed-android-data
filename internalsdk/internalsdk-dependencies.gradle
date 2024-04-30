@@ -53,6 +53,6 @@ dependencies {
     androidTestImplementation deps.testing.espresso
 
     //chucker
-    debugImplementation deps.chucker.main
-    releaseImplementation deps.chucker.no_op
+//    debugImplementation deps.chucker.main
+//    releaseImplementation deps.chucker.no_op
 }
