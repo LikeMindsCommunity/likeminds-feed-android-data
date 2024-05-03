@@ -142,6 +142,8 @@ class PostClient @Inject constructor() : BaseClient() {
                     }
                 }
             }
+
+            else -> {}
         }
     }
 

@@ -754,8 +754,12 @@ object ModelConverter {
 
     // converts internal LinkOGTags model to client model
     private fun convertOGTags(
-        _ogTags_: _LinkOGTags_
-    ): LinkOGTags {
+        _ogTags_: _LinkOGTags_?
+    ): LinkOGTags? {
+        if (_ogTags_ == null) {
+            return null
+        }
+
         return LinkOGTags.Builder()
             .title(_ogTags_.title)
             .image(_ogTags_.image)
@@ -1095,8 +1099,12 @@ object ModelConverter {
 
     // converts client LinkOGTags model to internal model
     private fun convertOGTags(
-        ogTags: LinkOGTags
-    ): _LinkOGTags_ {
+        ogTags: LinkOGTags?
+    ): _LinkOGTags_? {
+        if (ogTags == null) {
+            return null
+        }
+
         return _LinkOGTags_.Builder()
             .title(ogTags.title)
             .image(ogTags.image)
