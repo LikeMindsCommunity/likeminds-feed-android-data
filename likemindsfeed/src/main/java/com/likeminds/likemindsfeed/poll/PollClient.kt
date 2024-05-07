@@ -128,6 +128,8 @@ class PollClient @Inject constructor() : BaseClient() {
         val request = _GetPollVotesRequest_.Builder()
             .pollId(getPollVotesRequest.pollId)
             .votes(getPollVotesRequest.votes)
+            .page(getPollVotesRequest.page)
+            .pageSize(getPollVotesRequest.pageSize)
             .build()
 
         return when (val response = pollApi.getPollVotes(request)) {

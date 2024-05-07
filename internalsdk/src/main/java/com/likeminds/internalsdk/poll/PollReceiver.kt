@@ -30,6 +30,8 @@ class PollReceiver @Inject constructor(
         request: _GetPollVotesRequest_
     ): NetworkResponse<APIResponse<_GetPollVotesResponse_>> {
         val queries = HashMap<String, Any>()
+        queries["page"] = request.page
+        queries["page_size"] = request.pageSize
         queries["votes"] = request.votes
         return pollNetworkApi.getPollVotes(request.pollId, queries)
     }
