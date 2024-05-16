@@ -173,6 +173,7 @@ object ModelConverter {
             .uuid(option.uuid)
             .percentage(option.percentage)
             .voteCount(option.voteCount)
+            .text(option.text)
             .build()
     }
 
