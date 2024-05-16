@@ -21,6 +21,14 @@ object PollUtil {
         }
     }
 
+    fun String.getPollType(): PollType {
+        return when (this) {
+            PollType.INSTANT.value -> PollType.INSTANT
+            PollType.DEFERRED.value -> PollType.DEFERRED
+            else -> PollType.INSTANT
+        }
+    }
+
     fun PollType.getPollTypeValue(): String {
         return when (this) {
             PollType.INSTANT -> PollType.INSTANT.value
