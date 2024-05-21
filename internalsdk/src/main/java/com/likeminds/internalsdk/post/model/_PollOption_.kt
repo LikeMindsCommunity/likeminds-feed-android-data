@@ -11,7 +11,7 @@ class _PollOption_ private constructor(
     val isSelected: Boolean,
     @SerializedName("percentage")
     val percentage: Float,
-    @SerializedName("text")
+    @SerializedName("uuid")
     val uuid: String,
     @SerializedName("vote_count")
     val voteCount: Int
