@@ -4,6 +4,8 @@ import com.likeminds.likemindsfeed.post.model.PollMultiSelectState
 import com.likeminds.likemindsfeed.post.model.PollType
 
 object PollUtil {
+
+    //return [PollMultiSelectState] enum based on its value
     fun String.getPollMultiSelectState(): PollMultiSelectState {
         return when (this) {
             PollMultiSelectState.EXACTLY.value -> PollMultiSelectState.EXACTLY
@@ -13,6 +15,7 @@ object PollUtil {
         }
     }
 
+    //return value of [PollMultiSelectState] enum
     fun PollMultiSelectState.getPollMultiSelectStateValue(): String {
         return when (this) {
             PollMultiSelectState.EXACTLY -> PollMultiSelectState.EXACTLY.value
@@ -21,6 +24,7 @@ object PollUtil {
         }
     }
 
+    //return [PollType] enum based on its value
     fun String.getPollType(): PollType {
         return when (this) {
             PollType.INSTANT.value -> PollType.INSTANT
@@ -29,6 +33,7 @@ object PollUtil {
         }
     }
 
+    //return value of [PollType] enum
     fun PollType.getPollTypeValue(): String {
         return when (this) {
             PollType.INSTANT -> PollType.INSTANT.value
