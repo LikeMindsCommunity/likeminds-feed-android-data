@@ -79,9 +79,9 @@ room.ktx = "androidx.room:room-ktx:$versions.room"
 room.compiler = "androidx.room:room-compiler:$versions.room"
 deps.room = room
 
-def chucker = [:]
-chucker.main = "com.github.chuckerteam.chucker:library:$versions.chucker"
-chucker.no_op = "com.github.chuckerteam.chucker:library-no-op:$versions.chucker"
-deps.chucker = chucker
+//def chucker = [:]
+//chucker.main = "com.github.chuckerteam.chucker:library:$versions.chucker"
+//chucker.no_op = "com.github.chuckerteam.chucker:library-no-op:$versions.chucker"
+//deps.chucker = chucker
 
 ext.deps = deps

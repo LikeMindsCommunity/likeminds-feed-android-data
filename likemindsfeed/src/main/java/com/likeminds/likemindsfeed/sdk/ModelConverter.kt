@@ -1076,6 +1076,13 @@ object ModelConverter {
     private fun createAttachmentMeta(
         attachmentMeta: AttachmentMeta
     ): _AttachmentMeta_ {
+
+        val updatedEntityId = if (attachmentMeta.entityId.isNullOrEmpty()) {
+            null
+        } else {
+            attachmentMeta.entityId
+        }
+
         return _AttachmentMeta_.Builder()
             .name(attachmentMeta.name)
             .url(attachmentMeta.url)
@@ -1088,7 +1095,7 @@ object ModelConverter {
             .title(attachmentMeta.title)
             .body(attachmentMeta.body)
             .thumbnailUrl(attachmentMeta.thumbnailUrl)
-            .entityId(attachmentMeta.entityId)
+            .entityId(updatedEntityId)
             .expiryTime(attachmentMeta.expiryTime)
             .pollOptions(attachmentMeta.pollOptions)
             .multiSelectState(attachmentMeta.multiSelectState?.getPollMultiSelectStateValue())
