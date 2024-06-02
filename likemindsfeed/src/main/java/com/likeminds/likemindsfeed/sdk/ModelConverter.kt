@@ -1088,6 +1088,7 @@ object ModelConverter {
             .title(attachmentMeta.title)
             .body(attachmentMeta.body)
             .thumbnailUrl(attachmentMeta.thumbnailUrl)
+            .entityId(attachmentMeta.entityId)
             .expiryTime(attachmentMeta.expiryTime)
             .pollOptions(attachmentMeta.pollOptions)
             .multiSelectState(attachmentMeta.multiSelectState?.getPollMultiSelectStateValue())
