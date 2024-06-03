@@ -12,6 +12,8 @@ import com.likeminds.likemindsfeed.moderation.ModerationClient
 import com.likeminds.likemindsfeed.moderation.model.*
 import com.likeminds.likemindsfeed.notificationfeed.NotificationFeedClient
 import com.likeminds.likemindsfeed.notificationfeed.model.*
+import com.likeminds.likemindsfeed.poll.PollClient
+import com.likeminds.likemindsfeed.poll.model.*
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
@@ -55,6 +57,9 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var configurationClient: ConfigurationClient
+
+    @Inject
+    lateinit var pollClient: PollClient
 
     @Keep
     class Builder(val application: Application) {
@@ -255,5 +260,20 @@ class LMFeedClient private constructor() {
     //Exposed function to get community configuration using type
     suspend fun getCommunityConfiguration(request: GetCommunityConfigurationRequest): LMResponse<GetCommunityConfigurationResponse> {
         return configurationClient.getCommunityConfiguration(request)
+    }
+
+    //Exposed function to add poll option in a poll
+    suspend fun addPollOption(addPollOptionRequest: AddPollOptionRequest): LMResponse<AddPollOptionResponse> {
+        return pollClient.addPollOption(addPollOptionRequest)
+    }
+
+    //Exposed function to submit vote to a poll
+    suspend fun submitVote(submitVoteRequest: SubmitVoteRequest): LMResponse<Nothing> {
+        return pollClient.submitVote(submitVoteRequest)
+    }
+
+    //Exposed function to get result of the poll
+    suspend fun getPollVotes(getPollVotesRequest: GetPollVotesRequest): LMResponse<GetPollVotesResponse> {
+        return pollClient.getPollVotes(getPollVotesRequest)
     }
 }

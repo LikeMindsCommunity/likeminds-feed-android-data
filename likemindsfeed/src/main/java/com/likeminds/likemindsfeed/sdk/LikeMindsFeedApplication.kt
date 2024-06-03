@@ -13,6 +13,7 @@ import com.likeminds.likemindsfeed.di.helper.HelperSubComponent
 import com.likeminds.likemindsfeed.di.initiateUser.InitiateUserSubComponent
 import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.notificationfeed.NotificationFeedSubComponent
+import com.likeminds.likemindsfeed.di.poll.PollSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
 import com.likeminds.likemindsfeed.di.topic.TopicSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
@@ -37,6 +38,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     private var notificationFeedComponent: NotificationFeedSubComponent? = null
     private var topicSubComponent: TopicSubComponent? = null
     private var configurationSubComponent: ConfigurationSubComponent? = null
+    private var pollSubComponent: PollSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -133,6 +135,14 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
         }
 
         return configurationSubComponent
+    }
+
+    fun pollComponent(): PollSubComponent? {
+        if (pollSubComponent == null) {
+            pollSubComponent = likeMindsFeedComponent?.pollComponent()?.create()
+        }
+
+        return pollSubComponent
     }
 
     override fun login() {

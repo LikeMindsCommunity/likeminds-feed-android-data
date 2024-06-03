@@ -10,13 +10,14 @@ import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
 import com.likeminds.internalsdk.moderation.model._ReportTag_
 import com.likeminds.internalsdk.notificationfeed.model.*
+import com.likeminds.internalsdk.poll.model.*
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
 import com.likeminds.internalsdk.topic.model._Topic_
 import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
-import com.likeminds.internalsdk.widgets.model._WidgetMetaData_
+import com.likeminds.internalsdk.widgets.model._LMMeta_
 import com.likeminds.internalsdk.widgets.model._Widget_
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
@@ -27,14 +28,19 @@ import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.*
+import com.likeminds.likemindsfeed.poll.model.*
+import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollMultiSelectStateValue
+import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollTypeValue
 import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.user.model.*
+import com.likeminds.likemindsfeed.widgets.model.LMMeta
 import com.likeminds.likemindsfeed.widgets.model.Widget
-import com.likeminds.likemindsfeed.widgets.model.WidgetMetaData
 import org.json.JSONObject
 
 object ModelConverter {
@@ -96,6 +102,7 @@ object ModelConverter {
             .build()
     }
 
+
     // converts the internal User model hashmap to client User Hashmap
     private fun convertUsersMap(
         _usersMap_: Map<String, _User_>
@@ -131,27 +138,42 @@ object ModelConverter {
         return Widget.Builder()
             .id(_widget_.id)
             .createdAt(_widget_.createdAt)
-            .metaData(convertWidgetMetaData(_widget_.metaData))
+            .metadata(JSONObject(_widget_.metadata.toString()))
             .parentEntityId(_widget_.parentEntityId)
             .parentEntityType(_widget_.parentEntityType)
             .updatedAt(_widget_.updatedAt)
+            .lmMeta(convertLMMeta(_widget_.lmMeta))
             .build()
     }
 
-    // converts the internal MetaData model to client MetaData
-    private fun convertWidgetMetaData(
-        _widgetMetaData_: _WidgetMetaData_?
-    ): WidgetMetaData? {
-        if (_widgetMetaData_ == null) {
-            return null
+    //converts the internal LMMeta model to client LMMeta
+    private fun convertLMMeta(
+        _lmMeta_: _LMMeta_?
+    ): LMMeta? {
+        if (_lmMeta_ == null) return null
+        return LMMeta.Builder()
+            .pollAnswerText(_lmMeta_.pollAnswerText)
+            .toShowResults(_lmMeta_.toShowResults)
+            .options(convertPollOptions(_lmMeta_.options))
+            .build()
+    }
+
+    //converts the all internal PollOptions to client PollOptions
+    private fun convertPollOptions(options: List<_PollOption_>?): List<PollOption>? {
+        return options?.map {
+            convertPollOption(it)
         }
-        return WidgetMetaData.Builder()
-            .body(_widgetMetaData_.body)
-            .title(_widgetMetaData_.title)
-            .coverImageUrl(_widgetMetaData_.coverImageUrl)
-            .name(_widgetMetaData_.name)
-            .size(_widgetMetaData_.size)
-            .url(_widgetMetaData_.url)
+    }
+
+    //converts the internal PollOption model to client PollOption
+    private fun convertPollOption(option: _PollOption_): PollOption {
+        return PollOption.Builder()
+            .id(option.id)
+            .isSelected(option.isSelected)
+            .uuid(option.uuid)
+            .percentage(option.percentage)
+            .voteCount(option.voteCount)
+            .text(option.text)
             .build()
     }
 
@@ -706,7 +728,7 @@ object ModelConverter {
         _attachment_: _Attachment_
     ): Attachment {
         return Attachment.Builder()
-            .attachmentType(_attachment_.attachmentType)
+            .attachmentType(_attachment_.attachmentType.getAttachmentType())
             .attachmentMeta(convertAttachmentMeta(_attachment_.attachmentMeta))
             .build()
     }
@@ -733,8 +755,12 @@ object ModelConverter {
 
     // converts internal LinkOGTags model to client model
     private fun convertOGTags(
-        _ogTags_: _LinkOGTags_
-    ): LinkOGTags {
+        _ogTags_: _LinkOGTags_?
+    ): LinkOGTags? {
+        if (_ogTags_ == null) {
+            return null
+        }
+
         return LinkOGTags.Builder()
             .title(_ogTags_.title)
             .image(_ogTags_.image)
@@ -978,6 +1004,57 @@ object ModelConverter {
             .build()
     }
 
+    // converts APIResponse<_AddPollOptionResponse_> to LMResponse<AddPollOptionResponse>
+    fun convertAddPollOptionAPIResponse(apiResponse: APIResponse<_AddPollOptionResponse_>): LMResponse<AddPollOptionResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertAddPollOptionResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal _AddPollOptionResponse_ to exposed AddPollOptionResponse
+    private fun convertAddPollOptionResponse(_addPollOptionResponse_: _AddPollOptionResponse_?): AddPollOptionResponse? {
+        if (_addPollOptionResponse_ == null) return null
+        return AddPollOptionResponse(
+            convertWidget(_addPollOptionResponse_.widget_)
+        )
+    }
+
+    // converts APIResponse<_GetPollVotesResponse_> to LMResponse<GetPollVotesResponse>
+    fun convertGetPollVotesAPIResponse(apiResponse: APIResponse<_GetPollVotesResponse_>): LMResponse<GetPollVotesResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertGetPollVotesResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal _GetPollVotesResponse_ to exposed GetPollVotesResponse
+    private fun convertGetPollVotesResponse(data: _GetPollVotesResponse_?): GetPollVotesResponse? {
+        if (data == null) return null
+        return GetPollVotesResponse(
+            convertPollVotes(data.votes),
+            convertUsersMap(data.users),
+            convertWidgetsMap(data.widgets)
+        )
+    }
+
+    // converts list of internal _PollVote_ to list of exposed PollVote
+    private fun convertPollVotes(votes: List<_PollVote_>): List<PollVote> {
+        return votes.map { vote ->
+            convertPollVote(vote)
+        }
+    }
+
+    // converts internal _PollVote_ to exposed PollVote
+    private fun convertPollVote(vote: _PollVote_): PollVote {
+        return PollVote.Builder()
+            .id(vote.id)
+            .userIds(vote.userIds)
+            .build()
+    }
+
     /**--------------------------------
      * Client Model -> Internal Model
     --------------------------------*/
@@ -989,7 +1066,7 @@ object ModelConverter {
         if (attachments == null) return null
         return attachments.map { attachment ->
             _Attachment_.Builder()
-                .attachmentType(attachment.attachmentType)
+                .attachmentType(attachment.attachmentType.getAttachmentValue())
                 .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta))
                 .build()
         }
@@ -999,6 +1076,13 @@ object ModelConverter {
     private fun createAttachmentMeta(
         attachmentMeta: AttachmentMeta
     ): _AttachmentMeta_ {
+
+        val updatedEntityId = if (attachmentMeta.entityId.isNullOrEmpty()) {
+            null
+        } else {
+            attachmentMeta.entityId
+        }
+
         return _AttachmentMeta_.Builder()
             .name(attachmentMeta.name)
             .url(attachmentMeta.url)
@@ -1011,13 +1095,25 @@ object ModelConverter {
             .title(attachmentMeta.title)
             .body(attachmentMeta.body)
             .thumbnailUrl(attachmentMeta.thumbnailUrl)
+            .entityId(updatedEntityId)
+            .expiryTime(attachmentMeta.expiryTime)
+            .pollOptions(attachmentMeta.pollOptions)
+            .multiSelectState(attachmentMeta.multiSelectState?.getPollMultiSelectStateValue())
+            .pollType(attachmentMeta.pollType?.getPollTypeValue())
+            .multiSelectNumber(attachmentMeta.multiSelectNumber)
+            .isAnonymous(attachmentMeta.isAnonymous)
+            .allowAddOption(attachmentMeta.allowAddOption)
             .build()
     }
 
     // converts client LinkOGTags model to internal model
     private fun convertOGTags(
-        ogTags: LinkOGTags
-    ): _LinkOGTags_ {
+        ogTags: LinkOGTags?
+    ): _LinkOGTags_? {
+        if (ogTags == null) {
+            return null
+        }
+
         return _LinkOGTags_.Builder()
             .title(ogTags.title)
             .image(ogTags.image)
@@ -1164,7 +1260,7 @@ object ModelConverter {
         return AttachmentEntity.Builder()
             .temporaryId(postTemporaryId)
             .postId(postTemporaryId)
-            .attachmentType(attachment.attachmentType)
+            .attachmentType(attachment.attachmentType.getAttachmentValue())
             .attachmentMeta(createAttachmentMetaEntity(attachment.attachmentMeta))
             .build()
     }
@@ -1362,7 +1458,7 @@ object ModelConverter {
      * */
     private fun makeAttachment(attachment: AttachmentEntity): Attachment {
         return Attachment.Builder()
-            .attachmentType(attachment.attachmentType)
+            .attachmentType(attachment.attachmentType.getAttachmentType())
             .attachmentMeta(makeAttachmentMeta(attachment.attachmentMeta))
             .build()
     }
