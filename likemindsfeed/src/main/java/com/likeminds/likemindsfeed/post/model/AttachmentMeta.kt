@@ -9,17 +9,27 @@ class AttachmentMeta private constructor(
     val size: Long?,
     val duration: Int?,
     val pageCount: Int?,
-    val ogTags: LinkOGTags,
+    val ogTags: LinkOGTags?,
     val coverImageUrl: String?,
     val title: String?,
     val body: String?,
     val entityId: String?,
+
+    //upload related
     val thumbnailUrl: String?,
     val awsFolderPath: String?,
     val localFilePath: String?,
     val localUri: Uri?,
     val thumbnailAWSFolderPath: String?,
     val thumbnailLocalFilePath: String?,
+    //poll related
+    val expiryTime: Long?,
+    val pollOptions: List<String>?,
+    val multiSelectState: PollMultiSelectState?,
+    val pollType: PollType?,
+    val multiSelectNumber: Int?,
+    val isAnonymous: Boolean?,
+    val allowAddOption: Boolean?
 ) {
     class Builder {
 
@@ -29,7 +39,7 @@ class AttachmentMeta private constructor(
         private var size: Long? = null
         private var duration: Int? = null
         private var pageCount: Int? = null
-        private var ogTags: LinkOGTags = LinkOGTags.Builder().build()
+        private var ogTags: LinkOGTags? = null
         private var coverImageUrl: String? = null
         private var title: String? = null
         private var body: String? = null
@@ -40,6 +50,13 @@ class AttachmentMeta private constructor(
         private var localUri: Uri? = null
         private var thumbnailAWSFolderPath: String? = null
         private var thumbnailLocalFilePath: String? = null
+        private var expiryTime: Long? = null
+        private var pollOptions: List<String>? = null
+        private var multiSelectState: PollMultiSelectState? = null
+        private var pollType: PollType? = null
+        private var multiSelectNumber: Int? = null
+        private var isAnonymous: Boolean? = null
+        private var allowAddOption: Boolean? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -47,7 +64,7 @@ class AttachmentMeta private constructor(
         fun size(size: Long?) = apply { this.size = size }
         fun duration(duration: Int?) = apply { this.duration = duration }
         fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
-        fun ogTags(ogTags: LinkOGTags) = apply { this.ogTags = ogTags }
+        fun ogTags(ogTags: LinkOGTags?) = apply { this.ogTags = ogTags }
         fun coverImageUrl(coverImageUrl: String?) = apply { this.coverImageUrl = coverImageUrl }
         fun title(title: String?) = apply { this.title = title }
         fun body(body: String?) = apply { this.body = body }
@@ -61,6 +78,19 @@ class AttachmentMeta private constructor(
 
         fun thumbnailLocalFilePath(thumbnailLocalFilePath: String?) =
             apply { this.thumbnailLocalFilePath = thumbnailLocalFilePath }
+
+        fun expiryTime(expiryTime: Long?) = apply { this.expiryTime = expiryTime }
+        fun pollOptions(pollOptions: List<String>?) = apply { this.pollOptions = pollOptions }
+        fun multiSelectState(multiSelectState: PollMultiSelectState?) =
+            apply { this.multiSelectState = multiSelectState }
+
+        fun pollType(pollType: PollType?) = apply { this.pollType = pollType }
+        fun multiSelectNumber(multiSelectNo: Int?) =
+            apply { this.multiSelectNumber = multiSelectNo }
+
+        fun isAnonymous(isAnonymous: Boolean?) = apply { this.isAnonymous = isAnonymous }
+        fun allowAddOption(allowAddOption: Boolean?) =
+            apply { this.allowAddOption = allowAddOption }
 
         fun build() = AttachmentMeta(
             name,
@@ -79,7 +109,14 @@ class AttachmentMeta private constructor(
             localFilePath,
             localUri,
             thumbnailAWSFolderPath,
-            thumbnailLocalFilePath
+            thumbnailLocalFilePath,
+            expiryTime,
+            pollOptions,
+            multiSelectState,
+            pollType,
+            multiSelectNumber,
+            isAnonymous,
+            allowAddOption
         )
     }
 
@@ -99,5 +136,14 @@ class AttachmentMeta private constructor(
             .awsFolderPath(awsFolderPath)
             .localFilePath(localFilePath)
             .localUri(localUri)
+            .thumbnailAWSFolderPath(thumbnailAWSFolderPath)
+            .thumbnailLocalFilePath(thumbnailLocalFilePath)
+            .expiryTime(expiryTime)
+            .pollOptions(pollOptions)
+            .multiSelectState(multiSelectState)
+            .pollType(pollType)
+            .multiSelectNumber(multiSelectNumber)
+            .isAnonymous(isAnonymous)
+            .allowAddOption(allowAddOption)
     }
 }

@@ -10,9 +10,17 @@ class GetPostRequest private constructor(
         private var page: Int = 1
         private var pageSize: Int = 10
 
-        fun postId(postId: String) = apply { this.postId = postId }
-        fun page(page: Int) = apply { this.page = page }
-        fun pageSize(pageSize: Int) = apply { this.pageSize = pageSize }
+        fun postId(postId: String) = apply {
+            this.postId = postId
+        }
+
+        fun page(page: Int) = apply {
+            this.page = page
+        }
+
+        fun pageSize(pageSize: Int) = apply {
+            this.pageSize = pageSize
+        }
 
         fun build() = GetPostRequest(
             postId,
