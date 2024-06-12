@@ -10,5 +10,4 @@ data class ValidateUserResponse(
     val community: Community? = null, //community data
     val appAccess: Boolean?,
     val logoutResponse: LMResponse<Nothing>? = null, //logout data,
-    val communitySettings:List<CommunitySetting>? = null // community settings data
 )

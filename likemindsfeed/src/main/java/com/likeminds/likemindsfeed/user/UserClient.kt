@@ -104,7 +104,7 @@ class UserClient @Inject constructor() : BaseClient() {
 
                     Log.d("PUI", "body: ${body.data}")
                     //return the exposed
-                    ModelConverter.convertInitiateUserResponse(body)
+                    ModelConverter.convertInitiateUserAPIResponse(body)
                 }
             }
         }
@@ -220,7 +220,7 @@ class UserClient @Inject constructor() : BaseClient() {
                     updateUserWithRightsInDb(memberStateResponse)
                 }
 
-                ModelConverter.convertMemberStateResponse(body)
+                ModelConverter.convertMemberStateAPIResponse(body)
             }
         }
     }
@@ -265,6 +265,70 @@ class UserClient @Inject constructor() : BaseClient() {
             )
         } else {
             ModelConverter.convertGetLoggedInUserWithRightsResponse(userWithRights)
+        }
+    }
+
+    suspend fun validateUser(validateUserRequest: ValidateUserRequest): LMResponse<ValidateUserResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateValidateUserRequest(validateUserRequest)
+
+        val request = _ValidateUserRequest_.Builder()
+            .accessToken(validateUserRequest.accessToken)
+            .refreshToken(validateUserRequest.refreshToken)
+            .build()
+
+        return when (val response = sdkApi.validateUser(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage,
+                    null
+                )
+            }
+
+            is NetworkResponse.Success -> {
+                val body = response.body
+                val accessToken = validateUserRequest.accessToken
+                val refreshToken = validateUserRequest.refreshToken
+
+                val feedTokenManager = FeedTokenManager.getInstance()
+                feedTokenManager.updateTokens(accessToken, refreshToken)
+
+                if (body.data?.appAccess == false) {
+                    // logout the user if app access is false
+                    val logoutRequest = LogoutRequest.Builder()
+                        .deviceId(validateUserRequest.deviceId)
+                        .build()
+
+                    val logoutResponse = logout(logoutRequest)
+                    LMResponse(
+                        success = false,
+                        body.errorMessage,
+                        ValidateUserResponse(
+                            appAccess = false,
+                            logoutResponse = logoutResponse
+                        )
+                    )
+                } else {
+                    //update db
+                    body.data?.user?.let { user ->
+                        insertUser(user)
+                    }
+
+                    ModelConverter.convertValidateUserAPIResponse(body)
+                }
+            }
+        }
+    }
+
+    private fun validateValidateUserRequest(validateUserRequest: ValidateUserRequest) {
+        if (validateUserRequest.accessToken.isEmpty()) {
+            RequestUtils.throwException("accessToken")
+        }
+
+        if (validateUserRequest.refreshToken.isEmpty()) {
+            RequestUtils.throwException("refreshToken")
         }
     }
 }

@@ -93,6 +93,10 @@ class LMFeedClient private constructor() {
         return userClient.initiateUser(initiateUserRequest)
     }
 
+    suspend fun validateUser(validateUserRequest: ValidateUserRequest): LMResponse<ValidateUserResponse> {
+        return userClient.validateUser(validateUserRequest)
+    }
+
     // Exposed function to process logout request
     suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
         return userClient.logout(logoutRequest)

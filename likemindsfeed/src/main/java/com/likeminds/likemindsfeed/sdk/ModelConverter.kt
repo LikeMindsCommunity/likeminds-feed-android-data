@@ -50,7 +50,7 @@ object ModelConverter {
     --------------------------------*/
 
     // converts api InitiateUserResponse model to LM InitiateUserResponse model
-    fun convertInitiateUserResponse(
+    fun convertInitiateUserAPIResponse(
         apiResponse: APIResponse<_InitiateUserResponse_>
     ): LMResponse<InitiateUserResponse> {
         return LMResponse(
@@ -225,7 +225,7 @@ object ModelConverter {
     }
 
     // converts api MemberStateResponse model to LM MemberStateResponse model
-    fun convertMemberStateResponse(
+    fun convertMemberStateAPIResponse(
         apiResponse: APIResponse<_GetMemberStateResponse_>
     ): LMResponse<GetMemberStateResponse> {
         return LMResponse(
@@ -1071,6 +1071,23 @@ object ModelConverter {
             .id(vote.id)
             .userIds(vote.userIds)
             .build()
+    }
+
+    fun convertValidateUserAPIResponse(body: APIResponse<_ValidateUserResponse_>): LMResponse<ValidateUserResponse> {
+        return LMResponse(
+            success = true,
+            errorMessage = null,
+            data = convertValidateUserResponse(body.data)
+        )
+    }
+
+    private fun convertValidateUserResponse(_validateUserResponse_: _ValidateUserResponse_?): ValidateUserResponse? {
+        if (_validateUserResponse_ == null) return null
+        return ValidateUserResponse(
+            user = convertUser(_validateUserResponse_.user),
+            community = convertCommunity(_validateUserResponse_.community),
+            appAccess = _validateUserResponse_.appAccess
+        )
     }
 
     /**--------------------------------
