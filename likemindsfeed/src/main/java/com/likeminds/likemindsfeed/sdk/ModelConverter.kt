@@ -66,11 +66,11 @@ object ModelConverter {
     ): InitiateUserResponse? {
         if (_initiateUserResponse_ == null) return null
         return InitiateUserResponse(
-            _initiateUserResponse_.accessToken,
-            _initiateUserResponse_.refreshToken,
-            convertUser(_initiateUserResponse_.user),
-            convertCommunity(_initiateUserResponse_.community),
-            _initiateUserResponse_.appAccess
+            accessToken = _initiateUserResponse_.accessToken,
+            refreshToken = _initiateUserResponse_.refreshToken,
+            user = convertUser(_initiateUserResponse_.user),
+            community = convertCommunity(_initiateUserResponse_.community),
+            appAccess = _initiateUserResponse_.appAccess
         )
     }
 
@@ -188,7 +188,26 @@ object ModelConverter {
             _community_.imageUrl,
             _community_.membersCount,
             _community_.updatedAt,
+            communitySettings = convertCommunitySettings(_community_.communitySettings)
         )
+    }
+
+    private fun convertCommunitySettings(
+        _communitySettings_: List<_CommunitySetting_>
+    ): List<CommunitySetting> {
+        return _communitySettings_.map {
+            convertCommunitySetting(it)
+        }
+    }
+
+    private fun convertCommunitySetting(_communitySetting_: _CommunitySetting_): CommunitySetting {
+        return CommunitySetting.Builder()
+            .enabled(_communitySetting_.enabled)
+            .enabledBy(_communitySetting_.enabledBy)
+            .settingType(_communitySetting_.settingType)
+            .settingTitle(_communitySetting_.settingTitle)
+            .settingSubTitle(_communitySetting_.settingSubTitle)
+            .build()
     }
 
     // converts internal SDKClientInfo model to client model
@@ -229,7 +248,6 @@ object ModelConverter {
             member.customTitle,
             member.imageUrl,
             member.isGuest,
-            member.isOwner,
             member.name,
             member.organisationName,
             convertManagerRights(_memberStateResponse_.managerRights),

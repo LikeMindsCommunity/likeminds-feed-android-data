@@ -5,4 +5,10 @@ import androidx.annotation.Keep
 @Keep
 interface LMCallback {
     fun login() {}
+
+    fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {}
+
+    fun onRefreshTokenExpired(): Pair<String?, String?> {
+        return Pair(null, null)
+    }
 }

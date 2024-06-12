@@ -4,6 +4,7 @@ import com.likeminds.internalsdk.sdk.model._InitiateUserRequest_
 import com.likeminds.internalsdk.sdk.model._InitiateUserResponse_
 import com.likeminds.internalsdk.sdk.model._LogoutRequest_
 import com.likeminds.internalsdk.sdk.model._GetMemberStateResponse_
+import com.likeminds.internalsdk.sdk.model._ValidateUserResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import retrofit2.http.Body
@@ -18,6 +19,11 @@ interface SDKNetworkApi {
         @Header("x-api-key") apiKey: String,
         @Body request: _InitiateUserRequest_,
     ): NetworkResponse<APIResponse<_InitiateUserResponse_>>
+
+    @GET("sdk/initiate")
+    suspend fun validateUser(
+        @Header("Authorization") accessToken: String,
+    ): NetworkResponse<APIResponse<_ValidateUserResponse_>>
 
     @POST("user/logout")
     suspend fun logout(

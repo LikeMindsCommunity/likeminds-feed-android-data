@@ -2,6 +2,7 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val initiateResponse = client.initiateUser(
                 InitiateUserRequest.Builder()
-                    .apiKey("69edd43f-4a5e-4077-9c50-2b7aa740acce")
+                    .apiKey("4f881a74-8d0b-4c73-9f60-3d2370216392")
                     .uuid("10003")
                     .deviceId("adadad")
                     .userName("Ishaan")

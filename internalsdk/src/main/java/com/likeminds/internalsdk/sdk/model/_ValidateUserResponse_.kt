@@ -2,17 +2,15 @@ package com.likeminds.internalsdk.sdk.model
 
 import com.google.gson.annotations.SerializedName
 
-data class _InitiateUserResponse_(
+data class _ValidateUserResponse_(
     @SerializedName("community")
     val community: _Community_,
-    @SerializedName("access_token")
-    val accessToken: String,
-    @SerializedName("refresh_token")
-    val refreshToken: String,
     @SerializedName("user")
     val user: _User_,
     @SerializedName("app_access")
     val appAccess: Boolean,
     @SerializedName("has_answers")
-    val hasAnswers: Boolean?
+    val hasAnswers: Boolean?,
+    @SerializedName("community_settings")
+    val communitySettings: List<_CommunitySetting_>
 )

@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed.user
 
+import android.util.Log
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -100,6 +101,8 @@ class UserClient @Inject constructor() : BaseClient() {
                     body.data?.user?.let { user ->
                         insertUser(user)
                     }
+
+                    Log.d("PUI", "body: ${body.data}")
                     //return the exposed
                     ModelConverter.convertInitiateUserResponse(body)
                 }
@@ -133,6 +136,8 @@ class UserClient @Inject constructor() : BaseClient() {
         //db query
         userDao.insertUser(userEntity)
     }
+
+//    suspend fun validateUser():LMResponse<>
 
     /**
      * Converts client request model to internal model and calls the api
@@ -225,14 +230,13 @@ class UserClient @Inject constructor() : BaseClient() {
         //get response variables
         val uuid = memberStateResponse.member?.userUniqueId ?: return
         val state = memberStateResponse.state
-        val isOwner = memberStateResponse.member?.isOwner ?: return
 
         //get existing userEntity
         val userEntity = userDao.getUser(uuid)
 
         userEntity?.let { user ->
             //updated userEntity
-            val updatedUser = user.toBuilder().state(state).isOwner(isOwner).build()
+            val updatedUser = user.toBuilder().state(state).build()
 
             val memberRightsEntity = ModelConverter.createMemberRightsEntity(
                 uuid,
