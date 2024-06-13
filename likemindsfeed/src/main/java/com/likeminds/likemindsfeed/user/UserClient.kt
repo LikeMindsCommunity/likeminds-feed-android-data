@@ -1,5 +1,6 @@
 package com.likeminds.likemindsfeed.user
 
+import android.util.Log
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -255,11 +256,13 @@ class UserClient @Inject constructor() : BaseClient() {
         //query
         val userWithRights = userDao.getLoggedInUserWithRights()
         return if (userWithRights == null) {
+            Log.d("PUI", "failed")
             LMResponse(
                 success = false,
                 errorMessage = "Logged in user not found!"
             )
         } else {
+            Log.d("PUI", "success")
             ModelConverter.convertGetLoggedInUserWithRightsResponse(userWithRights)
         }
     }

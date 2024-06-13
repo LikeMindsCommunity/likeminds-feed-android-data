@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.net.Uri
+import android.util.Log
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
@@ -1339,9 +1340,14 @@ object ModelConverter {
      * @return [GetLoggedInUserWithRightsResponse]
      * */
     private fun convertUserWithRights(userWithRights: UserWithRights): GetLoggedInUserWithRightsResponse {
+        val user = makeUser(userWithRights.user)
+        val rights = makeUserRights(userWithRights.memberRights)
+
+        Log.d("PUI", "user:$user")
+
         return GetLoggedInUserWithRightsResponse(
-            makeUser(userWithRights.user),
-            makeUserRights(userWithRights.memberRights)
+            user,
+            rights
         )
     }
 
