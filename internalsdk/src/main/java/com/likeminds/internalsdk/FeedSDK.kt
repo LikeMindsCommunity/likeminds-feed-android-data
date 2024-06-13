@@ -7,9 +7,7 @@ import com.likeminds.internalsdk.comment.CommentApiImpl
 import com.likeminds.internalsdk.configuration.ConfigurationApi
 import com.likeminds.internalsdk.configuration.ConfigurationApiImpl
 import com.likeminds.internalsdk.db.LMFeedRoomDatabase
-import com.likeminds.internalsdk.db.dao.ConfigurationDao
-import com.likeminds.internalsdk.db.dao.PostWithAttachmentsDao
-import com.likeminds.internalsdk.db.dao.UserWithRightsDao
+import com.likeminds.internalsdk.db.dao.*
 import com.likeminds.internalsdk.di.*
 import com.likeminds.internalsdk.helper.HelperApi
 import com.likeminds.internalsdk.helper.HelperApiImpl
@@ -17,6 +15,8 @@ import com.likeminds.internalsdk.moderation.ModerationApi
 import com.likeminds.internalsdk.moderation.ModerationApiImpl
 import com.likeminds.internalsdk.notificationfeed.NotificationFeedApi
 import com.likeminds.internalsdk.notificationfeed.NotificationFeedApiImpl
+import com.likeminds.internalsdk.poll.PollApi
+import com.likeminds.internalsdk.poll.PollApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.*
@@ -78,6 +78,9 @@ class FeedSDK {
 
     @Inject
     lateinit var feedRoomDatabase: LMFeedRoomDatabase
+
+    @Inject
+    lateinit var pollApiImpl: PollApiImpl
 
     var lmInternalCallback: LMInternalCallback? = null
 
@@ -161,5 +164,9 @@ class FeedSDK {
 
     fun getDBInstance(): LMFeedRoomDatabase {
         return feedRoomDatabase
+    }
+
+    fun getPollApi(): PollApi {
+        return pollApiImpl
     }
 }
