@@ -1,7 +1,6 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.net.Uri
-import android.util.Log
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
