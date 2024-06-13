@@ -93,8 +93,4 @@ class User private constructor(
             .memberSince(memberSince)
             .questionAnswers(questionAnswers)
     }
-
-    override fun toString(): String {
-        return "User(id=$id, userUniqueId='$userUniqueId', uuid='$uuid', state=$state)"
-    }
 }

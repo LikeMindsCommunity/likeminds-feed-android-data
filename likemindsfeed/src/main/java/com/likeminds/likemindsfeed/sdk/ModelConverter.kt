@@ -1340,14 +1340,9 @@ object ModelConverter {
      * @return [GetLoggedInUserWithRightsResponse]
      * */
     private fun convertUserWithRights(userWithRights: UserWithRights): GetLoggedInUserWithRightsResponse {
-        val user = makeUser(userWithRights.user)
-        val rights = makeUserRights(userWithRights.memberRights)
-
-        Log.d("PUI", "user:$user")
-
         return GetLoggedInUserWithRightsResponse(
-            user,
-            rights
+            makeUser(userWithRights.user),
+            makeUserRights(userWithRights.memberRights)
         )
     }
 
