@@ -7,9 +7,9 @@ import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 class MemberRightsEntity(
     @ColumnInfo(name = "id")
     val id: Int,
-    @ColumnInfo(name = "is_locked")
+    @ColumnInfo(name = "is_locked", defaultValue = "0")
     val isLocked: Boolean?,
-    @ColumnInfo(name = "is_selected")
+    @ColumnInfo(name = "is_selected", defaultValue = "1")
     val isSelected: Boolean,
     @ColumnInfo(name = "state")
     val state: Int,
@@ -23,7 +23,7 @@ class MemberRightsEntity(
     class Builder {
         private var id: Int = 0
         private var isLocked: Boolean? = null
-        private var isSelected: Boolean = false
+        private var isSelected: Boolean = true
         private var state: Int = -1
         private var title: String = ""
         private var subtitle: String? = null
