@@ -9,7 +9,7 @@ object LMFeedDbMigration {
 
             //change in user table
             database.execSQL(
-                "DROP TABLE $LMFeedDbConstants.USER_TABLE"
+                "DROP TABLE ${LMFeedDbConstants.USER_TABLE}"
             )
 
             //create new user table
