@@ -3,7 +3,7 @@ package com.likeminds.likemindsfeed
 import androidx.annotation.Keep
 
 @Keep
-interface LMCallback {
+interface LMFeedSDKCallback {
     fun login() {}
 
     fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {}

@@ -63,12 +63,12 @@ class LMFeedClient private constructor() {
 
     @Keep
     class Builder(val application: Application) {
-        private var lmCallback: LMCallback? = null
-        fun lmCallback(lmCallback: LMCallback?) = apply { this.lmCallback = lmCallback }
+        private var lmFeedSDKCallback: LMFeedSDKCallback? = null
+        fun lmCallback(lmFeedSDKCallback: LMFeedSDKCallback?) = apply { this.lmFeedSDKCallback = lmFeedSDKCallback }
         fun build(): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
             val sdkApplication = LikeMindsFeedApplication.getInstance()
-            sdkApplication.initSDKApplication(application, lmCallback)
+            sdkApplication.initSDKApplication(application, lmFeedSDKCallback)
             sdkApplication.likeMindsFeedComponent?.inject(lmFeedClientInstance!!)
             return lmFeedClientInstance!!
         }
