@@ -3,7 +3,7 @@ package com.likeminds.internalsdk.db.utils
 object LMFeedDbConstants {
     //DB Configs
     const val DB_NAME = "lm_feed_db"
-    const val DB_VERSION = 1
+    const val DB_VERSION = 2
 
     //table names
     const val USER_TABLE = "user_table"
@@ -12,7 +12,6 @@ object LMFeedDbConstants {
     const val MEMBER_RIGHTS_TABLE = "member_rights_table"
     const val TOPIC_TABLE = "topic_table"
     const val CONFIGURATION_TABLE = "configuration_table"
-    const val SDK_META_TABLE = "sdk_meta_table"
 
     //query constants
     const val LATEST_POST_LIMIT = 1

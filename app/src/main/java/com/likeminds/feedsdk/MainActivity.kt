@@ -22,27 +22,36 @@ class MainActivity : AppCompatActivity() {
 
         val client = LMFeedClient.getInstance()
         CoroutineScope(Dispatchers.IO).launch {
-//            val initiateResponse = client.initiateUser(
-//                InitiateUserRequest.Builder()
-//                    .apiKey("4f881a74-8d0b-4c73-9f60-3d2370216392")
-//                    .uuid("10003")
-//                    .deviceId("adadad")
-//                    .userName("Ishaan")
-//                    .isGuest(false)
-//                    .build()
-//            )
-//
-            val accessToken =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiQkpRMWZ6UnJqd2NFRk9hd1JVR3p3TWVHd09uOTRuVXpyTE9KdXRCTnh3Yjd2RUhQUC9HS01RYVdYalA0Z2ZBTGtRYnlOemFJR1NyK0xidXFPUVJnNjRVWlNXWHpYVUxmbUJwejFqMk5HTmFGREIxYlNFTFpHNC9UaGNNcmdyTFp4STRlNEVoL1JhcXM4eXRNNWprcWhKTUZ4cjZWS29CZVcvM25aYnFlelpBaWlVNk4xWU8vZHNaTURibU9nY3p2eHNGZUtza2lIdWRKeFF1QTFzcXpVLyt2WUNLMW9keWM2dnhvUytkbVd4SEZNeWtOOEJ6VUlZbnRQb2s5ZktIdVF6cXQ1ejBHc3ZvdDkxUFkiLCJleHAiOjE3MTgxOTMxNjR9.ygyXNf7XFciRUkIlsP_xppA2XlQqvEM7mYdu234GPX8"
-            val refreshToken =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiankwbytJYktyT2lsVUs1aEJWdUl2a3RJT1NFanNOaHhqV1lWV0tGbTlEZlpwMU1hZkpiTXNnc3BRNDZJQXozSXROeUVjaHJMWDZpQ0VDZWtRM3VFTHZVZnFDazN5TVNVT2I2R3kwMWRmeU9pMFZvRWZmNjVKSjFPcEFkeG5XRHRiSWVyZzF6TnQ0cFBUTlFzRUQyNTA0UGNmdDlpNm5mekY0TXVuUXRQakFDR3NSUE9BSTdLaFZEVVRWb1Z4ZzZoMWtnU29JV1g2VlBIT0RxQUphZk50UE1sRFhMT0hTTzUvMWsrRW5JNXNLOGw0YlNFNW9ESzJWOTR4cytzOU8wRVVVUWY4Vy9rMXhzeE1iS3NSUT09IiwiZXhwIjoxNzIwODY3OTY0fQ.lL6GhT9uZJZPeibOHaZ8VBgNnfiupShtOAPQQ-k8Fd8"
-
-            val validateUserResponse = client.validateUser(
-                ValidateUserRequest.Builder()
-                    .refreshToken(refreshToken ?: "")
-                    .accessToken(accessToken ?: "")
+            val initiateResponse = client.initiateUser(
+                InitiateUserRequest.Builder()
+                    .apiKey("4f881a74-8d0b-4c73-9f60-3d2370216392")
+                    .uuid("10003")
+                    .deviceId("adadad")
+                    .userName("Ishaan")
+                    .isGuest(false)
                     .build()
             )
+//
+//            val accessToken =
+//                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoibmtRSlN6SWpuazQrL2VnRUMwNjIvM1ZSaHEvQVNreFBWaGROUk5VNVlOb09UV0dHWWNkbm1ibS9DRUxBMDJJVjhIbHhoNG9Bb2FBZm4yd1hxRVRnaXRlcVFHcjZ0b1ZQUzMxa1NuVHNPb3M3ZmVQZVdrOHArNTRVbzl4eVUyQmIzMzBFTHdCRkhYR05UdWNBMjgxVk5MMVNtV1dCdDZ0eUFLSUJZWldraTlMdGhBSmlHWEtyV0RIUnhmRGdFMjc0NTJNUXIvSnRNamRYMjlkeCtuZVV6di8wNjJ3Ump4bkJEVnkzcTZlNXBjZ0NLb1R0NERYSlRxSEpnc0VSNjIybmV6QzloTnpzdmNJUU1uaCsiLCJleHAiOjE3MTg4ODE3NzJ9.yxsRQPNMEjeJt6oJ2QRNbZx3BaPf30w8uAgHLV5RVGU"
+//            val refreshToken =
+//                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiemtpQzAwSjhxbXZ4dGFick44SU0vUUtlZlo4MnFoK1hCemZadHBWSExPT2lxcTkzc1hXYjdpS2YxbGlyV2pIdGdCbGxFL1hRTmZZYloyZXZ6SnZ6dW9LdkpxQmI2TUlnZWwxV0hiSVV5UnJMK1A5OVgzb1VVSGdMVWNrRWdZbXhueDhWUXVwQ1N2eWk3eFpxM0t5cUdyTUpyMHB5MHBkSWVHMHF0V3dvV3RBaXgrR3dKVTRiQ1NYUG5ySHVJbThhUnd5U2N4YkNYSG9TcWJnbDZFa2ZSVlBQeVlYVStXSzl6SWNVUVpYRWdybjRVWmxBWm5WcHZmTExSa1BiQW5Ba285MUdqckM0SWN0cHNGMVBOQT09IiwiZXhwIjoxNzIxNTU2NTcyfQ.j4hqEKSYYYvxIJObF7aPW7T11RZCvZFaTlMf5OgtF1A"
+//
+//            val validateUserResponse = client.validateUser(
+//                ValidateUserRequest.Builder()
+//                    .refreshToken(refreshToken ?: "")
+//                    .accessToken(accessToken ?: "")
+//                    .build()
+//            )
+
+            Log.d(TAG, "onCreate: ${initiateResponse.data?.user?.id}")
+
+            val apiKey = client.getAPIKey()
+            Log.d(TAG, "onCreate: ${apiKey.data}")
+
+            val tokens = client.getTokens()
+            Log.d(TAG, "onCreate: ${tokens.data?.first}")
+            Log.d(TAG, "onCreate: ${tokens.data?.second}")
         }
     }
 }

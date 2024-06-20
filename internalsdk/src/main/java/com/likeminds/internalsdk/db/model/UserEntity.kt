@@ -21,7 +21,7 @@ class UserEntity(
     var isDeleted: Boolean?,
     @ColumnInfo(name = "user_unique_id")
     var userUniqueId: String,
-    @ColumnInfo(name = "state", defaultValue = "-1")
+    @ColumnInfo(name = "state", defaultValue = "4")
     var state: Int,
     @ColumnInfo(name = "is_owner")
     var isOwner: Boolean,
@@ -39,7 +39,7 @@ class UserEntity(
         private var customTitle: String? = null
         private var isDeleted: Boolean? = null
         private var userUniqueId: String = ""
-        private var state: Int = -1
+        private var state: Int = 4
         private var isOwner: Boolean = false
         private var uuid: String = ""
         private var sdkClientInfoEntity: SDKClientInfoEntity = SDKClientInfoEntity.Builder().build()

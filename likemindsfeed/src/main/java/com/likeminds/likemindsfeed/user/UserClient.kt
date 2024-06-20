@@ -30,6 +30,10 @@ class UserClient @Inject constructor() : BaseClient() {
         feedSDK.getDBInstance()
     }
 
+    private val sdkPreferences by lazy {
+        feedSDK.getSDKPreferences()
+    }
+
     companion object {
         @JvmStatic
         private var userClient: UserClient? = null
@@ -78,8 +82,14 @@ class UserClient @Inject constructor() : BaseClient() {
                 val accessToken = body.data?.accessToken ?: ""
                 val refreshToken = body.data?.refreshToken ?: ""
 
+                //save in token manager
                 val feedTokenManager = FeedTokenManager.getInstance()
                 feedTokenManager.updateTokens(accessToken, refreshToken)
+
+                //save in local prefs
+                sdkPreferences.setAccessToken(accessToken)
+                sdkPreferences.setRefreshToken(refreshToken)
+                sdkPreferences.setAPIKey(initiateUserRequest.apiKey)
 
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false
@@ -292,8 +302,13 @@ class UserClient @Inject constructor() : BaseClient() {
                 val accessToken = validateUserRequest.accessToken
                 val refreshToken = validateUserRequest.refreshToken
 
+                //save in token manager
                 val feedTokenManager = FeedTokenManager.getInstance()
                 feedTokenManager.updateTokens(accessToken, refreshToken)
+
+                //save in local prefs
+                sdkPreferences.setAccessToken(accessToken)
+                sdkPreferences.setRefreshToken(refreshToken)
 
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false
@@ -329,6 +344,59 @@ class UserClient @Inject constructor() : BaseClient() {
 
         if (validateUserRequest.refreshToken.isEmpty()) {
             RequestUtils.throwException("refreshToken")
+        }
+    }
+
+    /**
+     * Get the API key from local preferences
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return LMResponse<String> - API key
+     */
+    fun getAPIKey(): LMResponse<String> {
+        // validates the client request
+        RequestUtils.validate()
+
+        //get api key
+        val apiKey = sdkPreferences.getAPIKey()
+        return if (apiKey != null) {
+            LMResponse(
+                success = true,
+                errorMessage = null,
+                data = apiKey
+            )
+        } else {
+            LMResponse(
+                success = false,
+                errorMessage = "API Key not found!",
+                data = null
+            )
+        }
+    }
+
+    /**
+     * Get the access token and refresh token from local preferences
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return LMResponse<Pair<String, String>> - access token and refresh token
+     */
+    fun getTokens(): LMResponse<Pair<String, String>> {
+        // validates the client request
+        RequestUtils.validate()
+
+        val accessToken = sdkPreferences.getAccessToken()
+        val refreshToken = sdkPreferences.getRefreshToken()
+
+        return if (accessToken != null && refreshToken != null) {
+            LMResponse(
+                success = true,
+                errorMessage = null,
+                data = Pair(accessToken, refreshToken)
+            )
+        } else {
+            LMResponse(
+                success = false,
+                errorMessage = "Tokens not found!",
+                data = null
+            )
         }
     }
 }

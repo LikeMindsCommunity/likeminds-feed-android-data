@@ -64,7 +64,9 @@ class LMFeedClient private constructor() {
     @Keep
     class Builder(val application: Application) {
         private var lmFeedSDKCallback: LMFeedSDKCallback? = null
-        fun lmCallback(lmFeedSDKCallback: LMFeedSDKCallback?) = apply { this.lmFeedSDKCallback = lmFeedSDKCallback }
+        fun lmCallback(lmFeedSDKCallback: LMFeedSDKCallback?) =
+            apply { this.lmFeedSDKCallback = lmFeedSDKCallback }
+
         fun build(): LMFeedClient {
             lmFeedClientInstance = LMFeedClient()
             val sdkApplication = LikeMindsFeedApplication.getInstance()
@@ -93,8 +95,19 @@ class LMFeedClient private constructor() {
         return userClient.initiateUser(initiateUserRequest)
     }
 
+    // Exposed function to process validate user request
     suspend fun validateUser(validateUserRequest: ValidateUserRequest): LMResponse<ValidateUserResponse> {
         return userClient.validateUser(validateUserRequest)
+    }
+
+    // Exposed function to get API Key
+    fun getAPIKey(): LMResponse<String> {
+        return userClient.getAPIKey()
+    }
+
+    // Exposed function to get tokens
+    fun getTokens(): LMResponse<Pair<String, String>> {
+        return userClient.getTokens()
     }
 
     // Exposed function to process logout request
