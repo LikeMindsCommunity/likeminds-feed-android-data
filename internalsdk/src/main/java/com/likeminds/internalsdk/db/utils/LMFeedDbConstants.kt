@@ -12,6 +12,7 @@ object LMFeedDbConstants {
     const val MEMBER_RIGHTS_TABLE = "member_rights_table"
     const val TOPIC_TABLE = "topic_table"
     const val CONFIGURATION_TABLE = "configuration_table"
+    const val SDK_META_TABLE = "sdk_meta_table"
 
     //query constants
     const val LATEST_POST_LIMIT = 1
