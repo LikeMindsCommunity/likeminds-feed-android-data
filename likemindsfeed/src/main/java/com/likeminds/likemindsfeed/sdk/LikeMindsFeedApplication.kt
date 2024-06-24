@@ -148,4 +148,12 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     override fun login() {
         lmFeedSDKCallback?.login()
     }
+
+    override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
+        lmFeedSDKCallback?.onAccessTokenExpiredAndRefreshed(accessToken, refreshToken)
+    }
+
+    override fun onRefreshTokenExpired(): Pair<String?, String?> {
+        return lmFeedSDKCallback?.onRefreshTokenExpired() ?: Pair(null, null)
+    }
 }
