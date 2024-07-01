@@ -21,10 +21,8 @@ class SDKReceiver @Inject constructor(private val sdkNetworkApi: SDKNetworkApi) 
         return sdkNetworkApi.initiateUser(apiKey, newRequest)
     }
 
-    suspend fun validateUser(
-        request: _ValidateUserRequest_
-    ): NetworkResponse<APIResponse<_ValidateUserResponse_>> {
-        return sdkNetworkApi.validateUser(request.accessToken)
+    suspend fun validateUser(): NetworkResponse<APIResponse<_ValidateUserResponse_>> {
+        return sdkNetworkApi.validateUser()
     }
 
     suspend fun logout(

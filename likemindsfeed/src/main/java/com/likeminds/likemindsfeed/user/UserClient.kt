@@ -58,12 +58,14 @@ class UserClient @Inject constructor() : BaseClient() {
         validateInitiateUserRequest(initiateUserRequest)
 
         // builds internal request model
-        val request =
-            _InitiateUserRequest_.Builder().uuid(initiateUserRequest.uuid)
-                .apiKey(initiateUserRequest.apiKey)
-                .userName(initiateUserRequest.userName)
-                .isGuest(initiateUserRequest.isGuest)
-                .build()
+        val request = _InitiateUserRequest_.Builder()
+            .uuid(initiateUserRequest.uuid)
+            .apiKey(initiateUserRequest.apiKey)
+            .userName(initiateUserRequest.userName)
+            .isGuest(initiateUserRequest.isGuest)
+            .tokenExpiryBeta(1) // for beta only
+            .rtmTokenExpiryBeta(2) // for beta only
+            .build()
 
         // calls api and processes the response accordingly
         return when (val response = sdkApi.initiateUser(request.apiKey!!, request)) {
@@ -127,10 +129,6 @@ class UserClient @Inject constructor() : BaseClient() {
     private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
         if (initiateUserRequest.userName.isEmpty()) {
             RequestUtils.throwException("userName")
-        }
-
-        if (initiateUserRequest.deviceId.isEmpty()) {
-            RequestUtils.throwException("deviceId")
         }
 
         if (initiateUserRequest.apiKey.isEmpty()) {
@@ -283,12 +281,18 @@ class UserClient @Inject constructor() : BaseClient() {
         RequestUtils.validate()
         validateValidateUserRequest(validateUserRequest)
 
-        val request = _ValidateUserRequest_.Builder()
-            .accessToken(validateUserRequest.accessToken)
-            .refreshToken(validateUserRequest.refreshToken)
-            .build()
+        val accessToken = validateUserRequest.accessToken
+        val refreshToken = validateUserRequest.refreshToken
 
-        return when (val response = sdkApi.validateUser(request)) {
+        //save in token manager
+        val feedTokenManager = FeedTokenManager.getInstance()
+        feedTokenManager.updateTokens(accessToken, refreshToken)
+
+        //save in local prefs
+        sdkPreferences.setAccessToken(accessToken)
+        sdkPreferences.setRefreshToken(refreshToken)
+
+        return when (val response = sdkApi.validateUser()) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,
@@ -299,17 +303,6 @@ class UserClient @Inject constructor() : BaseClient() {
 
             is NetworkResponse.Success -> {
                 val body = response.body
-                val accessToken = validateUserRequest.accessToken
-                val refreshToken = validateUserRequest.refreshToken
-
-                //save in token manager
-                val feedTokenManager = FeedTokenManager.getInstance()
-                feedTokenManager.updateTokens(accessToken, refreshToken)
-
-                //save in local prefs
-                sdkPreferences.setAccessToken(accessToken)
-                sdkPreferences.setRefreshToken(refreshToken)
-
                 if (body.data?.appAccess == false) {
                     // logout the user if app access is false
                     val logoutRequest = LogoutRequest.Builder()
@@ -370,6 +363,33 @@ class UserClient @Inject constructor() : BaseClient() {
                 errorMessage = "API Key not found!",
                 data = null
             )
+        }
+    }
+
+    /**
+     * Set the access token and refresh token in local preferences
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @param setTokensRequest - [SetTokensRequest] model to set access token and refresh token
+     * @return LMResponse<Pair<String, String>> - access token and refresh token
+     */
+    fun setTokens(setTokensRequest: SetTokensRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateSetTokensRequest(setTokensRequest)
+
+        //update local prefs
+        sdkPreferences.setAccessToken(setTokensRequest.accessToken)
+        sdkPreferences.setRefreshToken(setTokensRequest.refreshToken)
+
+        return LMResponse(success = true)
+    }
+
+    private fun validateSetTokensRequest(setTokensRequest: SetTokensRequest) {
+        if (setTokensRequest.accessToken.isEmpty()) {
+            RequestUtils.throwException("accessToken")
+        }
+        if (setTokensRequest.refreshToken.isEmpty()) {
+            RequestUtils.throwException("refreshToken")
         }
     }
 

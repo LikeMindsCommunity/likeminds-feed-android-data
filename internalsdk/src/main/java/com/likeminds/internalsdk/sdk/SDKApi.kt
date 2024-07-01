@@ -18,9 +18,7 @@ interface SDKApi {
     ): NetworkResponse<APIResponse<_InitiateUserResponse_>>
 
     // api to validate user
-    suspend fun validateUser(
-        request: _ValidateUserRequest_
-    ): NetworkResponse<APIResponse<_ValidateUserResponse_>>
+    suspend fun validateUser(): NetworkResponse<APIResponse<_ValidateUserResponse_>>
 
     // api to logout user
     suspend fun logout(

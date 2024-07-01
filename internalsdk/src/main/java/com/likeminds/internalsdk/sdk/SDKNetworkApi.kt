@@ -21,9 +21,7 @@ interface SDKNetworkApi {
     ): NetworkResponse<APIResponse<_InitiateUserResponse_>>
 
     @GET("sdk/initiate")
-    suspend fun validateUser(
-        @Header("Authorization") accessToken: String,
-    ): NetworkResponse<APIResponse<_ValidateUserResponse_>>
+    suspend fun validateUser(): NetworkResponse<APIResponse<_ValidateUserResponse_>>
 
     @POST("user/logout")
     suspend fun logout(

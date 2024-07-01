@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.app.Application
+import android.util.Log
 import com.likeminds.internalsdk.FeedSDK
 import com.likeminds.internalsdk.LMInternalCallback
 import com.likeminds.internalsdk.di.LMFeedSDKSharedResources
@@ -150,6 +151,11 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     }
 
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
+        Log.d("PUI","""
+            Data Layer Callback -> onAccessTokenExpiredAndRefreshed
+            accessToken: $accessToken
+            refreshToken: $refreshToken
+        """.trimIndent())
         lmFeedSDKCallback?.onAccessTokenExpiredAndRefreshed(accessToken, refreshToken)
     }
 

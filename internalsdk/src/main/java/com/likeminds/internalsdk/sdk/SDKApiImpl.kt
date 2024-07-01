@@ -18,8 +18,8 @@ class SDKApiImpl @Inject constructor(private val sdkReceiver: SDKReceiver) : SDK
         return sdkReceiver.initiateUser(apiKey, request)
     }
 
-    override suspend fun validateUser(request: _ValidateUserRequest_): NetworkResponse<APIResponse<_ValidateUserResponse_>> {
-        return sdkReceiver.validateUser(request)
+    override suspend fun validateUser(): NetworkResponse<APIResponse<_ValidateUserResponse_>> {
+        return sdkReceiver.validateUser()
     }
 
     override suspend fun logout(

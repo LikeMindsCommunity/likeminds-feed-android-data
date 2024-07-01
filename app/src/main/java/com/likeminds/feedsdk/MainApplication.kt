@@ -26,7 +26,7 @@ class MainApplication : Application(), LMFeedSDKCallback {
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
         Log.d(
             "PUI", """
-               Core:
+               Data Layer:
                onAccessTokenExpiredAndRefreshed
                accessToken: $accessToken
                refreshToken: $refreshToken
