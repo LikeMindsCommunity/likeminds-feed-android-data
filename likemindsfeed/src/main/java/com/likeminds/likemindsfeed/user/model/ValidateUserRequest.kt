@@ -3,13 +3,13 @@ package com.likeminds.likemindsfeed.user.model
 class ValidateUserRequest private constructor(
     val accessToken: String,
     val refreshToken: String,
-    val deviceId: String
+    val deviceId: String?
 ) {
 
     class Builder {
         private var accessToken: String = ""
         private var refreshToken: String = ""
-        private var deviceId: String = ""
+        private var deviceId: String? = null
 
         fun accessToken(accessToken: String) = apply {
             this.accessToken = accessToken
@@ -19,7 +19,7 @@ class ValidateUserRequest private constructor(
             this.refreshToken = refreshToken
         }
 
-        fun deviceId(deviceId: String) = apply {
+        fun deviceId(deviceId: String?) = apply {
             this.deviceId = deviceId
         }
 

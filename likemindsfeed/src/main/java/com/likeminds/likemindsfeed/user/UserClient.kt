@@ -94,20 +94,35 @@ class UserClient @Inject constructor() : BaseClient() {
                 sdkPreferences.setAPIKey(initiateUserRequest.apiKey)
 
                 if (body.data?.appAccess == false) {
-                    // logout the user if app access is false
-                    val logoutRequest = LogoutRequest.Builder()
-                        .deviceId(initiateUserRequest.deviceId)
-                        .build()
+                    val deviceId = initiateUserRequest.deviceId
+                    if (!deviceId.isNullOrEmpty()) {
+                        // logout the user if app access is false
+                        val logoutRequest = LogoutRequest.Builder()
+                            .deviceId(deviceId)
+                            .build()
 
-                    val logoutResponse = logout(logoutRequest)
-                    LMResponse(
-                        success = false,
-                        body.errorMessage,
-                        InitiateUserResponse(
-                            appAccess = false,
-                            logoutResponse = logoutResponse
+                        val logoutResponse = logout(logoutRequest)
+                        LMResponse(
+                            success = false,
+                            body.errorMessage,
+                            InitiateUserResponse(
+                                appAccess = false,
+                                logoutResponse = logoutResponse
+                            )
                         )
-                    )
+                    } else {
+                        //clear tokens
+                        FeedTokenManager.getInstance().clear()
+
+                        //clear db
+                        clearDB()
+
+                        //return response
+                        LMResponse(
+                            success = false,
+                            errorMessage = "App access is denied."
+                        )
+                    }
                 } else {
                     //update db
                     body.data?.user?.let { user ->
@@ -144,8 +159,6 @@ class UserClient @Inject constructor() : BaseClient() {
         //db query
         userDao.insertUser(userEntity)
     }
-
-//    suspend fun validateUser():LMResponse<>
 
     /**
      * Converts client request model to internal model and calls the api
@@ -304,20 +317,35 @@ class UserClient @Inject constructor() : BaseClient() {
             is NetworkResponse.Success -> {
                 val body = response.body
                 if (body.data?.appAccess == false) {
-                    // logout the user if app access is false
-                    val logoutRequest = LogoutRequest.Builder()
-                        .deviceId(validateUserRequest.deviceId)
-                        .build()
+                    val deviceId = validateUserRequest.deviceId
+                    if (!deviceId.isNullOrEmpty()) {
+                        // logout the user if app access is false
+                        val logoutRequest = LogoutRequest.Builder()
+                            .deviceId(deviceId)
+                            .build()
 
-                    val logoutResponse = logout(logoutRequest)
-                    LMResponse(
-                        success = false,
-                        body.errorMessage,
-                        ValidateUserResponse(
-                            appAccess = false,
-                            logoutResponse = logoutResponse
+                        val logoutResponse = logout(logoutRequest)
+                        LMResponse(
+                            success = false,
+                            body.errorMessage,
+                            ValidateUserResponse(
+                                appAccess = false,
+                                logoutResponse = logoutResponse
+                            )
                         )
-                    )
+                    } else {
+                        //clear tokens
+                        FeedTokenManager.getInstance().clear()
+
+                        //clear db
+                        clearDB()
+
+                        //return response
+                        LMResponse(
+                            success = false,
+                            errorMessage = "App access is denied."
+                        )
+                    }
                 } else {
                     //update db
                     body.data?.user?.let { user ->
