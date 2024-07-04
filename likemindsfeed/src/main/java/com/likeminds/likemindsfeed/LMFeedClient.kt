@@ -105,6 +105,11 @@ class LMFeedClient private constructor() {
         return userClient.getAPIKey()
     }
 
+    // Exposed function to set tokens
+    fun setTokens(setTokensRequest: SetTokensRequest): LMResponse<Nothing> {
+        return userClient.setTokens(setTokensRequest)
+    }
+
     // Exposed function to get tokens
     fun getTokens(): LMResponse<Pair<String, String>> {
         return userClient.getTokens()

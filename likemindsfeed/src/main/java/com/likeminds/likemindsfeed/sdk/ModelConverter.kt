@@ -192,6 +192,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal CommunitySetting model list to client model list
     private fun convertCommunitySettings(
         _communitySettings_: List<_CommunitySetting_>
     ): List<CommunitySetting> {
@@ -200,6 +201,7 @@ object ModelConverter {
         }
     }
 
+    // converts internal CommunitySetting model to client model
     private fun convertCommunitySetting(_communitySetting_: _CommunitySetting_): CommunitySetting {
         return CommunitySetting.Builder()
             .enabled(_communitySetting_.enabled)
@@ -1073,6 +1075,7 @@ object ModelConverter {
             .build()
     }
 
+    // converts APIResponse<_ValidateUserResponse_> to LMResponse<ValidateUserResponse>
     fun convertValidateUserAPIResponse(body: APIResponse<_ValidateUserResponse_>): LMResponse<ValidateUserResponse> {
         return LMResponse(
             success = true,
@@ -1081,6 +1084,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal _ValidateUserResponse_ to exposed ValidateUserResponse
     private fun convertValidateUserResponse(_validateUserResponse_: _ValidateUserResponse_?): ValidateUserResponse? {
         if (_validateUserResponse_ == null) return null
         return ValidateUserResponse(

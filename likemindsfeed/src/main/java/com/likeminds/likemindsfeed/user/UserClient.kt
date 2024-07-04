@@ -1,8 +1,10 @@
 package com.likeminds.likemindsfeed.user
 
+import android.content.Context
 import android.util.Log
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.model.*
+import com.likeminds.internalsdk.util.sharedpreference.MasterPrefUtils
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -13,6 +15,9 @@ import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
 class UserClient @Inject constructor() : BaseClient() {
+
+    @Inject
+    lateinit var context: Context
 
     override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
@@ -32,18 +37,6 @@ class UserClient @Inject constructor() : BaseClient() {
 
     private val sdkPreferences by lazy {
         feedSDK.getSDKPreferences()
-    }
-
-    companion object {
-        @JvmStatic
-        private var userClient: UserClient? = null
-
-        fun getInstance(): UserClient {
-            if (userClient == null) {
-                userClient = UserClient()
-            }
-            return userClient!!
-        }
     }
 
     /**
@@ -111,11 +104,7 @@ class UserClient @Inject constructor() : BaseClient() {
                             )
                         )
                     } else {
-                        //clear tokens
-                        FeedTokenManager.getInstance().clear()
-
-                        //clear db
-                        clearDB()
+                        clearLocalStorage()
 
                         //return response
                         LMResponse(
@@ -187,11 +176,7 @@ class UserClient @Inject constructor() : BaseClient() {
             }
 
             is NetworkResponse.Success -> {
-                //clear tokens
-                FeedTokenManager.getInstance().clear()
-
-                //clear db
-                clearDB()
+                clearLocalStorage()
 
                 //return response
                 LMResponse(
@@ -289,6 +274,12 @@ class UserClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param validateUserRequest - client request model to validate user
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return [ValidateUserResponse] - ValidateUserResponse model for [ValidateUserRequest]
+     */
     suspend fun validateUser(validateUserRequest: ValidateUserRequest): LMResponse<ValidateUserResponse> {
         // validates the client request
         RequestUtils.validate()
@@ -334,11 +325,7 @@ class UserClient @Inject constructor() : BaseClient() {
                             )
                         )
                     } else {
-                        //clear tokens
-                        FeedTokenManager.getInstance().clear()
-
-                        //clear db
-                        clearDB()
+                        clearLocalStorage()
 
                         //return response
                         LMResponse(
@@ -358,6 +345,10 @@ class UserClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * validates [validateUserRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
     private fun validateValidateUserRequest(validateUserRequest: ValidateUserRequest) {
         if (validateUserRequest.accessToken.isEmpty()) {
             RequestUtils.throwException("accessToken")
@@ -404,7 +395,6 @@ class UserClient @Inject constructor() : BaseClient() {
         // validates the client request
         RequestUtils.validate()
         validateSetTokensRequest(setTokensRequest)
-
         //update local prefs
         sdkPreferences.setAccessToken(setTokensRequest.accessToken)
         sdkPreferences.setRefreshToken(setTokensRequest.refreshToken)
@@ -412,6 +402,10 @@ class UserClient @Inject constructor() : BaseClient() {
         return LMResponse(success = true)
     }
 
+    /**
+     * validates [setTokensRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
     private fun validateSetTokensRequest(setTokensRequest: SetTokensRequest) {
         if (setTokensRequest.accessToken.isEmpty()) {
             RequestUtils.throwException("accessToken")
@@ -446,5 +440,16 @@ class UserClient @Inject constructor() : BaseClient() {
                 data = null
             )
         }
+    }
+
+    private fun clearLocalStorage() {
+        //clear tokens
+        FeedTokenManager.getInstance().clear()
+
+        //clear db
+        clearDB()
+
+        //clear Local Preferences
+        MasterPrefUtils.clearAllPrefs(context)
     }
 }

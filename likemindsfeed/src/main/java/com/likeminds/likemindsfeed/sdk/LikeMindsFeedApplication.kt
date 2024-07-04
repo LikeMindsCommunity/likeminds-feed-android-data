@@ -146,10 +146,6 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
         return pollSubComponent
     }
 
-    override fun login() {
-        lmFeedSDKCallback?.login()
-    }
-
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
         Log.d("PUI","""
             Data Layer Callback -> onAccessTokenExpiredAndRefreshed
