@@ -20,19 +20,15 @@ class TokenAuthenticator @Inject constructor(
 
     override fun authenticate(route: Route?, response: Response): Request? {
         val endPoint = response.request.url.toString()
-        val method = response.request.method
         val code = response.code
         val feedTokenManager = FeedTokenManager.getInstance()
         val feedSDK = FeedSDK.getInstance()
         val lmInternalCallback = feedSDK.lmInternalCallback
         val refreshTokenNetworkApi = feedSDK.refreshTokenApiImpl
 
-        Log.d("PUI", "code: $code endPoint: $endPoint method:$method")
-
         return if (code == 401) {
-            Log.d("PUI", "401 authenticate endPoint: $endPoint method:$method")
             if (!endPoint.contains("user/refresh", false)) {
-                Log.d("PUI", "new access token")
+                Log.d(LOG_TAG, "new access token required")
                 val refreshToken = feedTokenManager.refreshToken
                 runBlocking {
                     when (val refreshResponse =
@@ -59,14 +55,6 @@ class TokenAuthenticator @Inject constructor(
                             sdkPreferences.setAccessToken(newAccessToken)
                             sdkPreferences.setRefreshToken(newRefreshToken)
 
-                            Log.d(
-                                "PUI", """
-                                Internal Data Layer Callback -> onAccessTokenExpiredAndRefreshed
-                                accessToken: $newAccessToken
-                                refreshToken: $newRefreshToken
-                            """.trimIndent()
-                            )
-
                             //through callback
                             lmInternalCallback?.onAccessTokenExpiredAndRefreshed(
                                 newAccessToken,
@@ -81,7 +69,7 @@ class TokenAuthenticator @Inject constructor(
                     }
                 }
             } else {
-                Log.d("PUI", "new refresh token")
+                Log.d(LOG_TAG, "new refresh token required")
                 feedTokenManager.clear()
                 val tokens = lmInternalCallback?.onRefreshTokenExpired()
 
@@ -100,7 +88,6 @@ class TokenAuthenticator @Inject constructor(
                     .build()
             }
         } else {
-            Log.d("PUI", "200 authenticate endPoint: $endPoint method:$method")
             response.request
         }
     }

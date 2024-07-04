@@ -147,11 +147,6 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     }
 
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
-        Log.d("PUI","""
-            Data Layer Callback -> onAccessTokenExpiredAndRefreshed
-            accessToken: $accessToken
-            refreshToken: $refreshToken
-        """.trimIndent())
         lmFeedSDKCallback?.onAccessTokenExpiredAndRefreshed(accessToken, refreshToken)
     }
 

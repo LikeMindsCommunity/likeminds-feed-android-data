@@ -16,9 +16,6 @@ import javax.inject.Inject
 
 class UserClient @Inject constructor() : BaseClient() {
 
-    @Inject
-    lateinit var context: Context
-
     override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().initiateUserComponent()?.inject(this)
     }
@@ -118,7 +115,6 @@ class UserClient @Inject constructor() : BaseClient() {
                         insertUser(user)
                     }
 
-                    Log.d("PUI", "body: ${body.data}")
                     //return the exposed
                     ModelConverter.convertInitiateUserAPIResponse(body)
                 }
@@ -449,7 +445,6 @@ class UserClient @Inject constructor() : BaseClient() {
         //clear db
         clearDB()
 
-        //clear Local Preferences
-        MasterPrefUtils.clearAllPrefs(context)
+        sdkPreferences.clear()
     }
 }
