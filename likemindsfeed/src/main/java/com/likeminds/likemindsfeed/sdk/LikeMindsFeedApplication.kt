@@ -1,10 +1,11 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.app.Application
+import android.util.Log
 import com.likeminds.internalsdk.FeedSDK
 import com.likeminds.internalsdk.LMInternalCallback
 import com.likeminds.internalsdk.di.LMFeedSDKSharedResources
-import com.likeminds.likemindsfeed.LMCallback
+import com.likeminds.likemindsfeed.LMFeedSDKCallback
 import com.likeminds.likemindsfeed.di.DaggerLikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.LikeMindsFeedComponent
 import com.likeminds.likemindsfeed.di.comment.CommentSubComponent
@@ -42,7 +43,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
-        private var lmCallback: LMCallback? = null
+        private var lmFeedSDKCallback: LMFeedSDKCallback? = null
 
         @JvmStatic
         fun getInstance(): LikeMindsFeedApplication {
@@ -53,9 +54,9 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
         }
     }
 
-    fun initSDKApplication(application: Application, lmCallback: LMCallback?) {
+    fun initSDKApplication(application: Application, lmFeedSDKCallback: LMFeedSDKCallback?) {
         likeMindsFeedApplicationInstance = this
-        LikeMindsFeedApplication.lmCallback = lmCallback
+        LikeMindsFeedApplication.lmFeedSDKCallback = lmFeedSDKCallback
 
         //init dagger
         initLikeMindsFeedComponent(application)
@@ -145,7 +146,11 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
         return pollSubComponent
     }
 
-    override fun login() {
-        lmCallback?.login()
+    override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
+        lmFeedSDKCallback?.onAccessTokenExpiredAndRefreshed(accessToken, refreshToken)
+    }
+
+    override fun onRefreshTokenExpired(): Pair<String?, String?> {
+        return lmFeedSDKCallback?.onRefreshTokenExpired() ?: Pair(null, null)
     }
 }

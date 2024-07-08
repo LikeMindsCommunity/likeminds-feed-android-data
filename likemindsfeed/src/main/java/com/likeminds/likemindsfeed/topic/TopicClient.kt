@@ -13,10 +13,6 @@ import javax.inject.Inject
 
 class TopicClient @Inject constructor() : BaseClient() {
 
-    companion object {
-
-    }
-
     override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().topicComponent()?.inject(this)
     }

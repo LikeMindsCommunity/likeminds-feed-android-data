@@ -1,5 +1,9 @@
 package com.likeminds.internalsdk.di.modules
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.chuckerteam.chucker.api.RetentionManager
 import com.likeminds.internalsdk.sdk.TokenAuthenticator
 import com.likeminds.internalsdk.utils.retrofit.CommonHeaderInterceptor
 import com.likeminds.internalsdk.utils.retrofit.model.BaseUrl
@@ -27,7 +31,7 @@ class NetworkModule {
         commonHeaderInterceptor: CommonHeaderInterceptor,
         tokenAuthenticator: TokenAuthenticator,
         sentryOkHttpInterceptor: SentryOkHttpInterceptor,
-//        chuckerInterceptor: ChuckerInterceptor
+        chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
             .readTimeout(30L, TimeUnit.SECONDS)
@@ -37,7 +41,7 @@ class NetworkModule {
         clientBuilder.addInterceptor(loggingInterceptor)
         clientBuilder.addInterceptor(commonHeaderInterceptor)
         clientBuilder.addInterceptor(sentryOkHttpInterceptor)
-//        clientBuilder.addInterceptor(chuckerInterceptor)
+        clientBuilder.addInterceptor(chuckerInterceptor)
 
         return clientBuilder.build()
     }
@@ -56,13 +60,13 @@ class NetworkModule {
         return SentryOkHttpInterceptor()
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideChuckInterceptor(context: Context): ChuckerInterceptor {
-//        val collector = ChuckerCollector(context, true, RetentionManager.Period.ONE_WEEK)
-//        return ChuckerInterceptor.Builder(context)
-//            .collector(collector)
-//            .alwaysReadResponseBody(false)
-//            .build()
-//    }
+    @Provides
+    @Singleton
+    fun provideChuckInterceptor(context: Context): ChuckerInterceptor {
+        val collector = ChuckerCollector(context, true, RetentionManager.Period.ONE_WEEK)
+        return ChuckerInterceptor.Builder(context)
+            .collector(collector)
+            .alwaysReadResponseBody(false)
+            .build()
+    }
 }

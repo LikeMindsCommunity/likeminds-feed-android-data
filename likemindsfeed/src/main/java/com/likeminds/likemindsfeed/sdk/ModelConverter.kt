@@ -50,7 +50,7 @@ object ModelConverter {
     --------------------------------*/
 
     // converts api InitiateUserResponse model to LM InitiateUserResponse model
-    fun convertInitiateUserResponse(
+    fun convertInitiateUserAPIResponse(
         apiResponse: APIResponse<_InitiateUserResponse_>
     ): LMResponse<InitiateUserResponse> {
         return LMResponse(
@@ -66,11 +66,11 @@ object ModelConverter {
     ): InitiateUserResponse? {
         if (_initiateUserResponse_ == null) return null
         return InitiateUserResponse(
-            _initiateUserResponse_.accessToken,
-            _initiateUserResponse_.refreshToken,
-            convertUser(_initiateUserResponse_.user),
-            convertCommunity(_initiateUserResponse_.community),
-            _initiateUserResponse_.appAccess
+            accessToken = _initiateUserResponse_.accessToken,
+            refreshToken = _initiateUserResponse_.refreshToken,
+            user = convertUser(_initiateUserResponse_.user),
+            community = convertCommunity(_initiateUserResponse_.community),
+            appAccess = _initiateUserResponse_.appAccess
         )
     }
 
@@ -188,7 +188,28 @@ object ModelConverter {
             _community_.imageUrl,
             _community_.membersCount,
             _community_.updatedAt,
+            communitySettings = convertCommunitySettings(_community_.communitySettings)
         )
+    }
+
+    // converts internal CommunitySetting model list to client model list
+    private fun convertCommunitySettings(
+        _communitySettings_: List<_CommunitySetting_>
+    ): List<CommunitySetting> {
+        return _communitySettings_.map {
+            convertCommunitySetting(it)
+        }
+    }
+
+    // converts internal CommunitySetting model to client model
+    private fun convertCommunitySetting(_communitySetting_: _CommunitySetting_): CommunitySetting {
+        return CommunitySetting.Builder()
+            .enabled(_communitySetting_.enabled)
+            .enabledBy(_communitySetting_.enabledBy)
+            .settingType(_communitySetting_.settingType)
+            .settingTitle(_communitySetting_.settingTitle)
+            .settingSubTitle(_communitySetting_.settingSubTitle)
+            .build()
     }
 
     // converts internal SDKClientInfo model to client model
@@ -206,7 +227,7 @@ object ModelConverter {
     }
 
     // converts api MemberStateResponse model to LM MemberStateResponse model
-    fun convertMemberStateResponse(
+    fun convertMemberStateAPIResponse(
         apiResponse: APIResponse<_GetMemberStateResponse_>
     ): LMResponse<GetMemberStateResponse> {
         return LMResponse(
@@ -229,7 +250,6 @@ object ModelConverter {
             member.customTitle,
             member.imageUrl,
             member.isGuest,
-            member.isOwner,
             member.name,
             member.organisationName,
             convertManagerRights(_memberStateResponse_.managerRights),
@@ -1053,6 +1073,25 @@ object ModelConverter {
             .id(vote.id)
             .userIds(vote.userIds)
             .build()
+    }
+
+    // converts APIResponse<_ValidateUserResponse_> to LMResponse<ValidateUserResponse>
+    fun convertValidateUserAPIResponse(body: APIResponse<_ValidateUserResponse_>): LMResponse<ValidateUserResponse> {
+        return LMResponse(
+            success = true,
+            errorMessage = null,
+            data = convertValidateUserResponse(body.data)
+        )
+    }
+
+    // converts internal _ValidateUserResponse_ to exposed ValidateUserResponse
+    private fun convertValidateUserResponse(_validateUserResponse_: _ValidateUserResponse_?): ValidateUserResponse? {
+        if (_validateUserResponse_ == null) return null
+        return ValidateUserResponse(
+            user = convertUser(_validateUserResponse_.user),
+            community = convertCommunity(_validateUserResponse_.community),
+            appAccess = _validateUserResponse_.appAccess
+        )
     }
 
     /**--------------------------------

@@ -20,6 +20,7 @@ import com.likeminds.internalsdk.poll.PollApiImpl
 import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.*
+import com.likeminds.internalsdk.sdk.util.SDKPreferences
 import com.likeminds.internalsdk.topic.TopicApi
 import com.likeminds.internalsdk.topic.TopicApiImpl
 import com.likeminds.internalsdk.universalfeed.UniversalFeedApi
@@ -81,6 +82,9 @@ class FeedSDK {
 
     @Inject
     lateinit var pollApiImpl: PollApiImpl
+
+    @Inject
+    lateinit var sdkPreferences: SDKPreferences
 
     var lmInternalCallback: LMInternalCallback? = null
 
@@ -168,5 +172,9 @@ class FeedSDK {
 
     fun getPollApi(): PollApi {
         return pollApiImpl
+    }
+
+    fun getSDKPreferences(): SDKPreferences {
+        return sdkPreferences
     }
 }

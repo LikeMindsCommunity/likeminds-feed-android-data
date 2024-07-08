@@ -1,7 +1,10 @@
 package com.likeminds.likemindsfeed.user
 
+import android.content.Context
+import android.util.Log
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.model.*
+import com.likeminds.internalsdk.util.sharedpreference.MasterPrefUtils
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -29,16 +32,8 @@ class UserClient @Inject constructor() : BaseClient() {
         feedSDK.getDBInstance()
     }
 
-    companion object {
-        @JvmStatic
-        private var userClient: UserClient? = null
-
-        fun getInstance(): UserClient {
-            if (userClient == null) {
-                userClient = UserClient()
-            }
-            return userClient!!
-        }
+    private val sdkPreferences by lazy {
+        feedSDK.getSDKPreferences()
     }
 
     /**
@@ -53,12 +48,14 @@ class UserClient @Inject constructor() : BaseClient() {
         validateInitiateUserRequest(initiateUserRequest)
 
         // builds internal request model
-        val request =
-            _InitiateUserRequest_.Builder().uuid(initiateUserRequest.uuid)
-                .apiKey(initiateUserRequest.apiKey)
-                .userName(initiateUserRequest.userName)
-                .isGuest(initiateUserRequest.isGuest)
-                .build()
+        val request = _InitiateUserRequest_.Builder()
+            .uuid(initiateUserRequest.uuid)
+            .apiKey(initiateUserRequest.apiKey)
+            .userName(initiateUserRequest.userName)
+            .isGuest(initiateUserRequest.isGuest)
+            .tokenExpiryBeta(1) // for beta only
+            .rtmTokenExpiryBeta(2) // for beta only
+            .build()
 
         // calls api and processes the response accordingly
         return when (val response = sdkApi.initiateUser(request.apiKey!!, request)) {
@@ -77,31 +74,49 @@ class UserClient @Inject constructor() : BaseClient() {
                 val accessToken = body.data?.accessToken ?: ""
                 val refreshToken = body.data?.refreshToken ?: ""
 
+                //save in token manager
                 val feedTokenManager = FeedTokenManager.getInstance()
                 feedTokenManager.updateTokens(accessToken, refreshToken)
 
-                if (body.data?.appAccess == false) {
-                    // logout the user if app access is false
-                    val logoutRequest = LogoutRequest.Builder()
-                        .deviceId(initiateUserRequest.deviceId)
-                        .build()
+                //save in local prefs
+                sdkPreferences.setAccessToken(accessToken)
+                sdkPreferences.setRefreshToken(refreshToken)
+                sdkPreferences.setAPIKey(initiateUserRequest.apiKey)
 
-                    val logoutResponse = logout(logoutRequest)
-                    LMResponse(
-                        success = false,
-                        body.errorMessage,
-                        InitiateUserResponse(
-                            appAccess = false,
-                            logoutResponse = logoutResponse
+                if (body.data?.appAccess == false) {
+                    val deviceId = initiateUserRequest.deviceId
+                    if (!deviceId.isNullOrEmpty()) {
+                        // logout the user if app access is false
+                        val logoutRequest = LogoutRequest.Builder()
+                            .deviceId(deviceId)
+                            .build()
+
+                        val logoutResponse = logout(logoutRequest)
+                        LMResponse(
+                            success = false,
+                            body.errorMessage,
+                            InitiateUserResponse(
+                                appAccess = false,
+                                logoutResponse = logoutResponse
+                            )
                         )
-                    )
+                    } else {
+                        clearLocalStorage()
+
+                        //return response
+                        LMResponse(
+                            success = false,
+                            errorMessage = "App access is denied."
+                        )
+                    }
                 } else {
                     //update db
                     body.data?.user?.let { user ->
                         insertUser(user)
                     }
+
                     //return the exposed
-                    ModelConverter.convertInitiateUserResponse(body)
+                    ModelConverter.convertInitiateUserAPIResponse(body)
                 }
             }
         }
@@ -114,10 +129,6 @@ class UserClient @Inject constructor() : BaseClient() {
     private fun validateInitiateUserRequest(initiateUserRequest: InitiateUserRequest) {
         if (initiateUserRequest.userName.isEmpty()) {
             RequestUtils.throwException("userName")
-        }
-
-        if (initiateUserRequest.deviceId.isEmpty()) {
-            RequestUtils.throwException("deviceId")
         }
 
         if (initiateUserRequest.apiKey.isEmpty()) {
@@ -161,11 +172,7 @@ class UserClient @Inject constructor() : BaseClient() {
             }
 
             is NetworkResponse.Success -> {
-                //clear tokens
-                FeedTokenManager.getInstance().clear()
-
-                //clear db
-                clearDB()
+                clearLocalStorage()
 
                 //return response
                 LMResponse(
@@ -215,7 +222,7 @@ class UserClient @Inject constructor() : BaseClient() {
                     updateUserWithRightsInDb(memberStateResponse)
                 }
 
-                ModelConverter.convertMemberStateResponse(body)
+                ModelConverter.convertMemberStateAPIResponse(body)
             }
         }
     }
@@ -225,14 +232,13 @@ class UserClient @Inject constructor() : BaseClient() {
         //get response variables
         val uuid = memberStateResponse.member?.userUniqueId ?: return
         val state = memberStateResponse.state
-        val isOwner = memberStateResponse.member?.isOwner ?: return
 
         //get existing userEntity
         val userEntity = userDao.getUser(uuid)
 
         userEntity?.let { user ->
             //updated userEntity
-            val updatedUser = user.toBuilder().state(state).isOwner(isOwner).build()
+            val updatedUser = user.toBuilder().state(state).build()
 
             val memberRightsEntity = ModelConverter.createMemberRightsEntity(
                 uuid,
@@ -262,5 +268,183 @@ class UserClient @Inject constructor() : BaseClient() {
         } else {
             ModelConverter.convertGetLoggedInUserWithRightsResponse(userWithRights)
         }
+    }
+
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param validateUserRequest - client request model to validate user
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return [ValidateUserResponse] - ValidateUserResponse model for [ValidateUserRequest]
+     */
+    suspend fun validateUser(validateUserRequest: ValidateUserRequest): LMResponse<ValidateUserResponse> {
+        // validates the client request
+        RequestUtils.validate()
+        validateValidateUserRequest(validateUserRequest)
+
+        val accessToken = validateUserRequest.accessToken
+        val refreshToken = validateUserRequest.refreshToken
+
+        //save in token manager
+        val feedTokenManager = FeedTokenManager.getInstance()
+        feedTokenManager.updateTokens(accessToken, refreshToken)
+
+        //save in local prefs
+        sdkPreferences.setAccessToken(accessToken)
+        sdkPreferences.setRefreshToken(refreshToken)
+
+        return when (val response = sdkApi.validateUser()) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage,
+                    null
+                )
+            }
+
+            is NetworkResponse.Success -> {
+                val body = response.body
+                if (body.data?.appAccess == false) {
+                    val deviceId = validateUserRequest.deviceId
+                    if (!deviceId.isNullOrEmpty()) {
+                        // logout the user if app access is false
+                        val logoutRequest = LogoutRequest.Builder()
+                            .deviceId(deviceId)
+                            .build()
+
+                        val logoutResponse = logout(logoutRequest)
+                        LMResponse(
+                            success = false,
+                            body.errorMessage,
+                            ValidateUserResponse(
+                                appAccess = false,
+                                logoutResponse = logoutResponse
+                            )
+                        )
+                    } else {
+                        clearLocalStorage()
+
+                        //return response
+                        LMResponse(
+                            success = false,
+                            errorMessage = "App access is denied."
+                        )
+                    }
+                } else {
+                    //update db
+                    body.data?.user?.let { user ->
+                        insertUser(user)
+                    }
+
+                    ModelConverter.convertValidateUserAPIResponse(body)
+                }
+            }
+        }
+    }
+
+    /**
+     * validates [validateUserRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateValidateUserRequest(validateUserRequest: ValidateUserRequest) {
+        if (validateUserRequest.accessToken.isEmpty()) {
+            RequestUtils.throwException("accessToken")
+        }
+
+        if (validateUserRequest.refreshToken.isEmpty()) {
+            RequestUtils.throwException("refreshToken")
+        }
+    }
+
+    /**
+     * Get the API key from local preferences
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return LMResponse<String> - API key
+     */
+    fun getAPIKey(): LMResponse<String> {
+        // validates the client request
+        RequestUtils.validate()
+
+        //get api key
+        val apiKey = sdkPreferences.getAPIKey()
+        return if (apiKey != null) {
+            LMResponse(
+                success = true,
+                errorMessage = null,
+                data = apiKey
+            )
+        } else {
+            LMResponse(
+                success = false,
+                errorMessage = "API Key not found!",
+                data = null
+            )
+        }
+    }
+
+    /**
+     * Set the access token and refresh token in local preferences
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @param setTokensRequest - [SetTokensRequest] model to set access token and refresh token
+     * @return LMResponse<Pair<String, String>> - access token and refresh token
+     */
+    fun setTokens(setTokensRequest: SetTokensRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateSetTokensRequest(setTokensRequest)
+        //update local prefs
+        sdkPreferences.setAccessToken(setTokensRequest.accessToken)
+        sdkPreferences.setRefreshToken(setTokensRequest.refreshToken)
+
+        return LMResponse(success = true)
+    }
+
+    /**
+     * validates [setTokensRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateSetTokensRequest(setTokensRequest: SetTokensRequest) {
+        if (setTokensRequest.accessToken.isEmpty()) {
+            RequestUtils.throwException("accessToken")
+        }
+        if (setTokensRequest.refreshToken.isEmpty()) {
+            RequestUtils.throwException("refreshToken")
+        }
+    }
+
+    /**
+     * Get the access token and refresh token from local preferences
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return LMResponse<Pair<String, String>> - access token and refresh token
+     */
+    fun getTokens(): LMResponse<Pair<String, String>> {
+        // validates the client request
+        RequestUtils.validate()
+
+        val accessToken = sdkPreferences.getAccessToken()
+        val refreshToken = sdkPreferences.getRefreshToken()
+
+        return if (accessToken != null && refreshToken != null) {
+            LMResponse(
+                success = true,
+                errorMessage = null,
+                data = Pair(accessToken, refreshToken)
+            )
+        } else {
+            LMResponse(
+                success = false,
+                errorMessage = "Tokens not found!",
+                data = null
+            )
+        }
+    }
+
+    private fun clearLocalStorage() {
+        //clear tokens
+        FeedTokenManager.getInstance().clear()
+
+        //clear db
+        clearDB()
+
+        sdkPreferences.clear()
     }
 }
