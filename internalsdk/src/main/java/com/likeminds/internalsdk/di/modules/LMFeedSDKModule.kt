@@ -41,15 +41,10 @@ class LMFeedSDKModule {
     @Provides
     @Singleton
     fun provideRefreshTokenApi(
-        loggingInterceptor: HttpLoggingInterceptor,
+        client: OkHttpClient,
         gson: Gson,
-        baseUrl: BaseUrl,
-        refreshTokenAuthenticator: RefreshTokenAuthenticator
+        baseUrl: BaseUrl
     ): RefreshTokenNetworkApi {
-        val client: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .authenticator(refreshTokenAuthenticator)
-            .build()
         return Retrofit.Builder()
             .baseUrl(baseUrl.getKettleBase())
             .client(client)

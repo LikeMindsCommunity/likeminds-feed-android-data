@@ -26,4 +26,18 @@ class SDKClientInfo private constructor(
             .user(user)
             .userUniqueId(userUniqueId)
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("SDKClientInfo(community=")
+            append(community)
+            append(", user=")
+            append(user)
+            append(", userUniqueId='")
+            append(userUniqueId)
+            append("', uuid='")
+            append(uuid)
+            append("')")
+        }
+    }
 }
