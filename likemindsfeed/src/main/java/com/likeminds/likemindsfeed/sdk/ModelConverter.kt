@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.net.Uri
+import com.google.gson.JsonObject
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
@@ -39,6 +40,8 @@ import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.user.model.*
+import com.likeminds.likemindsfeed.util.JSONUtil.toJSONObject
+import com.likeminds.likemindsfeed.util.JSONUtil.toJsonObject
 import com.likeminds.likemindsfeed.widgets.model.LMMeta
 import com.likeminds.likemindsfeed.widgets.model.Widget
 import org.json.JSONObject
@@ -749,7 +752,7 @@ object ModelConverter {
     ): Attachment {
         return Attachment.Builder()
             .attachmentType(_attachment_.attachmentType.getAttachmentType())
-            .attachmentMeta(convertAttachmentMeta(_attachment_.attachmentMeta))
+            .attachmentMeta(_attachment_.attachmentMeta.toJSONObject())
             .build()
     }
 
@@ -1106,7 +1109,7 @@ object ModelConverter {
         return attachments.map { attachment ->
             _Attachment_.Builder()
                 .attachmentType(attachment.attachmentType.getAttachmentValue())
-                .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta))
+                .attachmentMeta(attachment.attachmentMeta.toJsonObject())
                 .build()
         }
     }
@@ -1300,7 +1303,7 @@ object ModelConverter {
             .temporaryId(postTemporaryId)
             .postId(postTemporaryId)
             .attachmentType(attachment.attachmentType.getAttachmentValue())
-            .attachmentMeta(createAttachmentMetaEntity(attachment.attachmentMeta))
+            .attachmentMeta(attachment.attachmentMeta.toString())
             .build()
     }
 
@@ -1498,7 +1501,7 @@ object ModelConverter {
     private fun makeAttachment(attachment: AttachmentEntity): Attachment {
         return Attachment.Builder()
             .attachmentType(attachment.attachmentType.getAttachmentType())
-            .attachmentMeta(makeAttachmentMeta(attachment.attachmentMeta))
+            .attachmentMeta(JSONObject(attachment.attachmentMeta))
             .build()
     }
 

@@ -23,6 +23,7 @@ class RoomModule {
             LMFeedRoomDatabase::class.java,
             LMFeedDbConstants.DB_NAME
         ).addMigrations(LMFeedDbMigration.MIGRATION_1_2)
+            .fallbackToDestructiveMigration()
             .build()
     }
 
