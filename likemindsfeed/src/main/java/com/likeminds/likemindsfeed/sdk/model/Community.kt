@@ -5,5 +5,6 @@ data class Community(
     val name: String,
     val imageUrl: String?,
     val membersCount: Int?,
-    val updatedAt: String?
+    val updatedAt: String?,
+    val communitySettings: List<CommunitySetting>? = null // community settings data
 )

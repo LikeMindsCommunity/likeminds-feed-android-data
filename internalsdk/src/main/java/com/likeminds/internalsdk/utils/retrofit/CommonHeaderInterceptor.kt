@@ -8,14 +8,18 @@ import javax.inject.Inject
 
 class CommonHeaderInterceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
+        val url = chain.request().url.toString()
         val requestBuilder = chain.request().newBuilder()
         val feedTokenManager = FeedTokenManager.getInstance()
-        if (!feedTokenManager.accessToken.isNullOrEmpty()) {
+
+        if (!feedTokenManager.accessToken.isNullOrEmpty() && !url.contains("user/refresh", false)) {
             requestBuilder.addHeader(AUTH, "Bearer ${feedTokenManager.accessToken}")
         }
+
         requestBuilder.addHeader(X_PLATFORM_CODE, "an")
         requestBuilder.addHeader(X_SDK_SOURCE, "feed")
         requestBuilder.addHeader(X_VERSION_CODE, BuildConfig.APP_VERSION_CODE.toString())
+
         return chain.proceed(requestBuilder.build())
     }
 

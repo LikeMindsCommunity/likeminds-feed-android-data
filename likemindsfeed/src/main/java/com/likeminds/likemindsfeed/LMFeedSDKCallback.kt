@@ -1,6 +1,9 @@
-package com.likeminds.internalsdk
+package com.likeminds.likemindsfeed
 
-interface LMInternalCallback {
+import androidx.annotation.Keep
+
+@Keep
+interface LMFeedSDKCallback {
     fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String)
 
     fun onRefreshTokenExpired(): Pair<String?, String?>
