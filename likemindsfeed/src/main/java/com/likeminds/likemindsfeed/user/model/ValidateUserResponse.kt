@@ -5,9 +5,7 @@ import com.likeminds.likemindsfeed.sdk.model.Community
 import com.likeminds.likemindsfeed.sdk.model.CommunitySetting
 import com.likeminds.likemindsfeed.sdk.model.User
 
-data class InitiateUserResponse(
-    val accessToken: String? = null,
-    val refreshToken: String? = null,
+data class ValidateUserResponse(
     val user: User? = null, //user data
     val community: Community? = null, //community data
     val appAccess: Boolean?,

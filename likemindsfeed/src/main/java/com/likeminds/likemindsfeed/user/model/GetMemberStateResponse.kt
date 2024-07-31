@@ -7,7 +7,6 @@ data class GetMemberStateResponse(
     val customTitle: String?,
     val imageUrl: String,
     val isGuest: Boolean,
-    val isOwner: Boolean,
     val name: String,
     val organisationName: String?,
     val managerRights: List<ManagementRightPermissionData>?,

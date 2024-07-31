@@ -7,6 +7,7 @@ import com.likeminds.internalsdk.db.dao.ConfigurationDao
 import com.likeminds.internalsdk.db.dao.PostWithAttachmentsDao
 import com.likeminds.internalsdk.db.dao.UserWithRightsDao
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
+import com.likeminds.internalsdk.db.utils.LMFeedDbMigration
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,7 +22,8 @@ class RoomModule {
             context,
             LMFeedRoomDatabase::class.java,
             LMFeedDbConstants.DB_NAME
-        ).build()
+        ).addMigrations(LMFeedDbMigration.MIGRATION_1_2)
+            .build()
     }
 
     @Provides

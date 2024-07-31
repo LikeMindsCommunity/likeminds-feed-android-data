@@ -93,4 +93,40 @@ class User private constructor(
             .memberSince(memberSince)
             .questionAnswers(questionAnswers)
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("User(id=")
+            append(id)
+            append(", imageUrl='")
+            append(imageUrl)
+            append("', isGuest=")
+            append(isGuest)
+            append(", name='")
+            append(name)
+            append("', organisationName=")
+            append(organisationName)
+            append(", sdkClientInfo=")
+            append(sdkClientInfo)
+            append(", isDeleted=")
+            append(isDeleted)
+            append(", customTitle=")
+            append(customTitle)
+            append(", updatedAt=")
+            append(updatedAt)
+            append(", userUniqueId='")
+            append(userUniqueId)
+            append("', uuid='")
+            append(uuid)
+            append("', state=")
+            append(state)
+            append(", customIntroText=")
+            append(customIntroText)
+            append(", memberSince=")
+            append(memberSince)
+            append(", questionAnswers=")
+            append(questionAnswers)
+            append(")")
+        }
+    }
 }

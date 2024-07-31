@@ -1,37 +1,36 @@
 package com.likeminds.internalsdk.sdk
 
 import android.util.Log
+import com.likeminds.internalsdk.FeedSDK
 import com.likeminds.internalsdk.FeedSDK.Companion.LOG_TAG
 import com.likeminds.internalsdk.FeedTokenManager
+import com.likeminds.internalsdk.sdk.util.SDKPreferences
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import javax.inject.Inject
 
 class TokenAuthenticator @Inject constructor(
-    private val refreshTokenNetworkApi: RefreshTokenNetworkApi
+    private val sdkPreferences: SDKPreferences
 ) : Authenticator {
     companion object {
         private const val AUTH = "Authorization"
-        const val INVALID_LTM = "Invalid LTM!"
     }
+
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        return getUpdatedRequest(response)
-    }
-
-    private fun getUpdatedRequest(response: Response): Request? {
-        val body = response.body?.string()
+        val endPoint = response.request.url.toString()
+        val code = response.code
         val feedTokenManager = FeedTokenManager.getInstance()
-        return when {
-            feedTokenManager.refreshToken.isNullOrEmpty() -> {
-                Log.e(LOG_TAG, "refresh token is empty")
-                null
-            }
-            (body?.contains(INVALID_LTM, true) == true) -> {
-                Log.d(LOG_TAG, "refreshing access token")
+        val feedSDK = FeedSDK.getInstance()
+        val lmInternalCallback = feedSDK.lmInternalCallback
+        val refreshTokenNetworkApi = feedSDK.refreshTokenApiImpl
+
+        return if (code == 401) {
+            if (!endPoint.contains("user/refresh", false)) {
+                Log.d(LOG_TAG, "new access token required")
+                val refreshToken = feedTokenManager.refreshToken
                 runBlocking {
-                    val refreshToken = feedTokenManager.refreshToken
                     when (val refreshResponse =
                         refreshTokenNetworkApi.refreshAccessToken("Bearer $refreshToken")) {
                         is NetworkResponse.Error -> {
@@ -41,23 +40,55 @@ class TokenAuthenticator @Inject constructor(
                             )
                             null
                         }
+
                         is NetworkResponse.Success -> {
                             Log.d(LOG_TAG, "access token refreshed")
-                            val newAccessToken = refreshResponse.body.data?.accessToken
-                            val newRefreshToken = refreshResponse.body.data?.refreshToken
+
+                            val newAccessToken = refreshResponse.body.data?.accessToken ?: ""
+                            val newRefreshToken = refreshResponse.body.data?.refreshToken ?: ""
                             val updatedToken = "Bearer $newAccessToken"
 
+                            //update token manager
                             feedTokenManager.updateTokens(newAccessToken, newRefreshToken)
+
+                            //update local prefs
+                            sdkPreferences.setAccessToken(newAccessToken)
+                            sdkPreferences.setRefreshToken(newRefreshToken)
+
+                            //through callback
+                            lmInternalCallback?.onAccessTokenExpiredAndRefreshed(
+                                newAccessToken,
+                                newRefreshToken
+                            )
+
+                            //retry api
                             response.request.newBuilder()
                                 .header(AUTH, updatedToken)
                                 .build()
                         }
                     }
                 }
+            } else {
+                Log.d(LOG_TAG, "new refresh token required")
+                feedTokenManager.clear()
+                val tokens = lmInternalCallback?.onRefreshTokenExpired()
+
+                val newAccessToken = tokens?.first ?: ""
+                val newRefreshToken = tokens?.second ?: ""
+
+                //update token manager
+                feedTokenManager.updateTokens(newAccessToken, newRefreshToken)
+
+                //update local prefs
+                sdkPreferences.setAccessToken(newAccessToken)
+                sdkPreferences.setRefreshToken(newRefreshToken)
+
+                response.request.newBuilder()
+                    .header(AUTH, newRefreshToken)
+                    .build()
             }
-            else -> {
-                null
-            }
+        } else {
+            response.request
         }
     }
 }

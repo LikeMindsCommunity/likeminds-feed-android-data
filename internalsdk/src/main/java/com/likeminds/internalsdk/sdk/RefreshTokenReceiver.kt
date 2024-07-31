@@ -1,5 +1,6 @@
 package com.likeminds.internalsdk.sdk
 
+import com.likeminds.internalsdk.sdk.model._RefreshTokenRequest_
 import com.likeminds.internalsdk.sdk.model._RefreshTokenResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -11,6 +12,11 @@ class RefreshTokenReceiver @Inject constructor(
     suspend fun refreshAccessToken(
         refreshToken: String
     ): NetworkResponse<APIResponse<_RefreshTokenResponse_>> {
-        return refreshTokenNetworkApi.refreshAccessToken(refreshToken)
+
+        val request = _RefreshTokenRequest_.Builder()
+            .tokenExpiryBeta(1)
+            .build()
+
+        return refreshTokenNetworkApi.refreshAccessToken(refreshToken, request)
     }
 }
