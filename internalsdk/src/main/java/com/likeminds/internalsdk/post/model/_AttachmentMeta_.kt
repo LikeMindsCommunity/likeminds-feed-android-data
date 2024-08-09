@@ -47,7 +47,11 @@ class _AttachmentMeta_ private constructor(
 
     //for custom widget
     @SerializedName("meta")
-    val meta: JsonObject?
+    val meta: JsonObject?,
+    @SerializedName("height")
+    val height: Int?,
+    @SerializedName("width")
+    val width: Int?
 ) {
     class Builder {
 
@@ -71,6 +75,8 @@ class _AttachmentMeta_ private constructor(
         private var isAnonymous: Boolean? = null
         private var allowAddOption: Boolean? = null
         private var meta: JsonObject? = null
+        private var height: Int? = null
+        private var width: Int? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -98,6 +104,8 @@ class _AttachmentMeta_ private constructor(
             apply { this.allowAddOption = allowAddOption }
 
         fun meta(meta: JsonObject?) = apply { this.meta = meta }
+        fun height(height: Int?) = apply { this.height = height }
+        fun width(width: Int?) = apply { this.width = width }
 
         fun build() = _AttachmentMeta_(
             name,
@@ -119,7 +127,9 @@ class _AttachmentMeta_ private constructor(
             multiSelectNumber,
             isAnonymous,
             allowAddOption,
-            meta
+            meta,
+            height,
+            width
         )
     }
 
@@ -144,5 +154,7 @@ class _AttachmentMeta_ private constructor(
             .isAnonymous(isAnonymous)
             .allowAddOption(allowAddOption)
             .meta(meta)
+            .height(height)
+            .width(width)
     }
 }

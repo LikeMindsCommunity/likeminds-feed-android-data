@@ -773,6 +773,8 @@ object ModelConverter {
             .body(_attachmentMeta_.body)
             .entityId(_attachmentMeta_.entityId)
             .thumbnailUrl(_attachmentMeta_.thumbnailUrl)
+            .height(_attachmentMeta_.height)
+            .width(_attachmentMeta_.width)
             .build()
     }
 
@@ -1146,6 +1148,8 @@ object ModelConverter {
             .isAnonymous(attachmentMeta.isAnonymous)
             .allowAddOption(attachmentMeta.allowAddOption)
             .meta(attachmentMeta.meta?.toJsonObject())
+            .height(attachmentMeta.height)
+            .width(attachmentMeta.width)
             .build()
     }
 
@@ -1331,6 +1335,8 @@ object ModelConverter {
             .title(attachmentMeta.title)
             .entityId(attachmentMeta.entityId)
             .meta(attachmentMeta.meta?.toString())
+            .height(attachmentMeta.height)
+            .width(attachmentMeta.width)
             .build()
     }
 
@@ -1528,6 +1534,8 @@ object ModelConverter {
             .awsFolderPath(attachmentMeta.awsFolderPath)
             .localFilePath(attachmentMeta.localFilePath)
             .localUri(Uri.parse(attachmentMeta.uri))
+            .height(attachmentMeta.height)
+            .width(attachmentMeta.width)
 
         attachmentMeta.meta?.let {
             attachmentMetaBuilder.meta(JSONObject(it))
