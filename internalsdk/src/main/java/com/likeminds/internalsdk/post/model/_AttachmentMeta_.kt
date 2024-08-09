@@ -1,5 +1,6 @@
 package com.likeminds.internalsdk.post.model
 
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
 class _AttachmentMeta_ private constructor(
@@ -42,7 +43,11 @@ class _AttachmentMeta_ private constructor(
     @SerializedName("is_anonymous")
     val isAnonymous: Boolean?,
     @SerializedName("allow_add_option")
-    val allowAddOption: Boolean?
+    val allowAddOption: Boolean?,
+
+    //for custom widget
+    @SerializedName("meta")
+    val meta: JsonObject?
 ) {
     class Builder {
 
@@ -65,6 +70,7 @@ class _AttachmentMeta_ private constructor(
         private var multiSelectNumber: Int? = null
         private var isAnonymous: Boolean? = null
         private var allowAddOption: Boolean? = null
+        private var meta: JsonObject? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -91,6 +97,8 @@ class _AttachmentMeta_ private constructor(
         fun allowAddOption(allowAddOption: Boolean?) =
             apply { this.allowAddOption = allowAddOption }
 
+        fun meta(meta: JsonObject?) = apply { this.meta = meta }
+
         fun build() = _AttachmentMeta_(
             name,
             url,
@@ -110,7 +118,8 @@ class _AttachmentMeta_ private constructor(
             pollType,
             multiSelectNumber,
             isAnonymous,
-            allowAddOption
+            allowAddOption,
+            meta
         )
     }
 
@@ -134,5 +143,6 @@ class _AttachmentMeta_ private constructor(
             .multiSelectNumber(multiSelectNumber)
             .isAnonymous(isAnonymous)
             .allowAddOption(allowAddOption)
+            .meta(meta)
     }
 }

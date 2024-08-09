@@ -8,5 +8,4 @@ enum class AttachmentType(val value: Int) {
     LINK(4),
     CUSTOM_WIDGET(5),
     POLL(6),
-    ARTICLE(7)
 }

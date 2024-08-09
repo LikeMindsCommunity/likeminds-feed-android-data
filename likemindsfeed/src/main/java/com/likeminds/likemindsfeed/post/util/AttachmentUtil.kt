@@ -17,7 +17,6 @@ object AttachmentUtil {
             AttachmentType.LINK.value -> AttachmentType.LINK
             AttachmentType.CUSTOM_WIDGET.value -> AttachmentType.CUSTOM_WIDGET
             AttachmentType.POLL.value -> AttachmentType.POLL
-            AttachmentType.ARTICLE.value -> AttachmentType.ARTICLE
             else -> AttachmentType.NONE
         }
     }
@@ -36,7 +35,6 @@ object AttachmentUtil {
             AttachmentType.LINK -> AttachmentType.LINK.value
             AttachmentType.CUSTOM_WIDGET -> AttachmentType.CUSTOM_WIDGET.value
             AttachmentType.POLL -> AttachmentType.POLL.value
-            AttachmentType.ARTICLE -> AttachmentType.ARTICLE.value
         }
     }
 }

@@ -752,7 +752,7 @@ object ModelConverter {
     ): Attachment {
         return Attachment.Builder()
             .attachmentType(_attachment_.attachmentType.getAttachmentType())
-            .attachmentMeta(_attachment_.attachmentMeta.toJSONObject())
+            .attachmentMeta(convertAttachmentMeta(_attachment_.attachmentMeta))
             .build()
     }
 
@@ -1109,7 +1109,7 @@ object ModelConverter {
         return attachments.map { attachment ->
             _Attachment_.Builder()
                 .attachmentType(attachment.attachmentType.getAttachmentValue())
-                .attachmentMeta(attachment.attachmentMeta.toJsonObject())
+                .attachmentMeta(createAttachmentMeta(attachment.attachmentMeta))
                 .build()
         }
     }
@@ -1145,6 +1145,7 @@ object ModelConverter {
             .multiSelectNumber(attachmentMeta.multiSelectNumber)
             .isAnonymous(attachmentMeta.isAnonymous)
             .allowAddOption(attachmentMeta.allowAddOption)
+            .meta(attachmentMeta.meta?.toJsonObject())
             .build()
     }
 
@@ -1303,7 +1304,7 @@ object ModelConverter {
             .temporaryId(postTemporaryId)
             .postId(postTemporaryId)
             .attachmentType(attachment.attachmentType.getAttachmentValue())
-            .attachmentMeta(attachment.attachmentMeta.toString())
+            .attachmentMeta(createAttachmentMetaEntity(attachment.attachmentMeta))
             .build()
     }
 
@@ -1329,6 +1330,7 @@ object ModelConverter {
             .body(attachmentMeta.body)
             .title(attachmentMeta.title)
             .entityId(attachmentMeta.entityId)
+            .meta(attachmentMeta.meta?.toString())
             .build()
     }
 
@@ -1501,7 +1503,7 @@ object ModelConverter {
     private fun makeAttachment(attachment: AttachmentEntity): Attachment {
         return Attachment.Builder()
             .attachmentType(attachment.attachmentType.getAttachmentType())
-            .attachmentMeta(JSONObject(attachment.attachmentMeta))
+            .attachmentMeta(makeAttachmentMeta(attachment.attachmentMeta))
             .build()
     }
 
@@ -1511,7 +1513,7 @@ object ModelConverter {
      * @return [AttachmentMeta]
      * */
     private fun makeAttachmentMeta(attachmentMeta: AttachmentMetaEntity): AttachmentMeta {
-        return AttachmentMeta.Builder()
+        val attachmentMetaBuilder = AttachmentMeta.Builder()
             .name(attachmentMeta.name)
             .url(attachmentMeta.url)
             .format(attachmentMeta.format)
@@ -1526,7 +1528,12 @@ object ModelConverter {
             .awsFolderPath(attachmentMeta.awsFolderPath)
             .localFilePath(attachmentMeta.localFilePath)
             .localUri(Uri.parse(attachmentMeta.uri))
-            .build()
+
+        attachmentMeta.meta?.let {
+            attachmentMetaBuilder.meta(JSONObject(it))
+        }
+
+        return attachmentMetaBuilder.build()
     }
 
     /**

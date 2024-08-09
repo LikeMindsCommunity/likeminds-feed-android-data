@@ -10,8 +10,8 @@ class AttachmentEntity(
     val id: Long,
     @ColumnInfo(name = "attachment_type")
     val attachmentType: Int,
-    @ColumnInfo(name = "attachment_meta")
-    val attachmentMeta: String,
+    @Embedded
+    val attachmentMeta: AttachmentMetaEntity,
     @ColumnInfo(name = "post_id")
     val postId: String,
     @ColumnInfo(name = "temp_id")
@@ -20,13 +20,13 @@ class AttachmentEntity(
     class Builder {
         private var id: Long = 0
         private var attachmentType: Int = 0
-        private var attachmentMeta: String = ""
+        private var attachmentMeta: AttachmentMetaEntity = AttachmentMetaEntity.Builder().build()
         private var temporaryId: String? = null
         private var postId: String = temporaryId.toString()
 
         fun id(id: Long) = apply { this.id = id }
         fun attachmentType(attachmentType: Int) = apply { this.attachmentType = attachmentType }
-        fun attachmentMeta(attachmentMeta: String) =
+        fun attachmentMeta(attachmentMeta: AttachmentMetaEntity) =
             apply { this.attachmentMeta = attachmentMeta }
 
         fun postId(postId: String) = apply { this.postId = postId }

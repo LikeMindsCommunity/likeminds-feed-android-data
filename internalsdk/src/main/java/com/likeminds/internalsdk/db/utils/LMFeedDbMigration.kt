@@ -50,4 +50,11 @@ object LMFeedDbMigration {
             )
         }
     }
+    val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                "ALTER TABLE ${LMFeedDbConstants.ATTACHMENT_TABLE} ADD `custom_widget_meta` TEXT"
+            )
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.post.model
 
 import android.net.Uri
+import org.json.JSONObject
 
 class AttachmentMeta private constructor(
     val name: String?,
@@ -29,7 +30,9 @@ class AttachmentMeta private constructor(
     val pollType: PollType?,
     val multiSelectNumber: Int?,
     val isAnonymous: Boolean?,
-    val allowAddOption: Boolean?
+    val allowAddOption: Boolean?,
+    //custom widget related
+    val meta: JSONObject?
 ) {
     class Builder {
 
@@ -57,6 +60,7 @@ class AttachmentMeta private constructor(
         private var multiSelectNumber: Int? = null
         private var isAnonymous: Boolean? = null
         private var allowAddOption: Boolean? = null
+        private var meta: JSONObject? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -92,6 +96,8 @@ class AttachmentMeta private constructor(
         fun allowAddOption(allowAddOption: Boolean?) =
             apply { this.allowAddOption = allowAddOption }
 
+        fun meta(meta: JSONObject?) = apply { this.meta = meta }
+
         fun build() = AttachmentMeta(
             name,
             url,
@@ -116,7 +122,8 @@ class AttachmentMeta private constructor(
             pollType,
             multiSelectNumber,
             isAnonymous,
-            allowAddOption
+            allowAddOption,
+            meta
         )
     }
 
@@ -145,5 +152,6 @@ class AttachmentMeta private constructor(
             .multiSelectNumber(multiSelectNumber)
             .isAnonymous(isAnonymous)
             .allowAddOption(allowAddOption)
+            .meta(meta)
     }
 }

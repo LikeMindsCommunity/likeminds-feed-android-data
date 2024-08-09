@@ -4,17 +4,17 @@ import org.json.JSONObject
 
 class Attachment private constructor(
     val attachmentType: AttachmentType,
-    val attachmentMeta: JSONObject
+    val attachmentMeta: AttachmentMeta
 ) {
     class Builder {
 
         private var attachmentType: AttachmentType = AttachmentType.NONE
-        private var attachmentMeta: JSONObject = JSONObject()
+        private var attachmentMeta: AttachmentMeta = AttachmentMeta.Builder().build()
 
         fun attachmentType(attachmentType: AttachmentType) =
             apply { this.attachmentType = attachmentType }
 
-        fun attachmentMeta(attachmentMeta: JSONObject) =
+        fun attachmentMeta(attachmentMeta: AttachmentMeta) =
             apply { this.attachmentMeta = attachmentMeta }
 
         fun build() = Attachment(attachmentType, attachmentMeta)
