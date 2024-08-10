@@ -23,4 +23,8 @@ class Attachment private constructor(
     fun toBuilder(): Builder {
         return Builder().attachmentType(attachmentType).attachmentMeta(attachmentMeta)
     }
+
+    override fun toString(): String {
+        return "Attachment:(attachmentType:${attachmentType.value}, attachmentMeta:$attachmentMeta)"
+    }
 }

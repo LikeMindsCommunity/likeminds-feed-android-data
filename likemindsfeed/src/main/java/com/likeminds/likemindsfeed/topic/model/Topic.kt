@@ -23,4 +23,16 @@ class Topic private constructor(
             .isEnabled(isEnabled)
             .name(name)
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("Topic(id='")
+            append(id)
+            append("', isEnabled=")
+            append(isEnabled)
+            append(", name='")
+            append(name)
+            append("')")
+        }
+    }
 }

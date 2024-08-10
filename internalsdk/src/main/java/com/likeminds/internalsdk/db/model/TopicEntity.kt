@@ -36,4 +36,18 @@ class TopicEntity(
             .name(name)
             .postId(postId)
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("TopicEntity(id='")
+            append(id)
+            append("', name='")
+            append(name)
+            append("', isEnabled=")
+            append(isEnabled)
+            append(", postId='")
+            append(postId)
+            append("')")
+        }
+    }
 }

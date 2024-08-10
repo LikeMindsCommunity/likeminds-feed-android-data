@@ -48,4 +48,20 @@ class AttachmentEntity(
             .postId(postId)
             .temporaryId(temporaryId)
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("AttachmentEntity:(id:'")
+            append(id)
+            append("', attachmentType='")
+            append(attachmentType)
+            append("', attachmentMeta='")
+            append(attachmentMeta)
+            append("', postId='")
+            append(postId)
+            append("', temporaryId='")
+            append(temporaryId)
+            append("'`)")
+        }
+    }
 }
