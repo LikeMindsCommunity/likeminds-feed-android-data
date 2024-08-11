@@ -1,8 +1,6 @@
 package com.likeminds.internalsdk.post.model
 
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
-import org.json.JSONObject
 
 class _Attachment_ private constructor(
     @SerializedName("attachment_type")

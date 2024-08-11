@@ -37,39 +37,6 @@ class MainActivity : AppCompatActivity() {
             )
 
             Log.d(TAG, "onCreate: ${initiateResponse.data?.user?.id}")
-
-            val attachments = listOf<Attachment>(
-                Attachment.Builder()
-                    .attachmentType(AttachmentType.IMAGE)
-                    .attachmentMeta(JSONObject().apply {
-                        put("name", "ABC")
-                        put("size", 100000L)
-                        put("url", "kllkl")
-                        put("height", 19009)
-                        put("weight", 89898)
-                    })
-                    .build(),
-                Attachment.Builder()
-                    .attachmentType(AttachmentType.CUSTOM_WIDGET)
-                    .attachmentMeta(JSONObject().apply {
-                        put("water", 4)
-                    })
-                    .build()
-            )
-
-            val addPostRequest = AddPostRequest.Builder()
-                .text("test Post")
-                .attachments(attachments)
-                .build()
-
-            val addPostResponse = client.addPost(addPostRequest)
-            Log.d(
-                TAG, """
-                addPostResponse
-                success: ${addPostResponse.success}
-                errorMessage: ${addPostResponse.errorMessage}
-            """.trimIndent()
-            )
         }
     }
 }
