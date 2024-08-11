@@ -1,12 +1,13 @@
 package com.likeminds.internalsdk.db.utils
 
+import android.util.Log
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 object LMFeedDbMigration {
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-
+            Log.d("LMFeedDbMigration", "MIGRATION_2_3")
             //change in user table
             database.execSQL(
                 "DROP TABLE ${LMFeedDbConstants.USER_TABLE}"
@@ -52,6 +53,7 @@ object LMFeedDbMigration {
     }
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
+            Log.d("LMFeedDbMigration", "MIGRATION_2_3")
             database.execSQL(
                 "ALTER TABLE ${LMFeedDbConstants.ATTACHMENT_TABLE} ADD `custom_widget_meta` TEXT"
             )
