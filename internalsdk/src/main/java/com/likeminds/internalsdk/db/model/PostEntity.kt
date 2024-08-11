@@ -55,4 +55,22 @@ class PostEntity(
             .isPosted(isPosted)
             .postId(postId)
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("PostEntity:(temporaryId=")
+            append(temporaryId)
+            append(", text=")
+            append(text)
+            append(", thumbnail=")
+            append(thumbnail)
+            append(", workerUUID=")
+            append(workerUUID)
+            append(", isPosted=")
+            append(isPosted)
+            append(", postId=")
+            append(postId)
+            append(")")
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.post.model
 
 import android.net.Uri
+import org.json.JSONObject
 
 class AttachmentMeta private constructor(
     val name: String?,
@@ -29,7 +30,11 @@ class AttachmentMeta private constructor(
     val pollType: PollType?,
     val multiSelectNumber: Int?,
     val isAnonymous: Boolean?,
-    val allowAddOption: Boolean?
+    val allowAddOption: Boolean?,
+    //custom widget related
+    val meta: JSONObject?,
+    val height: Int?,
+    val width: Int?
 ) {
     class Builder {
 
@@ -57,6 +62,9 @@ class AttachmentMeta private constructor(
         private var multiSelectNumber: Int? = null
         private var isAnonymous: Boolean? = null
         private var allowAddOption: Boolean? = null
+        private var meta: JSONObject? = null
+        private var height: Int? = null
+        private var width: Int? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -92,6 +100,10 @@ class AttachmentMeta private constructor(
         fun allowAddOption(allowAddOption: Boolean?) =
             apply { this.allowAddOption = allowAddOption }
 
+        fun meta(meta: JSONObject?) = apply { this.meta = meta }
+        fun height(height: Int?) = apply { this.height = height }
+        fun width(width: Int?) = apply { this.width = width }
+
         fun build() = AttachmentMeta(
             name,
             url,
@@ -116,7 +128,10 @@ class AttachmentMeta private constructor(
             pollType,
             multiSelectNumber,
             isAnonymous,
-            allowAddOption
+            allowAddOption,
+            meta,
+            height,
+            width
         )
     }
 
@@ -145,5 +160,69 @@ class AttachmentMeta private constructor(
             .multiSelectNumber(multiSelectNumber)
             .isAnonymous(isAnonymous)
             .allowAddOption(allowAddOption)
+            .meta(meta)
+            .height(height)
+            .width(width)
+    }
+
+    override fun toString(): String {
+        return buildString {
+            append("AttachmentMeta(name=")
+            append(name)
+            append(", url=")
+            append(url)
+            append(", format=")
+            append(format)
+            append(", size=")
+            append(size)
+            append(", duration=")
+            append(duration)
+            append(", pageCount=")
+            append(pageCount)
+            append(", ogTags=")
+            append(ogTags)
+            append(", coverImageUrl=")
+            append(coverImageUrl)
+            append(", title=")
+            append(title)
+            append(", body=")
+            append(body)
+            append(", entityId=")
+            append(entityId)
+            append(",")
+            append("thumbnailUrl=")
+            append(thumbnailUrl)
+            append(", awsFolderPath=")
+            append(awsFolderPath)
+            append(", localFilePath=")
+            append(localFilePath)
+            append(", localUri=")
+            append(localUri)
+            append(", thumbnailAWSFolderPath=")
+            append(thumbnailAWSFolderPath)
+            append(", thumbnailLocalFilePath=")
+            append(thumbnailLocalFilePath)
+            append(", expiryTime=")
+            append(expiryTime)
+            append(", pollOptions=")
+            append(pollOptions)
+            append(", multiSelectState=")
+            append(multiSelectState)
+            append(", pollType=")
+            append(pollType)
+            append(", multiSelectNumber=")
+            append(multiSelectNumber)
+            append(", isAnonymous=")
+            append(isAnonymous)
+            append(", allowAddOption=")
+            append(allowAddOption)
+            append(", meta=")
+            append(meta)
+            append(", height=")
+            append(height)
+            append(", width=")
+            append(width)
+            append(")")
+        }
     }
 }
