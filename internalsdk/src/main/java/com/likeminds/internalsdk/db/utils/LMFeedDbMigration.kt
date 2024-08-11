@@ -7,7 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 object LMFeedDbMigration {
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            Log.d("LMFeedDbMigration", "MIGRATION_2_3")
+            Log.d("LMFeedDbMigration", "MIGRATION_1_2")
             //change in user table
             database.execSQL(
                 "DROP TABLE ${LMFeedDbConstants.USER_TABLE}"
