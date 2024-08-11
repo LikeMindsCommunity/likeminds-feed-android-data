@@ -7,7 +7,7 @@ import org.json.JSONObject
 object JSONUtil {
 
     fun JSONObject.toJsonObject(): JsonObject {
-        return JsonParser.parseString(this.toString()).asJsonObject
+        return JsonParser().parse(this.toString()).asJsonObject
     }
 
     fun JsonObject.toJSONObject(): JSONObject {

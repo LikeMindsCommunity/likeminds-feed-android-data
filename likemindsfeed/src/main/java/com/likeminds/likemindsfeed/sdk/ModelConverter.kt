@@ -1,7 +1,6 @@
 package com.likeminds.likemindsfeed.sdk
 
 import android.net.Uri
-import com.google.gson.JsonObject
 import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
@@ -40,7 +39,6 @@ import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.user.model.*
-import com.likeminds.likemindsfeed.util.JSONUtil.toJSONObject
 import com.likeminds.likemindsfeed.util.JSONUtil.toJsonObject
 import com.likeminds.likemindsfeed.widgets.model.LMMeta
 import com.likeminds.likemindsfeed.widgets.model.Widget
