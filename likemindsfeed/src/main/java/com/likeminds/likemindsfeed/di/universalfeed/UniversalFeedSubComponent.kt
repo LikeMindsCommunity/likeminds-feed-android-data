@@ -1,6 +1,6 @@
 package com.likeminds.likemindsfeed.di.universalfeed
 
-import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
+import com.likeminds.likemindsfeed.feed.FeedClient
 import dagger.Subcomponent
 
 @Subcomponent
@@ -11,5 +11,5 @@ interface UniversalFeedSubComponent {
         fun create(): UniversalFeedSubComponent
     }
 
-    fun inject(universalFeedClient: UniversalFeedClient)
+    fun inject(feedClient: FeedClient)
 }

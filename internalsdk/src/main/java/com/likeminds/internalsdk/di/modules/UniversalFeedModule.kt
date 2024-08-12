@@ -1,7 +1,7 @@
 package com.likeminds.internalsdk.di.modules
 
 import com.google.gson.Gson
-import com.likeminds.internalsdk.universalfeed.UniversalFeedNetworkApi
+import com.likeminds.internalsdk.feed.FeedNetworkApi
 import com.likeminds.internalsdk.utils.retrofit.NetworkResponseAdapterFactory
 import com.likeminds.internalsdk.utils.retrofit.model.BaseUrl
 import dagger.Module
@@ -20,13 +20,13 @@ class UniversalFeedModule {
         client: OkHttpClient,
         gson: Gson,
         baseUrl: BaseUrl
-    ): UniversalFeedNetworkApi {
+    ): FeedNetworkApi {
         return Retrofit.Builder()
             .baseUrl(baseUrl.getKettleBase())
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(NetworkResponseAdapterFactory(gson))
             .build()
-            .create(UniversalFeedNetworkApi::class.java)
+            .create(FeedNetworkApi::class.java)
     }
 }

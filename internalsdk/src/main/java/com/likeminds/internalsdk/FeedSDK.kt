@@ -23,8 +23,8 @@ import com.likeminds.internalsdk.sdk.*
 import com.likeminds.internalsdk.sdk.util.SDKPreferences
 import com.likeminds.internalsdk.topic.TopicApi
 import com.likeminds.internalsdk.topic.TopicApiImpl
-import com.likeminds.internalsdk.universalfeed.UniversalFeedApi
-import com.likeminds.internalsdk.universalfeed.UniversalFeedApiImpl
+import com.likeminds.internalsdk.feed.FeedApi
+import com.likeminds.internalsdk.feed.FeedApiImpl
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,7 +42,7 @@ class FeedSDK {
     lateinit var sdkApiImpl: SDKApiImpl
 
     @Inject
-    lateinit var universalFeedApiImpl: UniversalFeedApiImpl
+    lateinit var feedApiImpl: FeedApiImpl
 
     @Inject
     lateinit var postApiImpl: PostApiImpl
@@ -122,8 +122,8 @@ class FeedSDK {
         return sdkApiImpl
     }
 
-    fun getUniversalFeedApi(): UniversalFeedApi {
-        return universalFeedApiImpl
+    fun feedApi(): FeedApi {
+        return feedApiImpl
     }
 
     fun getCommentApi(): CommentApi {

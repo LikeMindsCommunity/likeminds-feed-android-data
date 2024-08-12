@@ -20,9 +20,9 @@ import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.topic.TopicClient
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
-import com.likeminds.likemindsfeed.universalfeed.UniversalFeedClient
-import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
-import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.feed.FeedClient
+import com.likeminds.likemindsfeed.feed.model.GetFeedRequest
+import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.user.UserClient
 import com.likeminds.likemindsfeed.user.model.*
 import javax.inject.Inject
@@ -35,7 +35,7 @@ class LMFeedClient private constructor() {
     lateinit var userClient: UserClient
 
     @Inject
-    lateinit var universalFeedClient: UniversalFeedClient
+    lateinit var feedClient: FeedClient
 
     @Inject
     lateinit var commentClient: CommentClient
@@ -131,7 +131,7 @@ class LMFeedClient private constructor() {
 
     // Exposed function to process feed request
     suspend fun getFeed(getFeedRequest: GetFeedRequest): LMResponse<GetFeedResponse> {
-        return universalFeedClient.getFeed(getFeedRequest)
+        return feedClient.getFeed(getFeedRequest)
     }
 
     // Exposed function to process add post request

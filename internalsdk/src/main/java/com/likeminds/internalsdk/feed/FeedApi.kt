@@ -1,11 +1,11 @@
-package com.likeminds.internalsdk.universalfeed
+package com.likeminds.internalsdk.feed
 
-import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
-import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
+import com.likeminds.internalsdk.feed.model._GetFeedRequest_
+import com.likeminds.internalsdk.feed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
-interface UniversalFeedApi {
+interface FeedApi {
 
     // api to fetch paginated feed data
     suspend fun getFeed(
