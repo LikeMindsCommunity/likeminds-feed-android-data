@@ -1,10 +1,7 @@
 package com.likeminds.likemindsfeed.user
 
-import android.content.Context
-import android.util.Log
 import com.likeminds.internalsdk.FeedTokenManager
 import com.likeminds.internalsdk.sdk.model.*
-import com.likeminds.internalsdk.util.sharedpreference.MasterPrefUtils
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -152,41 +149,39 @@ class UserClient @Inject constructor() : BaseClient() {
     suspend fun logout(logoutRequest: LogoutRequest): LMResponse<Nothing> {
         // validates the client request
         RequestUtils.validate()
-        validateLogoutResponse(logoutRequest)
 
-        // builds internal request model
-        val request =
-            _LogoutRequest_.Builder()
-                .refreshToken(FeedTokenManager.getInstance().refreshToken ?: "")
-                .deviceId(logoutRequest.deviceId)
-                .build()
+        return if (logoutRequest.deviceId != null) {
+            // builds internal request model
+            val request =
+                _LogoutRequest_.Builder()
+                    .refreshToken(FeedTokenManager.getInstance().refreshToken ?: "")
+                    .deviceId(logoutRequest.deviceId)
+                    .build()
 
-        return when (val response = sdkApi.logout(request)) {
-            is NetworkResponse.Error -> {
-                LMResponse(
-                    success = response.body.success,
-                    errorMessage = response.body.errorMessage
-                )
+            when (val response = sdkApi.logout(request)) {
+                is NetworkResponse.Error -> {
+                    LMResponse(
+                        success = response.body.success,
+                        errorMessage = response.body.errorMessage
+                    )
+                }
+
+                is NetworkResponse.Success -> {
+                    clearLocalStorage()
+
+                    //return response
+                    LMResponse(
+                        success = response.body.success
+                    )
+                }
             }
+        } else {
+            clearLocalStorage()
 
-            is NetworkResponse.Success -> {
-                clearLocalStorage()
-
-                //return response
-                LMResponse(
-                    success = response.body.success
-                )
-            }
-        }
-    }
-
-    /**
-     * validates [logoutRequest]
-     * @throws IllegalArgumentException - when required properties not provided
-     */
-    private fun validateLogoutResponse(logoutRequest: LogoutRequest) {
-        if (logoutRequest.deviceId.isEmpty()) {
-            RequestUtils.throwException("deviceId")
+            //return response
+            LMResponse(
+                success = true
+            )
         }
     }
 
