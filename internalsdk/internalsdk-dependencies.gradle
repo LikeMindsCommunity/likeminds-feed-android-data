@@ -37,10 +37,10 @@ dependencies {
 
     //coroutines
     implementation deps.kotlin.coroutines_core
-
-    //sentry
-    implementation deps.sentry.main
-    implementation deps.sentry.okhttp
+//
+//    //sentry
+//    implementation deps.sentry.main
+//    implementation deps.sentry.okhttp
 
     //room
     api deps.room.main
