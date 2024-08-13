@@ -1,4 +1,4 @@
-package com.likeminds.likemindsfeed.universalfeed.model
+package com.likeminds.likemindsfeed.feed.model
 
 import com.likeminds.likemindsfeed.post.model.Post
 import com.likeminds.likemindsfeed.sdk.model.User

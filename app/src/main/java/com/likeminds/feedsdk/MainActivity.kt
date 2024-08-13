@@ -5,9 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.post.model.AddPostRequest
+import com.likeminds.likemindsfeed.post.model.Attachment
+import com.likeminds.likemindsfeed.post.model.AttachmentType
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.user.model.ValidateUserRequest
 import kotlinx.coroutines.*
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 

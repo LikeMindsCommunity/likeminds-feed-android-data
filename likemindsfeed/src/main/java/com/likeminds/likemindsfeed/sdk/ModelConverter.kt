@@ -15,7 +15,7 @@ import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
 import com.likeminds.internalsdk.topic.model._Topic_
-import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
+import com.likeminds.internalsdk.feed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.widgets.model._LMMeta_
 import com.likeminds.internalsdk.widgets.model._Widget_
@@ -37,8 +37,9 @@ import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
-import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.user.model.*
+import com.likeminds.likemindsfeed.util.JSONUtil.toJsonObject
 import com.likeminds.likemindsfeed.widgets.model.LMMeta
 import com.likeminds.likemindsfeed.widgets.model.Widget
 import org.json.JSONObject
@@ -770,6 +771,8 @@ object ModelConverter {
             .body(_attachmentMeta_.body)
             .entityId(_attachmentMeta_.entityId)
             .thumbnailUrl(_attachmentMeta_.thumbnailUrl)
+            .height(_attachmentMeta_.height)
+            .width(_attachmentMeta_.width)
             .build()
     }
 
@@ -1142,6 +1145,9 @@ object ModelConverter {
             .multiSelectNumber(attachmentMeta.multiSelectNumber)
             .isAnonymous(attachmentMeta.isAnonymous)
             .allowAddOption(attachmentMeta.allowAddOption)
+            .meta(attachmentMeta.meta?.toJsonObject())
+            .height(attachmentMeta.height)
+            .width(attachmentMeta.width)
             .build()
     }
 
@@ -1326,6 +1332,9 @@ object ModelConverter {
             .body(attachmentMeta.body)
             .title(attachmentMeta.title)
             .entityId(attachmentMeta.entityId)
+            .meta(attachmentMeta.meta?.toString())
+            .height(attachmentMeta.height)
+            .width(attachmentMeta.width)
             .build()
     }
 
@@ -1508,7 +1517,7 @@ object ModelConverter {
      * @return [AttachmentMeta]
      * */
     private fun makeAttachmentMeta(attachmentMeta: AttachmentMetaEntity): AttachmentMeta {
-        return AttachmentMeta.Builder()
+        val attachmentMetaBuilder = AttachmentMeta.Builder()
             .name(attachmentMeta.name)
             .url(attachmentMeta.url)
             .format(attachmentMeta.format)
@@ -1523,7 +1532,14 @@ object ModelConverter {
             .awsFolderPath(attachmentMeta.awsFolderPath)
             .localFilePath(attachmentMeta.localFilePath)
             .localUri(Uri.parse(attachmentMeta.uri))
-            .build()
+            .height(attachmentMeta.height)
+            .width(attachmentMeta.width)
+
+        attachmentMeta.meta?.let {
+            attachmentMetaBuilder.meta(JSONObject(it))
+        }
+
+        return attachmentMetaBuilder.build()
     }
 
     /**

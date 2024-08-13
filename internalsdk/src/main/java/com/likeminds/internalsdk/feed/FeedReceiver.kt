@@ -1,13 +1,13 @@
-package com.likeminds.internalsdk.universalfeed
+package com.likeminds.internalsdk.feed
 
-import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
-import com.likeminds.internalsdk.universalfeed.model._GetFeedResponse_
+import com.likeminds.internalsdk.feed.model._GetFeedRequest_
+import com.likeminds.internalsdk.feed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import javax.inject.Inject
 
-class UniversalFeedReceiver @Inject constructor(
-    private val universalFeedNetworkApi: UniversalFeedNetworkApi
+class FeedReceiver @Inject constructor(
+    private val feedNetworkApi: FeedNetworkApi
 ) {
 
     suspend fun getFeed(
@@ -21,7 +21,7 @@ class UniversalFeedReceiver @Inject constructor(
             queries["topic_ids"] = request.topicIds
         }
 
-        return universalFeedNetworkApi.getFeed(
+        return feedNetworkApi.getFeed(
             queries
         )
     }
