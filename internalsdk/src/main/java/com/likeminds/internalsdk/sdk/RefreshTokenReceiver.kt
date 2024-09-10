@@ -12,6 +12,11 @@ class RefreshTokenReceiver @Inject constructor(
     suspend fun refreshAccessToken(
         refreshToken: String
     ): NetworkResponse<APIResponse<_RefreshTokenResponse_>> {
-        return refreshTokenNetworkApi.refreshAccessToken(refreshToken)
+
+        val refreshTokenRequest_ = _RefreshTokenRequest_.Builder()
+            .tokenExpiryBeta(2)
+            .build()
+
+        return refreshTokenNetworkApi.refreshAccessToken(refreshToken,refreshTokenRequest_)
     }
 }
