@@ -39,6 +39,8 @@ class AttachmentMetaEntity(
     val title: String?,
     @ColumnInfo(name = "attachment_meta_entity_id")
     val entityId: String?,
+    @ColumnInfo(name = "custom_widget_meta")
+    val meta: String?
 ) {
     class Builder {
         private var name: String? = null
@@ -59,6 +61,7 @@ class AttachmentMetaEntity(
         private var body: String? = null
         private var title: String? = null
         private var entityId: String? = null
+        private var meta: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -82,6 +85,7 @@ class AttachmentMetaEntity(
         fun body(body: String?) = apply { this.body = body }
         fun title(title: String?) = apply { this.title = title }
         fun entityId(entityId: String?) = apply { this.entityId = entityId }
+        fun meta(meta: String?) = apply { this.meta = meta }
 
         fun build() =
             AttachmentMetaEntity(
@@ -102,7 +106,8 @@ class AttachmentMetaEntity(
                 coverImageUrl,
                 body,
                 title,
-                entityId
+                entityId,
+                meta
             )
     }
 
@@ -125,5 +130,50 @@ class AttachmentMetaEntity(
             .body(body)
             .title(title)
             .entityId(entityId)
+            .meta(meta)
+    }
+
+    override fun toString(): String {
+        return buildString {
+            append("AttachmentMetaEntity:(name=")
+            append(name)
+            append(", url=")
+            append(url)
+            append(", uri=")
+            append(uri)
+            append(", size=")
+            append(size)
+            append(", duration=")
+            append(duration)
+            append(", pageCount=")
+            append(pageCount)
+            append(", format=")
+            append(format)
+            append(", width=")
+            append(width)
+            append(", height=")
+            append(height)
+            append(", awsFolderPath=")
+            append(awsFolderPath)
+            append(", localFilePath=")
+            append(localFilePath)
+            append(", thumbnailUrl=")
+            append(thumbnailUrl)
+            append(", thumbnailAWSFolderPath=")
+            append(thumbnailAWSFolderPath)
+            append(", thumbnailLocalFilePath=")
+            append(thumbnailLocalFilePath)
+            append(", coverImageUrl=")
+            append(coverImageUrl)
+            append(", body=")
+            append(body)
+            append(", title=")
+            append(title)
+            append(", entityId=")
+            append(entityId)
+            append(", meta=")
+            append(meta)
+            append(")")
+        }
     }
 }

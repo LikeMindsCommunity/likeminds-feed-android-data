@@ -1,4 +1,4 @@
-package com.likeminds.internalsdk.universalfeed.model
+package com.likeminds.internalsdk.feed.model
 
 import com.google.gson.annotations.SerializedName
 import com.likeminds.internalsdk.post.model._Post_

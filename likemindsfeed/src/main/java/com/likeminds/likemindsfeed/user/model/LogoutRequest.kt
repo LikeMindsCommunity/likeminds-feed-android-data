@@ -1,12 +1,12 @@
 package com.likeminds.likemindsfeed.user.model
 
 class LogoutRequest private constructor(
-    val deviceId: String
+    val deviceId: String?
 ) {
     class Builder {
-        private var deviceId: String = ""
+        private var deviceId: String? = null
 
-        fun deviceId(deviceId: String) = apply { this.deviceId = deviceId }
+        fun deviceId(deviceId: String?) = apply { this.deviceId = deviceId }
 
         fun build() = LogoutRequest(deviceId)
     }

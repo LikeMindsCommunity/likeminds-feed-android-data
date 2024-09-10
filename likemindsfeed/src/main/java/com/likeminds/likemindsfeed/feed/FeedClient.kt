@@ -1,24 +1,24 @@
-package com.likeminds.likemindsfeed.universalfeed
+package com.likeminds.likemindsfeed.feed
 
-import com.likeminds.internalsdk.universalfeed.model._GetFeedRequest_
+import com.likeminds.internalsdk.feed.model._GetFeedRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
+import com.likeminds.likemindsfeed.feed.model.GetFeedRequest
+import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
-import com.likeminds.likemindsfeed.universalfeed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
-class UniversalFeedClient @Inject constructor() : BaseClient() {
+class FeedClient @Inject constructor() : BaseClient() {
 
     override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().universalFeedComponent()?.inject(this)
     }
 
     private val universalApi by lazy {
-        feedSDK.getUniversalFeedApi()
+        feedSDK.feedApi()
     }
 
     /**
