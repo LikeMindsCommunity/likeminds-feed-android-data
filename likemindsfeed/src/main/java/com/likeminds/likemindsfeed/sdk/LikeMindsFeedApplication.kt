@@ -41,7 +41,6 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     private var topicSubComponent: TopicSubComponent? = null
     private var configurationSubComponent: ConfigurationSubComponent? = null
     private var pollSubComponent: PollSubComponent? = null
-
     private var searchSubComponent: SearchSubComponent? = null
 
     companion object {
@@ -149,13 +148,13 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
         return pollSubComponent
     }
 
-//    fun searchComponent(): SearchSubComponent? {
-//        if(searchSubComponent == null){
-//            searchSubComponent = likeMindsFeedComponent?.searchComp
-//        }
-//
-//        return searchSubComponent;
-//    }
+    fun searchComponent(): SearchSubComponent? {
+        if(searchSubComponent == null){
+            searchSubComponent = likeMindsFeedComponent?.searchComponent()?.create()
+        }
+
+        return searchSubComponent
+    }
 
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
         lmFeedSDKCallback?.onAccessTokenExpiredAndRefreshed(accessToken, refreshToken)

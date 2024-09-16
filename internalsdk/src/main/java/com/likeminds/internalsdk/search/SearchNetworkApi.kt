@@ -7,6 +7,7 @@ import retrofit2.http.GET
 
 interface SearchNetworkApi {
 
+    // INCOMPLETE
     @GET("search/post")
     suspend fun searchPosts():NetworkResponse<APIResponse<_GetSearchPostsResponse_>>
 }

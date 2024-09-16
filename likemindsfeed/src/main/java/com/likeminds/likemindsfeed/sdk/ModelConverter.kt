@@ -16,6 +16,7 @@ import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
 import com.likeminds.internalsdk.topic.model._Topic_
 import com.likeminds.internalsdk.feed.model._GetFeedResponse_
+import com.likeminds.internalsdk.search.model._GetSearchPostsResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.widgets.model._LMMeta_
 import com.likeminds.internalsdk.widgets.model._Widget_
@@ -38,6 +39,7 @@ import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.search.model.GetSearchPostsResponse
 import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.util.JSONUtil.toJsonObject
 import com.likeminds.likemindsfeed.widgets.model.LMMeta
@@ -992,6 +994,27 @@ object ModelConverter {
             .isEnabled(_topic_.isEnabled)
             .name(_topic_.name)
             .build()
+    }
+
+    // converts internal search(_) to client search model
+    fun convertSearchPostAPIResponse(
+        apiResponse: APIResponse<_GetSearchPostsResponse_>
+    ): LMResponse<GetSearchPostsResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertSearchPostResponse(apiResponse.data)
+        )
+    }
+
+    private fun convertSearchPostResponse(_getSearchResponse_: _GetSearchPostsResponse_?): GetSearchPostsResponse? {
+        if (_getSearchResponse_ == null) return null
+        return GetSearchPostsResponse(
+            convertPosts(_getSearchResponse_.posts),
+            convertUsersMap(_getSearchResponse_.users),
+            convertWidgetsMap(_getSearchResponse_.widgets),
+            convertTopicsMap(_getSearchResponse_.topics)
+        )
     }
 
     // converts APIResponse<_GetCommunityConfiguration_> to LMResponse<GetCommunityConfiguration> model

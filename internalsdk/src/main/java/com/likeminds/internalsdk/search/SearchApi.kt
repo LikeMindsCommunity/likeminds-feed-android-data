@@ -1,5 +1,6 @@
 package com.likeminds.internalsdk.search
 
+import com.likeminds.internalsdk.search.model._GetSearchPostsRequest_
 import com.likeminds.internalsdk.search.model._GetSearchPostsResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
@@ -7,5 +8,5 @@ import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
 // INCOMPLETE
 interface SearchApi {
-    suspend fun searchPosts(): NetworkResponse<APIResponse<_GetSearchPostsResponse_>>
+    suspend fun searchPosts(request: _GetSearchPostsRequest_): NetworkResponse<APIResponse<_GetSearchPostsResponse_>>
 }
