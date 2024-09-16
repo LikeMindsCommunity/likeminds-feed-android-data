@@ -13,6 +13,7 @@ import com.likeminds.likemindsfeed.post.model.AttachmentType
 import com.likeminds.likemindsfeed.post.model.DeletePostRequest
 import com.likeminds.likemindsfeed.post.model.EditPostRequest
 import com.likeminds.likemindsfeed.post.model.LikePostRequest
+import com.likeminds.likemindsfeed.search.model.GetSearchPostsRequest
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.user.model.ValidateUserRequest
 import kotlinx.coroutines.*
@@ -123,6 +124,22 @@ class MainActivity : AppCompatActivity() {
             """.trimIndent()
             )
 
+            // SearchPosts
+            val searchPostReq = GetSearchPostsRequest.Builder()
+                .page(1)
+                .pageSize(10)
+                .search("for")
+                .searchType("text")
+                .build()
+
+            val searcedPost = client.searchPosts(searchPostReq)
+            Log.d(
+                TAG, """
+                getSearchedPost = ${
+                    searcedPost.data?.posts
+                }
+            """.trimIndent()
+            )
         }
     }
 }

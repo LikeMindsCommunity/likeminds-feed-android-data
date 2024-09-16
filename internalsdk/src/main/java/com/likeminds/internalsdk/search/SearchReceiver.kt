@@ -9,17 +9,16 @@ import javax.inject.Inject
 class SearchReceiver @Inject constructor(
     private val searchNetworkApi: SearchNetworkApi
 ) {
-    companion object {
-        const val PAGE_QUERY = "page"
-        const val PAGE_SIZE_QUERY = "page_size"
-        const val SEARCH_QUERY = "search"
-        const val SEARCH_TYPE_QUERY = "search_type"
-    }
 
+    suspend fun searchPosts(
+        request: _GetSearchPostsRequest_
+    ): NetworkResponse<APIResponse<_GetSearchPostsResponse_>>{
+        val queries = HashMap<String, Any?>()
+        queries["page"] = request.page
+        queries["page_size"] = request.pageSize
+        queries["search"] = request.search
+        queries["search_type"] = request.searchType
 
-    suspend fun searchPosts(request: _GetSearchPostsRequest_): NetworkResponse<APIResponse<_GetSearchPostsResponse_>{
-        // INCOMPLETE
-
-        return searchNetworkApi.searchPosts()
+        return searchNetworkApi.searchPosts(queries)
     }
 }

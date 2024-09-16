@@ -6,7 +6,8 @@ import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
 
-// INCOMPLETE
 interface SearchApi {
-    suspend fun searchPosts(request: _GetSearchPostsRequest_): NetworkResponse<APIResponse<_GetSearchPostsResponse_>>
+    suspend fun searchPosts(
+        request: _GetSearchPostsRequest_
+    ): NetworkResponse<APIResponse<_GetSearchPostsResponse_>>
 }

@@ -9,7 +9,10 @@ import javax.inject.Inject
 class SearchApiImpl @Inject constructor(
     private val searchReceiver: SearchReceiver
 ) : SearchApi {
-    override suspend fun searchPosts(request: _GetSearchPostsRequest_): NetworkResponse<APIResponse<_GetSearchPostsResponse_>> {
-        TODO("Not yet implemented")
+
+    override suspend fun searchPosts(
+        request: _GetSearchPostsRequest_
+    ): NetworkResponse<APIResponse<_GetSearchPostsResponse_>> {
+        return searchReceiver.searchPosts(request)
     }
 }

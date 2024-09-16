@@ -996,7 +996,7 @@ object ModelConverter {
             .build()
     }
 
-    // converts internal search(_) to client search model
+    // converts internal _GetSearchPostsResponse_ to client GetSearchPostsResponse model
     fun convertSearchPostAPIResponse(
         apiResponse: APIResponse<_GetSearchPostsResponse_>
     ): LMResponse<GetSearchPostsResponse> {
@@ -1007,6 +1007,7 @@ object ModelConverter {
         )
     }
 
+    // converts internal searchResponse to client search model
     private fun convertSearchPostResponse(_getSearchResponse_: _GetSearchPostsResponse_?): GetSearchPostsResponse? {
         if (_getSearchResponse_ == null) return null
         return GetSearchPostsResponse(
