@@ -255,6 +255,7 @@ class LMFeedClient private constructor() {
         return topicClient.getTopics(getTopicRequest)
     }
 
+    //Exposed function to get all posts with specific request type
     suspend fun searchPosts(getSearchPostsRequest: GetSearchPostsRequest) : LMResponse<GetSearchPostsResponse>{
         return searchClient.searchPosts(getSearchPostsRequest)
     }

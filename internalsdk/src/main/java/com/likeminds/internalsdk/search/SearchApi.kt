@@ -7,6 +7,8 @@ import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 
 
 interface SearchApi {
+
+    // api to search posts
     suspend fun searchPosts(
         request: _GetSearchPostsRequest_
     ): NetworkResponse<APIResponse<_GetSearchPostsResponse_>>

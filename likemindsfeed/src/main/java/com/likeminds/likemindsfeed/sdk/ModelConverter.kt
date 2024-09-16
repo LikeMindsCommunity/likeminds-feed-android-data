@@ -1007,7 +1007,7 @@ object ModelConverter {
         )
     }
 
-    // converts internal searchResponse to client search model
+    // converts internal searchResponse to client searchResponse model
     private fun convertSearchPostResponse(_getSearchResponse_: _GetSearchPostsResponse_?): GetSearchPostsResponse? {
         if (_getSearchResponse_ == null) return null
         return GetSearchPostsResponse(

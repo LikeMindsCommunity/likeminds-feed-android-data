@@ -45,101 +45,23 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "onCreate: ${initiateResponse.data?.user?.name}")
 
 
-            val addPostRequest = AddPostRequest.Builder()
-                .heading("Test Head")
-                .text("c")
-                .build()
-
-//            val addPostResponse = client.addPost(addPostRequest)
+//            val getFeedReq = GetFeedRequest.Builder()
+//                .page(1)
+//                .pageSize(10)
+//                .build()
+//
+//            val getFeedResponse = client.getFeed(getFeedReq)
 //
 //            Log.d(
 //                TAG, """
-//                addPostResponse = ${addPostResponse.data?.post?.heading}
+//                getFeedResponse = ${
+//                    getFeedResponse.data?.posts?.map {
+//                        it.text
+//                    }
+//                }
 //            """.trimIndent()
 //            )
 
-            val getFeedReq = GetFeedRequest.Builder()
-                .page(1)
-                .pageSize(10)
-                .build()
-
-            val getFeedResponse = client.getFeed(getFeedReq)
-
-            Log.d(
-                TAG, """
-                getFeedResponse = ${
-                    getFeedResponse.data?.posts?.map {
-                        it.text
-                    }
-                }
-            """.trimIndent()
-            )
-
-
-            // editPost
-            val editPostRequest = EditPostRequest.Builder()
-                .postId("66deb04f0a9d8fdebde50539")
-                .text("This is the body text if the post is posted")
-                .build()
-
-            val editedPost = client.editPost(editPostRequest)
-            Log.d(
-                TAG, """
-                editPostResponse = ${editedPost.data?.post?.text}
-            """.trimIndent()
-            )
-
-
-            // deletePost
-//            val deletePostReq = DeletePostRequest.Builder()
-//                .postId("66deb04f0a9d8fdebde50539")
-//                .build()
-//            val deletePost = client.deletePost(deletePostReq)
-
-            // likePost
-            val likeReq = LikePostRequest.Builder().postId("66deb04f0a9d8fdebde50539").build()
-            client.likePost(likeReq)
-            Log.d(
-                TAG, """
-                getFeedResponse = ${
-                    getFeedResponse.data?.posts?.map {
-                        it.isLiked
-                    }
-                }
-            """.trimIndent()
-            )
-
-
-            // addComment
-            val addCommentReq = AddCommentRequest.Builder().postId("66deb04f0a9d8fdebde50539")
-                .text("Post comment")
-                .postId("66deb04f0a9d8fdebde50539")
-                .build()
-            val addedComm = client.addComment(addCommentReq)
-            Log.d(
-                TAG, """
-                getComment = ${
-                    addedComm.data?.comment?.text
-                }
-            """.trimIndent()
-            )
-
-            // SearchPosts
-            val searchPostReq = GetSearchPostsRequest.Builder()
-                .page(1)
-                .pageSize(10)
-                .search("for")
-                .searchType("text")
-                .build()
-
-            val searcedPost = client.searchPosts(searchPostReq)
-            Log.d(
-                TAG, """
-                getSearchedPost = ${
-                    searcedPost.data?.posts
-                }
-            """.trimIndent()
-            )
         }
     }
 }

@@ -20,6 +20,8 @@ class SearchClient @Inject constructor() : BaseClient() {
         feedSDK.getSearchApi()
     }
 
+    // Converts client request model to internal model and calls the api
+
     suspend fun searchPosts(getSearchPostsRequest: GetSearchPostsRequest):LMResponse<GetSearchPostsResponse>{
         RequestUtils.validate()
 
