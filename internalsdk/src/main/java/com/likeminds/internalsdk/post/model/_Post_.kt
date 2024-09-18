@@ -41,7 +41,9 @@ class _Post_ private constructor(
     @SerializedName("temp_id")
     val tempId: String?,
     @SerializedName("topics")
-    val topicIds: List<String>?
+    val topicIds: List<String>?,
+    @SerializedName("comment_ids")
+    val commentIds: List<String>?
 ) {
     class Builder {
         private var id: String = ""
@@ -63,26 +65,87 @@ class _Post_ private constructor(
         private var heading: String? = null
         private var tempId: String? = null
         private var topicIds: List<String>? = null
+        private var commentIds: List<String>? = null
 
-        fun id(id: String) = apply { this.id = id }
-        fun text(text: String) = apply { this.text = text }
-        fun attachments(attachments: List<_Attachment_>?) = apply { this.attachments = attachments }
-        fun communityId(communityId: Int) = apply { this.communityId = communityId }
-        fun isLiked(isLiked: Boolean) = apply { this.isLiked = isLiked }
-        fun isEdited(isEdited: Boolean) = apply { this.isEdited = isEdited }
-        fun isPinned(isPinned: Boolean) = apply { this.isPinned = isPinned }
-        fun userId(userId: String) = apply { this.userId = userId }
-        fun likesCount(likesCount: Int) = apply { this.likesCount = likesCount }
-        fun commentCount(commentsCount: Int) = apply { this.commentsCount = commentsCount }
-        fun isSaved(isSaved: Boolean) = apply { this.isSaved = isSaved }
-        fun menuItems(menuItems: List<_MenuItem_>) = apply { this.menuItems = menuItems }
-        fun replies(replies: List<_Comment_>?) = apply { this.replies = replies }
-        fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
-        fun updatedAt(updatedAt: Long) = apply { this.updatedAt = updatedAt }
-        fun uuid(uuid: String) = apply { this.uuid = uuid }
-        fun heading(heading: String?) = apply { this.heading = heading }
-        fun tempId(tempId: String?) = apply { this.tempId = tempId }
-        fun topicIds(topicIds: List<String>?) = apply { this.topicIds = topicIds }
+        fun id(id: String) = apply {
+            this.id = id
+        }
+
+        fun text(text: String) = apply {
+            this.text = text
+        }
+
+        fun attachments(attachments: List<_Attachment_>?) = apply {
+            this.attachments = attachments
+        }
+
+        fun communityId(communityId: Int) = apply {
+            this.communityId = communityId
+        }
+
+        fun isLiked(isLiked: Boolean) = apply {
+            this.isLiked = isLiked
+        }
+
+        fun isEdited(isEdited: Boolean) = apply {
+            this.isEdited = isEdited
+        }
+
+        fun isPinned(isPinned: Boolean) = apply {
+            this.isPinned = isPinned
+        }
+
+        fun userId(userId: String) = apply {
+            this.userId = userId
+        }
+
+        fun likesCount(likesCount: Int) = apply {
+            this.likesCount = likesCount
+        }
+
+        fun commentCount(commentsCount: Int) = apply {
+            this.commentsCount = commentsCount
+        }
+
+        fun isSaved(isSaved: Boolean) = apply {
+            this.isSaved = isSaved
+        }
+
+        fun menuItems(menuItems: List<_MenuItem_>) = apply {
+            this.menuItems = menuItems
+        }
+
+        fun replies(replies: List<_Comment_>?) = apply {
+            this.replies = replies
+        }
+
+        fun createdAt(createdAt: Long) = apply {
+            this.createdAt = createdAt
+        }
+
+        fun updatedAt(updatedAt: Long) = apply {
+            this.updatedAt = updatedAt
+        }
+
+        fun uuid(uuid: String) = apply {
+            this.uuid = uuid
+        }
+
+        fun heading(heading: String?) = apply {
+            this.heading = heading
+        }
+
+        fun tempId(tempId: String?) = apply {
+            this.tempId = tempId
+        }
+
+        fun topicIds(topicIds: List<String>?) = apply {
+            this.topicIds = topicIds
+        }
+
+        fun commentIds(commentIds: List<String>?) = apply {
+            this.commentIds = commentIds
+        }
 
         fun build() = _Post_(
             id,
@@ -103,7 +166,8 @@ class _Post_ private constructor(
             uuid,
             heading,
             tempId,
-            topicIds
+            topicIds,
+            commentIds
         )
     }
 
@@ -127,5 +191,6 @@ class _Post_ private constructor(
             .heading(heading)
             .tempId(tempId)
             .topicIds(topicIds)
+            .commentIds(commentIds)
     }
 }

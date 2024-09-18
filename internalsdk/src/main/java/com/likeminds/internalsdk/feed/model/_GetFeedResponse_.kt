@@ -1,6 +1,7 @@
 package com.likeminds.internalsdk.feed.model
 
 import com.google.gson.annotations.SerializedName
+import com.likeminds.internalsdk.comment.model._Comment_
 import com.likeminds.internalsdk.post.model._Post_
 import com.likeminds.internalsdk.sdk.model._User_
 import com.likeminds.internalsdk.topic.model._Topic_
@@ -14,5 +15,7 @@ data class _GetFeedResponse_(
     @SerializedName("widgets")
     val widgets: Map<String, _Widget_>,
     @SerializedName("topics")
-    val topics:Map<String,_Topic_>
+    val topics: Map<String, _Topic_>,
+    @SerializedName("filtered_comments")
+    val filteredComments: Map<String, _Comment_>?
 )
