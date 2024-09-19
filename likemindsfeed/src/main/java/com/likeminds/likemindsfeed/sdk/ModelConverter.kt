@@ -16,7 +16,7 @@ import com.likeminds.internalsdk.sdk.model.*
 import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
 import com.likeminds.internalsdk.topic.model._Topic_
 import com.likeminds.internalsdk.feed.model._GetFeedResponse_
-import com.likeminds.internalsdk.search.model._GetSearchPostsResponse_
+import com.likeminds.internalsdk.search.model._SearchPostsResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.widgets.model._LMMeta_
 import com.likeminds.internalsdk.widgets.model._Widget_
@@ -39,7 +39,7 @@ import com.likeminds.likemindsfeed.sdk.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
-import com.likeminds.likemindsfeed.search.model.GetSearchPostsResponse
+import com.likeminds.likemindsfeed.search.model.SearchPostsResponse
 import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.util.JSONUtil.toJsonObject
 import com.likeminds.likemindsfeed.widgets.model.LMMeta
@@ -998,8 +998,8 @@ object ModelConverter {
 
     // converts internal _GetSearchPostsResponse_ to client GetSearchPostsResponse model
     fun convertSearchPostAPIResponse(
-        apiResponse: APIResponse<_GetSearchPostsResponse_>
-    ): LMResponse<GetSearchPostsResponse> {
+        apiResponse: APIResponse<_SearchPostsResponse_>
+    ): LMResponse<SearchPostsResponse> {
         return LMResponse(
             apiResponse.success,
             apiResponse.errorMessage,
@@ -1008,9 +1008,9 @@ object ModelConverter {
     }
 
     // converts internal searchResponse to client searchResponse model
-    private fun convertSearchPostResponse(_getSearchResponse_: _GetSearchPostsResponse_?): GetSearchPostsResponse? {
+    private fun convertSearchPostResponse(_getSearchResponse_: _SearchPostsResponse_?): SearchPostsResponse? {
         if (_getSearchResponse_ == null) return null
-        return GetSearchPostsResponse(
+        return SearchPostsResponse(
             convertPosts(_getSearchResponse_.posts),
             convertUsersMap(_getSearchResponse_.users),
             convertWidgetsMap(_getSearchResponse_.widgets),

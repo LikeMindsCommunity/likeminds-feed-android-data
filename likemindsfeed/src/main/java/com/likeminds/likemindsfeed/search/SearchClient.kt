@@ -1,13 +1,13 @@
 package com.likeminds.likemindsfeed.search
 
-import com.likeminds.internalsdk.search.model._GetSearchPostsRequest_
+import com.likeminds.internalsdk.search.model._SearchPostsRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
-import com.likeminds.likemindsfeed.search.model.GetSearchPostsRequest
-import com.likeminds.likemindsfeed.search.model.GetSearchPostsResponse
+import com.likeminds.likemindsfeed.search.model.SearchPostsRequest
+import com.likeminds.likemindsfeed.search.model.SearchPostsResponse
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
@@ -21,15 +21,15 @@ class SearchClient @Inject constructor() : BaseClient() {
     }
 
     // Converts client request model to internal model and calls the api
-
-    suspend fun searchPosts(getSearchPostsRequest: GetSearchPostsRequest):LMResponse<GetSearchPostsResponse>{
+    suspend fun searchPosts(searchPostsRequest: SearchPostsRequest): LMResponse<SearchPostsResponse> {
         RequestUtils.validate()
+        validateSearchPostRequest(searchPostsRequest)
 
-        val request = _GetSearchPostsRequest_.Builder()
-            .page(getSearchPostsRequest.page)
-            .pageSize(getSearchPostsRequest.pageSize)
-            .search(getSearchPostsRequest.search)
-            .searchType(getSearchPostsRequest.searchType)
+        val request = _SearchPostsRequest_.Builder()
+            .page(searchPostsRequest.page)
+            .pageSize(searchPostsRequest.pageSize)
+            .search(searchPostsRequest.search)
+            .searchType(searchPostsRequest.searchType.value)
             .build()
 
         // Api call
@@ -48,4 +48,9 @@ class SearchClient @Inject constructor() : BaseClient() {
         }
     }
 
+    private fun validateSearchPostRequest(searchPostsRequest: SearchPostsRequest) {
+        if (searchPostsRequest.search.isNullOrEmpty()) {
+            RequestUtils.throwException("search")
+        }
+    }
 }

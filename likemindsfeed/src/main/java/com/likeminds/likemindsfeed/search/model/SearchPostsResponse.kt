@@ -5,7 +5,7 @@ import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.topic.model.Topic
 import com.likeminds.likemindsfeed.widgets.model.Widget
 
-data class GetSearchPostsResponse(
+data class SearchPostsResponse(
     val posts: List<Post>,
     val users: Map<String, User>,
     val widgets: Map<String, Widget>,

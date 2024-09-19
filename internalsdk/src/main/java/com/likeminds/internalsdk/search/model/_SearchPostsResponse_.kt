@@ -7,7 +7,7 @@ import com.likeminds.internalsdk.topic.model._Topic_
 import com.likeminds.internalsdk.widgets.model._Widget_
 
 
-data class _GetSearchPostsResponse_(
+data class _SearchPostsResponse_(
     @SerializedName("posts")
     val posts: List<_Post_>,
     @SerializedName("users")
