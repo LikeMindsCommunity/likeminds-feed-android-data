@@ -39,7 +39,7 @@ class TopicClient @Inject constructor() : BaseClient() {
             .isEnabled(getTopicRequest.isEnabled)
             .build()
 
-        //calls api and processes the response accordingly
+        // calls api and processes the response accordingly
         return when (val response = topicApi.getTopics(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(

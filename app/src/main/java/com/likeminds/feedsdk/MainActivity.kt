@@ -43,6 +43,16 @@ class MainActivity : AppCompatActivity() {
                 .build()
 
             val response = client.searchPosts(searchPostsRequest)
+
+            Log.d(
+                TAG, """
+                getSearchResponse = ${
+                    response.data?.posts?.map {
+                        it.text
+                    }
+                }
+            """.trimIndent()
+            )
         }
     }
 }

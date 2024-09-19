@@ -8,10 +8,12 @@ import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.search.model.SearchPostsRequest
 import com.likeminds.likemindsfeed.search.model.SearchPostsResponse
+import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
 class SearchClient @Inject constructor() : BaseClient() {
+
     override fun attachDagger() {
         LikeMindsFeedApplication.getInstance().searchComponent()?.inject(this)
     }
@@ -20,8 +22,14 @@ class SearchClient @Inject constructor() : BaseClient() {
         feedSDK.getSearchApi()
     }
 
-    // Converts client request model to internal model and calls the api
+    /**
+     * Converts clients models to queries map and calls the api
+     * @param searchPostsRequest - client request model to search posts
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return [SearchPostsResponse] - SearchPostsResponse model for searchPostsRequest
+     * */
     suspend fun searchPosts(searchPostsRequest: SearchPostsRequest): LMResponse<SearchPostsResponse> {
+        // validates the client request
         RequestUtils.validate()
         validateSearchPostRequest(searchPostsRequest)
 
@@ -32,7 +40,7 @@ class SearchClient @Inject constructor() : BaseClient() {
             .searchType(searchPostsRequest.searchType.value)
             .build()
 
-        // Api call
+        // calls api and processes the response accordingly
         return when (val response = searchApi.searchPosts(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
