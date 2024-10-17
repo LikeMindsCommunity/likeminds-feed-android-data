@@ -2,11 +2,8 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.search.model.SearchPostsRequest
-import com.likeminds.likemindsfeed.search.model.SearchType
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import kotlinx.coroutines.*
 
@@ -31,27 +28,6 @@ class MainActivity : AppCompatActivity() {
                     .userName("Ishaan")
                     .isGuest(false)
                     .build()
-            )
-
-            Log.d(TAG, "onCreate: ${initiateResponse.data?.user?.name}")
-
-            val searchPostsRequest = SearchPostsRequest.Builder()
-                .page(1)
-                .pageSize(10)
-                .search("post")
-                .searchType(SearchType.TEXT)
-                .build()
-
-            val response = client.searchPosts(searchPostsRequest)
-
-            Log.d(
-                TAG, """
-                getSearchResponse = ${
-                    response.data?.posts?.map {
-                        it.text
-                    }
-                }
-            """.trimIndent()
             )
         }
     }

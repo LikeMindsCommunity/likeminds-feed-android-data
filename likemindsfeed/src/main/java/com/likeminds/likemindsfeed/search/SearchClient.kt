@@ -8,7 +8,6 @@ import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
 import com.likeminds.likemindsfeed.sdk.ModelConverter
 import com.likeminds.likemindsfeed.search.model.SearchPostsRequest
 import com.likeminds.likemindsfeed.search.model.SearchPostsResponse
-import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.util.RequestUtils
 import javax.inject.Inject
 
@@ -33,6 +32,7 @@ class SearchClient @Inject constructor() : BaseClient() {
         RequestUtils.validate()
         validateSearchPostRequest(searchPostsRequest)
 
+        // builds internal request model
         val request = _SearchPostsRequest_.Builder()
             .page(searchPostsRequest.page)
             .pageSize(searchPostsRequest.pageSize)
@@ -56,6 +56,10 @@ class SearchClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * validates [searchPostsRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
     private fun validateSearchPostRequest(searchPostsRequest: SearchPostsRequest) {
         if (searchPostsRequest.search.isNullOrEmpty()) {
             RequestUtils.throwException("search")

@@ -6,7 +6,6 @@ import com.likeminds.internalsdk.sdk.model._User_
 import com.likeminds.internalsdk.topic.model._Topic_
 import com.likeminds.internalsdk.widgets.model._Widget_
 
-
 data class _SearchPostsResponse_(
     @SerializedName("posts")
     val posts: List<_Post_>,
@@ -15,5 +14,5 @@ data class _SearchPostsResponse_(
     @SerializedName("widgets")
     val widgets: Map<String, _Widget_>,
     @SerializedName("topics")
-    val topics:Map<String,_Topic_>
+    val topics: Map<String, _Topic_>
 )
