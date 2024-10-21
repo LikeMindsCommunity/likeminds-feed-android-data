@@ -5,6 +5,7 @@ import com.likeminds.internalsdk.comment.model.*
 import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
 import com.likeminds.internalsdk.db.model.*
+import com.likeminds.internalsdk.feed.model._GetFeedResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -13,9 +14,9 @@ import com.likeminds.internalsdk.notificationfeed.model.*
 import com.likeminds.internalsdk.poll.model.*
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.sdk.model.*
+import com.likeminds.internalsdk.search.model._SearchPostsResponse_
 import com.likeminds.internalsdk.topic.model._GetTopicsResponse_
 import com.likeminds.internalsdk.topic.model._Topic_
-import com.likeminds.internalsdk.feed.model._GetFeedResponse_
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.widgets.model._LMMeta_
 import com.likeminds.internalsdk.widgets.model._Widget_
@@ -23,6 +24,7 @@ import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.configuration.model.*
 import com.likeminds.likemindsfeed.configuration.util.ConfigurationUtil.getConfigurationType
+import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -35,9 +37,9 @@ import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.*
+import com.likeminds.likemindsfeed.search.model.SearchPostsResponse
 import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.topic.model.Topic
-import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.user.model.*
 import com.likeminds.likemindsfeed.util.JSONUtil.toJsonObject
 import com.likeminds.likemindsfeed.widgets.model.LMMeta
@@ -992,6 +994,28 @@ object ModelConverter {
             .isEnabled(_topic_.isEnabled)
             .name(_topic_.name)
             .build()
+    }
+
+    // converts internal _SearchPostsResponse_ to client SearchPostsResponse model
+    fun convertSearchPostAPIResponse(
+        apiResponse: APIResponse<_SearchPostsResponse_>
+    ): LMResponse<SearchPostsResponse> {
+        return LMResponse(
+            apiResponse.success,
+            apiResponse.errorMessage,
+            convertSearchPostResponse(apiResponse.data)
+        )
+    }
+
+    // converts internal _SearchPostsResponse_ to client SearchPostsResponse model
+    private fun convertSearchPostResponse(_getSearchResponse_: _SearchPostsResponse_?): SearchPostsResponse? {
+        if (_getSearchResponse_ == null) return null
+        return SearchPostsResponse(
+            convertPosts(_getSearchResponse_.posts),
+            convertUsersMap(_getSearchResponse_.users),
+            convertWidgetsMap(_getSearchResponse_.widgets),
+            convertTopicsMap(_getSearchResponse_.topics)
+        )
     }
 
     // converts APIResponse<_GetCommunityConfiguration_> to LMResponse<GetCommunityConfiguration> model

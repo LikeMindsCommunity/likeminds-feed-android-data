@@ -22,7 +22,8 @@ import javax.inject.Singleton
         TopicModule::class,
         ConfigurationModule::class,
         RoomModule::class,
-        PollModule::class
+        PollModule::class,
+        SearchModule::class
     ]
 )
 interface LMFeedSDKComponent {
