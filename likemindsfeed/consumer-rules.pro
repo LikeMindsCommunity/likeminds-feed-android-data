@@ -8,6 +8,7 @@
 -keep class com.likeminds.likemindsfeed.poll.model.** { *; }
 -keep class com.likeminds.likemindsfeed.post.model.** { *; }
 -keep class com.likeminds.likemindsfeed.sdk.model.** { *; }
+-keep class com.likeminds.likemindsfeed.search.model.** { *; }
 -keep class com.likeminds.likemindsfeed.topic.model.** { *; }
 -keep class com.likeminds.likemindsfeed.user.model.** { *; }
 -keep class com.likeminds.likemindsfeed.widgets.model.** { *; }

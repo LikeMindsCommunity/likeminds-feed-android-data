@@ -20,6 +20,8 @@ import com.likeminds.likemindsfeed.di.poll.PollModule
 import com.likeminds.likemindsfeed.di.poll.PollSubComponent
 import com.likeminds.likemindsfeed.di.post.PostModule
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
+import com.likeminds.likemindsfeed.di.search.SearchModule
+import com.likeminds.likemindsfeed.di.search.SearchSubComponent
 import com.likeminds.likemindsfeed.di.topic.TopicModule
 import com.likeminds.likemindsfeed.di.topic.TopicSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedModule
@@ -43,7 +45,8 @@ import javax.inject.Singleton
         NotificationFeedModule::class,
         TopicModule::class,
         ConfigurationModule::class,
-        PollModule::class
+        PollModule::class,
+        SearchModule::class
     ]
 )
 internal interface LikeMindsFeedComponent {
@@ -61,6 +64,7 @@ internal interface LikeMindsFeedComponent {
     fun topicComponent(): TopicSubComponent.Factory
     fun configurationComponent(): ConfigurationSubComponent.Factory
     fun pollComponent(): PollSubComponent.Factory
+    fun searchComponent(): SearchSubComponent.Factory
 
     @Component.Builder
     interface Builder {

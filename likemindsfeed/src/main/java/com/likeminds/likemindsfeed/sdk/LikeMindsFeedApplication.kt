@@ -16,6 +16,7 @@ import com.likeminds.likemindsfeed.di.moderation.ModerationSubComponent
 import com.likeminds.likemindsfeed.di.notificationfeed.NotificationFeedSubComponent
 import com.likeminds.likemindsfeed.di.poll.PollSubComponent
 import com.likeminds.likemindsfeed.di.post.PostSubComponent
+import com.likeminds.likemindsfeed.di.search.SearchSubComponent
 import com.likeminds.likemindsfeed.di.topic.TopicSubComponent
 import com.likeminds.likemindsfeed.di.universalfeed.UniversalFeedSubComponent
 import javax.inject.Inject
@@ -40,6 +41,7 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
     private var topicSubComponent: TopicSubComponent? = null
     private var configurationSubComponent: ConfigurationSubComponent? = null
     private var pollSubComponent: PollSubComponent? = null
+    private var searchSubComponent: SearchSubComponent? = null
 
     companion object {
         private var likeMindsFeedApplicationInstance: LikeMindsFeedApplication? = null
@@ -144,6 +146,14 @@ internal class LikeMindsFeedApplication private constructor() : LMInternalCallba
         }
 
         return pollSubComponent
+    }
+
+    fun searchComponent(): SearchSubComponent? {
+        if(searchSubComponent == null){
+            searchSubComponent = likeMindsFeedComponent?.searchComponent()?.create()
+        }
+
+        return searchSubComponent
     }
 
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {

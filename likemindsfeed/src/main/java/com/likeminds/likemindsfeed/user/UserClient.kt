@@ -150,38 +150,47 @@ class UserClient @Inject constructor() : BaseClient() {
         // validates the client request
         RequestUtils.validate()
 
-        return if (logoutRequest.deviceId != null) {
-            // builds internal request model
-            val request =
-                _LogoutRequest_.Builder()
-                    .refreshToken(FeedTokenManager.getInstance().refreshToken ?: "")
-                    .deviceId(logoutRequest.deviceId)
-                    .build()
+        val tokens = getTokens().data
 
-            when (val response = sdkApi.logout(request)) {
-                is NetworkResponse.Error -> {
-                    LMResponse(
-                        success = response.body.success,
-                        errorMessage = response.body.errorMessage
-                    )
-                }
-
-                is NetworkResponse.Success -> {
-                    clearLocalStorage()
-
-                    //return response
-                    LMResponse(
-                        success = response.body.success
-                    )
-                }
-            }
-        } else {
+        return if (tokens?.first.isNullOrEmpty() || tokens?.second.isNullOrEmpty()) {
             clearLocalStorage()
-
-            //return response
             LMResponse(
                 success = true
             )
+        } else {
+            if (logoutRequest.deviceId != null) {
+                // builds internal request model
+                val request =
+                    _LogoutRequest_.Builder()
+                        .refreshToken(FeedTokenManager.getInstance().refreshToken ?: "")
+                        .deviceId(logoutRequest.deviceId)
+                        .build()
+
+                when (val response = sdkApi.logout(request)) {
+                    is NetworkResponse.Error -> {
+                        LMResponse(
+                            success = response.body.success,
+                            errorMessage = response.body.errorMessage
+                        )
+                    }
+
+                    is NetworkResponse.Success -> {
+                        clearLocalStorage()
+
+                        //return response
+                        LMResponse(
+                            success = response.body.success
+                        )
+                    }
+                }
+            } else {
+                clearLocalStorage()
+
+                //return response
+                LMResponse(
+                    success = true
+                )
+            }
         }
     }
 

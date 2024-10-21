@@ -1,7 +1,7 @@
 package com.likeminds.internalsdk.sdk.util
 
 import android.app.Application
-import com.likeminds.internalsdk.util.sharedpreference.BasePreferences
+import com.likeminds.internalsdk.utils.sharedpreference.BasePreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
