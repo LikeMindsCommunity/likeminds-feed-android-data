@@ -13,7 +13,7 @@ class SearchReceiver @Inject constructor(
         request: _SearchPostsRequest_
     ): NetworkResponse<APIResponse<_SearchPostsResponse_>> {
         // create queries map
-        val queries = HashMap<String, Any?>()
+        val queries = HashMap<String, Any>()
 
         // add page, page size, search and search type
         queries["page"] = request.page

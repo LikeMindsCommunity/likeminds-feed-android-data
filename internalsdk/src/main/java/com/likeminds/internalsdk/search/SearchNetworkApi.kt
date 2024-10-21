@@ -10,6 +10,6 @@ interface SearchNetworkApi {
 
     @GET("search/post")
     suspend fun searchPosts(
-        @QueryMap queries: HashMap<String, Any?>
+        @QueryMap queries: HashMap<String, Any>
     ):NetworkResponse<APIResponse<_SearchPostsResponse_>>
 }

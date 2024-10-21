@@ -61,7 +61,7 @@ class SearchClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateSearchPostRequest(searchPostsRequest: SearchPostsRequest) {
-        if (searchPostsRequest.search.isNullOrEmpty()) {
+        if (searchPostsRequest.search.isEmpty()) {
             RequestUtils.throwException("search")
         }
     }

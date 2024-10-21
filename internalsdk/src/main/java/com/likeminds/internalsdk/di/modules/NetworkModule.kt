@@ -1,6 +1,5 @@
 package com.likeminds.internalsdk.di.modules
 
-import android.content.Context
 import com.likeminds.internalsdk.sdk.TokenAuthenticator
 import com.likeminds.internalsdk.utils.retrofit.CommonHeaderInterceptor
 import com.likeminds.internalsdk.utils.retrofit.model.BaseUrl

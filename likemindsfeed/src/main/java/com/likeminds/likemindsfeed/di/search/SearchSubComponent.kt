@@ -7,8 +7,8 @@ import dagger.Subcomponent
 interface SearchSubComponent {
 
     @Subcomponent.Factory
-    interface Factory{
-        fun create():SearchSubComponent
+    interface Factory {
+        fun create(): SearchSubComponent
     }
 
     fun inject(searchClient: SearchClient)
