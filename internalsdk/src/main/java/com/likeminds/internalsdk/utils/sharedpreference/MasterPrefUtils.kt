@@ -1,4 +1,4 @@
-package com.likeminds.internalsdk.util.sharedpreference
+package com.likeminds.internalsdk.utils.sharedpreference
 
 import android.content.Context
 import android.content.SharedPreferences

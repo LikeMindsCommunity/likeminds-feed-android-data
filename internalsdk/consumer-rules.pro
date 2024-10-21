@@ -8,6 +8,7 @@
 -keep class com.likeminds.internalsdk.poll.model.** { *; }
 -keep class com.likeminds.internalsdk.post.model.**{ *; }
 -keep class com.likeminds.internalsdk.sdk.model.** { *; }
+-keep class com.likeminds.internalsdk.search.model.** { *; }
 -keep class com.likeminds.internalsdk.topic.model.** { *; }
 -keep class com.likeminds.internalsdk.utils.retrofit.model.** { *; }
 -keep class com.likeminds.internalsdk.widgets.model.** { *; }
