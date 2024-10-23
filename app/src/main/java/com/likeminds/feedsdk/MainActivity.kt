@@ -2,22 +2,10 @@ package com.likeminds.feedsdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.comment.model.AddCommentRequest
-import com.likeminds.likemindsfeed.feed.model.GetFeedRequest
-import com.likeminds.likemindsfeed.post.model.AddPostRequest
-import com.likeminds.likemindsfeed.post.model.Attachment
-import com.likeminds.likemindsfeed.post.model.AttachmentType
-import com.likeminds.likemindsfeed.post.model.DeletePostRequest
-import com.likeminds.likemindsfeed.post.model.EditPostRequest
-import com.likeminds.likemindsfeed.post.model.LikePostRequest
-import com.likeminds.likemindsfeed.search.model.GetSearchPostsRequest
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.user.model.ValidateUserRequest
 import kotlinx.coroutines.*
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,27 +29,6 @@ class MainActivity : AppCompatActivity() {
                     .isGuest(false)
                     .build()
             )
-
-            Log.d(TAG, "onCreate: ${initiateResponse.data?.user?.name}")
-
-
-//            val getFeedReq = GetFeedRequest.Builder()
-//                .page(1)
-//                .pageSize(10)
-//                .build()
-//
-//            val getFeedResponse = client.getFeed(getFeedReq)
-//
-//            Log.d(
-//                TAG, """
-//                getFeedResponse = ${
-//                    getFeedResponse.data?.posts?.map {
-//                        it.text
-//                    }
-//                }
-//            """.trimIndent()
-//            )
-
         }
     }
 }
