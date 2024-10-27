@@ -135,7 +135,11 @@ object ModelConverter {
     }
 
     // converts the internal Comment model hashmap to client Comment Hashmap
-    private fun convertFilteredCommentsMap(_filteredCommentsMap_: Map<String, _Comment_>): Map<String, Comment> {
+    private fun convertFilteredCommentsMap(_filteredCommentsMap_: Map<String, _Comment_>?): Map<String, Comment>? {
+        if (_filteredCommentsMap_ == null) {
+            return null
+        }
+
         val filteredCommentsMap = _filteredCommentsMap_.mapValues {
             convertComment(it.value)
         }

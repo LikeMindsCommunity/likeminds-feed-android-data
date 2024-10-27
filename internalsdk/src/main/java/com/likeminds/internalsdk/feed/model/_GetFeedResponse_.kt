@@ -17,5 +17,5 @@ data class _GetFeedResponse_(
     @SerializedName("topics")
     val topics: Map<String, _Topic_>,
     @SerializedName("filtered_comments")
-    val filteredComments: Map<String, _Comment_>
+    val filteredComments: Map<String, _Comment_>?
 )

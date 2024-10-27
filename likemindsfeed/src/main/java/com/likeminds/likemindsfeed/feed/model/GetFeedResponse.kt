@@ -11,5 +11,5 @@ data class GetFeedResponse(
     val users: Map<String, User>,
     val widgets: Map<String, Widget>,
     val topics: Map<String, Topic>,
-    val filteredComments: Map<String, Comment>
+    val filteredComments: Map<String, Comment>?
 )
