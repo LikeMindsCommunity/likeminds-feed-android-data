@@ -1312,6 +1312,7 @@ object ModelConverter {
             .workerUUID(workerUUID ?: "")
             .thumbnail(thumbnail)
             .text(post.text)
+            .heading(post.heading)
             .isPosted(false)
             .build()
     }
@@ -1523,6 +1524,7 @@ object ModelConverter {
             .id(postEntity.postId)
             .attachments(makeAttachments(attachmentEntities))
             .isPosted(postEntity.isPosted)
+            .heading(postEntity.heading)
             .build()
     }
 
