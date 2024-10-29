@@ -134,6 +134,18 @@ object ModelConverter {
         return topicsMap
     }
 
+    // converts the internal Comment model hashmap to client Comment Hashmap
+    private fun convertFilteredCommentsMap(_filteredCommentsMap_: Map<String, _Comment_>?): Map<String, Comment>? {
+        if (_filteredCommentsMap_ == null) {
+            return null
+        }
+
+        val filteredCommentsMap = _filteredCommentsMap_.mapValues {
+            convertComment(it.value)
+        }
+        return filteredCommentsMap
+    }
+
     // converts the internal Widgets model to client Widget
     private fun convertWidget(
         _widget_: _Widget_
@@ -317,7 +329,8 @@ object ModelConverter {
             convertPosts(_getFeedResponse_.posts),
             convertUsersMap(_getFeedResponse_.users),
             convertWidgetsMap(_getFeedResponse_.widgets),
-            convertTopicsMap(_getFeedResponse_.topics)
+            convertTopicsMap(_getFeedResponse_.topics),
+            convertFilteredCommentsMap(_getFeedResponse_.filteredComments)
         )
     }
 
@@ -733,6 +746,7 @@ object ModelConverter {
             .heading(_post_.heading)
             .tempId(_post_.tempId)
             .topicIds(_post_.topicIds)
+            .commentIds(_post_.commentIds)
             .build()
     }
 
@@ -1298,6 +1312,7 @@ object ModelConverter {
             .workerUUID(workerUUID ?: "")
             .thumbnail(thumbnail)
             .text(post.text)
+            .heading(post.heading)
             .isPosted(false)
             .build()
     }
@@ -1509,6 +1524,7 @@ object ModelConverter {
             .id(postEntity.postId)
             .attachments(makeAttachments(attachmentEntities))
             .isPosted(postEntity.isPosted)
+            .heading(postEntity.heading)
             .build()
     }
 

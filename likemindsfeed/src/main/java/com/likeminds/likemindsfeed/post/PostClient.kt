@@ -118,8 +118,11 @@ class PostClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateAddPostRequest(addPostRequest: AddPostRequest) {
-        if (addPostRequest.text.isNullOrEmpty() && addPostRequest.attachments.isNullOrEmpty()) {
-            RequestUtils.throwException("text or attachments")
+        if (addPostRequest.text.isNullOrEmpty()
+            && addPostRequest.attachments.isNullOrEmpty()
+            && addPostRequest.heading.isNullOrEmpty()
+        ) {
+            RequestUtils.throwException("text or heading or attachments")
         }
 
         //check for individual meta value
@@ -216,8 +219,12 @@ class PostClient @Inject constructor() : BaseClient() {
         if (editPostRequest.postId.isEmpty()) {
             RequestUtils.throwException("postId")
         }
-        if (editPostRequest.text.isNullOrEmpty() && editPostRequest.attachments.isNullOrEmpty()) {
-            RequestUtils.throwException("text")
+
+        if (editPostRequest.text.isNullOrEmpty()
+            && editPostRequest.attachments.isNullOrEmpty()
+            && editPostRequest.heading.isNullOrEmpty()
+        ) {
+            RequestUtils.throwException("text or attachments or heading")
         }
     }
 
@@ -506,8 +513,11 @@ class PostClient @Inject constructor() : BaseClient() {
      * @throws IllegalArgumentException - when required properties not provided
      */
     private fun validateAddTemporaryPostRequest(addTemporaryPostRequest: AddTemporaryPostRequest) {
-        if (addTemporaryPostRequest.post.text.isEmpty() && addTemporaryPostRequest.post.attachments.isNullOrEmpty()) {
-            RequestUtils.throwException("text")
+        if (addTemporaryPostRequest.post.text.isEmpty()
+            && addTemporaryPostRequest.post.attachments.isNullOrEmpty()
+            && addTemporaryPostRequest.post.heading.isNullOrEmpty()
+        ) {
+            RequestUtils.throwException("text or attachments or heading")
         }
     }
 
