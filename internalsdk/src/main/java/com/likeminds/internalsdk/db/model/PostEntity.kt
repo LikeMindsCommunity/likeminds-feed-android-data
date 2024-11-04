@@ -17,7 +17,9 @@ class PostEntity(
     @ColumnInfo(name = "is_posted")
     var isPosted: Boolean,
     @ColumnInfo(name = "post_id")
-    var postId: String
+    var postId: String,
+    @ColumnInfo(name = "heading")
+    var heading: String?
 ) {
     class Builder {
         private var temporaryId: String = ""
@@ -26,14 +28,34 @@ class PostEntity(
         private var workerUUID: String = ""
         private var isPosted: Boolean = false
         private var postId: String = temporaryId
+        private var heading: String? = null
 
-        fun temporaryId(temporaryId: String) = apply { this.temporaryId = temporaryId }
-        fun text(text: String?) = apply { this.text = text }
-        fun thumbnail(thumbnail: String?) = apply { this.thumbnail = thumbnail }
-        fun workerUUID(workerUUID: String) = apply { this.workerUUID = workerUUID }
-        fun isPosted(isPosted: Boolean) = apply { this.isPosted = isPosted }
+        fun temporaryId(temporaryId: String) = apply {
+            this.temporaryId = temporaryId
+        }
+
+        fun text(text: String?) = apply {
+            this.text = text
+        }
+
+        fun thumbnail(thumbnail: String?) = apply {
+            this.thumbnail = thumbnail
+        }
+
+        fun workerUUID(workerUUID: String) = apply {
+            this.workerUUID = workerUUID
+        }
+
+        fun isPosted(isPosted: Boolean) = apply {
+            this.isPosted = isPosted
+        }
+
         fun postId(postId: String) = apply {
             this.postId = postId
+        }
+
+        fun heading(heading: String?) = apply {
+            this.heading = heading
         }
 
         fun build() =
@@ -43,7 +65,8 @@ class PostEntity(
                 thumbnail,
                 workerUUID,
                 isPosted,
-                postId
+                postId,
+                heading
             )
     }
 
@@ -54,6 +77,7 @@ class PostEntity(
             .workerUUID(workerUUID)
             .isPosted(isPosted)
             .postId(postId)
+            .heading(heading)
     }
 
     override fun toString(): String {
@@ -70,6 +94,8 @@ class PostEntity(
             append(isPosted)
             append(", postId=")
             append(postId)
+            append(", heading=")
+            append(heading)
             append(")")
         }
     }

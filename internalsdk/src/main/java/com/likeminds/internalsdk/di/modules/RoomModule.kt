@@ -24,7 +24,8 @@ class RoomModule {
             LMFeedDbConstants.DB_NAME
         ).addMigrations(
             LMFeedDbMigration.MIGRATION_1_2,
-            LMFeedDbMigration.MIGRATION_2_3
+            LMFeedDbMigration.MIGRATION_2_3,
+            LMFeedDbMigration.MIGRATION_3_4,
         ).fallbackToDestructiveMigration()
             .build()
     }
