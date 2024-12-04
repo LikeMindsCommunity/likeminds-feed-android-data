@@ -34,6 +34,8 @@ class ConfigurationClient @Inject constructor() : BaseClient() {
         private var configurationClient: ConfigurationClient? = null
 
         const val POST_KEY = "post"
+        const val LIKE_ENTITY_VARIABLE_KEY = "like_entity_variable"
+        const val COMMENT_KEY = "comment"
 
         fun getInstance(): ConfigurationClient {
             if (configurationClient == null) {

@@ -25,6 +25,8 @@ import com.likeminds.internalsdk.topic.TopicApi
 import com.likeminds.internalsdk.topic.TopicApiImpl
 import com.likeminds.internalsdk.feed.FeedApi
 import com.likeminds.internalsdk.feed.FeedApiImpl
+import com.likeminds.internalsdk.search.SearchApi
+import com.likeminds.internalsdk.search.SearchApiImpl
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -64,6 +66,9 @@ class FeedSDK {
 
     @Inject
     lateinit var topicApiImpl: TopicApiImpl
+
+    @Inject
+    lateinit var searchApiImpl: SearchApiImpl
 
     @Inject
     lateinit var configurationApiImpl: ConfigurationApiImpl
@@ -148,6 +153,10 @@ class FeedSDK {
 
     fun getTopicApi(): TopicApi {
         return topicApiImpl
+    }
+
+    fun getSearchApi(): SearchApi {
+        return searchApiImpl
     }
 
     fun getConfigurationApi(): ConfigurationApi {

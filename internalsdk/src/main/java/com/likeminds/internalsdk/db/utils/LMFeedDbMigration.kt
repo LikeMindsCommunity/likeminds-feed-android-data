@@ -5,6 +5,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 object LMFeedDbMigration {
+
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             Log.d("LMFeedDbMigration", "MIGRATION_1_2")
@@ -51,11 +52,21 @@ object LMFeedDbMigration {
             )
         }
     }
+
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
             Log.d("LMFeedDbMigration", "MIGRATION_2_3")
             database.execSQL(
                 "ALTER TABLE ${LMFeedDbConstants.ATTACHMENT_TABLE} ADD `custom_widget_meta` TEXT"
+            )
+        }
+    }
+
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            Log.d("LMFeedDbMigration", "MIGRATION_3_4")
+            database.execSQL(
+                "ALTER TABLE ${LMFeedDbConstants.POST_TABLE} ADD `heading` TEXT"
             )
         }
     }

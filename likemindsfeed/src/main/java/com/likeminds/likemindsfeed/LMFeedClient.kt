@@ -23,6 +23,9 @@ import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.feed.FeedClient
 import com.likeminds.likemindsfeed.feed.model.GetFeedRequest
 import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.search.SearchClient
+import com.likeminds.likemindsfeed.search.model.SearchPostsRequest
+import com.likeminds.likemindsfeed.search.model.SearchPostsResponse
 import com.likeminds.likemindsfeed.user.UserClient
 import com.likeminds.likemindsfeed.user.model.*
 import javax.inject.Inject
@@ -60,6 +63,9 @@ class LMFeedClient private constructor() {
 
     @Inject
     lateinit var pollClient: PollClient
+
+    @Inject
+    lateinit var searchClient: SearchClient
 
     @Keep
     class Builder(val application: Application) {
@@ -247,6 +253,11 @@ class LMFeedClient private constructor() {
     //Exposed function to get all topics
     suspend fun getTopics(getTopicRequest: GetTopicRequest): LMResponse<GetTopicResponse> {
         return topicClient.getTopics(getTopicRequest)
+    }
+
+    //Exposed function to get all posts with specific request type
+    suspend fun searchPosts(searchPostsRequest: SearchPostsRequest) : LMResponse<SearchPostsResponse>{
+        return searchClient.searchPosts(searchPostsRequest)
     }
 
     //Exposed function to get all community configurations
