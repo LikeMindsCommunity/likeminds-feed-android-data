@@ -4,9 +4,9 @@ versions.compile_sdk = 34
 versions.min_sdk = 21
 versions.target_sdk = 34
 versions.sdk_version_major = '1'
-versions.sdk_version_minor = '13'
+versions.sdk_version_minor = '14'
 versions.sdk_version_patch = '0'
-versions.sdk_version_code = 18
+versions.sdk_version_code = 19
 versions.core = "1.8.0"
 versions.appcompat = "1.4.2"
 versions.junit = "4.13.2"
@@ -61,18 +61,13 @@ def gson = [:]
 gson.main = "com.google.code.gson:gson:$versions.gson"
 deps.gson = gson
 
-//def sentry = [:]
-//sentry.main = "io.sentry:sentry-android:$versions.sentry"
-//sentry.okhttp = "io.sentry:sentry-android-okhttp:$versions.sentry"
-//deps.sentry = sentry
-
 def testing = [:]
 testing.junit = "junit:junit:$versions.junit"
 testing.android_junit = "androidx.test.ext:junit:$versions.android_junit"
 testing.espresso = "androidx.test.espresso:espresso-core:$versions.espresso_core"
 deps.testing = testing
 
-def room= [:]
+def room = [:]
 room.main = "androidx.room:room-runtime:$versions.room"
 room.ktx = "androidx.room:room-ktx:$versions.room"
 room.compiler = "androidx.room:room-compiler:$versions.room"
