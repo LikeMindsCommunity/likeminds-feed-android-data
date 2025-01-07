@@ -17,7 +17,7 @@ class FeedClient @Inject constructor() : BaseClient() {
         LikeMindsFeedApplication.getInstance().universalFeedComponent()?.inject(this)
     }
 
-    private val universalApi by lazy {
+    private val feedApi by lazy {
         feedSDK.feedApi()
     }
 
@@ -39,7 +39,7 @@ class FeedClient @Inject constructor() : BaseClient() {
             .build()
 
         // calls api and processes the response accordingly
-        return when (val response = universalApi.getFeed(request)) {
+        return when (val response = feedApi.getFeed(request)) {
             is NetworkResponse.Error -> {
                 LMResponse(
                     success = false,
