@@ -6,6 +6,8 @@ import com.likeminds.likemindsfeed.comment.CommentClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.configuration.ConfigurationClient
 import com.likeminds.likemindsfeed.configuration.model.*
+import com.likeminds.likemindsfeed.feed.FeedClient
+import com.likeminds.likemindsfeed.feed.model.*
 import com.likeminds.likemindsfeed.helper.HelperClient
 import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.moderation.ModerationClient
@@ -17,15 +19,12 @@ import com.likeminds.likemindsfeed.poll.model.*
 import com.likeminds.likemindsfeed.post.PostClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.LikeMindsFeedApplication
-import com.likeminds.likemindsfeed.topic.TopicClient
-import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
-import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
-import com.likeminds.likemindsfeed.feed.FeedClient
-import com.likeminds.likemindsfeed.feed.model.GetFeedRequest
-import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
 import com.likeminds.likemindsfeed.search.SearchClient
 import com.likeminds.likemindsfeed.search.model.SearchPostsRequest
 import com.likeminds.likemindsfeed.search.model.SearchPostsResponse
+import com.likeminds.likemindsfeed.topic.TopicClient
+import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
+import com.likeminds.likemindsfeed.topic.model.GetTopicResponse
 import com.likeminds.likemindsfeed.user.UserClient
 import com.likeminds.likemindsfeed.user.model.*
 import javax.inject.Inject
@@ -256,7 +255,7 @@ class LMFeedClient private constructor() {
     }
 
     //Exposed function to get all posts with specific request type
-    suspend fun searchPosts(searchPostsRequest: SearchPostsRequest) : LMResponse<SearchPostsResponse>{
+    suspend fun searchPosts(searchPostsRequest: SearchPostsRequest): LMResponse<SearchPostsResponse> {
         return searchClient.searchPosts(searchPostsRequest)
     }
 
@@ -308,5 +307,10 @@ class LMFeedClient private constructor() {
     //Exposed function to get result of the poll
     suspend fun getPollVotes(getPollVotesRequest: GetPollVotesRequest): LMResponse<GetPollVotesResponse> {
         return pollClient.getPollVotes(getPollVotesRequest)
+    }
+
+    //Exposed function to process personalised feed request
+    suspend fun getPersonalisedFeed(getPersonalisedFeedRequest: GetPersonalisedFeedRequest): LMResponse<GetPersonalisedFeedResponse> {
+        return feedClient.getPersonalisedFeed(getPersonalisedFeedRequest)
     }
 }

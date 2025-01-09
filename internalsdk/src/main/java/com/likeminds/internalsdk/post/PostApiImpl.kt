@@ -56,4 +56,10 @@ class PostApiImpl @Inject constructor(
     ): NetworkResponse<APIResponse<Nothing>> {
         return postReceiver.pinPost(request)
     }
+
+    override suspend fun postSeen(
+        request: _PostSeenRequest_
+    ): NetworkResponse<APIResponse<Nothing>> {
+        return postReceiver.postSeen(request)
+    }
 }
