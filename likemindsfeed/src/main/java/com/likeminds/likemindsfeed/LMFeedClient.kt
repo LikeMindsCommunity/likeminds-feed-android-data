@@ -313,4 +313,9 @@ class LMFeedClient private constructor() {
     suspend fun getPersonalisedFeed(getPersonalisedFeedRequest: GetPersonalisedFeedRequest): LMResponse<GetPersonalisedFeedResponse> {
         return feedClient.getPersonalisedFeed(getPersonalisedFeedRequest)
     }
+
+    //Exposed function to mark post as seen
+    suspend fun postSeen(postSeenRequest: PostSeenRequest): LMResponse<Nothing> {
+        return postClient.postSeen(postSeenRequest)
+    }
 }

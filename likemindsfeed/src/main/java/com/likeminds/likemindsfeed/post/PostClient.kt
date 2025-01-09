@@ -541,6 +541,11 @@ class PostClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Get the temporary post from db model Convert it to client model
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<GetTemporaryPostResponse> - GetTemporaryPostResponse
+     */
     suspend fun getTemporaryPost(temporaryId: String): LMResponse<GetTemporaryPostResponse> {
         // validates the client request
         RequestUtils.validate()
@@ -554,6 +559,47 @@ class PostClient @Inject constructor() : BaseClient() {
             )
         } else {
             ModelConverter.convertGetTemporaryPostResponse(postWithAttachments)
+        }
+    }
+
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param postSeenRequest - client request model to mark post as seen
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
+    suspend fun postSeen(postSeenRequest: PostSeenRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validatePostSeenRequest(postSeenRequest)
+
+        val _postSeenRequest_ = _PostSeenRequest_.Builder()
+            .seenPostIds(postSeenRequest.seenPostIds)
+            .build()
+
+        return when (val response = postApi.postSeen(_postSeenRequest_)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = response.body.success,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+
+            is NetworkResponse.Success -> {
+                LMResponse(
+                    success = response.body.success
+                )
+            }
+        }
+    }
+
+    /**
+     * validates [postSeenRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validatePostSeenRequest(postSeenRequest: PostSeenRequest) {
+        if (postSeenRequest.seenPostIds.isEmpty()) {
+            RequestUtils.throwException("seenPostIds")
         }
     }
 }
