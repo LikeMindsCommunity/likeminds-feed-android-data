@@ -6,6 +6,7 @@ import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
 import com.likeminds.internalsdk.db.model.*
 import com.likeminds.internalsdk.feed.model._GetFeedResponse_
+import com.likeminds.internalsdk.feed.model._GetPersonalisedFeedResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -25,6 +26,7 @@ import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.configuration.model.*
 import com.likeminds.likemindsfeed.configuration.util.ConfigurationUtil.getConfigurationType
 import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.feed.model.GetPersonalisedFeedResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -1132,6 +1134,27 @@ object ModelConverter {
             user = convertUser(_validateUserResponse_.user),
             community = convertCommunity(_validateUserResponse_.community),
             appAccess = _validateUserResponse_.appAccess
+        )
+    }
+
+    // converts APIResponse<_GetPersonalisedFeedResponse_> to LMResponse<GetPersonalisedFeedResponse>
+    fun convertPersonalisedFeedAPIResponse(body: APIResponse<_GetPersonalisedFeedResponse_>): LMResponse<GetPersonalisedFeedResponse> {
+        return LMResponse(
+            success = true,
+            errorMessage = null,
+            data = convertGetPersonalisedFeedResponse(body.data)
+        )
+    }
+
+    // converts internal _GetPersonalisedFeedResponse_ to exposed GetPersonalisedFeedResponse
+    private fun convertGetPersonalisedFeedResponse(_getPersonalisedFeedResponse_: _GetPersonalisedFeedResponse_?): GetPersonalisedFeedResponse? {
+        if (_getPersonalisedFeedResponse_ == null) return null
+        return GetPersonalisedFeedResponse(
+            convertPosts(_getPersonalisedFeedResponse_.posts),
+            convertUsersMap(_getPersonalisedFeedResponse_.users),
+            convertWidgetsMap(_getPersonalisedFeedResponse_.widgets),
+            convertTopicsMap(_getPersonalisedFeedResponse_.topics),
+            convertFilteredCommentsMap(_getPersonalisedFeedResponse_.filteredComments)
         )
     }
 

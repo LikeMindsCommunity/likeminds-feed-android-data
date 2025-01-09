@@ -1,6 +1,7 @@
 package com.likeminds.likemindsfeed.feed
 
 import com.likeminds.internalsdk.feed.model._GetFeedRequest_
+import com.likeminds.internalsdk.feed.model._GetPersonalisedFeedRequest_
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.base.BaseClient
@@ -53,8 +54,37 @@ class FeedClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Converts client request model to internal model and calls the api
+     * @param getPersonalisedFeedRequest - client request model to fetch personalised feed
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated
+     * @return [GetPersonalisedFeedResponse] - GetPersonalisedFeedResponse model for getPersonalisedFeedRequest
+     */
     suspend fun getPersonalisedFeed(getPersonalisedFeedRequest: GetPersonalisedFeedRequest): LMResponse<GetPersonalisedFeedResponse> {
         // validates the client request
         RequestUtils.validate()
+
+        // builds internal request model
+        val request = _GetPersonalisedFeedRequest_.Builder()
+            .page(getPersonalisedFeedRequest.page)
+            .pageSize(getPersonalisedFeedRequest.pageSize)
+            .shouldReorder(getPersonalisedFeedRequest.shouldReorder)
+            .shouldRecompute(getPersonalisedFeedRequest.shouldRecompute)
+            .build()
+
+        // calls api and processes the response accordingly
+        return when (val response = feedApi.getPersonalisedFeed(request)) {
+            is NetworkResponse.Error -> {
+                LMResponse(
+                    success = false,
+                    errorMessage = response.body.errorMessage
+                )
+            }
+
+            is NetworkResponse.Success -> {
+                val body = response.body
+                ModelConverter.convertPersonalisedFeedAPIResponse(body)
+            }
+        }
     }
 }
