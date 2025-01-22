@@ -70,4 +70,16 @@ object LMFeedDbMigration {
             )
         }
     }
+
+    val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            Log.d("LMFeedDbMigration", "MIGRATION_4_5")
+            database.execSQL("""
+            CREATE TABLE IF NOT EXISTS ${LMFeedDbConstants.POST_SEEN_TABLE} (
+                `post_id` TEXT NOT NULL PRIMARY KEY,
+                `seen_at` INTEGER NOT NULL
+            )
+        """.trimIndent())
+        }
+    }
 }

@@ -602,4 +602,19 @@ class PostClient @Inject constructor() : BaseClient() {
             RequestUtils.throwException("seenPostIds")
         }
     }
+
+    suspend fun insertSeenPosts(insertSeenPostRequest: InsertSeenPostRequest): LMResponse<Nothing> {
+        // validates the client request
+        RequestUtils.validate()
+        validateInsertSeenPostRequest(insertSeenPostRequest)
+
+
+    }
+
+
+    private fun validateInsertSeenPostRequest(postSeenRequest: InsertSeenPostRequest) {
+        if (postSeenRequest.seenPosts.isEmpty()) {
+            RequestUtils.throwException("seenPosts")
+        }
+    }
 }
