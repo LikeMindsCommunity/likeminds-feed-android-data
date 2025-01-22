@@ -318,4 +318,19 @@ class LMFeedClient private constructor() {
     suspend fun postSeen(postSeenRequest: PostSeenRequest): LMResponse<Nothing> {
         return postClient.postSeen(postSeenRequest)
     }
+
+    //Exposed function to insert seen posts
+    suspend fun insertSeenPosts(insertSeenPostRequest: InsertSeenPostRequest): LMResponse<Nothing> {
+        return postClient.insertSeenPosts(insertSeenPostRequest)
+    }
+
+    //Exposed function to get all seen posts
+    suspend fun getAllSeenPosts(): LMResponse<GetAllSeenPostsResponse> {
+        return postClient.getAllSeenPosts()
+    }
+
+    //Exposed function to remove seen post
+    suspend fun removeSeenPost(removeSeenPostRequest: RemoveSeenPostRequest): LMResponse<Nothing> {
+        return postClient.removeSeenPost(removeSeenPostRequest)
+    }
 }

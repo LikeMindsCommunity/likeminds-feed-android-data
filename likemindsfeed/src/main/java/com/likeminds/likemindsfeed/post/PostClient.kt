@@ -24,6 +24,10 @@ class PostClient @Inject constructor() : BaseClient() {
         feedSDK.getPostWithAttachmentsDao()
     }
 
+    private val postSeenDao by lazy {
+        feedSDK.getPostSeenDbDao()
+    }
+
     /**
      * Converts client request model to internal model and calls the api
      * @param getPostRequest - client request model to fetch post
@@ -603,18 +607,77 @@ class PostClient @Inject constructor() : BaseClient() {
         }
     }
 
+    /**
+     * Converts client request model to db model and add in the db
+     * @param insertSeenPostRequest - client request model to insert seen post
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
     suspend fun insertSeenPosts(insertSeenPostRequest: InsertSeenPostRequest): LMResponse<Nothing> {
         // validates the client request
         RequestUtils.validate()
         validateInsertSeenPostRequest(insertSeenPostRequest)
 
+        val seenPostEntities =
+            ModelConverter.createPostSeenEntities(insertSeenPostRequest.seenPosts)
 
+        postSeenDao.insertPostSeenList(seenPostEntities)
+
+        return LMResponse(success = true)
     }
 
 
-    private fun validateInsertSeenPostRequest(postSeenRequest: InsertSeenPostRequest) {
-        if (postSeenRequest.seenPosts.isEmpty()) {
+    /**
+     * validates [insertSeenPostRequest]
+     * @throws IllegalArgumentException - when required properties not provided
+     */
+    private fun validateInsertSeenPostRequest(insertSeenPostRequest: InsertSeenPostRequest) {
+        if (insertSeenPostRequest.seenPosts.isEmpty()) {
             RequestUtils.throwException("seenPosts")
+        }
+    }
+
+    /**
+     * Get all seen posts from db model Convert it to client model
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<GetAllSeenPostsResponse> - GetAllSeenPostsResponse
+     */
+    suspend fun getAllSeenPosts(): LMResponse<GetAllSeenPostsResponse> {
+        // validate the client request
+        RequestUtils.validate()
+
+        val postSeenEntities = postSeenDao.getAllSeenPost()
+
+        return if (postSeenEntities.isNullOrEmpty()) {
+            LMResponse(success = false, errorMessage = "post seen by users not found")
+        } else {
+            ModelConverter.convertGetAllSeenPostResponse(postSeenEntities)
+        }
+    }
+
+    /**
+     * Converts client request model to db model and delete seen post from db
+     * @param removeSeenPostRequest - client request model to remove seen post
+     * @throws IllegalArgumentException - when LMFeedClient is not instantiated or required properties not provided
+     * @return LMResponse<Nothing> - Base LM response
+     */
+    suspend fun removeSeenPost(removeSeenPostRequest: RemoveSeenPostRequest): LMResponse<Nothing> {
+        // validate the client request
+        RequestUtils.validate()
+        validateRemoveSeenPostRequest(removeSeenPostRequest)
+
+        postSeenDao.deletePostsSeenBefore(removeSeenPostRequest.minimumSeenAt)
+
+        return LMResponse(success = true)
+    }
+
+    /**
+     * validates [removeSeenPostRequest]
+     * @param removeSeenPostRequest - client request model to remove seen post
+     */
+    private fun validateRemoveSeenPostRequest(removeSeenPostRequest: RemoveSeenPostRequest) {
+        if (removeSeenPostRequest.minimumSeenAt == 0L) {
+            RequestUtils.throwException("minimumSeenAt")
         }
     }
 }

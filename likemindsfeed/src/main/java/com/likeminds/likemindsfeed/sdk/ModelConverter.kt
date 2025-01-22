@@ -1425,6 +1425,30 @@ object ModelConverter {
             .build()
     }
 
+    /**
+     * converts list of [SeenPost] to list of [PostSeenEntity]
+     * @param seenPosts: list of [SeenPost]
+     * @return list of [PostSeenEntity]
+     */
+    fun createPostSeenEntities(seenPosts: List<SeenPost>): List<PostSeenEntity> {
+        return seenPosts.map { seenPost ->
+            createPostSeenEntity(seenPost)
+        }
+    }
+
+    /**
+     * converts [SeenPost] to [PostSeenEntity]
+     * @param seenPost: object of [SeenPost]
+     * @return [PostSeenEntity]
+     */
+    private fun createPostSeenEntity(seenPost: SeenPost): PostSeenEntity {
+        return PostSeenEntity.Builder()
+            .postId(seenPost.postId)
+            .seenAt(seenPost.seenAt)
+            .build()
+    }
+
+
     /**--------------------------------
      * Db Model -> Client Model
     --------------------------------*/
@@ -1653,6 +1677,43 @@ object ModelConverter {
             .description(configurationEntity.description)
             .value(JSONObject(configurationEntity.value))
             .type(configurationEntity.type.getConfigurationType())
+            .build()
+    }
+
+    /**
+     * converts List of [PostSeenEntity] to List of [SeenPost]
+     * @param postSeenEntities: List of [PostSeenEntity] from db
+     * @return LMResponse of [GetAllSeenPostsResponse]
+     */
+    fun convertGetAllSeenPostResponse(postSeenEntities: List<PostSeenEntity>): LMResponse<GetAllSeenPostsResponse> {
+        return LMResponse(
+            success = true,
+            data = GetAllSeenPostsResponse(
+                makeSeenPosts(postSeenEntities)
+            )
+        )
+    }
+
+    /**
+     * converts List of [PostSeenEntity] to List of [SeenPost]
+     * @param postSeenEntities: List of [PostSeenEntity] from db
+     * @return List of [SeenPost]
+     */
+    private fun makeSeenPosts(postSeenEntities: List<PostSeenEntity>): List<SeenPost> {
+        return postSeenEntities.map { postSeenEntity ->
+            makeSeenPost(postSeenEntity)
+        }
+    }
+
+    /**
+     * converts [PostSeenEntity] to [SeenPost]
+     * @param postSeenEntity: object of [PostSeenEntity] from db
+     * @return [SeenPost]
+     */
+    private fun makeSeenPost(postSeenEntity: PostSeenEntity): SeenPost {
+        return SeenPost.Builder()
+            .seenAt(postSeenEntity.seenAt)
+            .postId(postSeenEntity.postId)
             .build()
     }
 }

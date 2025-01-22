@@ -5,8 +5,8 @@ class SeenPost private constructor(
     val seenAt: Long
 ) {
     class Builder {
-        var postId: String = ""
-        var seenAt: Long = 0L
+        private var postId: String = ""
+        private var seenAt: Long = 0L
 
         fun postId(postId: String) = apply {
             this.postId = postId
