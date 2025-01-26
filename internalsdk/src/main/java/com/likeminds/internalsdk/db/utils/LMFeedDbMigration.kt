@@ -1,6 +1,5 @@
 package com.likeminds.internalsdk.db.utils
 
-import android.util.Log
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
@@ -8,7 +7,6 @@ object LMFeedDbMigration {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            Log.d("LMFeedDbMigration", "MIGRATION_1_2")
             //change in user table
             database.execSQL(
                 "DROP TABLE ${LMFeedDbConstants.USER_TABLE}"
@@ -55,7 +53,6 @@ object LMFeedDbMigration {
 
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            Log.d("LMFeedDbMigration", "MIGRATION_2_3")
             database.execSQL(
                 "ALTER TABLE ${LMFeedDbConstants.ATTACHMENT_TABLE} ADD `custom_widget_meta` TEXT"
             )
@@ -64,7 +61,6 @@ object LMFeedDbMigration {
 
     val MIGRATION_3_4 = object : Migration(3, 4) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            Log.d("LMFeedDbMigration", "MIGRATION_3_4")
             database.execSQL(
                 "ALTER TABLE ${LMFeedDbConstants.POST_TABLE} ADD `heading` TEXT"
             )
@@ -73,7 +69,6 @@ object LMFeedDbMigration {
 
     val MIGRATION_4_5 = object : Migration(4, 5) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            Log.d("LMFeedDbMigration", "MIGRATION_4_5")
             database.execSQL("""
             CREATE TABLE IF NOT EXISTS ${LMFeedDbConstants.POST_SEEN_TABLE} (
                 `post_id` TEXT NOT NULL PRIMARY KEY,

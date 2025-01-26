@@ -676,7 +676,7 @@ class PostClient @Inject constructor() : BaseClient() {
      * @param removeSeenPostRequest - client request model to remove seen post
      */
     private fun validateRemoveSeenPostRequest(removeSeenPostRequest: RemoveSeenPostRequest) {
-        if (removeSeenPostRequest.minimumSeenAt == 0L) {
+        if (removeSeenPostRequest.minimumSeenAt <= 0L) {
             RequestUtils.throwException("minimumSeenAt")
         }
     }
