@@ -6,6 +6,7 @@ import com.likeminds.internalsdk.configuration.model._Configuration_
 import com.likeminds.internalsdk.configuration.model._GetCommunityConfiguration_
 import com.likeminds.internalsdk.db.model.*
 import com.likeminds.internalsdk.feed.model._GetFeedResponse_
+import com.likeminds.internalsdk.feed.model._GetPersonalisedFeedResponse_
 import com.likeminds.internalsdk.helper.model._DecodeUrlResponse_
 import com.likeminds.internalsdk.helper.model._GetTaggingListResponse_
 import com.likeminds.internalsdk.moderation.model._GetReportTagsResponse_
@@ -25,6 +26,7 @@ import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.configuration.model.*
 import com.likeminds.likemindsfeed.configuration.util.ConfigurationUtil.getConfigurationType
 import com.likeminds.likemindsfeed.feed.model.GetFeedResponse
+import com.likeminds.likemindsfeed.feed.model.GetPersonalisedFeedResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListResponse
 import com.likeminds.likemindsfeed.moderation.model.GetReportTagsResponse
@@ -1135,6 +1137,27 @@ object ModelConverter {
         )
     }
 
+    // converts APIResponse<_GetPersonalisedFeedResponse_> to LMResponse<GetPersonalisedFeedResponse>
+    fun convertPersonalisedFeedAPIResponse(body: APIResponse<_GetPersonalisedFeedResponse_>): LMResponse<GetPersonalisedFeedResponse> {
+        return LMResponse(
+            success = true,
+            errorMessage = null,
+            data = convertGetPersonalisedFeedResponse(body.data)
+        )
+    }
+
+    // converts internal _GetPersonalisedFeedResponse_ to exposed GetPersonalisedFeedResponse
+    private fun convertGetPersonalisedFeedResponse(_getPersonalisedFeedResponse_: _GetPersonalisedFeedResponse_?): GetPersonalisedFeedResponse? {
+        if (_getPersonalisedFeedResponse_ == null) return null
+        return GetPersonalisedFeedResponse(
+            convertPosts(_getPersonalisedFeedResponse_.posts),
+            convertUsersMap(_getPersonalisedFeedResponse_.users),
+            convertWidgetsMap(_getPersonalisedFeedResponse_.widgets),
+            convertTopicsMap(_getPersonalisedFeedResponse_.topics),
+            convertFilteredCommentsMap(_getPersonalisedFeedResponse_.filteredComments)
+        )
+    }
+
     /**--------------------------------
      * Client Model -> Internal Model
     --------------------------------*/
@@ -1402,6 +1425,30 @@ object ModelConverter {
             .build()
     }
 
+    /**
+     * converts list of [SeenPost] to list of [PostSeenEntity]
+     * @param seenPosts: list of [SeenPost]
+     * @return list of [PostSeenEntity]
+     */
+    fun createPostSeenEntities(seenPosts: List<SeenPost>): List<PostSeenEntity> {
+        return seenPosts.map { seenPost ->
+            createPostSeenEntity(seenPost)
+        }
+    }
+
+    /**
+     * converts [SeenPost] to [PostSeenEntity]
+     * @param seenPost: object of [SeenPost]
+     * @return [PostSeenEntity]
+     */
+    private fun createPostSeenEntity(seenPost: SeenPost): PostSeenEntity {
+        return PostSeenEntity.Builder()
+            .postId(seenPost.postId)
+            .seenAt(seenPost.seenAt)
+            .build()
+    }
+
+
     /**--------------------------------
      * Db Model -> Client Model
     --------------------------------*/
@@ -1630,6 +1677,43 @@ object ModelConverter {
             .description(configurationEntity.description)
             .value(JSONObject(configurationEntity.value))
             .type(configurationEntity.type.getConfigurationType())
+            .build()
+    }
+
+    /**
+     * converts List of [PostSeenEntity] to List of [SeenPost]
+     * @param postSeenEntities: List of [PostSeenEntity] from db
+     * @return LMResponse of [GetAllSeenPostsResponse]
+     */
+    fun convertGetAllSeenPostResponse(postSeenEntities: List<PostSeenEntity>): LMResponse<GetAllSeenPostsResponse> {
+        return LMResponse(
+            success = true,
+            data = GetAllSeenPostsResponse(
+                makeSeenPosts(postSeenEntities)
+            )
+        )
+    }
+
+    /**
+     * converts List of [PostSeenEntity] to List of [SeenPost]
+     * @param postSeenEntities: List of [PostSeenEntity] from db
+     * @return List of [SeenPost]
+     */
+    private fun makeSeenPosts(postSeenEntities: List<PostSeenEntity>): List<SeenPost> {
+        return postSeenEntities.map { postSeenEntity ->
+            makeSeenPost(postSeenEntity)
+        }
+    }
+
+    /**
+     * converts [PostSeenEntity] to [SeenPost]
+     * @param postSeenEntity: object of [PostSeenEntity] from db
+     * @return [SeenPost]
+     */
+    private fun makeSeenPost(postSeenEntity: PostSeenEntity): SeenPost {
+        return SeenPost.Builder()
+            .seenAt(postSeenEntity.seenAt)
+            .postId(postSeenEntity.postId)
             .build()
     }
 }

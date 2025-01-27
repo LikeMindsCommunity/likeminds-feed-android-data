@@ -9,6 +9,8 @@ import com.likeminds.internalsdk.configuration.ConfigurationApiImpl
 import com.likeminds.internalsdk.db.LMFeedRoomDatabase
 import com.likeminds.internalsdk.db.dao.*
 import com.likeminds.internalsdk.di.*
+import com.likeminds.internalsdk.feed.FeedApi
+import com.likeminds.internalsdk.feed.FeedApiImpl
 import com.likeminds.internalsdk.helper.HelperApi
 import com.likeminds.internalsdk.helper.HelperApiImpl
 import com.likeminds.internalsdk.moderation.ModerationApi
@@ -21,12 +23,10 @@ import com.likeminds.internalsdk.post.PostApi
 import com.likeminds.internalsdk.post.PostApiImpl
 import com.likeminds.internalsdk.sdk.*
 import com.likeminds.internalsdk.sdk.util.SDKPreferences
-import com.likeminds.internalsdk.topic.TopicApi
-import com.likeminds.internalsdk.topic.TopicApiImpl
-import com.likeminds.internalsdk.feed.FeedApi
-import com.likeminds.internalsdk.feed.FeedApiImpl
 import com.likeminds.internalsdk.search.SearchApi
 import com.likeminds.internalsdk.search.SearchApiImpl
+import com.likeminds.internalsdk.topic.TopicApi
+import com.likeminds.internalsdk.topic.TopicApiImpl
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -84,6 +84,9 @@ class FeedSDK {
 
     @Inject
     lateinit var feedRoomDatabase: LMFeedRoomDatabase
+
+    @Inject
+    lateinit var postSeenDao: PostSeenDao
 
     @Inject
     lateinit var pollApiImpl: PollApiImpl
@@ -185,5 +188,9 @@ class FeedSDK {
 
     fun getSDKPreferences(): SDKPreferences {
         return sdkPreferences
+    }
+
+    fun getPostSeenDbDao(): PostSeenDao {
+        return postSeenDao
     }
 }

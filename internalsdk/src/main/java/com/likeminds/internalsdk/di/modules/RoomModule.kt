@@ -3,9 +3,7 @@ package com.likeminds.internalsdk.di.modules
 import android.content.Context
 import androidx.room.Room
 import com.likeminds.internalsdk.db.LMFeedRoomDatabase
-import com.likeminds.internalsdk.db.dao.ConfigurationDao
-import com.likeminds.internalsdk.db.dao.PostWithAttachmentsDao
-import com.likeminds.internalsdk.db.dao.UserWithRightsDao
+import com.likeminds.internalsdk.db.dao.*
 import com.likeminds.internalsdk.db.utils.LMFeedDbConstants
 import com.likeminds.internalsdk.db.utils.LMFeedDbMigration
 import dagger.Module
@@ -26,6 +24,7 @@ class RoomModule {
             LMFeedDbMigration.MIGRATION_1_2,
             LMFeedDbMigration.MIGRATION_2_3,
             LMFeedDbMigration.MIGRATION_3_4,
+            LMFeedDbMigration.MIGRATION_4_5
         ).fallbackToDestructiveMigration()
             .build()
     }
@@ -46,5 +45,11 @@ class RoomModule {
     @Singleton
     fun provideConfigurationDao(db: LMFeedRoomDatabase): ConfigurationDao {
         return db.configurationDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesPostSeenDao(db: LMFeedRoomDatabase): PostSeenDao {
+        return db.postSeenDao()
     }
 }

@@ -52,4 +52,9 @@ interface PostNetworkApi {
     suspend fun pinPost(
         @Path("post_id") postId: String,
     ): NetworkResponse<APIResponse<Nothing>>
+
+    @POST("feed/post/seen")
+    suspend fun postSeen(
+        @Body request_: _PostSeenRequest_
+    ): NetworkResponse<APIResponse<Nothing>>
 }
