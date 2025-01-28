@@ -25,7 +25,6 @@ class NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         commonHeaderInterceptor: CommonHeaderInterceptor,
         tokenAuthenticator: TokenAuthenticator,
-//        sentryOkHttpInterceptor: SentryOkHttpInterceptor,
 //        chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
@@ -35,7 +34,6 @@ class NetworkModule {
         clientBuilder.authenticator(tokenAuthenticator)
         clientBuilder.addInterceptor(loggingInterceptor)
         clientBuilder.addInterceptor(commonHeaderInterceptor)
-//        clientBuilder.addInterceptor(sentryOkHttpInterceptor)
 //        clientBuilder.addInterceptor(chuckerInterceptor)
 
         return clientBuilder.build()
@@ -48,12 +46,6 @@ class NetworkModule {
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return httpLoggingInterceptor
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideSentryInterceptor(): SentryOkHttpInterceptor {
-//        return SentryOkHttpInterceptor()
-//    }
 
 //    @Provides
 //    @Singleton

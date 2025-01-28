@@ -3,6 +3,7 @@ package com.likeminds.internalsdk.post
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import retrofit2.http.Body
 
 interface PostApi {
 
@@ -44,5 +45,10 @@ interface PostApi {
     // api to pin the post
     suspend fun pinPost(
         request: _PinPostRequest_
+    ): NetworkResponse<APIResponse<Nothing>>
+
+    // api to mark post as seen
+    suspend fun postSeen(
+        @Body request: _PostSeenRequest_
     ): NetworkResponse<APIResponse<Nothing>>
 }

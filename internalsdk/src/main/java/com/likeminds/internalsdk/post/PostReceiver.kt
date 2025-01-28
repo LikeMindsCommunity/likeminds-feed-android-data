@@ -3,6 +3,7 @@ package com.likeminds.internalsdk.post
 import com.likeminds.internalsdk.post.model.*
 import com.likeminds.internalsdk.utils.retrofit.model.APIResponse
 import com.likeminds.internalsdk.utils.retrofit.model.NetworkResponse
+import retrofit2.http.Body
 import javax.inject.Inject
 
 class PostReceiver @Inject constructor(
@@ -80,5 +81,11 @@ class PostReceiver @Inject constructor(
         return postNetworkApi.pinPost(
             request.postId
         )
+    }
+
+    suspend fun postSeen(
+        @Body request: _PostSeenRequest_
+    ): NetworkResponse<APIResponse<Nothing>> {
+        return postNetworkApi.postSeen(request)
     }
 }
