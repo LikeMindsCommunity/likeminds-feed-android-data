@@ -9,9 +9,13 @@ class FeedReceiver @Inject constructor(
     private val feedNetworkApi: FeedNetworkApi
 ) {
 
-    companion object{
+    companion object {
         private const val PAGE = "page"
         private const val PAGE_SIZE = "page_size"
+        private const val TOPIC_IDS = "topic_ids"
+        private const val SHOULD_RECOMPUTE = "should_recompute"
+        private const val SHOULD_REORDER = "should_reorder"
+        private const val POST_IDS = "post_ids"
     }
 
     suspend fun getFeed(
@@ -22,7 +26,11 @@ class FeedReceiver @Inject constructor(
         queries[PAGE_SIZE] = request.pageSize
 
         if (!request.topicIds.isNullOrEmpty()) {
-            queries["topic_ids"] = request.topicIds
+            queries[TOPIC_IDS] = request.topicIds
+        }
+
+        if (!request.startFeedWithPostIds.isNullOrEmpty()) {
+            queries[POST_IDS] = request.startFeedWithPostIds
         }
 
         return feedNetworkApi.getFeed(queries)
@@ -36,11 +44,15 @@ class FeedReceiver @Inject constructor(
         queries[PAGE_SIZE] = request.pageSize
 
         if (request.shouldRecompute != null) {
-            queries["should_recompute"] = request.shouldRecompute
+            queries[SHOULD_RECOMPUTE] = request.shouldRecompute
         }
 
         if (request.shouldReorder != null) {
-            queries["should_reorder"] = request.shouldReorder
+            queries[SHOULD_REORDER] = request.shouldReorder
+        }
+
+        if (!request.startFeedWithPostIds.isNullOrEmpty()) {
+            queries[POST_IDS] = request.startFeedWithPostIds
         }
 
         return feedNetworkApi.getPersonalisedFeed(queries)
