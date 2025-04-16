@@ -10,7 +10,9 @@ class _GetPersonalisedFeedRequest_ private constructor(
     @SerializedName("should_recompute")
     val shouldRecompute: Boolean?,
     @SerializedName("should_reorder")
-    val shouldReorder: Boolean?
+    val shouldReorder: Boolean?,
+    @SerializedName("post_ids")
+    val startFeedWithPostIds: List<String>?
 ) {
 
     class Builder {
@@ -18,6 +20,7 @@ class _GetPersonalisedFeedRequest_ private constructor(
         private var pageSize: Int = 10
         private var shouldRecompute: Boolean? = null
         private var shouldReorder: Boolean? = null
+        private var startFeedWithPostIds: List<String>? = null
 
         fun page(page: Int) = apply {
             this.page = page
@@ -35,7 +38,11 @@ class _GetPersonalisedFeedRequest_ private constructor(
             this.shouldReorder = shouldReorder
         }
 
-        fun build() = _GetPersonalisedFeedRequest_(page, pageSize, shouldRecompute, shouldReorder)
+        fun startFeedWithPostIds(startFeedWithPostIds: List<String>?) = apply {
+            this.startFeedWithPostIds = startFeedWithPostIds
+        }
+
+        fun build() = _GetPersonalisedFeedRequest_(page, pageSize, shouldRecompute, shouldReorder, startFeedWithPostIds)
     }
 
     fun toBuilder(): Builder {
@@ -43,5 +50,6 @@ class _GetPersonalisedFeedRequest_ private constructor(
             .pageSize(pageSize)
             .shouldRecompute(shouldRecompute)
             .shouldReorder(shouldReorder)
+            .startFeedWithPostIds(startFeedWithPostIds)
     }
 }

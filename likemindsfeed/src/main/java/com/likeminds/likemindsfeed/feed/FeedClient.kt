@@ -36,6 +36,7 @@ class FeedClient @Inject constructor() : BaseClient() {
             .page(getFeedRequest.page)
             .pageSize(getFeedRequest.pageSize)
             .topicIds(getFeedRequest.topicIds)
+            .startFeedWithPostIds(getFeedRequest.startFeedWithPostIds)
             .build()
 
         // calls api and processes the response accordingly
@@ -70,6 +71,7 @@ class FeedClient @Inject constructor() : BaseClient() {
             .pageSize(getPersonalisedFeedRequest.pageSize)
             .shouldReorder(getPersonalisedFeedRequest.shouldReorder)
             .shouldRecompute(getPersonalisedFeedRequest.shouldRecompute)
+            .startFeedWithPostIds(getPersonalisedFeedRequest.startFeedWithPostIds)
             .build()
 
         // calls api and processes the response accordingly
