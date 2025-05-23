@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.*
 import com.likeminds.internalsdk.sdk.TokenAuthenticator
 import com.likeminds.internalsdk.utils.retrofit.CommonHeaderInterceptor
+import com.likeminds.internalsdk.utils.retrofit.RetryInterceptor
 import com.likeminds.internalsdk.utils.retrofit.model.BaseUrl
 import dagger.Module
 import dagger.Provides
@@ -27,6 +28,7 @@ class NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         commonHeaderInterceptor: CommonHeaderInterceptor,
         tokenAuthenticator: TokenAuthenticator,
+        retryInterceptor: RetryInterceptor,
 //        chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
@@ -36,6 +38,7 @@ class NetworkModule {
         clientBuilder.authenticator(tokenAuthenticator)
         clientBuilder.addInterceptor(loggingInterceptor)
         clientBuilder.addInterceptor(commonHeaderInterceptor)
+        clientBuilder.addInterceptor(retryInterceptor)
 //        clientBuilder.addInterceptor(chuckerInterceptor)
 
         return clientBuilder.build()
