@@ -43,17 +43,19 @@ android {
             buildConfigField "java.util.Map<String,String>", "URLS_MAP", getBuildConfigMapEntry(beta_urls)
         }
     }
-
+    buildFeatures {
+        buildConfig true
+    }
     libraryVariants.all {
         variant ->
             printBuildConfigKeys(variant, keys)
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
+        jvmTarget = JavaVersion.VERSION_17
     }
 }
 
