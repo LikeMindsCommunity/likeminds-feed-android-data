@@ -29,7 +29,7 @@ class NetworkModule {
         commonHeaderInterceptor: CommonHeaderInterceptor,
         tokenAuthenticator: TokenAuthenticator,
         retryInterceptor: RetryInterceptor,
-//        chuckerInterceptor: ChuckerInterceptor
+        chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
             .readTimeout(30L, TimeUnit.SECONDS)
@@ -39,7 +39,7 @@ class NetworkModule {
         clientBuilder.addInterceptor(loggingInterceptor)
         clientBuilder.addInterceptor(commonHeaderInterceptor)
         clientBuilder.addInterceptor(retryInterceptor)
-//        clientBuilder.addInterceptor(chuckerInterceptor)
+        clientBuilder.addInterceptor(chuckerInterceptor)
 
         return clientBuilder.build()
     }
@@ -52,13 +52,13 @@ class NetworkModule {
         return httpLoggingInterceptor
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideChuckInterceptor(context: Context): ChuckerInterceptor {
-//        val collector = ChuckerCollector(context, true, RetentionManager.Period.ONE_WEEK)
-//        return ChuckerInterceptor.Builder(context)
-//            .collector(collector)
-//            .alwaysReadResponseBody(false)
-//            .build()
-//    }
+    @Provides
+    @Singleton
+    fun provideChuckInterceptor(context: Context): ChuckerInterceptor {
+        val collector = ChuckerCollector(context, true, RetentionManager.Period.ONE_WEEK)
+        return ChuckerInterceptor.Builder(context)
+            .collector(collector)
+            .alwaysReadResponseBody(false)
+            .build()
+    }
 }
